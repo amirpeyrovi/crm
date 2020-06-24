@@ -16,6 +16,7 @@ public class Product implements Serializable {
     private Long productId;
 
 
+
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
 

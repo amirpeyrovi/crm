@@ -64,7 +64,7 @@ public class Client implements Serializable {
     private String emailAddress;
 
     @OneToMany(mappedBy = "client")
-    private List<ExternalCode> externalCodes;
+    private List<ClientExternalCode> externalCodes;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -93,7 +93,7 @@ public class Client implements Serializable {
     public Client() {
     }
 
-    public Client(String username, String password, String firstName, String lastName, String fatherName, LocalDate birthDate, String phoneNumber, String mobileNumber, String identityType, String identityCode1, String identityCode2, String identityCode3, String address, String address2, String emailAddress, List<ExternalCode> externalCodes, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public Client(String username, String password, String firstName, String lastName, String fatherName, LocalDate birthDate, String phoneNumber, String mobileNumber, String identityType, String identityCode1, String identityCode2, String identityCode3, String address, String address2, String emailAddress, List<ClientExternalCode> externalCodes, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -247,11 +247,11 @@ public class Client implements Serializable {
         this.emailAddress = emailAddress;
     }
 
-    public List<ExternalCode> getExternalCodes() {
+    public List<ClientExternalCode> getExternalCodes() {
         return externalCodes;
     }
 
-    public void setExternalCodes(List<ExternalCode> externalCodes) {
+    public void setExternalCodes(List<ClientExternalCode> externalCodes) {
         this.externalCodes = externalCodes;
     }
 
