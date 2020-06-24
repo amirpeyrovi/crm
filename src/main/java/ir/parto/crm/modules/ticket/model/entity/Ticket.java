@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.ticket.model.entity;
 
+import ir.parto.crm.modules.admin.model.entity.Admin;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,14 +13,27 @@ import java.time.LocalDateTime;
 public class Ticket implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ticket_seq")
+    private Long ticketId;
 
     @Column(name = "title", columnDefinition = "nvarchar2(100)", unique = true)
     private String title;
 
     @Column(name = "message", columnDefinition = "nvarchar2(1000)")
     private String message;
+
+    @ManyToOne
+    @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "thicket_ticket_stage_fk"))
+    private TicketStage ticketStage;
+
+    @ManyToOne
+    @JoinColumn(name = "ticket_state_id", foreignKey = @ForeignKey(name = "thicket_ticket_state_fk"))
+    private TicketState ticketState;
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id", foreignKey = @ForeignKey(name = "thicket_admin_fk"))
+    private Admin admin;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -44,4 +58,126 @@ public class Ticket implements Serializable {
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
+
+    public Ticket() {
+    }
+
+    public Ticket(String title, String message, TicketStage ticketStage, TicketState ticketState, Admin admin, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+        this.title = title;
+        this.message = message;
+        this.ticketStage = ticketStage;
+        this.ticketState = ticketState;
+        this.admin = admin;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
+        this.createdDate = createdDate;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.isDeleted = isDeleted;
+    }
+
+    public Long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public TicketStage getTicketStage() {
+        return ticketStage;
+    }
+
+    public void setTicketStage(TicketStage ticketStage) {
+        this.ticketStage = ticketStage;
+    }
+
+    public TicketState getTicketState() {
+        return ticketState;
+    }
+
+    public void setTicketState(TicketState ticketState) {
+        this.ticketState = ticketState;
+    }
+
+    public Admin getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public LocalDateTime getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(LocalDateTime isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 }

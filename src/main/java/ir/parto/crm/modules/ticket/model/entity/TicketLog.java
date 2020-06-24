@@ -12,19 +12,20 @@ import java.time.LocalDateTime;
 public class TicketLog implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ticket_seq")
+    private Long ticketLogId;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_id", foreignKey = @ForeignKey(name = "thicket_log_ticket_fk"))
+    @JoinColumn(name = "ticket_id", foreignKey = @ForeignKey(name = "ticket_log_ticket_fk"))
     private Ticket ticket;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "thicket_log_ticket_stage_fk"))
+    @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "ticket_log_ticket_stage_fk"))
     private TicketStage ticketStage;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_state_id", foreignKey = @ForeignKey(name = "thicket_log_ticket_state_fk"))
+    @JoinColumn(name = "ticket_state_id", foreignKey = @ForeignKey(name = "ticket_log_ticket_state_fk"))
     private TicketState ticketState;
 
 
@@ -34,4 +35,63 @@ public class TicketLog implements Serializable {
     @Column(name = "create_at", updatable = false, columnDefinition = "datetime")
     @CreationTimestamp
     private LocalDateTime createdDate;
+
+    public TicketLog() {
+    }
+
+    public TicketLog(Ticket ticket, TicketStage ticketStage, TicketState ticketState, String createdBy, LocalDateTime createdDate) {
+        this.ticket = ticket;
+        this.ticketStage = ticketStage;
+        this.ticketState = ticketState;
+        this.createdBy = createdBy;
+        this.createdDate = createdDate;
+    }
+
+    public Long getTicketLogId() {
+        return ticketLogId;
+    }
+
+    public void setTicketLogId(Long ticketLogId) {
+        this.ticketLogId = ticketLogId;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    public TicketStage getTicketStage() {
+        return ticketStage;
+    }
+
+    public void setTicketStage(TicketStage ticketStage) {
+        this.ticketStage = ticketStage;
+    }
+
+    public TicketState getTicketState() {
+        return ticketState;
+    }
+
+    public void setTicketState(TicketState ticketState) {
+        this.ticketState = ticketState;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
 }

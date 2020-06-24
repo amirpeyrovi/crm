@@ -12,8 +12,9 @@ import java.time.LocalDateTime;
 public class TicketState implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ticket_seq")
+    private Long ticketStateId;
 
     @Column(name = "title", columnDefinition = "nvarchar2(100)", unique = true)
     private String title;
@@ -60,4 +61,144 @@ public class TicketState implements Serializable {
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
+
+    public TicketState() {
+    }
+
+    public TicketState(String title, String description, String color, TicketStateAction ticketStateAction, Integer isActive, Integer isPending, Integer isClose, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+        this.title = title;
+        this.description = description;
+        this.color = color;
+        this.ticketStateAction = ticketStateAction;
+        this.isActive = isActive;
+        this.isPending = isPending;
+        this.isClose = isClose;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
+        this.createdDate = createdDate;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.isDeleted = isDeleted;
+    }
+
+    public Long getTicketStateId() {
+        return ticketStateId;
+    }
+
+    public void setTicketStateId(Long ticketStateId) {
+        this.ticketStateId = ticketStateId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public TicketStateAction getTicketStateAction() {
+        return ticketStateAction;
+    }
+
+    public void setTicketStateAction(TicketStateAction ticketStateAction) {
+        this.ticketStateAction = ticketStateAction;
+    }
+
+    public Integer getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
+    }
+
+    public Integer getIsPending() {
+        return isPending;
+    }
+
+    public void setIsPending(Integer isPending) {
+        this.isPending = isPending;
+    }
+
+    public Integer getIsClose() {
+        return isClose;
+    }
+
+    public void setIsClose(Integer isClose) {
+        this.isClose = isClose;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public LocalDateTime getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(LocalDateTime isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 }

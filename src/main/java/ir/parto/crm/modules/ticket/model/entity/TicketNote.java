@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.ticket.model.entity;
 
+import ir.parto.crm.modules.admin.model.entity.Admin;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -8,29 +9,20 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_ticket_stage_parameter")
-public class TicketStageParameter implements Serializable {
+@Table(name = "crm_ticket_note")
+public class TicketNote implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
     @SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "ticket_seq")
-    private Long ticketStageParameterId;
+    private Long ticketNoteId;
+
+    @Column(name = "message", columnDefinition = "nvarchar2(1000)")
+    private String message;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_state_id", foreignKey = @ForeignKey(name = "ticket_stage_parameter_ticket_stage_fk"))
-    private TicketState ticketState;
-
-    @Column(name = "title", columnDefinition = "nvarchar2(100)")
-    private String title;
-
-    @Column(name = "description", columnDefinition = "nvarchar2(200)")
-    private String description;
-
-    @Column(name = "type", columnDefinition = "nvarchar2(16)")
-    private String type;
-
-    @Column(name = "options", columnDefinition = "nvarchar2(500)")
-    private String options;
+    @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "thicket_note_ticket_fk"))
+    private Ticket ticket;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -56,15 +48,12 @@ public class TicketStageParameter implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public TicketStageParameter() {
+    public TicketNote() {
     }
 
-    public TicketStageParameter(TicketState ticketState, String title, String description, String type, String options, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
-        this.ticketState = ticketState;
-        this.title = title;
-        this.description = description;
-        this.type = type;
-        this.options = options;
+    public TicketNote(String message, Ticket ticket, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+        this.message = message;
+        this.ticket = ticket;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -74,52 +63,28 @@ public class TicketStageParameter implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getTicketStageParameterId() {
-        return ticketStageParameterId;
+    public Long getTicketNoteId() {
+        return ticketNoteId;
     }
 
-    public void setTicketStageParameterId(Long ticketStageParameterId) {
-        this.ticketStageParameterId = ticketStageParameterId;
+    public void setTicketNoteId(Long ticketNoteId) {
+        this.ticketNoteId = ticketNoteId;
     }
 
-    public TicketState getTicketState() {
-        return ticketState;
+    public String getMessage() {
+        return message;
     }
 
-    public void setTicketState(TicketState ticketState) {
-        this.ticketState = ticketState;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getTitle() {
-        return title;
+    public Ticket getTicket() {
+        return ticket;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getOptions() {
-        return options;
-    }
-
-    public void setOptions(String options) {
-        this.options = options;
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 
     public String getCreatedBy() {
