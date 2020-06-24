@@ -1,6 +1,8 @@
 package ir.parto.crm.modules.ticket.model.entity;
 
 import ir.parto.crm.modules.admin.model.entity.Admin;
+import ir.parto.crm.modules.client.model.entity.Client;
+import ir.parto.crm.modules.service.model.entity.Service;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,7 +15,7 @@ import java.time.LocalDateTime;
 public class Ticket implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_seq", allocationSize=1)
+    @SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "ticket_seq")
     private Long ticketId;
 
@@ -24,15 +26,23 @@ public class Ticket implements Serializable {
     private String message;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "thicket_ticket_stage_fk"))
+    @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "ticket_client_fk"))
+    private Client client;
+
+    @ManyToOne
+    @JoinColumn(name = "service_id", foreignKey = @ForeignKey(name = "ticket_service_fk"))
+    private Service service;
+
+    @ManyToOne
+    @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "ticket_ticket_stage_fk"))
     private TicketStage ticketStage;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_state_id", foreignKey = @ForeignKey(name = "thicket_ticket_state_fk"))
+    @JoinColumn(name = "ticket_state_id", foreignKey = @ForeignKey(name = "ticket_ticket_state_fk"))
     private TicketState ticketState;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id", foreignKey = @ForeignKey(name = "thicket_admin_fk"))
+    @JoinColumn(name = "admin_id", foreignKey = @ForeignKey(name = "ticket_admin_fk"))
     private Admin admin;
 
 
@@ -62,9 +72,11 @@ public class Ticket implements Serializable {
     public Ticket() {
     }
 
-    public Ticket(String title, String message, TicketStage ticketStage, TicketState ticketState, Admin admin, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public Ticket(String title, String message, Client client, Service service, TicketStage ticketStage, TicketState ticketState, Admin admin, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
         this.title = title;
         this.message = message;
+        this.client = client;
+        this.service = service;
         this.ticketStage = ticketStage;
         this.ticketState = ticketState;
         this.admin = admin;
@@ -75,6 +87,24 @@ public class Ticket implements Serializable {
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
         this.isDeleted = isDeleted;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public Ticket setService(Service service) {
+        this.service = service;
+        return this;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public Ticket setClient(Client client) {
+        this.client = client;
+        return this;
     }
 
     public Long getTicketId() {

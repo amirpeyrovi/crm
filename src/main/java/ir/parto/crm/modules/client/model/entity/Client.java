@@ -7,13 +7,15 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "crm_client")
 public class Client implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "client_seq", sequenceName = "client_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "client_seq")
     private Long clientId;
 
     @Column(name = "username", columnDefinition = "nvarchar2(100)", unique = true)
@@ -37,14 +39,20 @@ public class Client implements Serializable {
     @Column(name = "phone_number", columnDefinition = "nvarchar(32)")
     private String phoneNumber;
 
-    @Column(name = "phone_number", columnDefinition = "nvarchar(32)")
+    @Column(name = "mobile_number", columnDefinition = "nvarchar(32)")
     private String mobileNumber;
 
     @Column(name = "identity_type", columnDefinition = "nvarchar(32)")
     private String identityType;
 
-    @Column(name = "identity_code", columnDefinition = "nvarchar(32)")
-    private String identityCode;
+    @Column(name = "identity_code1", columnDefinition = "nvarchar(32)")
+    private String identityCode1;
+
+    @Column(name = "identity_code2", columnDefinition = "nvarchar(32)")
+    private String identityCode2;
+
+    @Column(name = "identity_code3", columnDefinition = "nvarchar(32)")
+    private String identityCode3;
 
     @Column(name = "address", columnDefinition = "nvarchar(500)")
     private String address;
@@ -54,6 +62,9 @@ public class Client implements Serializable {
 
     @Column(name = "email", columnDefinition = "nvarchar(500)")
     private String emailAddress;
+
+    @OneToMany(mappedBy = "client")
+    private List<ExternalCode> externalCodes;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -78,4 +89,225 @@ public class Client implements Serializable {
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
+
+    public Client() {
+    }
+
+    public Client(String username, String password, String firstName, String lastName, String fatherName, LocalDate birthDate, String phoneNumber, String mobileNumber, String identityType, String identityCode1, String identityCode2, String identityCode3, String address, String address2, String emailAddress, List<ExternalCode> externalCodes, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.fatherName = fatherName;
+        this.birthDate = birthDate;
+        this.phoneNumber = phoneNumber;
+        this.mobileNumber = mobileNumber;
+        this.identityType = identityType;
+        this.identityCode1 = identityCode1;
+        this.identityCode2 = identityCode2;
+        this.identityCode3 = identityCode3;
+        this.address = address;
+        this.address2 = address2;
+        this.emailAddress = emailAddress;
+        this.externalCodes = externalCodes;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
+        this.createdDate = createdDate;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.isDeleted = isDeleted;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFatherName() {
+        return fatherName;
+    }
+
+    public void setFatherName(String fatherName) {
+        this.fatherName = fatherName;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getIdentityType() {
+        return identityType;
+    }
+
+    public void setIdentityType(String identityType) {
+        this.identityType = identityType;
+    }
+
+    public String getIdentityCode1() {
+        return identityCode1;
+    }
+
+    public void setIdentityCode1(String identityCode1) {
+        this.identityCode1 = identityCode1;
+    }
+
+    public String getIdentityCode2() {
+        return identityCode2;
+    }
+
+    public void setIdentityCode2(String identityCode2) {
+        this.identityCode2 = identityCode2;
+    }
+
+    public String getIdentityCode3() {
+        return identityCode3;
+    }
+
+    public void setIdentityCode3(String identityCode3) {
+        this.identityCode3 = identityCode3;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public List<ExternalCode> getExternalCodes() {
+        return externalCodes;
+    }
+
+    public void setExternalCodes(List<ExternalCode> externalCodes) {
+        this.externalCodes = externalCodes;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public LocalDateTime getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(LocalDateTime isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 }

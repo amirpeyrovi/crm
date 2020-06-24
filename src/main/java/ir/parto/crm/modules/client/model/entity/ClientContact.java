@@ -41,8 +41,14 @@ public class ClientContact implements Serializable {
     @Column(name = "identity_type", columnDefinition = "nvarchar(32)")
     private String identityType;
 
-    @Column(name = "identity_code", columnDefinition = "nvarchar(32)")
-    private String identityCode;
+    @Column(name = "identity_code1", columnDefinition = "nvarchar(32)")
+    private String identityCode1;
+
+    @Column(name = "identity_code2", columnDefinition = "nvarchar(32)")
+    private String identityCode2;
+
+    @Column(name = "identity_code3", columnDefinition = "nvarchar(32)")
+    private String identityCode3;
 
     @Column(name = "address", columnDefinition = "nvarchar(500)")
     private String address;
@@ -73,4 +79,38 @@ public class ClientContact implements Serializable {
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
+
+    public ClientContact() {
+    }
+
+    public ClientContact(Client client, String firstName, String lastName, String fatherName, LocalDate birthDate, String phoneNumber, String mobileNumber, String identityType, String identityCode1, String identityCode2, String identityCode3, String address, String address2, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+        this.client = client;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.fatherName = fatherName;
+        this.birthDate = birthDate;
+        this.phoneNumber = phoneNumber;
+        this.mobileNumber = mobileNumber;
+        this.identityType = identityType;
+        this.identityCode1 = identityCode1;
+        this.identityCode2 = identityCode2;
+        this.identityCode3 = identityCode3;
+        this.address = address;
+        this.address2 = address2;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
+        this.createdDate = createdDate;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.isDeleted = isDeleted;
+    }
+
+    public Long getClientContactId() {
+        return clientContactId;
+    }
+
+    public void setClientContactId(Long clientContactId) {
+        this.clientContactId = clientContactId;
+    }
 }
