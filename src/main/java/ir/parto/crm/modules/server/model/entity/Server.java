@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 public class Server implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "server_seq", sequenceName = "server_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "server_seq")
     private Long serverId;
 
     @Column(name = "title", columnDefinition = "nvarchar2(100)")

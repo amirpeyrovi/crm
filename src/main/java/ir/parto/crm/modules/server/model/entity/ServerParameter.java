@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 @Table(name = "crm_server_parameter")
 public class ServerParameter implements Serializable {
     @Id
-    @Column(name = "id", columnDefinition = "number")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "server_seq", sequenceName = "server_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "server_seq")
     private Long serverParameterId;
 
     @ManyToOne
-    @JoinColumn(name = "server_id", foreignKey = @ForeignKey(name = "server_parameter_server_fk"))
-    private Server server;
+    @JoinColumn(name = "server_group_id", foreignKey = @ForeignKey(name = "server_parameter_server_group_fk"))
+    private ServerGroup serverGroup;
 
     @Column(name = "title", columnDefinition = "nvarchar2(100)")
     private String title;
@@ -58,8 +58,8 @@ public class ServerParameter implements Serializable {
     public ServerParameter() {
     }
 
-    public ServerParameter(Server server, String title, String description, String type, String options, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
-        this.server = server;
+    public ServerParameter(ServerGroup serverGroup, String title, String description, String type, String options, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+        this.serverGroup = serverGroup;
         this.title = title;
         this.description = description;
         this.type = type;
@@ -81,12 +81,12 @@ public class ServerParameter implements Serializable {
         this.serverParameterId = serverParameterId;
     }
 
-    public Server getServer() {
-        return server;
+    public ServerGroup getServer() {
+        return serverGroup;
     }
 
-    public void setServer(Server server) {
-        this.server = server;
+    public void setServer(ServerGroup serverGroup) {
+        this.serverGroup = serverGroup;
     }
 
     public String getTitle() {
