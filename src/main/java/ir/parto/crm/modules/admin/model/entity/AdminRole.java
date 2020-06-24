@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 public class AdminRole implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "admin_seq", sequenceName = "admin_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "admin_seq")
     private Long adminRoleId;
 
     @Column(name = "title", columnDefinition = "nvarchar2(100)", unique = true)
@@ -45,4 +46,98 @@ public class AdminRole implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
+    public AdminRole() {
+    }
+
+    public AdminRole(String title, String description, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+        this.title = title;
+        this.description = description;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
+        this.createdDate = createdDate;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.isDeleted = isDeleted;
+    }
+
+    public Long getAdminRoleId() {
+        return adminRoleId;
+    }
+
+    public void setAdminRoleId(Long adminRoleId) {
+        this.adminRoleId = adminRoleId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public LocalDateTime getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(LocalDateTime isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 }
