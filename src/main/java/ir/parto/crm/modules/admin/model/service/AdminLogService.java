@@ -61,7 +61,7 @@ public class AdminLogService implements ServiceInterface<AdminLog> {
 
     @Override
     public AdminLog findById(Long id) {
-        if(this.adminLogRepository.existsById(id)){
+        if (this.adminLogRepository.existsById(id)) {
             return this.adminLogRepository.getOne(id);
         }
         return null;
