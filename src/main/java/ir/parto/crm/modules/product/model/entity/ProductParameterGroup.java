@@ -8,21 +8,16 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_product_group")
-public class ProductGroup implements Serializable {
+@Table(name = "crm_product_parameter_group")
+public class ProductParameterGroup implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
     @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "product_seq")
-    private Long productGroupId;
-
-    @ManyToOne
-    @JoinColumn(name = "parent_id", foreignKey = @ForeignKey(name = "product_group_product_group_fk"))
-    private ProductGroup productGroup;
+    private Long productParameterGroupId;
 
     @Column(name = "title", columnDefinition = "nvarchar2(100)")
     private String title;
-
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
@@ -47,11 +42,10 @@ public class ProductGroup implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public ProductGroup() {
+    public ProductParameterGroup() {
     }
 
-    public ProductGroup(ProductGroup productGroup, String title, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
-        this.productGroup = productGroup;
+    public ProductParameterGroup(String title, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
         this.title = title;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
@@ -62,20 +56,12 @@ public class ProductGroup implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getProductGroupId() {
-        return productGroupId;
+    public Long getProductParameterGroupId() {
+        return productParameterGroupId;
     }
 
-    public void setProductGroupId(Long productGroupId) {
-        this.productGroupId = productGroupId;
-    }
-
-    public ProductGroup getProductGroup() {
-        return productGroup;
-    }
-
-    public void setProductGroup(ProductGroup productGroup) {
-        this.productGroup = productGroup;
+    public void setProductParameterGroupId(Long productParameterGroupId) {
+        this.productParameterGroupId = productParameterGroupId;
     }
 
     public String getTitle() {
