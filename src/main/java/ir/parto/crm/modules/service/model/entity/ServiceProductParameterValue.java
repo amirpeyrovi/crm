@@ -21,7 +21,7 @@ public class ServiceProductParameterValue implements Serializable {
     private Service service;
 
     @ManyToOne
-    @JoinColumn(name = "service_id", foreignKey = @ForeignKey(name = "service_product_parameter_value_product_parameter_fk"))
+    @JoinColumn(name = "product_parameter_id", foreignKey = @ForeignKey(name = "service_product_parameter_value_product_parameter_fk"))
     private ProductParameter productParameter;
 
     @Column(name = "value", columnDefinition = "nvarchar2(100)")

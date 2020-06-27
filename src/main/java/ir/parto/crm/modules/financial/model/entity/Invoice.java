@@ -1,5 +1,6 @@
-package ir.parto.crm.modules.ticket.model.entity;
+package ir.parto.crm.modules.financial.model.entity;
 
+import ir.parto.crm.modules.order.model.entity.Order;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -8,21 +9,31 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_ticket_state_of_stage")
-public class TicketStateOfStage implements Serializable {
+@Table(name = "crm_financial_invoice")
+public class Invoice implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_seq", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ticket_seq")
-    private Long ticketStateOfStageId;
+    @SequenceGenerator(name = "financial_seq", sequenceName = "financial_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "financial_seq")
+    private Long invoiceId;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "ticket_state_of_stage_ticket_stage_fk"))
-    private TicketStage ticketStage;
+    @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "financial_invoice_order_fk"))
+    private Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "ticket_state_id", foreignKey = @ForeignKey(name = "ticket_state_of_stage_ticket_state_fk"))
-    private TicketState ticketState;
+    @Column(name = "description", columnDefinition = "nvarchar2(100)")
+    private String description;
+
+    @Column(name = "invoice_number", columnDefinition = "nvarchar2(32)")
+    private String invoiceNumber;
+
+    // status => [1: unpaid, 2: paid, 3: cancel]
+    @Column(name = "statue", columnDefinition = "number(1)")
+    private Integer status;
+
+    // status => [1: official, 2: unofficial]
+    @Column(name = "official_type", columnDefinition = "number(1)")
+    private Integer officialType;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -48,12 +59,15 @@ public class TicketStateOfStage implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public TicketStateOfStage() {
+    public Invoice() {
     }
 
-    public TicketStateOfStage(TicketStage ticketStage, TicketState ticketState, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
-        this.ticketStage = ticketStage;
-        this.ticketState = ticketState;
+    public Invoice(Order order, String description, String invoiceNumber, Integer status, Integer officialType, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+        this.order = order;
+        this.description = description;
+        this.invoiceNumber = invoiceNumber;
+        this.status = status;
+        this.officialType = officialType;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -63,28 +77,52 @@ public class TicketStateOfStage implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getTicketStateOfStageId() {
-        return ticketStateOfStageId;
+    public Long getInvoiceId() {
+        return invoiceId;
     }
 
-    public void setTicketStateOfStageId(Long ticketStateOfStageId) {
-        this.ticketStateOfStageId = ticketStateOfStageId;
+    public void setInvoiceId(Long invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
-    public TicketStage getTicketStage() {
-        return ticketStage;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setTicketStage(TicketStage ticketStage) {
-        this.ticketStage = ticketStage;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    public TicketState getTicketState() {
-        return ticketState;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTicketState(TicketState ticketState) {
-        this.ticketState = ticketState;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getOfficialType() {
+        return officialType;
+    }
+
+    public void setOfficialType(Integer officialType) {
+        this.officialType = officialType;
     }
 
     public String getCreatedBy() {

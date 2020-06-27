@@ -1,4 +1,4 @@
-package ir.parto.crm.modules.ticket.model.entity;
+package ir.parto.crm.modules.financial.model.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -8,21 +8,28 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_ticket_state_of_stage")
-public class TicketStateOfStage implements Serializable {
+@Table(name = "crm_financial_transaction")
+public class Transaction implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_seq", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ticket_seq")
-    private Long ticketStateOfStageId;
+    @SequenceGenerator(name = "financial_seq", sequenceName = "financial_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "financial_seq")
+    private Long transactionId;
 
-    @ManyToOne
-    @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "ticket_state_of_stage_ticket_stage_fk"))
-    private TicketStage ticketStage;
+    @Column(name = "gateway", columnDefinition = "nvarchar2(100)")
+    private String gateway;
 
-    @ManyToOne
-    @JoinColumn(name = "ticket_state_id", foreignKey = @ForeignKey(name = "ticket_state_of_stage_ticket_state_fk"))
-    private TicketState ticketState;
+    @Column(name = "trans_id", columnDefinition = "nvarchar2(100)")
+    private String transId;
+
+    @Column(name = "description", columnDefinition = "nvarchar2(100)")
+    private String description;
+
+    @Column(name = "amount_in", columnDefinition = "number(16,0)")
+    private Long amountIn;
+
+    @Column(name = "amount_out", columnDefinition = "number(16,0)")
+    private Long amountOut;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -48,12 +55,15 @@ public class TicketStateOfStage implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public TicketStateOfStage() {
+    public Transaction() {
     }
 
-    public TicketStateOfStage(TicketStage ticketStage, TicketState ticketState, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
-        this.ticketStage = ticketStage;
-        this.ticketState = ticketState;
+    public Transaction(String gateway, String transId, String description, Long amountIn, Long amountOut, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+        this.gateway = gateway;
+        this.transId = transId;
+        this.description = description;
+        this.amountIn = amountIn;
+        this.amountOut = amountOut;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -63,28 +73,52 @@ public class TicketStateOfStage implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getTicketStateOfStageId() {
-        return ticketStateOfStageId;
+    public Long getTransactionId() {
+        return transactionId;
     }
 
-    public void setTicketStateOfStageId(Long ticketStateOfStageId) {
-        this.ticketStateOfStageId = ticketStateOfStageId;
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
     }
 
-    public TicketStage getTicketStage() {
-        return ticketStage;
+    public String getGateway() {
+        return gateway;
     }
 
-    public void setTicketStage(TicketStage ticketStage) {
-        this.ticketStage = ticketStage;
+    public void setGateway(String gateway) {
+        this.gateway = gateway;
     }
 
-    public TicketState getTicketState() {
-        return ticketState;
+    public String getTransId() {
+        return transId;
     }
 
-    public void setTicketState(TicketState ticketState) {
-        this.ticketState = ticketState;
+    public void setTransId(String transId) {
+        this.transId = transId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Long getAmountIn() {
+        return amountIn;
+    }
+
+    public void setAmountIn(Long amountIn) {
+        this.amountIn = amountIn;
+    }
+
+    public Long getAmountOut() {
+        return amountOut;
+    }
+
+    public void setAmountOut(Long amountOut) {
+        this.amountOut = amountOut;
     }
 
     public String getCreatedBy() {
