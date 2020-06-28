@@ -65,7 +65,6 @@ public class TicketLogService implements ServiceInterface<TicketLog> {
             return this.ticketLogRepository.getOne(id);
         }
         return null;
-
     }
 
     @Override
