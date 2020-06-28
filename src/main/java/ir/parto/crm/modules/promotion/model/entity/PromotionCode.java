@@ -1,5 +1,6 @@
-package ir.parto.crm.modules.client.model.entity;
+package ir.parto.crm.modules.promotion.model.entity;
 
+import ir.parto.crm.modules.client.model.entity.Client;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -8,37 +9,39 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_client_credit")
-public class ClientCredit implements Serializable {
+@Table(name = "crm_promotion_code")
+public class PromotionCode implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long ClientCreditId;
+    @SequenceGenerator(name = "promotion_seq", sequenceName = "promotion_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "promotion_seq")
+    private Long promotionCodeId;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "client_contact_fk"))
+    @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "service_client_fk"))
     private Client client;
 
-    @Column(name = "description", columnDefinition = "nvarchar2(100)")
-    private String description;
+    @Column(name = "promotion_code", columnDefinition = "nvarchar2(32)")
+    private String promotionCode;
 
-    @Column(name = "caption", columnDefinition = "nvarchar2(1000)")
-    private String caption;
+    @Column(name = "promotion_name", columnDefinition = "nvarchar2(32)")
+    private String promotionName;
 
-    @Column(name = "type", columnDefinition = "nvarchar2(100)")
+    // type => [1: percentage, 2: fix amount]
+    @Column(name = "type", columnDefinition = "number(1)")
     private String type;
 
-    @Column(name = "amount_in", columnDefinition = "number")
-    private Long amountIn;
+    @Column(name = "value", columnDefinition = "number(10)")
+    private Long value;
 
-    @Column(name = "amount_out", columnDefinition = "number")
-    private Long amountOut;
+    @Column(name = "max_usage", columnDefinition = "number(5)")
+    private Integer maxUsage;
 
-    @Column(name = "total", columnDefinition = "number")
-    private Long total;
+    @Column(name = "usage", columnDefinition = "number(5)")
+    private Integer usage;
 
-    @Column(name = "invoice_transaction_id", columnDefinition = "number")
-    private Long invoiceTransactionId;
+    @Column(name = "valid_until_date", columnDefinition = "date")
+    private LocalDateTime validUntilDate;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -64,18 +67,18 @@ public class ClientCredit implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public ClientCredit() {
+    public PromotionCode() {
     }
 
-    public ClientCredit(Client client, String description, String caption, String type, Long amountIn, Long amountOut, Long total, Long invoiceTransactionId, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public PromotionCode(Client client, String promotionCode, String promotionName, String type, Long value, Integer maxUsage, Integer usage, LocalDateTime validUntilDate, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
         this.client = client;
-        this.description = description;
-        this.caption = caption;
+        this.promotionCode = promotionCode;
+        this.promotionName = promotionName;
         this.type = type;
-        this.amountIn = amountIn;
-        this.amountOut = amountOut;
-        this.total = total;
-        this.invoiceTransactionId = invoiceTransactionId;
+        this.value = value;
+        this.maxUsage = maxUsage;
+        this.usage = usage;
+        this.validUntilDate = validUntilDate;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -85,12 +88,12 @@ public class ClientCredit implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getClientCreditId() {
-        return ClientCreditId;
+    public Long getPromotionId() {
+        return promotionCodeId;
     }
 
-    public void setClientCreditId(Long clientCreditId) {
-        ClientCreditId = clientCreditId;
+    public void setPromotionId(Long promotionId) {
+        this.promotionCodeId = promotionId;
     }
 
     public Client getClient() {
@@ -101,20 +104,20 @@ public class ClientCredit implements Serializable {
         this.client = client;
     }
 
-    public String getDescription() {
-        return description;
+    public String getPromotionCode() {
+        return promotionCode;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPromotionCode(String promotionCode) {
+        this.promotionCode = promotionCode;
     }
 
-    public String getCaption() {
-        return caption;
+    public String getPromotionName() {
+        return promotionName;
     }
 
-    public void setCaption(String caption) {
-        this.caption = caption;
+    public void setPromotionName(String promotionName) {
+        this.promotionName = promotionName;
     }
 
     public String getType() {
@@ -125,36 +128,36 @@ public class ClientCredit implements Serializable {
         this.type = type;
     }
 
-    public Long getAmountIn() {
-        return amountIn;
+    public Long getValue() {
+        return value;
     }
 
-    public void setAmountIn(Long amountIn) {
-        this.amountIn = amountIn;
+    public void setValue(Long value) {
+        this.value = value;
     }
 
-    public Long getAmountOut() {
-        return amountOut;
+    public Integer getMaxUsage() {
+        return maxUsage;
     }
 
-    public void setAmountOut(Long amountOut) {
-        this.amountOut = amountOut;
+    public void setMaxUsage(Integer maxUsage) {
+        this.maxUsage = maxUsage;
     }
 
-    public Long getTotal() {
-        return total;
+    public Integer getUsage() {
+        return usage;
     }
 
-    public void setTotal(Long total) {
-        this.total = total;
+    public void setUsage(Integer usage) {
+        this.usage = usage;
     }
 
-    public Long getInvoiceTransactionId() {
-        return invoiceTransactionId;
+    public LocalDateTime getValidUntilDate() {
+        return validUntilDate;
     }
 
-    public void setInvoiceTransactionId(Long invoiceTransactionId) {
-        this.invoiceTransactionId = invoiceTransactionId;
+    public void setValidUntilDate(LocalDateTime validUntilDate) {
+        this.validUntilDate = validUntilDate;
     }
 
     public String getCreatedBy() {
