@@ -16,9 +16,9 @@ public class TicketLog implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "ticket_seq")
     private Long ticketLogId;
 
-    @ManyToOne
-    @JoinColumn(name = "ticket_id", foreignKey = @ForeignKey(name = "ticket_log_ticket_fk"))
-    private Ticket ticket;
+//    @ManyToOne
+//    @JoinColumn(name = "ticket_id", foreignKey = @ForeignKey(name = "ticket_log_ticket_fk"))
+//    private Ticket ticket;
 
     @ManyToOne
     @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "ticket_log_ticket_stage_fk"))
@@ -40,7 +40,7 @@ public class TicketLog implements Serializable {
     }
 
     public TicketLog(Ticket ticket, TicketStage ticketStage, TicketState ticketState, String createdBy, LocalDateTime createdDate) {
-        this.ticket = ticket;
+//        this.ticket = ticket;
         this.ticketStage = ticketStage;
         this.ticketState = ticketState;
         this.createdBy = createdBy;
@@ -55,13 +55,13 @@ public class TicketLog implements Serializable {
         this.ticketLogId = ticketLogId;
     }
 
-    public Ticket getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-    }
+//    public Ticket getTicket() {
+//        return ticket;
+//    }
+//
+//    public void setTicket(Ticket ticket) {
+//        this.ticket = ticket;
+//    }
 
     public TicketStage getTicketStage() {
         return ticketStage;

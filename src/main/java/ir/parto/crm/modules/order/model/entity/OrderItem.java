@@ -1,33 +1,40 @@
 package ir.parto.crm.modules.order.model.entity;
 
 import ir.parto.crm.modules.client.model.entity.Client;
-import ir.parto.crm.modules.promotion.model.entity.PromotionCode;
+import ir.parto.crm.modules.product.model.entity.Product;
+import ir.parto.crm.modules.product.model.entity.ProductCycle;
+import ir.parto.crm.modules.service.model.entity.Service;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_order")
-public class Order implements Serializable {
+@Table(name = "crm_order_item")
+public class OrderItem implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
     @SequenceGenerator(name = "order_seq", sequenceName = "order_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "order_seq")
-    private Long orderId;
+    private Long orderItemId;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "order_client_fk"))
-    private Client client;
+    @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "order_item_order_fk"))
+    private Order order;
 
-    @Column(name = "order_number", columnDefinition = "nvarchar2(32)")
-    private String orderNumber;
+    @ManyToOne
+    @JoinColumn(name = "service_id", foreignKey = @ForeignKey(name = "order_item_service_fk"))
+    private Service service;
 
-    @Column(name = "description", columnDefinition = "nvarchar2(100)")
-    private String description;
+    @ManyToOne
+    @JoinColumn(name = "next_product_id", foreignKey = @ForeignKey(name = "order_item_next_product_fk"))
+    private Product nextProduct;
+
+    @ManyToOne
+    @JoinColumn(name = "product_cycle_id", foreignKey = @ForeignKey(name = "order_item_product_cycle_fk"))
+    private ProductCycle productCycle;
 
     @Column(name = "price", columnDefinition = "number(16,0)")
     private Long price;
@@ -41,17 +48,19 @@ public class Order implements Serializable {
     @Column(name = "tax_rate", columnDefinition = "number(2,0)")
     private Long taxRate;
 
-    // status => [1: pending, 2: active, 3: expire, 4: cancel]
-    @Column(name = "statue", columnDefinition = "number(1)")
-    private Integer status;
+    @Column(name = "have_tax", columnDefinition = "number(1)")
+    private Integer haveTax;
 
-    // status => [1: official, 2: unofficial]
-    @Column(name = "official_type", columnDefinition = "number(1)")
-    private Integer officialType;
+    // type => [1: buy, 2: renew, 3: change]
+    @Column(name = "type", columnDefinition = "number(1)")
+    private Integer type;
 
-    @ManyToOne
-    @JoinColumn(name = "promotion_code", foreignKey = @ForeignKey(name = "order_promotion_code_fk"))
-    private PromotionCode promotionCode;
+    // if type: 3 then change_time => [1: after Payment, 2: after expire]
+    @Column(name = "change_time", columnDefinition = "number(1)")
+    private Integer changeTime;
+
+    @Column(name = "description", columnDefinition = "nvarchar2(100)")
+    private String description;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -77,20 +86,22 @@ public class Order implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public Order() {
+    public OrderItem() {
     }
 
-    public Order(Client client, String orderNumber, String description, Long price, Long promotionPrice, Long tax, Long taxRate, Integer status, Integer officialType, PromotionCode promotionCode, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
-        this.client = client;
-        this.orderNumber = orderNumber;
-        this.description = description;
+    public OrderItem(Order order, Service service, Product nextProduct, ProductCycle productCycle, Long price, Long promotionPrice, Long tax, Long taxRate, Integer haveTax, Integer type, Integer changeTime, String description, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+        this.order = order;
+        this.service = service;
+        this.nextProduct = nextProduct;
+        this.productCycle = productCycle;
         this.price = price;
         this.promotionPrice = promotionPrice;
         this.tax = tax;
         this.taxRate = taxRate;
-        this.status = status;
-        this.officialType = officialType;
-        this.promotionCode = promotionCode;
+        this.haveTax = haveTax;
+        this.type = type;
+        this.changeTime = changeTime;
+        this.description = description;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -100,36 +111,44 @@ public class Order implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Long getOrderItemId() {
+        return orderItemId;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setOrderItemId(Long orderItemId) {
+        this.orderItemId = orderItemId;
     }
 
-    public Client getClient() {
-        return client;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
-    public String getOrderNumber() {
-        return orderNumber;
+    public Service getService() {
+        return service;
     }
 
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
+    public void setService(Service service) {
+        this.service = service;
     }
 
-    public String getDescription() {
-        return description;
+    public Product getNextProduct() {
+        return nextProduct;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setNextProduct(Product nextProduct) {
+        this.nextProduct = nextProduct;
+    }
+
+    public ProductCycle getProductCycle() {
+        return productCycle;
+    }
+
+    public void setProductCycle(ProductCycle productCycle) {
+        this.productCycle = productCycle;
     }
 
     public Long getPrice() {
@@ -164,28 +183,36 @@ public class Order implements Serializable {
         this.taxRate = taxRate;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getHaveTax() {
+        return haveTax;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setHaveTax(Integer haveTax) {
+        this.haveTax = haveTax;
     }
 
-    public Integer getOfficialType() {
-        return officialType;
+    public Integer getType() {
+        return type;
     }
 
-    public void setOfficialType(Integer officialType) {
-        this.officialType = officialType;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
-    public PromotionCode getPromotionCode() {
-        return promotionCode;
+    public Integer getChangeTime() {
+        return changeTime;
     }
 
-    public void setPromotionCode(PromotionCode promotionCode) {
-        this.promotionCode = promotionCode;
+    public void setChangeTime(Integer changeTime) {
+        this.changeTime = changeTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getCreatedBy() {
@@ -243,4 +270,6 @@ public class Order implements Serializable {
     public void setIsDeleted(LocalDateTime isDeleted) {
         this.isDeleted = isDeleted;
     }
+
+
 }

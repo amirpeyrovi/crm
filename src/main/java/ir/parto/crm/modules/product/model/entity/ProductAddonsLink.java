@@ -17,7 +17,7 @@ public class ProductAddonsLink implements Serializable {
     private ProductAddon productAddon;
 
     @ManyToOne
-    @JoinColumn(name = "product_group_id", foreignKey = @ForeignKey(name = "product_addons_link_product_fk"))
+    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "product_addons_link_product_fk"))
     private Product product;
 
     public ProductAddonsLink() {

@@ -76,11 +76,11 @@ public class Product implements Serializable {
     @CreationTimestamp
     private LocalDateTime createdDate;
 
-    @Column(name = "update_by", columnDefinition = "datetime")
+    @Column(name = "update_at", columnDefinition = "datetime")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Column(name = "deleted_by", columnDefinition = "datetime")
+    @Column(name = "deleted_at", columnDefinition = "datetime")
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
