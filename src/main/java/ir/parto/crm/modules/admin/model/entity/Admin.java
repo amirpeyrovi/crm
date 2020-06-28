@@ -38,6 +38,9 @@ public class Admin implements Serializable {
     @JoinColumn(name = "admin_role_id", foreignKey = @ForeignKey(name = "admin_role_fk"))
     private AdminRole adminRole;
 
+    @Column(name = "is_reseller", columnDefinition = "number(1)")
+    private Integer isReseller;
+
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
