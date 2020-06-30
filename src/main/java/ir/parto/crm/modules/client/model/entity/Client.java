@@ -18,12 +18,6 @@ public class Client implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "client_seq")
     private Long clientId;
 
-    @Column(name = "username", columnDefinition = "nvarchar2(100)", unique = true)
-    private String username;
-
-    @Column(name = "password", columnDefinition = "nvarchar2(200)")
-    private String password;
-
     @Column(name = "first_name", columnDefinition = "nvarchar2(100)")
     private String firstName;
 
@@ -60,8 +54,11 @@ public class Client implements Serializable {
     @Column(name = "address2", columnDefinition = "nvarchar(500)")
     private String address2;
 
-    @Column(name = "email", columnDefinition = "nvarchar(500)")
+    @Column(name = "email", columnDefinition = "nvarchar(100)")
     private String emailAddress;
+
+    @Column(name = "is_reseller", columnDefinition = "number(1)")
+    private Integer isReseller;
 
     @OneToMany(mappedBy = "client")
     private List<ClientExternalCode> externalCodes;
@@ -93,9 +90,7 @@ public class Client implements Serializable {
     public Client() {
     }
 
-    public Client(String username, String password, String firstName, String lastName, String fatherName, LocalDate birthDate, String phoneNumber, String mobileNumber, String identityType, String identityCode1, String identityCode2, String identityCode3, String address, String address2, String emailAddress, List<ClientExternalCode> externalCodes, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
-        this.username = username;
-        this.password = password;
+    public Client(String firstName, String lastName, String fatherName, LocalDate birthDate, String phoneNumber, String mobileNumber, String identityType, String identityCode1, String identityCode2, String identityCode3, String address, String address2, String emailAddress, Integer isReseller, List<ClientExternalCode> externalCodes, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.fatherName = fatherName;
@@ -109,6 +104,7 @@ public class Client implements Serializable {
         this.address = address;
         this.address2 = address2;
         this.emailAddress = emailAddress;
+        this.isReseller = isReseller;
         this.externalCodes = externalCodes;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
@@ -125,22 +121,6 @@ public class Client implements Serializable {
 
     public void setClientId(Long clientId) {
         this.clientId = clientId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFirstName() {
@@ -245,6 +225,14 @@ public class Client implements Serializable {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public Integer getIsReseller() {
+        return isReseller;
+    }
+
+    public void setIsReseller(Integer isReseller) {
+        this.isReseller = isReseller;
     }
 
     public List<ClientExternalCode> getExternalCodes() {

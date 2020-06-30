@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.admin.model.entity;
 
+import ir.parto.crm.modules.client.model.entity.Client;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -38,6 +39,14 @@ public class Admin implements Serializable {
     @JoinColumn(name = "admin_role_id", foreignKey = @ForeignKey(name = "admin_role_fk"))
     private AdminRole adminRole;
 
+    @ManyToOne
+    @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "admin_client_fk"))
+    private Client client;
+
+    // authority => [ADMIN, RESELLER, USER]
+    @Column(name = "authority", columnDefinition = "nvarchar2(16)")
+    private String authority;
+
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
@@ -65,7 +74,7 @@ public class Admin implements Serializable {
     public Admin() {
     }
 
-    public Admin(String username, String password, String firstName, String lastName, String identifyCode, String phoneNumber, AdminRole adminRole, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public Admin(String username, String password, String firstName, String lastName, String identifyCode, String phoneNumber, AdminRole adminRole, Client client, String authority, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -73,6 +82,8 @@ public class Admin implements Serializable {
         this.identifyCode = identifyCode;
         this.phoneNumber = phoneNumber;
         this.adminRole = adminRole;
+        this.client = client;
+        this.authority = authority;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -146,6 +157,14 @@ public class Admin implements Serializable {
         this.adminRole = adminRole;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -200,5 +219,13 @@ public class Admin implements Serializable {
 
     public void setIsDeleted(LocalDateTime isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public String getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
 }
