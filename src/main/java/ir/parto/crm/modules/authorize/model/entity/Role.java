@@ -1,4 +1,4 @@
-package ir.parto.crm.modules.server.model.entity;
+package ir.parto.crm.modules.authorize.model.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -8,28 +8,16 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_server_parameter")
-public class ServerParameter implements Serializable {
+@Table(name = "crm_role")
+public class Role implements Serializable {
     @Id
-    @SequenceGenerator(name = "server_seq", sequenceName = "server_seq", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "server_seq")
-    private Long serverParameterId;
+    @Column(name = "id", columnDefinition = "number")
+    @SequenceGenerator(name = "role_seq", sequenceName = "role_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "role_seq")
+    private Long roleId;
 
-    @ManyToOne
-    @JoinColumn(name = "server_group_id", foreignKey = @ForeignKey(name = "server_parameter_server_group_fk"))
-    private ServerGroup serverGroup;
-
-    @Column(name = "title", columnDefinition = "nvarchar2(100)")
+    @Column(name = "TITLE" , columnDefinition = "nvarchar2(50)")
     private String title;
-
-    @Column(name = "description", columnDefinition = "nvarchar2(200)")
-    private String description;
-
-    @Column(name = "type", columnDefinition = "nvarchar2(16)")
-    private String type;
-
-    @Column(name = "options", columnDefinition = "nvarchar2(500)")
-    private String options;
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
@@ -54,15 +42,11 @@ public class ServerParameter implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public ServerParameter() {
+    public Role() {
     }
 
-    public ServerParameter(ServerGroup serverGroup, String title, String description, String type, String options, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
-        this.serverGroup = serverGroup;
+    public Role(String title, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
         this.title = title;
-        this.description = description;
-        this.type = type;
-        this.options = options;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -72,20 +56,12 @@ public class ServerParameter implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getServerParameterId() {
-        return serverParameterId;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setServerParameterId(Long serverParameterId) {
-        this.serverParameterId = serverParameterId;
-    }
-
-    public ServerGroup getServer() {
-        return serverGroup;
-    }
-
-    public void setServer(ServerGroup serverGroup) {
-        this.serverGroup = serverGroup;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     public String getTitle() {
@@ -94,30 +70,6 @@ public class ServerParameter implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getOptions() {
-        return options;
-    }
-
-    public void setOptions(String options) {
-        this.options = options;
     }
 
     public String getCreatedBy() {

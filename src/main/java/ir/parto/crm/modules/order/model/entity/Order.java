@@ -53,7 +53,6 @@ public class Order implements Serializable {
     @JoinColumn(name = "promotion_code", foreignKey = @ForeignKey(name = "order_promotion_code_fk"))
     private PromotionCode promotionCode;
 
-
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
 
