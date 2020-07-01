@@ -40,6 +40,10 @@ public class IpAddress implements Serializable {
     @JoinColumn(name = "service_id", foreignKey = @ForeignKey(name = "ip_address_service_fk"))
     private Service service;
 
+    // status => [1: active, 2: deActive, 3: assigned]
+    @Column(name = "status", columnDefinition = "number(1)")
+    private Integer status;
+
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
@@ -67,7 +71,7 @@ public class IpAddress implements Serializable {
     public IpAddress() {
     }
 
-    public IpAddress(String ipAddress, Integer ipNetmask, Integer ipVersion, String startIpAddress, String endIpAddress, IpGroup ipGroup, Service service, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+    public IpAddress(String ipAddress, Integer ipNetmask, Integer ipVersion, String startIpAddress, String endIpAddress, IpGroup ipGroup, Service service, Integer status, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
         this.ipAddress = ipAddress;
         this.ipNetmask = ipNetmask;
         this.ipVersion = ipVersion;
@@ -75,6 +79,7 @@ public class IpAddress implements Serializable {
         this.endIpAddress = endIpAddress;
         this.ipGroup = ipGroup;
         this.service = service;
+        this.status = status;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -138,6 +143,14 @@ public class IpAddress implements Serializable {
 
     public void setIpGroup(IpGroup ipGroup) {
         this.ipGroup = ipGroup;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Service getService() {
