@@ -2,6 +2,7 @@ package ir.parto.crm.modules.order.model.entity;
 
 import ir.parto.crm.modules.client.model.entity.Client;
 import ir.parto.crm.modules.product.model.entity.Product;
+import ir.parto.crm.modules.product.model.entity.ProductAddon;
 import ir.parto.crm.modules.product.model.entity.ProductCycle;
 import ir.parto.crm.modules.service.model.entity.Service;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,6 +32,10 @@ public class OrderItem implements Serializable {
     @ManyToOne
     @JoinColumn(name = "next_product_id", foreignKey = @ForeignKey(name = "order_item_next_product_fk"))
     private Product nextProduct;
+
+    @ManyToOne
+    @JoinColumn(name = "next_product_addon_id", foreignKey = @ForeignKey(name = "order_item_next_product_addon_fk"))
+    private ProductAddon nextProductAddon;
 
     @ManyToOne
     @JoinColumn(name = "product_cycle_id", foreignKey = @ForeignKey(name = "order_item_product_cycle_fk"))
@@ -205,6 +210,14 @@ public class OrderItem implements Serializable {
 
     public void setChangeTime(Integer changeTime) {
         this.changeTime = changeTime;
+    }
+
+    public ProductAddon getNextProductAddon() {
+        return nextProductAddon;
+    }
+
+    public void setNextProductAddon(ProductAddon nextProductAddon) {
+        this.nextProductAddon = nextProductAddon;
     }
 
     public String getDescription() {
