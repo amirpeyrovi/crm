@@ -17,6 +17,8 @@ public interface ServiceInterface<T> {
 
     Page<T> findAllItem(Pageable pageable);
 
+    Page<T> findAllItemWithDeleted(Pageable pageable);
+
     T findOne(T t);
 
     T findById(Long id);
