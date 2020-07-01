@@ -11,7 +11,7 @@ public interface ServiceInterface<T> {
 
     T updateItem(T t) throws InvocationTargetException, IllegalAccessException;
 
-    List<T> deleteItem(T t);
+    T deleteItem(T t);
 
     List<T> findAllItem();
 
