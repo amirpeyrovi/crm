@@ -11,9 +11,9 @@ public class ServerParameterRestController implements RestControllerInterface {
     private ServerParameterService serverParameterService;
     private ServerParameterValidate serverParameterValidate;
 
-    @Autowired
-    public ServerParameterRestController(ServerParameterService serverParameterService, ServerParameterValidate serverParameterValidate) {
-        this.serverParameterService = serverParameterService;
-        this.serverParameterValidate = serverParameterValidate;
-    }
+    //@Autowired
+//    public ServerParameterRestController(ServerParameterService serverParameterService, ServerParameterValidate serverParameterValidate) {
+//        this.serverParameterService = serverParameterService;
+//        this.serverParameterValidate = serverParameterValidate;
+//    }
 }

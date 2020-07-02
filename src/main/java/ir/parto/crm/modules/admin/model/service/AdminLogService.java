@@ -39,9 +39,9 @@ public class AdminLogService implements ServiceInterface<AdminLog> {
 
     @Override
     @Transactional
-    public List<AdminLog> deleteItem(AdminLog adminLog) {
+    public AdminLog deleteItem(AdminLog adminLog) {
         this.adminLogRepository.delete(adminLog);
-        return this.adminLogRepository.findAll();
+        return adminLog;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class AdminLogService implements ServiceInterface<AdminLog> {
     @Override
     public Page<AdminLog> findAllItem(Pageable pageable) {
         return this.adminLogRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<AdminLog> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

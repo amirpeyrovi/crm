@@ -39,9 +39,9 @@ public class TicketWorkFlowService implements ServiceInterface<TicketWorkFlow> {
 
     @Override
     @Transactional
-    public List<TicketWorkFlow> deleteItem(TicketWorkFlow ticketWorkFlow) {
-        this.ticketWorkFlowRepository.delete(ticketWorkFlow);
-        return this.ticketWorkFlowRepository.findAll();
+    public TicketWorkFlow deleteItem(TicketWorkFlow ticketWorkFlow) {
+//        this.ticketWorkFlowRepository.delete(ticketWorkFlow);
+        return ticketWorkFlow;
     }
 
     @Override
@@ -51,6 +51,11 @@ public class TicketWorkFlowService implements ServiceInterface<TicketWorkFlow> {
 
     @Override
     public Page<TicketWorkFlow> findAllItem(Pageable pageable) {
+        return this.ticketWorkFlowRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<TicketWorkFlow> findAllItemWithDeleted(Pageable pageable) {
         return this.ticketWorkFlowRepository.findAll(pageable);
     }
 

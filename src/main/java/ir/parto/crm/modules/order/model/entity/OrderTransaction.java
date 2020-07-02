@@ -38,7 +38,7 @@ public class OrderTransaction implements Serializable {
     @CreationTimestamp
     private LocalDateTime createdDate;
 
-    @Column(name = "update_at", columnDefinition = "datetime")
+    @Column(name = "update_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 

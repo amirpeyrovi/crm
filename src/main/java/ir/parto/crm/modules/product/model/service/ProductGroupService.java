@@ -39,9 +39,9 @@ public class ProductGroupService implements ServiceInterface<ProductGroup> {
 
     @Override
     @Transactional
-    public List<ProductGroup> deleteItem(ProductGroup productGroup) {
+    public ProductGroup deleteItem(ProductGroup productGroup) {
         this.productGroupRepository.delete(productGroup);
-        return this.productGroupRepository.findAll();
+        return productGroup;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class ProductGroupService implements ServiceInterface<ProductGroup> {
     @Override
     public Page<ProductGroup> findAllItem(Pageable pageable) {
         return this.productGroupRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ProductGroup> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

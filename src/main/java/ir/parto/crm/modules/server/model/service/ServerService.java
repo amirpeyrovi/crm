@@ -39,9 +39,9 @@ public class ServerService implements ServiceInterface<Server> {
 
     @Override
     @Transactional
-    public List<Server> deleteItem(Server server) {
+    public Server deleteItem(Server server) {
         this.serverRepository.delete(server);
-        return this.serverRepository.findAll();
+        return server;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class ServerService implements ServiceInterface<Server> {
     @Override
     public Page<Server> findAllItem(Pageable pageable) {
         return this.serverRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Server> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

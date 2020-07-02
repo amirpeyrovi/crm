@@ -39,9 +39,9 @@ public class AdminService implements ServiceInterface<Admin> {
 
     @Override
     @Transactional
-    public List<Admin> deleteItem(Admin admin) {
+    public Admin deleteItem(Admin admin) {
         this.adminRepository.delete(admin);
-        return this.adminRepository.findAll();
+        return admin;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class AdminService implements ServiceInterface<Admin> {
     @Override
     public Page<Admin> findAllItem(Pageable pageable) {
         return this.adminRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Admin> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

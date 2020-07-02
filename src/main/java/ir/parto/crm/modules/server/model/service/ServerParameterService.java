@@ -39,9 +39,9 @@ public class ServerParameterService implements ServiceInterface<ServerParameter>
 
     @Override
     @Transactional
-    public List<ServerParameter> deleteItem(ServerParameter serverParameter) {
+    public ServerParameter deleteItem(ServerParameter serverParameter) {
         this.serverParameterRepository.delete(serverParameter);
-        return this.serverParameterRepository.findAll();
+        return serverParameter;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class ServerParameterService implements ServiceInterface<ServerParameter>
     @Override
     public Page<ServerParameter> findAllItem(Pageable pageable) {
         return this.serverParameterRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ServerParameter> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

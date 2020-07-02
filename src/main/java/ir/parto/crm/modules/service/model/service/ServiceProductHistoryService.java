@@ -40,9 +40,9 @@ public class ServiceProductHistoryService implements ServiceInterface<ServicePro
 
     @Override
     @Transactional
-    public List<ServiceProductHistory> deleteItem(ServiceProductHistory serviceProductHistory) {
+    public ServiceProductHistory deleteItem(ServiceProductHistory serviceProductHistory) {
         this.serviceProductHistoryRepository.delete(serviceProductHistory);
-        return this.serviceProductHistoryRepository.findAll();
+        return serviceProductHistory;
     }
 
     @Override
@@ -53,6 +53,11 @@ public class ServiceProductHistoryService implements ServiceInterface<ServicePro
     @Override
     public Page<ServiceProductHistory> findAllItem(Pageable pageable) {
         return this.serviceProductHistoryRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ServiceProductHistory> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

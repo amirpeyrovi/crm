@@ -39,9 +39,9 @@ public class TicketStateActionTypeService implements ServiceInterface<TicketStat
 
     @Override
     @Transactional
-    public List<TicketStateActionType> deleteItem(TicketStateActionType ticketStateActionType) {
+    public TicketStateActionType deleteItem(TicketStateActionType ticketStateActionType) {
         this.ticketStateActionTypeRepository.delete(ticketStateActionType);
-        return this.ticketStateActionTypeRepository.findAll();
+        return ticketStateActionType;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class TicketStateActionTypeService implements ServiceInterface<TicketStat
     @Override
     public Page<TicketStateActionType> findAllItem(Pageable pageable) {
         return this.ticketStateActionTypeRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<TicketStateActionType> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

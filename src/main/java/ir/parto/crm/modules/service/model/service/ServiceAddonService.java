@@ -39,9 +39,9 @@ public class ServiceAddonService implements ServiceInterface<ServiceAddon> {
 
     @Override
     @Transactional
-    public List<ServiceAddon> deleteItem(ServiceAddon serviceAddon) {
+    public ServiceAddon deleteItem(ServiceAddon serviceAddon) {
         this.serviceAddonRepository.delete(serviceAddon);
-        return this.serviceAddonRepository.findAll();
+        return serviceAddon;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class ServiceAddonService implements ServiceInterface<ServiceAddon> {
     @Override
     public Page<ServiceAddon> findAllItem(Pageable pageable) {
         return this.serviceAddonRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ServiceAddon> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

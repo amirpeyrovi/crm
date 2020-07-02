@@ -39,9 +39,9 @@ public class InvoiceService implements ServiceInterface<Invoice> {
 
     @Override
     @Transactional
-    public List<Invoice> deleteItem(Invoice invoice) {
+    public Invoice deleteItem(Invoice invoice) {
         this.invoiceRepository.delete(invoice);
-        return this.invoiceRepository.findAll();
+        return invoice;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class InvoiceService implements ServiceInterface<Invoice> {
     @Override
     public Page<Invoice> findAllItem(Pageable pageable) {
         return this.invoiceRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Invoice> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

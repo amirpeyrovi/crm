@@ -40,9 +40,9 @@ public class OrderTransactionService implements ServiceInterface<OrderTransactio
 
     @Override
     @Transactional
-    public List<OrderTransaction> deleteItem(OrderTransaction orderTransaction) {
+    public OrderTransaction deleteItem(OrderTransaction orderTransaction) {
         this.orderTransactionRepository.delete(orderTransaction);
-        return this.orderTransactionRepository.findAll();
+        return orderTransaction;
     }
 
     @Override
@@ -53,6 +53,11 @@ public class OrderTransactionService implements ServiceInterface<OrderTransactio
     @Override
     public Page<OrderTransaction> findAllItem(Pageable pageable) {
         return this.orderTransactionRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<OrderTransaction> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

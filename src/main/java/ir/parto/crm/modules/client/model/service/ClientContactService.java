@@ -39,9 +39,9 @@ public class ClientContactService implements ServiceInterface<ClientContact> {
 
     @Override
     @Transactional
-    public List<ClientContact> deleteItem(ClientContact clientContact) {
+    public ClientContact deleteItem(ClientContact clientContact) {
         this.clientContactRepository.delete(clientContact);
-        return this.clientContactRepository.findAll();
+        return clientContact;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class ClientContactService implements ServiceInterface<ClientContact> {
     @Override
     public Page<ClientContact> findAllItem(Pageable pageable) {
         return this.clientContactRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ClientContact> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

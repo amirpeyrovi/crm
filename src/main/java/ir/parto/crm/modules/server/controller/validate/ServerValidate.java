@@ -5,7 +5,9 @@ import ir.parto.crm.modules.server.model.service.ServerService;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ServerValidate implements ValidateInterface<Server> {
     private ServerService serverService;
 

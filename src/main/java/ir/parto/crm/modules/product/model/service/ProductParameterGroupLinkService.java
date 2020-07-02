@@ -39,9 +39,9 @@ public class ProductParameterGroupLinkService implements ServiceInterface<Produc
 
     @Override
     @Transactional
-    public List<ProductParameterGroupLink> deleteItem(ProductParameterGroupLink productParameterGroupLink) {
+    public ProductParameterGroupLink deleteItem(ProductParameterGroupLink productParameterGroupLink) {
         this.productParameterGroupLinkRepository.delete(productParameterGroupLink);
-        return this.productParameterGroupLinkRepository.findAll();
+        return productParameterGroupLink;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class ProductParameterGroupLinkService implements ServiceInterface<Produc
     @Override
     public Page<ProductParameterGroupLink> findAllItem(Pageable pageable) {
         return this.productParameterGroupLinkRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ProductParameterGroupLink> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

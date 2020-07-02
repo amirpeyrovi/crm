@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.product.model.service;
 
 import ir.parto.crm.modules.product.model.entity.Product;
+import ir.parto.crm.modules.product.model.entity.ProductGroup;
 import ir.parto.crm.modules.product.model.repository.ProductRepository;
 import ir.parto.crm.utils.MyBeanCopy;
 import ir.parto.crm.utils.interfaces.ServiceInterface;
@@ -39,9 +40,9 @@ public class ProductService implements ServiceInterface<Product> {
 
     @Override
     @Transactional
-    public List<Product> deleteItem(Product product) {
+    public Product deleteItem(Product product) {
         this.productRepository.delete(product);
-        return this.productRepository.findAll();
+        return product;
     }
 
     @Override
@@ -52,6 +53,11 @@ public class ProductService implements ServiceInterface<Product> {
     @Override
     public Page<Product> findAllItem(Pageable pageable) {
         return this.productRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Product> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override
@@ -71,4 +77,12 @@ public class ProductService implements ServiceInterface<Product> {
     public Boolean existsById(Long id) {
         return this.productRepository.existsById(id);
     }
+
+    public Product findByTitleAndProductGroup(String title, ProductGroup productGroup) {
+        if(this.productRepository.findByTitleAndProductGroup(title,productGroup) != null){
+            return this.productRepository.findByTitleAndProductGroup(title,productGroup);
+        }
+        return null;
+    }
+
 }

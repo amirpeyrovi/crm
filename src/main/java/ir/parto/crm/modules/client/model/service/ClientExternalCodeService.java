@@ -39,9 +39,9 @@ public class ClientExternalCodeService implements ServiceInterface<ClientExterna
 
     @Override
     @Transactional
-    public List<ClientExternalCode> deleteItem(ClientExternalCode clientExternalCode) {
+    public ClientExternalCode deleteItem(ClientExternalCode clientExternalCode) {
         this.clientExternalCodeRepository.delete(clientExternalCode);
-        return this.clientExternalCodeRepository.findAll();
+        return clientExternalCode;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class ClientExternalCodeService implements ServiceInterface<ClientExterna
     @Override
     public Page<ClientExternalCode> findAllItem(Pageable pageable) {
         return this.clientExternalCodeRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ClientExternalCode> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

@@ -39,9 +39,9 @@ public class ServerGroupService implements ServiceInterface<ServerGroup> {
 
     @Override
     @Transactional
-    public List<ServerGroup> deleteItem(ServerGroup serverGroup) {
+    public ServerGroup deleteItem(ServerGroup serverGroup) {
         this.serverGroupRepository.delete(serverGroup);
-        return this.serverGroupRepository.findAll();
+        return serverGroup;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class ServerGroupService implements ServiceInterface<ServerGroup> {
     @Override
     public Page<ServerGroup> findAllItem(Pageable pageable) {
         return this.serverGroupRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ServerGroup> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

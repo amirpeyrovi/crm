@@ -39,9 +39,9 @@ public class AdminRolePermissionService implements ServiceInterface<AdminRolePer
 
     @Override
     @Transactional
-    public List<AdminRolePermission> deleteItem(AdminRolePermission adminRolePermission) {
+    public AdminRolePermission deleteItem(AdminRolePermission adminRolePermission) {
         this.adminRolePermissionRepository.delete(adminRolePermission);
-        return this.adminRolePermissionRepository.findAll();
+        return adminRolePermission;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class AdminRolePermissionService implements ServiceInterface<AdminRolePer
     @Override
     public Page<AdminRolePermission> findAllItem(Pageable pageable) {
         return this.adminRolePermissionRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<AdminRolePermission> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

@@ -39,9 +39,9 @@ public class AdminRoleService implements ServiceInterface<AdminRole> {
 
     @Override
     @Transactional
-    public List<AdminRole> deleteItem(AdminRole adminRole) {
+    public AdminRole deleteItem(AdminRole adminRole) {
         this.adminRoleRepository.delete(adminRole);
-        return this.adminRoleRepository.findAll();
+        return adminRole;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class AdminRoleService implements ServiceInterface<AdminRole> {
     @Override
     public Page<AdminRole> findAllItem(Pageable pageable) {
         return this.adminRoleRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<AdminRole> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TicketStageRoleRepository extends JpaRepository<TicketStageRole, Long>, RepositoryInterface<TicketStageRole> {
+
 }

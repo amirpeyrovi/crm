@@ -39,9 +39,9 @@ public class ProductParameterGroupService implements ServiceInterface<ProductPar
 
     @Override
     @Transactional
-    public List<ProductParameterGroup> deleteItem(ProductParameterGroup productParameterGroup) {
+    public ProductParameterGroup deleteItem(ProductParameterGroup productParameterGroup) {
         this.productParameterGroupRepository.delete(productParameterGroup);
-        return this.productParameterGroupRepository.findAll();
+        return productParameterGroup;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class ProductParameterGroupService implements ServiceInterface<ProductPar
     @Override
     public Page<ProductParameterGroup> findAllItem(Pageable pageable) {
         return this.productParameterGroupRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ProductParameterGroup> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override
