@@ -19,11 +19,11 @@ public class ResellerCommission implements Serializable {
     private Long resellerCommissionId;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id", foreignKey = @ForeignKey(name = "reseller_history_admin_fk"))
+    @JoinColumn(name = "admin_id", foreignKey = @ForeignKey(name = "reseller_commission_admin_fk"))
     private Admin admin;
 
     @ManyToOne
-    @JoinColumn(name = "product_group_id", foreignKey = @ForeignKey(name = "reseller_history_product_group_fk"))
+    @JoinColumn(name = "product_group_id", foreignKey = @ForeignKey(name = "reseller_commission_product_group_fk"))
     private ProductGroup productGroup;
 
     @Column(name = "percentage", columnDefinition = "number(3)")

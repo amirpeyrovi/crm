@@ -21,7 +21,7 @@ public class TicketStageParameterValue implements Serializable {
     private Ticket ticket;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_stage_parameter_id", foreignKey = @ForeignKey(name = "ticket_stage_parameter_ticket_fk"))
+    @JoinColumn(name = "ticket_stage_parameter_id", foreignKey = @ForeignKey(name = "ticket_stage_parameter_ticket_stage_parameter_fk"))
     private TicketStageParameter ticketStageParameter;
 
     @Column(name = "value", columnDefinition = "nvarchar2(100)")

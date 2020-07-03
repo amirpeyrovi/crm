@@ -30,31 +30,31 @@ public class Client implements Serializable {
     @Column(name = "birth_date", columnDefinition = "TIMESTAMP(6)")
     private LocalDate birthDate;
 
-    @Column(name = "phone_number", columnDefinition = "nvarchar(32)")
+    @Column(name = "phone_number", columnDefinition = "nvarchar2(32)")
     private String phoneNumber;
 
-    @Column(name = "mobile_number", columnDefinition = "nvarchar(32)")
+    @Column(name = "mobile_number", columnDefinition = "nvarchar2(32)")
     private String mobileNumber;
 
-    @Column(name = "identity_type", columnDefinition = "nvarchar(32)")
+    @Column(name = "identity_type", columnDefinition = "nvarchar2(32)")
     private String identityType;
 
-    @Column(name = "identity_code1", columnDefinition = "nvarchar(32)")
+    @Column(name = "identity_code1", columnDefinition = "nvarchar2(32)")
     private String identityCode1;
 
-    @Column(name = "identity_code2", columnDefinition = "nvarchar(32)")
+    @Column(name = "identity_code2", columnDefinition = "nvarchar2(32)")
     private String identityCode2;
 
-    @Column(name = "identity_code3", columnDefinition = "nvarchar(32)")
+    @Column(name = "identity_code3", columnDefinition = "nvarchar2(32)")
     private String identityCode3;
 
-    @Column(name = "address", columnDefinition = "nvarchar(500)")
+    @Column(name = "address", columnDefinition = "nvarchar2(500)")
     private String address;
 
-    @Column(name = "address2", columnDefinition = "nvarchar(500)")
+    @Column(name = "address2", columnDefinition = "nvarchar2(500)")
     private String address2;
 
-    @Column(name = "email", columnDefinition = "nvarchar(100)")
+    @Column(name = "email", columnDefinition = "nvarchar2(100)")
     private String emailAddress;
 
     @Column(name = "is_reseller", columnDefinition = "number(1)")

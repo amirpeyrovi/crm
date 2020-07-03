@@ -28,7 +28,7 @@ public class AdminLog implements Serializable {
     @JoinColumn(name = "admin_id")
     private Admin admin;
 
-    @Column(name = "create_at", updatable = false, columnDefinition = "datetime")
+    @Column(name = "create_at", updatable = false, columnDefinition = "TIMESTAMP(6)")
     @CreationTimestamp
     private LocalDateTime createdDate;
 

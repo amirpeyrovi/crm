@@ -28,11 +28,11 @@ public class AdminRole implements Serializable {
     @Column(name = "update_by", columnDefinition = "nvarchar2(60)")
     private String updatedBy;
 
-    @Column(name = "create_at", updatable = false, columnDefinition = "datetime")
+    @Column(name = "create_at", updatable = false, columnDefinition = "TIMESTAMP(6)")
     @CreationTimestamp
     private LocalDateTime createdDate;
 
-    @Column(name = "update_at", columnDefinition = "datetime")
+    @Column(name = "update_at", columnDefinition = "TIMESTAMP(6)")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 

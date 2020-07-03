@@ -16,7 +16,7 @@ public class ClientCredit implements Serializable {
     private Long ClientCreditId;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "client_contact_fk"))
+    @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "client_credit_client_fk"))
     private Client client;
 
     @Column(name = "description", columnDefinition = "nvarchar2(100)")

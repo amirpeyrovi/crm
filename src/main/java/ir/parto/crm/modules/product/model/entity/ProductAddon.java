@@ -32,22 +32,22 @@ public class ProductAddon implements Serializable {
     private String cover;
 
     @ManyToOne
-    @JoinColumn(name = "product_group_id", foreignKey = @ForeignKey(name = "product_product_group_fk"))
+    @JoinColumn(name = "product_group_id", foreignKey = @ForeignKey(name = "product_addon_product_group_fk"))
     private ProductGroup productGroup;
 
     @ManyToOne
-    @JoinColumn(name = "server_group_id", foreignKey = @ForeignKey(name = "product_server_group_fk"))
+    @JoinColumn(name = "server_group_id", foreignKey = @ForeignKey(name = "product_addon_server_group_fk"))
     private ServerGroup serverGroup;
 
     @Column(name = "have_work_flow", columnDefinition = "number(1)")
     private Integer haveWorkFlow ;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "ticket_ticket_stage_fk"))
+    @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "product_addon_ticket_stage_fk"))
     private TicketStage ticketStage;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_state_id", foreignKey = @ForeignKey(name = "ticket_ticket_state_fk"))
+    @JoinColumn(name = "ticket_state_id", foreignKey = @ForeignKey(name = "product_addon_ticket_state_fk"))
     private TicketState ticketState;
 
     @Column(name = "have_tax", columnDefinition = "number(1)")

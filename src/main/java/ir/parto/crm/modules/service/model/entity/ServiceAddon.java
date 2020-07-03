@@ -21,19 +21,19 @@ public class ServiceAddon implements Serializable {
     private Long serviceId;
 
     @ManyToOne
-    @JoinColumn(name = "service_id", foreignKey = @ForeignKey(name = "service_product_history_service_fk"))
+    @JoinColumn(name = "service_id", foreignKey = @ForeignKey(name = "service_addon_service_fk"))
     private Service service;
 
     @ManyToOne
-    @JoinColumn(name = "product_addon", foreignKey = @ForeignKey(name = "service_product_addon_fk"))
+    @JoinColumn(name = "product_addon", foreignKey = @ForeignKey(name = "service_addon_product_addon_fk"))
     private ProductAddon productAddon;
 
     @ManyToOne
-    @JoinColumn(name = "product_cycle", foreignKey = @ForeignKey(name = "service_product_cycle_fk"))
+    @JoinColumn(name = "product_cycle", foreignKey = @ForeignKey(name = "service_addon_product_cycle_fk"))
     private ProductCycle productCycle;
 
     @ManyToOne
-    @JoinColumn(name = "server_id", foreignKey = @ForeignKey(name = "service_server_fk"))
+    @JoinColumn(name = "server_id", foreignKey = @ForeignKey(name = "service_addon_server_fk"))
     private Server server;
 
     @Column(name = "price", columnDefinition = "number(16,0)")

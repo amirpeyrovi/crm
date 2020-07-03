@@ -18,7 +18,7 @@ public class PromotionCode implements Serializable {
     private Long promotionCodeId;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "service_client_fk"))
+    @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "promotion_code_client_fk"))
     private Client client;
 
     @Column(name = "promotion_code", columnDefinition = "nvarchar2(32)")

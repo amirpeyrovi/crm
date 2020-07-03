@@ -43,11 +43,11 @@ public class Product implements Serializable {
     private Integer haveWorkFlow ;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "ticket_ticket_stage_fk"))
+    @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "product_ticket_stage_fk"))
     private TicketStage ticketStage;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_state_id", foreignKey = @ForeignKey(name = "ticket_ticket_state_fk"))
+    @JoinColumn(name = "ticket_state_id", foreignKey = @ForeignKey(name = "product_ticket_state_fk"))
     private TicketState ticketState;
 
     @Column(name = "have_tax", columnDefinition = "number(1)")
