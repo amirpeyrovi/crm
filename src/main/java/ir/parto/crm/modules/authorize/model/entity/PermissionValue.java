@@ -1,5 +1,4 @@
 package ir.parto.crm.modules.authorize.model.entity;
-import ir.parto.crm.modules.promotion.model.entity.PromotionCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
