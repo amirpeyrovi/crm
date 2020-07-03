@@ -1,7 +1,7 @@
 package ir.parto.crm.modules.client.controller.validate;
 
-import ir.parto.crm.modules.client.model.entity.Client;
-import ir.parto.crm.modules.client.model.service.ClientService;
+import ir.parto.crm.modules.client.model.entity.ClientContact;
+import ir.parto.crm.modules.client.model.service.ClientContactService;
 import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
@@ -11,33 +11,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ValidationAnnotation
-public class ClientValidate implements ValidateInterface<Client> {
-    private ClientService clientService;
+public class ClientContactValidate implements ValidateInterface<ClientContact> {
+    private ClientContactService clientContactService;
 
     @Autowired
-    public ClientValidate(ClientService clientService) {
-        this.clientService = clientService;
+    public ClientContactValidate(ClientContactService clientContactService) {
+        this.clientContactService = clientContactService;
     }
 
     @Override
-    public ValidateObject validateAddNewItem(Client client) {
+    public ValidateObject validateAddNewItem(ClientContact clientContact) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(client == null || client.getFirstName().isEmpty() || client.getFirstName() == null){
+        if(clientContact == null || clientContact.getClient() == null || clientContact.getClient().getClientId() == 0){
+            errorList.add("Client Id is required");
+        }
+        if(clientContact == null || clientContact.getFirstName().isEmpty() || clientContact.getFirstName() == null){
             errorList.add("First Name is required");
         }
-        if(client == null || client.getLastName().isEmpty() || client.getLastName() == null){
+        if(clientContact == null || clientContact.getLastName().isEmpty() || clientContact.getLastName() == null){
             errorList.add("Last Name is required");
         }
-        if(client == null || client.getBirthDate() == null){
-            errorList.add("Birth Date is required");
-        }
-        if(client == null || client.getMobileNumber().isEmpty() || client.getMobileNumber() == null){
+        if(clientContact == null || clientContact.getMobileNumber().isEmpty() || clientContact.getMobileNumber() == null){
             errorList.add("Mobile Number is required");
-        }
-        if(client == null || client.getEmailAddress().isEmpty() || client.getEmailAddress() == null){
-            errorList.add("Email is required");
         }
 
         validateObject.setCount(errorList.size());
@@ -52,24 +49,41 @@ public class ClientValidate implements ValidateInterface<Client> {
     }
 
     @Override
-    public ValidateObject validateUpdateItem(Client client) {
+    public ValidateObject validateUpdateItem(ClientContact clientContact) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(client == null || client.getFirstName().isEmpty() || client.getFirstName() == null){
+        if(clientContact == null || clientContact.getClient() == null || clientContact.getClient().getClientId() == 0){
+            errorList.add("Client Id is required");
+        }
+        if(clientContact == null || clientContact.getFirstName().isEmpty() || clientContact.getFirstName() == null){
             errorList.add("First Name is required");
         }
-        if(client == null || client.getLastName().isEmpty() || client.getLastName() == null){
+        if(clientContact == null || clientContact.getLastName().isEmpty() || clientContact.getLastName() == null){
             errorList.add("Last Name is required");
         }
-        if(client == null || client.getBirthDate() == null){
-            errorList.add("Birth Date is required");
-        }
-        if(client == null || client.getMobileNumber().isEmpty() || client.getMobileNumber() == null){
+        if(clientContact == null || clientContact.getMobileNumber().isEmpty() || clientContact.getMobileNumber() == null){
             errorList.add("Mobile Number is required");
         }
-        if(client == null || client.getEmailAddress().isEmpty() || client.getEmailAddress() == null){
-            errorList.add("Email is required");
+
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if(errorList.size()>0){
+            validateObject.setResult("error");
+        }else{
+            validateObject.setResult("success");
+        }
+
+        return validateObject;
+    }
+
+    @Override
+    public ValidateObject deleteItem(ClientContact clientContact) {
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+
+        if(!this.clientContactService.existsById(clientContact.getClientContactId())){
+            errorList.add("Contact Id not defined");
         }
 
         validateObject.setCount(errorList.size());
@@ -84,12 +98,12 @@ public class ClientValidate implements ValidateInterface<Client> {
     }
 
     @Override
-    public ValidateObject deleteItem(Client client) {
+    public ValidateObject findOne(ClientContact clientContact) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(!this.clientService.existsById(client.getClientId())){
-            errorList.add("Client Id not defined");
+        if(!this.clientContactService.existsById(clientContact.getClientContactId())){
+            errorList.add("Contact Id not defined");
         }
 
         validateObject.setCount(errorList.size());
@@ -104,32 +118,12 @@ public class ClientValidate implements ValidateInterface<Client> {
     }
 
     @Override
-    public ValidateObject findOne(Client client) {
+    public ValidateObject findById(ClientContact clientContact) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(!this.clientService.existsById(client.getClientId())){
-            errorList.add("ClientId not defined");
-        }
-
-        validateObject.setCount(errorList.size());
-        validateObject.setMessages(errorList);
-        if(errorList.size()>0){
-            validateObject.setResult("error");
-        }else{
-            validateObject.setResult("success");
-        }
-
-        return validateObject;
-    }
-
-    @Override
-    public ValidateObject findById(Client client) {
-        List<String> errorList = new ArrayList<>();
-        ValidateObject validateObject = new ValidateObject();
-
-        if(!this.clientService.existsById(client.getClientId())){
-            errorList.add("Client Id not defined");
+        if(!this.clientContactService.existsById(clientContact.getClientContactId())){
+            errorList.add("Contact Id not defined");
         }
 
         validateObject.setCount(errorList.size());

@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.client.model.service;
 
+import ir.parto.crm.modules.admin.model.entity.Admin;
 import ir.parto.crm.modules.client.model.entity.ClientExternalCode;
 import ir.parto.crm.modules.client.model.repository.ClientExternalCodeRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -7,10 +8,12 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -40,23 +43,27 @@ public class ClientExternalCodeService implements ServiceInterface<ClientExterna
     @Override
     @Transactional
     public ClientExternalCode deleteItem(ClientExternalCode clientExternalCode) {
-        this.clientExternalCodeRepository.delete(clientExternalCode);
+        Admin authentication = (Admin) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        clientExternalCode.setIsDeleted(1);
+        clientExternalCode.setDeletedAt(LocalDateTime.now());
+        clientExternalCode.setDeletedBy(authentication.getUsername());
+        this.clientExternalCodeRepository.save(clientExternalCode);
         return clientExternalCode;
     }
 
     @Override
     public List<ClientExternalCode> findAllItem() {
-        return this.clientExternalCodeRepository.findAll();
+        return this.clientExternalCodeRepository.findAllByIsDeletedIsNull();
     }
 
     @Override
     public Page<ClientExternalCode> findAllItem(Pageable pageable) {
-        return this.clientExternalCodeRepository.findAll(pageable);
+        return this.clientExternalCodeRepository.findAllByIsDeletedIsNull(pageable);
     }
 
     @Override
     public Page<ClientExternalCode> findAllItemWithDeleted(Pageable pageable) {
-        return null;
+        return this.clientExternalCodeRepository.findAll(pageable);
     }
 
     @Override
