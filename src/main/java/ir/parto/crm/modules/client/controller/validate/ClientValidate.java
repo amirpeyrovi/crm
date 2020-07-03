@@ -2,6 +2,7 @@ package ir.parto.crm.modules.client.controller.validate;
 
 import ir.parto.crm.modules.client.model.entity.Client;
 import ir.parto.crm.modules.client.model.service.ClientService;
+import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@ValidationAnnotation
 public class ClientValidate implements ValidateInterface<Client> {
     private ClientService clientService;
 
@@ -89,7 +90,7 @@ public class ClientValidate implements ValidateInterface<Client> {
         ValidateObject validateObject = new ValidateObject();
 
         if(!this.clientService.existsById(client.getClientId())){
-            errorList.add("ClientId not defined");
+            errorList.add("Client Id not defined");
         }
 
         validateObject.setCount(errorList.size());

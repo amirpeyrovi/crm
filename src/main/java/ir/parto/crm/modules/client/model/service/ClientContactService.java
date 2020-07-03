@@ -40,28 +40,32 @@ public class ClientContactService implements ServiceInterface<ClientContact> {
     @Override
     @Transactional
     public ClientContact deleteItem(ClientContact clientContact) {
-        this.clientContactRepository.delete(clientContact);
+        clientContact.setIsDeleted(1);
+        this.clientContactRepository.save(clientContact);
         return clientContact;
     }
 
     @Override
     public List<ClientContact> findAllItem() {
-        return this.clientContactRepository.findAll();
+        return this.clientContactRepository.findAllByIsDeletedIsNull();
     }
 
     @Override
     public Page<ClientContact> findAllItem(Pageable pageable) {
-        return this.clientContactRepository.findAll(pageable);
+        return this.clientContactRepository.findAllByIsDeletedIsNull(pageable);
     }
 
     @Override
     public Page<ClientContact> findAllItemWithDeleted(Pageable pageable) {
-        return null;
+        return this.clientContactRepository.findAll(pageable);
     }
 
     @Override
     public ClientContact findOne(ClientContact clientContact) {
-        return this.clientContactRepository.getOne(clientContact.getClientContactId());
+        if(this.clientContactRepository.existsById(clientContact.getClientContactId())){
+            return this.clientContactRepository.getOne(clientContact.getClientContactId());
+        }
+        return null;
     }
 
     @Override
