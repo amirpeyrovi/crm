@@ -62,12 +62,12 @@ public class ClientCredit implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private int isDeleted;
 
     public ClientCredit() {
     }
 
-    public ClientCredit(Client client, String description, String caption, String type, Long amountIn, Long amountOut, Long total, Long invoiceTransactionId, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public ClientCredit(Client client, String description, String caption, String type, Long amountIn, Long amountOut, Long total, Long invoiceTransactionId, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
         this.client = client;
         this.description = description;
         this.caption = caption;
@@ -205,11 +205,11 @@ public class ClientCredit implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public int getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

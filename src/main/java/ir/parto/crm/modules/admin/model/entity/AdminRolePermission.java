@@ -37,7 +37,7 @@ public class AdminRolePermission implements Serializable {
     @Column(name = "admin_permission_update", columnDefinition = "number(1)")
     private String admin_updatePerm;
 
-    @Column(name = "client_permission_delete", columnDefinition = "number(1)")
+    @Column(name = "admin_permission_delete", columnDefinition = "number(1)")
     private String admin_deletePerm;
 
     @Column(name = "admin_permission_view", columnDefinition = "number(1)")
