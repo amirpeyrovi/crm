@@ -32,9 +32,25 @@ public class ProductServerParameterValue implements Serializable {
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
 
-    @Column(name = "create_at", updatable = false, columnDefinition = "datetime")
+    @Column(name = "update_by", columnDefinition = "nvarchar2(60)")
+    private String updatedBy;
+
+    @Column(name = "deleted_by", columnDefinition = "nvarchar2(60)")
+    private String deletedBy;
+
+    @Column(name = "create_at", updatable = false, columnDefinition = "TIMESTAMP(6)")
     @CreationTimestamp
     private LocalDateTime createdDate;
+
+    @Column(name = "update_at", columnDefinition = "TIMESTAMP(6)")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at", columnDefinition = "TIMESTAMP(6)")
+    private LocalDateTime deletedAt;
+
+    @Column(name = "is_deleted", columnDefinition = "number(1)")
+    private LocalDateTime isDeleted;
 
     public ProductServerParameterValue() {
     }
@@ -93,5 +109,50 @@ public class ProductServerParameterValue implements Serializable {
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public ProductServerParameterValue setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+        return this;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public ProductServerParameterValue setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+        return this;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public ProductServerParameterValue setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+        return this;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public ProductServerParameterValue setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+        return this;
+    }
+
+    public LocalDateTime getIsDeleted() {
+        return isDeleted;
+    }
+
+    public ProductServerParameterValue setIsDeleted(LocalDateTime isDeleted) {
+        this.isDeleted = isDeleted;
+        return this;
     }
 }

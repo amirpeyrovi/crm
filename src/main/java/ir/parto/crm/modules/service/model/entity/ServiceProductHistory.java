@@ -28,7 +28,7 @@ public class ServiceProductHistory implements Serializable {
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
 
-    @Column(name = "create_at", updatable = false, columnDefinition = "datetime")
+    @Column(name = "create_at", updatable = false, columnDefinition = "TIMESTAMP(6)")
     @CreationTimestamp
     private LocalDateTime createdDate;
 

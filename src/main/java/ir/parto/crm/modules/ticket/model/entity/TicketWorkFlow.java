@@ -48,15 +48,15 @@ public class TicketWorkFlow implements Serializable {
     @Column(name = "deleted_by", columnDefinition = "nvarchar2(60)")
     private String deletedBy;
 
-    @Column(name = "create_at", updatable = false, columnDefinition = "datetime")
+    @Column(name = "create_at", updatable = false, columnDefinition = "TIMESTAMP(6)")
     @CreationTimestamp
     private LocalDateTime createdDate;
 
-    @Column(name = "update_at", columnDefinition = "datetime")
+    @Column(name = "update_at", columnDefinition = "TIMESTAMP(6)")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Column(name = "deleted_at", columnDefinition = "datetime")
+    @Column(name = "deleted_at", columnDefinition = "TIMESTAMP(6)")
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")

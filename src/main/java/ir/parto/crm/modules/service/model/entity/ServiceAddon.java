@@ -39,25 +39,25 @@ public class ServiceAddon implements Serializable {
     @Column(name = "price", columnDefinition = "number(16,0)")
     private Long price;
 
-    @Column(name = "order_date", columnDefinition = "date")
+    @Column(name = "order_date", columnDefinition = "TIMESTAMP(6)")
     private Long orderDate;
 
-    @Column(name = "start_cycle_date", columnDefinition = "date")
+    @Column(name = "start_cycle_date", columnDefinition = "TIMESTAMP(6)")
     private LocalDate startDate;
 
-    @Column(name = "end_cycle_date", columnDefinition = "date")
+    @Column(name = "end_cycle_date", columnDefinition = "TIMESTAMP(6)")
     private LocalDate endDate;
 
-    @Column(name = "contract_date", columnDefinition = "date")
+    @Column(name = "contract_date", columnDefinition = "TIMESTAMP(6)")
     private LocalDate contractDate;
 
-    @Column(name = "activation_date", columnDefinition = "date")
+    @Column(name = "activation_date", columnDefinition = "TIMESTAMP(6)")
     private LocalDate activationDate;
 
-    @Column(name = "termination_date", columnDefinition = "date")
+    @Column(name = "termination_date", columnDefinition = "TIMESTAMP(6)")
     private LocalDate terminationDate;
 
-    @Column(name = "suspension_date", columnDefinition = "date")
+    @Column(name = "suspension_date", columnDefinition = "TIMESTAMP(6)")
     private LocalDate suspensionDate;
 
     @Column(name = "status", columnDefinition = "nvarchar2(100)")
@@ -73,15 +73,15 @@ public class ServiceAddon implements Serializable {
     @Column(name = "deleted_by", columnDefinition = "nvarchar2(60)")
     private String deletedBy;
 
-    @Column(name = "create_at", updatable = false, columnDefinition = "datetime")
+    @Column(name = "create_at", updatable = false, columnDefinition = "TIMESTAMP(6)")
     @CreationTimestamp
     private LocalDateTime createdDate;
 
-    @Column(name = "update_at", columnDefinition = "datetime")
+    @Column(name = "update_at", columnDefinition = "TIMESTAMP(6)")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Column(name = "deleted_at", columnDefinition = "datetime")
+    @Column(name = "deleted_at", columnDefinition = "TIMESTAMP(6)")
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
