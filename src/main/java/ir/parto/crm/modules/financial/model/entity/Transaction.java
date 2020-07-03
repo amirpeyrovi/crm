@@ -53,12 +53,12 @@ public class Transaction implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private int isDeleted;
 
     public Transaction() {
     }
 
-    public Transaction(String gateway, String transId, String description, Long amountIn, Long amountOut, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public Transaction(String gateway, String transId, String description, Long amountIn, Long amountOut, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
         this.gateway = gateway;
         this.transId = transId;
         this.description = description;
@@ -169,11 +169,11 @@ public class Transaction implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public int getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

@@ -3,14 +3,22 @@ package ir.parto.crm.modules.admin.model.entity;
 import ir.parto.crm.modules.client.model.entity.Client;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "crm_admin")
-public class Admin implements Serializable {
+public class Admin implements UserDetails {
     @Id
     @Column(name = "id", columnDefinition = "number")
     @SequenceGenerator(name = "admin_seq", sequenceName = "admin_seq", allocationSize = 1)
@@ -35,6 +43,8 @@ public class Admin implements Serializable {
     @Column(name = "phone_number", columnDefinition = "nvarchar2(16)")
     private String phoneNumber;
 
+    private Boolean enabled = true;
+
     @ManyToOne
     @JoinColumn(name = "admin_role_id", foreignKey = @ForeignKey(name = "admin_role_fk"))
     private AdminRole adminRole;
@@ -45,7 +55,7 @@ public class Admin implements Serializable {
 
     // authority => [ADMIN, RESELLER, USER]
     @Column(name = "authority", columnDefinition = "nvarchar2(16)")
-    private String authority;
+    private Collection<? extends GrantedAuthority> authority;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -74,7 +84,7 @@ public class Admin implements Serializable {
     public Admin() {
     }
 
-    public Admin(String username, String password, String firstName, String lastName, String identifyCode, String phoneNumber, AdminRole adminRole, Client client, String authority, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public Admin(String username, String password, String firstName, String lastName, String identifyCode, String phoneNumber, AdminRole adminRole, Client client, Collection<? extends GrantedAuthority> authority, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -93,6 +103,12 @@ public class Admin implements Serializable {
         this.isDeleted = isDeleted;
     }
 
+    public Admin(Long adminId, String firstName, String lastName, String username, String password, List<GrantedAuthority> authorities) {
+    }
+
+    public Admin(String firstName, String username, String password) {
+    }
+
     public Long getAdminId() {
         return adminId;
     }
@@ -105,8 +121,33 @@ public class Admin implements Serializable {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
     public String getPassword() {
@@ -221,11 +262,18 @@ public class Admin implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public String getAuthority() {
-        return authority;
+    public static Admin create(Admin admin) {
+        List<GrantedAuthority> authorities = new ArrayList<String>(Arrays.asList("admin" , "client" , "reseller")).stream().map(role ->
+                new SimpleGrantedAuthority("admin")
+        ).collect(Collectors.toList());
+        return new Admin(
+                admin.getAdminId(),
+                admin.getFirstName(),
+                admin.getLastName(),
+                admin.getUsername(),
+                admin.getPassword(),
+                authorities
+        );
     }
 
-    public void setAuthority(String authority) {
-        this.authority = authority;
-    }
 }

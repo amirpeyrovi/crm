@@ -60,12 +60,12 @@ public class Server implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private int isDeleted;
 
     public Server() {
     }
 
-    public Server(String title, String address, String username, String password, Integer accessHash, Integer ssl, ServerGroup serverGroup, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public Server(String title, String address, String username, String password, Integer accessHash, Integer ssl, ServerGroup serverGroup, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
         this.title = title;
         this.address = address;
         this.username = username;
@@ -194,11 +194,11 @@ public class Server implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public int getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

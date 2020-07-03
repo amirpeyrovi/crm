@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.server.model.service;
 
+import ir.parto.crm.modules.admin.model.entity.Admin;
 import ir.parto.crm.modules.server.model.entity.ServerGroup;
 import ir.parto.crm.modules.server.model.repository.ServerGroupRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -7,10 +8,12 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -39,9 +42,12 @@ public class ServerGroupService implements ServiceInterface<ServerGroup> {
 
     @Override
     @Transactional
-    public List<ServerGroup> deleteItem(ServerGroup serverGroup) {
-        this.serverGroupRepository.delete(serverGroup);
-        return this.serverGroupRepository.findAll();
+    public ServerGroup deleteItem(ServerGroup serverGroup) {
+        Admin authentication = (Admin) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        serverGroup.setIsDeleted(1);
+        serverGroup.setDeletedAt(LocalDateTime.now());
+        serverGroup.setDeletedBy(authentication.getUsername());
+        return this.serverGroupRepository.save(serverGroup);
     }
 
     @Override
@@ -52,6 +58,11 @@ public class ServerGroupService implements ServiceInterface<ServerGroup> {
     @Override
     public Page<ServerGroup> findAllItem(Pageable pageable) {
         return this.serverGroupRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ServerGroup> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

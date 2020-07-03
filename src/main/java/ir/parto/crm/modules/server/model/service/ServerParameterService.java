@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.server.model.service;
 
+import ir.parto.crm.modules.admin.model.entity.Admin;
 import ir.parto.crm.modules.server.model.entity.ServerParameter;
 import ir.parto.crm.modules.server.model.repository.ServerParameterRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -7,10 +8,12 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -39,9 +42,12 @@ public class ServerParameterService implements ServiceInterface<ServerParameter>
 
     @Override
     @Transactional
-    public List<ServerParameter> deleteItem(ServerParameter serverParameter) {
-        this.serverParameterRepository.delete(serverParameter);
-        return this.serverParameterRepository.findAll();
+    public ServerParameter deleteItem(ServerParameter serverParameter) {
+        Admin authentication = (Admin) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        serverParameter.setIsDeleted(1);
+        serverParameter.setDeletedAt(LocalDateTime.now());
+        serverParameter.setDeletedBy(authentication.getUsername());
+        return this.serverParameterRepository.save(serverParameter);
     }
 
     @Override
@@ -52,6 +58,11 @@ public class ServerParameterService implements ServiceInterface<ServerParameter>
     @Override
     public Page<ServerParameter> findAllItem(Pageable pageable) {
         return this.serverParameterRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ServerParameter> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

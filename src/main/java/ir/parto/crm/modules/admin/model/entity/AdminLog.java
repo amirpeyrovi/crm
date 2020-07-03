@@ -32,6 +32,15 @@ public class AdminLog implements Serializable {
     @CreationTimestamp
     private LocalDateTime createdDate;
 
+    @Column(name = "deleted_by", columnDefinition = "nvarchar2(60)")
+    private String deletedBy;
+
+    @Column(name = "deleted_at", columnDefinition = "datetime")
+    private LocalDateTime deletedDate;
+
+    @Column(name = "is_deleted", columnDefinition = "number(1)")
+    private int isDeleted;
+
     public AdminLog() {
     }
 
@@ -89,5 +98,29 @@ public class AdminLog implements Serializable {
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
+    public LocalDateTime getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(LocalDateTime deletedDate) {
+        this.deletedDate = deletedDate;
+    }
+
+    public int getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

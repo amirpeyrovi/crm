@@ -22,15 +22,11 @@ public class AdminRole implements Serializable {
     @Column(name = "description", columnDefinition = "nvarchar2(500)")
     private String description;
 
-
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
 
     @Column(name = "update_by", columnDefinition = "nvarchar2(60)")
     private String updatedBy;
-
-    @Column(name = "deleted_by", columnDefinition = "nvarchar2(60)")
-    private String deletedBy;
 
     @Column(name = "create_at", updatable = false, columnDefinition = "datetime")
     @CreationTimestamp
@@ -40,16 +36,19 @@ public class AdminRole implements Serializable {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Column(name = "deleted_by", columnDefinition = "nvarchar2(60)")
+    private String deletedBy;
+
     @Column(name = "deleted_at", columnDefinition = "datetime")
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private int isDeleted;
 
     public AdminRole() {
     }
 
-    public AdminRole(String title, String description, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public AdminRole(String title, String description, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
         this.title = title;
         this.description = description;
         this.createdBy = createdBy;
@@ -133,11 +132,11 @@ public class AdminRole implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public int getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

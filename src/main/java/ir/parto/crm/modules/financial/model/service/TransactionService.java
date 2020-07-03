@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.financial.model.service;
 
+import ir.parto.crm.modules.admin.model.entity.Admin;
 import ir.parto.crm.modules.financial.model.entity.Transaction;
 import ir.parto.crm.modules.financial.model.repository.TransactionRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -7,10 +8,12 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -39,9 +42,12 @@ public class TransactionService implements ServiceInterface<Transaction> {
 
     @Override
     @Transactional
-    public List<Transaction> deleteItem(Transaction transaction) {
-        this.transactionRepository.delete(transaction);
-        return this.transactionRepository.findAll();
+    public Transaction deleteItem(Transaction transaction) {
+        Admin authentication = (Admin) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        transaction.setIsDeleted(1);
+        transaction.setDeletedAt(LocalDateTime.now());
+        transaction.setDeletedBy(authentication.getUsername());
+        return this.transactionRepository.save(transaction);
     }
 
     @Override
@@ -52,6 +58,11 @@ public class TransactionService implements ServiceInterface<Transaction> {
     @Override
     public Page<Transaction> findAllItem(Pageable pageable) {
         return this.transactionRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Transaction> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override
