@@ -78,7 +78,7 @@ public class OrderItem implements Serializable {
     private String deletedBy;
 
     @Column(name = "create_at", updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+//    @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private LocalDateTime createdDate;
 
