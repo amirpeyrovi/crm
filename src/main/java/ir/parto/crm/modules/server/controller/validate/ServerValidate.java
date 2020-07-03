@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @ValidationAnnotation
+@Component
 public class ServerValidate implements ValidateInterface<Server> {
     private ServerService serverService;
 

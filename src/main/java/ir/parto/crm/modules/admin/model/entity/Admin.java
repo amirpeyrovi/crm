@@ -55,6 +55,9 @@ public class Admin implements UserDetails {
 
     // authority => [ADMIN, RESELLER, USER]
     @Column(name = "authority", columnDefinition = "nvarchar2(16)")
+    private String auth;
+
+    @Transient
     private Collection<? extends GrantedAuthority> authority;
 
 
