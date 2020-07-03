@@ -32,7 +32,7 @@ public class Order implements Serializable {
     @Column(name = "price", columnDefinition = "number(16,0)")
     private Long price;
 
-    @Column(name = "promotion_price", columnDefinition = "number(16,0")
+    @Column(name = "promotion_price", columnDefinition = "number(16,0)")
     private Long promotionPrice;
 
     @Column(name = "tax", columnDefinition = "number(16,0)")

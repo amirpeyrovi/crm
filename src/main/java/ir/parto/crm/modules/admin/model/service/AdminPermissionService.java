@@ -35,9 +35,9 @@ public class AdminPermissionService implements ServiceInterface<AdminPermission>
     }
 
     @Override
-    public List<AdminPermission> deleteItem(AdminPermission adminPermission) {
+    public AdminPermission deleteItem(AdminPermission adminPermission) {
         this.adminPermissionRepository.delete(adminPermission);
-        return this.adminPermissionRepository.findAll();
+        return adminPermission;
     }
 
     @Override
@@ -48,6 +48,11 @@ public class AdminPermissionService implements ServiceInterface<AdminPermission>
     @Override
     public Page<AdminPermission> findAllItem(Pageable pageable) {
         return this.adminPermissionRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<AdminPermission> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

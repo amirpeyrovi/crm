@@ -39,9 +39,9 @@ public class TicketStageParameterValueService implements ServiceInterface<Ticket
 
     @Override
     @Transactional
-    public List<TicketStageParameterValue> deleteItem(TicketStageParameterValue ticketStageParameterValue) {
-        this.ticketStageParameterValueRepository.delete(ticketStageParameterValue);
-        return this.ticketStageParameterValueRepository.findAll();
+    public TicketStageParameterValue deleteItem(TicketStageParameterValue ticketStageParameterValue) {
+//        this.ticketStageParameterValueRepository.delete(ticketStageParameterValue);
+        return ticketStageParameterValue;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class TicketStageParameterValueService implements ServiceInterface<Ticket
     @Override
     public Page<TicketStageParameterValue> findAllItem(Pageable pageable) {
         return this.ticketStageParameterValueRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<TicketStageParameterValue> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

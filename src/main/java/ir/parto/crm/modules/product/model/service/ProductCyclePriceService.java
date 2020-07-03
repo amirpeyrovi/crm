@@ -39,9 +39,9 @@ public class ProductCyclePriceService implements ServiceInterface<ProductCyclePr
 
     @Override
     @Transactional
-    public List<ProductCyclePrice> deleteItem(ProductCyclePrice productCyclePrice) {
+    public ProductCyclePrice deleteItem(ProductCyclePrice productCyclePrice) {
         this.productCyclePriceRepository.delete(productCyclePrice);
-        return this.productCyclePriceRepository.findAll();
+        return productCyclePrice;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class ProductCyclePriceService implements ServiceInterface<ProductCyclePr
     @Override
     public Page<ProductCyclePrice> findAllItem(Pageable pageable) {
         return this.productCyclePriceRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ProductCyclePrice> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

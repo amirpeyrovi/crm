@@ -39,9 +39,9 @@ public class ClientCreditService implements ServiceInterface<ClientCredit> {
 
     @Override
     @Transactional
-    public List<ClientCredit> deleteItem(ClientCredit clientCredit) {
-        this.clientCreditRepository.delete(clientCredit);
-        return this.clientCreditRepository.findAll();
+    public ClientCredit deleteItem(ClientCredit clientCredit) {
+//        this.clientCreditRepository.delete(clientCredit);
+        return clientCredit;
     }
 
     @Override
@@ -51,6 +51,11 @@ public class ClientCreditService implements ServiceInterface<ClientCredit> {
 
     @Override
     public Page<ClientCredit> findAllItem(Pageable pageable) {
+        return this.clientCreditRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ClientCredit> findAllItemWithDeleted(Pageable pageable) {
         return this.clientCreditRepository.findAll(pageable);
     }
 

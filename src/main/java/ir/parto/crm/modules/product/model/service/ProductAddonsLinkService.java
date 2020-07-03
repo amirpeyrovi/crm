@@ -39,9 +39,9 @@ public class ProductAddonsLinkService implements ServiceInterface<ProductAddonsL
 
     @Override
     @Transactional
-    public List<ProductAddonsLink> deleteItem(ProductAddonsLink productAddonsLink) {
+    public ProductAddonsLink deleteItem(ProductAddonsLink productAddonsLink) {
         this.productAddonsLinkRepository.delete(productAddonsLink);
-        return this.productAddonsLinkRepository.findAll();
+        return productAddonsLink;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class ProductAddonsLinkService implements ServiceInterface<ProductAddonsL
     @Override
     public Page<ProductAddonsLink> findAllItem(Pageable pageable) {
         return this.productAddonsLinkRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ProductAddonsLink> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

@@ -38,9 +38,12 @@ public class ClientService implements ServiceInterface<Client> {
     }
 
     @Override
-    public List<Client> deleteItem(Client client) {
-        this.clientRepository.delete(client);
-        return this.clientRepository.findAll();
+    @Transactional
+    public Client deleteItem(Client client) {
+//        this.clientRepository.delete(client);
+        client.setIsDeleted(1);
+        this.clientRepository.save(client);
+        return client;
     }
 
     @Override
@@ -51,6 +54,11 @@ public class ClientService implements ServiceInterface<Client> {
     @Override
     public Page<Client> findAllItem(Pageable pageable) {
         return this.clientRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Client> findAllItemWithDeleted(Pageable pageable) {
+        return this.findAllItemWithDeleted(pageable);
     }
 
     @Override

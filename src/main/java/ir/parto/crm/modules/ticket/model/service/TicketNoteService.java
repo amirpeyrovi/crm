@@ -39,9 +39,9 @@ public class TicketNoteService implements ServiceInterface<TicketNote> {
 
     @Override
     @Transactional
-    public List<TicketNote> deleteItem(TicketNote ticketNote) {
+    public TicketNote deleteItem(TicketNote ticketNote) {
         this.ticketNoteRepository.delete(ticketNote);
-        return this.ticketNoteRepository.findAll();
+        return ticketNote;
     }
 
     @Override
@@ -52,6 +52,11 @@ public class TicketNoteService implements ServiceInterface<TicketNote> {
     @Override
     public Page<TicketNote> findAllItem(Pageable pageable) {
         return this.ticketNoteRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<TicketNote> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override

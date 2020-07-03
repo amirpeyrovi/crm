@@ -44,7 +44,7 @@ public class OrderItem implements Serializable {
     @Column(name = "price", columnDefinition = "number(16,0)")
     private Long price;
 
-    @Column(name = "promotion_price", columnDefinition = "number(16,0")
+    @Column(name = "promotion_price", columnDefinition = "number(16,0)")
     private Long promotionPrice;
 
     @Column(name = "tax", columnDefinition = "number(16,0)")
@@ -77,7 +77,8 @@ public class OrderItem implements Serializable {
     @Column(name = "deleted_by", columnDefinition = "nvarchar2(60)")
     private String deletedBy;
 
-    @Column(name = "create_at", updatable = false, columnDefinition = "datetime")
+    @Column(name = "create_at", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private LocalDateTime createdDate;
 

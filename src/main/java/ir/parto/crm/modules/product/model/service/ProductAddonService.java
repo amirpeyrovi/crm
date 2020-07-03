@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.product.model.service;
 
 import ir.parto.crm.modules.product.model.entity.ProductAddon;
+import ir.parto.crm.modules.product.model.entity.ProductGroup;
 import ir.parto.crm.modules.product.model.repository.ProductAddonRepository;
 import ir.parto.crm.utils.MyBeanCopy;
 import ir.parto.crm.utils.interfaces.ServiceInterface;
@@ -39,9 +40,9 @@ public class ProductAddonService implements ServiceInterface<ProductAddon> {
 
     @Override
     @Transactional
-    public List<ProductAddon> deleteItem(ProductAddon productAddon) {
-        this.productAddonRepository.delete(productAddon);
-        return this.productAddonRepository.findAll();
+    public ProductAddon deleteItem(ProductAddon productAddon) {
+//        this.productAddonRepository.delete(productAddon);
+        return productAddon;
     }
 
     @Override
@@ -52,6 +53,11 @@ public class ProductAddonService implements ServiceInterface<ProductAddon> {
     @Override
     public Page<ProductAddon> findAllItem(Pageable pageable) {
         return this.productAddonRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<ProductAddon> findAllItemWithDeleted(Pageable pageable) {
+        return null;
     }
 
     @Override
@@ -70,5 +76,12 @@ public class ProductAddonService implements ServiceInterface<ProductAddon> {
     @Override
     public Boolean existsById(Long id) {
         return this.productAddonRepository.existsById(id);
+    }
+
+    public ProductAddon findByTitleAndProductGroup(String title, ProductGroup productGroup) {
+        if(this.productAddonRepository.findByTitleAndProductGroup(title,productGroup) != null){
+            return this.productAddonRepository.findByTitleAndProductGroup(title,productGroup);
+        }
+        return null;
     }
 }
