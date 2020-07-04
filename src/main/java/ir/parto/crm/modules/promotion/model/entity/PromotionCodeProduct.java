@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 public class PromotionCodeProduct implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "promotion_seq", sequenceName = "promotion_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "promotion_seq")
+    @SequenceGenerator(name = "crm_promotion_seq", sequenceName = "crm_promotion_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_promotion_seq")
     private Long promotionCodeProductId;
 
     @ManyToOne
