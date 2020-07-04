@@ -81,7 +81,7 @@ public class ApiResponse {
         map.put("result",this.result);
         map.put("faultMessage",this.faultMessageList);
         map.put("faultCode",this.faultCode);
-        map.put("Timestamp",this.dateTimeFormatter);
+        map.put("Timestamp",this.dateTimeFormatter.format(now));
         return map;
     }
 
@@ -93,7 +93,7 @@ public class ApiResponse {
         }else{
             map.put("data",this.dataList);
         }
-        map.put("Timestamp",this.dateTimeFormatter);
+        map.put("Timestamp",this.dateTimeFormatter.format(now));
         return map;
     }
 }

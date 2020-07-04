@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -43,10 +44,10 @@ public class ClientService implements ServiceInterface<Client> {
     @Override
     @Transactional
     public Client deleteItem(Client client) {
-        Admin authentication = (Admin) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        Principal authentication =  SecurityContextHolder.getContext().getAuthentication();
         client.setIsDeleted(1);
         client.setDeletedAt(LocalDateTime.now());
-        client.setDeletedBy(authentication.getUsername());
+        client.setDeletedBy(authentication.getName());
         client.setIsDeleted(1);
         this.clientRepository.save(client);
         return client;
@@ -83,5 +84,9 @@ public class ClientService implements ServiceInterface<Client> {
     @Override
     public Boolean existsById(Long id) {
         return this.clientRepository.existsById(id);
+    }
+
+    public Client findByEmail(String email) {
+        return this.clientRepository.findByEmailAddress(email);
     }
 }

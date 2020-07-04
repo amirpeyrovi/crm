@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/V1/client")
+@RequestMapping("/v1/client")
 public class ClientRestController implements RestControllerInterface {
     private ClientService clientService;
     private ClientValidate clientValidate;
@@ -34,21 +34,27 @@ public class ClientRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = {"/page/{page}/size/{size}",""},method = RequestMethod.GET)
-    public Object findAllClient(@PathVariable(name = "page",required = false,value = "0") int page,
-                                @PathVariable(name="size",required = false,value = "25") int size){
+    public Object findAllClient(@PathVariable(name = "page",required = false) int page,
+                                @PathVariable(name="size",required = false) int size){
         ValidateObject validateObject = this.clientValidate.findAll();
         if(validateObject.getResult().equals("error")){
             return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
         }
+//        if(page == 0){
+//            page =1;
+//        }
+        if(size== 0){
+            size =25;
+        }
         Pageable pageable = PageRequest.of(page,size);
         Page<Client> clientList = this.clientService.findAllItem(pageable);
-        return new ApiResponse("success",clientList).getSuccessResponse();
+        return new ApiResponse("success",clientList.getContent()).getSuccessResponse();
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     public Object findOneClient(@PathVariable("id") long id){
         Client client = this.clientService.findById(id);
-        ValidateObject validateObject = this.clientValidate.findById(client);
+        ValidateObject validateObject = this.clientValidate.findOne(client);
         if(validateObject.getResult().equals("error")){
             return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
         }
@@ -56,7 +62,7 @@ public class ClientRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addClient(@RequestParam Client client){
+    public Object addClient(@RequestBody Client client){
         ValidateObject validateObject = this.clientValidate.validateAddNewItem(client);
         if(validateObject.getResult().equals("error")){
             return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
@@ -66,21 +72,18 @@ public class ClientRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
-    public Object deleteClient(@RequestParam("id") long id){
+    public Object deleteClient(@PathVariable("id") long id){
         Client client = this.clientService.findById(id);
-        ValidateObject validateObject = this.clientValidate.findById(client);
+        ValidateObject validateObject = this.clientValidate.findOne(client);
         if(validateObject.getResult().equals("error")){
             return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
         }
-//        Principal principal = SecurityContextHolder.getContext().getAuthentication();
-//        client.setDeletedBy(principal.getName());
-//        client.setDeletedAt(LocalDateTime.now());
         this.clientService.deleteItem(client);
         return new ApiResponse("success", Arrays.asList(client)).getSuccessResponse();
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
-    public Object updateClient(@RequestParam("id") long id){
+    public Object updateClient(@PathVariable("id") long id){
         Client client = this.clientService.findById(id);
         ValidateObject validateObject = this.clientValidate.validateUpdateItem(client);
         if(validateObject.getResult().equals("error")){
