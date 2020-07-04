@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 public class Vendor implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "port_seq", sequenceName = "port_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "port_seq")
+    @SequenceGenerator(name = "crm_port_seq", sequenceName = "crm_port_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_port_seq")
     private Long vendorId;
 
     @Column(name = "title", columnDefinition = "nvarchar2(100)")
