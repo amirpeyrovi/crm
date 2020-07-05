@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.dataCenter.model.entity;
 
+import ir.parto.crm.modules.service.model.entity.Service;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -8,19 +9,21 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_datacenter")
-public class DataCenter implements Serializable {
+@Table(name = "crm_datacenter_server_service_link")
+public class DataCenterServerServiceLink implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
     @SequenceGenerator(name = "crm_datacenter_seq", sequenceName = "crm_datacenter_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_datacenter_seq")
-    private Long dataCenterId;
+    private Long serverServiceLinkId;
 
-    @Column(name = "title", columnDefinition = "nvarchar2(100)")
-    private String title;
+    @ManyToOne
+    @JoinColumn(name = "datacenter_server_id", foreignKey = @ForeignKey(name = "datacenter_server_service_link_datacenter_server_fk"))
+    private DataCenterServer dataCenterServer;
 
-    @Column(name = "company", columnDefinition = "nvarchar2(100)")
-    private String company;
+    @ManyToOne
+    @JoinColumn(name = "datacenter_service_id", foreignKey = @ForeignKey(name = "datacenter_server_service_link_datacenter_service_fk"))
+    private Service service;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -46,12 +49,12 @@ public class DataCenter implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public DataCenter() {
+    public DataCenterServerServiceLink() {
     }
 
-    public DataCenter(String title, String company, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
-        this.title = title;
-        this.company = company;
+    public DataCenterServerServiceLink(DataCenterServer dataCenterServer, Service service, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+        this.dataCenterServer = dataCenterServer;
+        this.service = service;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -61,28 +64,28 @@ public class DataCenter implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getDataCenterId() {
-        return dataCenterId;
+    public Long getServerServiceLinkId() {
+        return serverServiceLinkId;
     }
 
-    public void setDataCenterId(Long dataCenterId) {
-        this.dataCenterId = dataCenterId;
+    public void setServerServiceLinkId(Long serverServiceLinkId) {
+        this.serverServiceLinkId = serverServiceLinkId;
     }
 
-    public String getTitle() {
-        return title;
+    public DataCenterServer getDataCenterServer() {
+        return dataCenterServer;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDataCenterServer(DataCenterServer dataCenterServer) {
+        this.dataCenterServer = dataCenterServer;
     }
 
-    public String getCompany() {
-        return company;
+    public Service getService() {
+        return service;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setService(Service service) {
+        this.service = service;
     }
 
     public String getCreatedBy() {

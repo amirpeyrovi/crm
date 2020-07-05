@@ -8,19 +8,30 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_datacenter")
-public class DataCenter implements Serializable {
+@Table(name = "crm_datacenter_server_config")
+public class DataCenterServerConfig implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
     @SequenceGenerator(name = "crm_datacenter_seq", sequenceName = "crm_datacenter_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_datacenter_seq")
-    private Long dataCenterId;
+    private Long configId;
+
+    @ManyToOne
+    @JoinColumn(name = "datacenter_server_config_group_id", foreignKey = @ForeignKey(name = "datacenter_server_config_datacenter_server_config_group_fk"))
+    private DataCenterServerConfigGroup dataCenterServerConfigGroup;
 
     @Column(name = "title", columnDefinition = "nvarchar2(100)")
     private String title;
 
-    @Column(name = "company", columnDefinition = "nvarchar2(100)")
-    private String company;
+    @Column(name = "description", columnDefinition = "nvarchar2(100)")
+    private String description;
+
+    // type => [1: text, 2: dropdown, 3: date]
+    @Column(name = "type", columnDefinition = "number(1)")
+    private String type;
+
+    @Column(name = "options", columnDefinition = "nvarchar2(200)")
+    private String options;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -46,12 +57,15 @@ public class DataCenter implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public DataCenter() {
+    public DataCenterServerConfig() {
     }
 
-    public DataCenter(String title, String company, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+    public DataCenterServerConfig(DataCenterServerConfigGroup dataCenterServerConfigGroup, String title, String description, String type, String options, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+        this.dataCenterServerConfigGroup = dataCenterServerConfigGroup;
         this.title = title;
-        this.company = company;
+        this.description = description;
+        this.type = type;
+        this.options = options;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -61,12 +75,20 @@ public class DataCenter implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getDataCenterId() {
-        return dataCenterId;
+    public Long getConfigId() {
+        return configId;
     }
 
-    public void setDataCenterId(Long dataCenterId) {
-        this.dataCenterId = dataCenterId;
+    public void setConfigId(Long configId) {
+        this.configId = configId;
+    }
+
+    public DataCenterServerConfigGroup getDataCenterServerConfigGroup() {
+        return dataCenterServerConfigGroup;
+    }
+
+    public void setDataCenterServerConfigGroup(DataCenterServerConfigGroup dataCenterServerConfigGroup) {
+        this.dataCenterServerConfigGroup = dataCenterServerConfigGroup;
     }
 
     public String getTitle() {
@@ -77,12 +99,28 @@ public class DataCenter implements Serializable {
         this.title = title;
     }
 
-    public String getCompany() {
-        return company;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getOptions() {
+        return options;
+    }
+
+    public void setOptions(String options) {
+        this.options = options;
     }
 
     public String getCreatedBy() {

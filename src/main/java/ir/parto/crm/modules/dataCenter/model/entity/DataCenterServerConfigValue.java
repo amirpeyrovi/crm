@@ -8,19 +8,24 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_datacenter")
-public class DataCenter implements Serializable {
+@Table(name = "crm_datacenter_server_config_value")
+public class DataCenterServerConfigValue implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
     @SequenceGenerator(name = "crm_datacenter_seq", sequenceName = "crm_datacenter_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_datacenter_seq")
-    private Long dataCenterId;
+    private Long configValueId;
 
-    @Column(name = "title", columnDefinition = "nvarchar2(100)")
-    private String title;
+    @ManyToOne
+    @JoinColumn(name = "datacenter_server_config_id", foreignKey = @ForeignKey(name = "datacenter_server_config_value_datacenter_server_config_fk"))
+    private DataCenterServerConfigGroup dataCenterServerConfigGroup;
 
-    @Column(name = "company", columnDefinition = "nvarchar2(100)")
-    private String company;
+    @ManyToOne
+    @JoinColumn(name = "datacenter_server_id", foreignKey = @ForeignKey(name = "datacenter_server_config_value_datacenter_server_fk"))
+    private DataCenterServer dataCenterServer;
+
+    @Column(name = "value", columnDefinition = "nvarchar2(100)")
+    private String value;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -46,12 +51,13 @@ public class DataCenter implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public DataCenter() {
+    public DataCenterServerConfigValue() {
     }
 
-    public DataCenter(String title, String company, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
-        this.title = title;
-        this.company = company;
+    public DataCenterServerConfigValue(DataCenterServerConfigGroup dataCenterServerConfigGroup, DataCenterServer dataCenterServer, String value, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+        this.dataCenterServerConfigGroup = dataCenterServerConfigGroup;
+        this.dataCenterServer = dataCenterServer;
+        this.value = value;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -61,28 +67,36 @@ public class DataCenter implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getDataCenterId() {
-        return dataCenterId;
+    public Long getConfigId() {
+        return configValueId;
     }
 
-    public void setDataCenterId(Long dataCenterId) {
-        this.dataCenterId = dataCenterId;
+    public void setConfigId(Long configValueId) {
+        this.configValueId = configValueId;
     }
 
-    public String getTitle() {
-        return title;
+    public DataCenterServerConfigGroup getDataCenterServerConfigGroup() {
+        return dataCenterServerConfigGroup;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDataCenterServerConfigGroup(DataCenterServerConfigGroup dataCenterServerConfigGroup) {
+        this.dataCenterServerConfigGroup = dataCenterServerConfigGroup;
     }
 
-    public String getCompany() {
-        return company;
+    public DataCenterServer getDataCenterServer() {
+        return dataCenterServer;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setDataCenterServer(DataCenterServer dataCenterServer) {
+        this.dataCenterServer = dataCenterServer;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public String getCreatedBy() {

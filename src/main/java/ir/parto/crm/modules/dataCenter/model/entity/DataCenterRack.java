@@ -8,19 +8,26 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_datacenter")
-public class DataCenter implements Serializable {
+@Table(name = "crm_datacenter_rack")
+public class DataCenterRack implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
     @SequenceGenerator(name = "crm_datacenter_seq", sequenceName = "crm_datacenter_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_datacenter_seq")
-    private Long dataCenterId;
+    private Long rackId;
+
+    @ManyToOne
+    @JoinColumn(name = "datacenter_id", foreignKey = @ForeignKey(name = "datacenter_rack_datacenter_fk"))
+    private DataCenter dataCenter;
 
     @Column(name = "title", columnDefinition = "nvarchar2(100)")
     private String title;
 
-    @Column(name = "company", columnDefinition = "nvarchar2(100)")
-    private String company;
+    @Column(name = "rack_number", columnDefinition = "number(4)")
+    private Integer rackNumber;
+
+    @Column(name = "total_unit", columnDefinition = "number(4)")
+    private Integer totalUnit;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -46,12 +53,14 @@ public class DataCenter implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public DataCenter() {
+    public DataCenterRack() {
     }
 
-    public DataCenter(String title, String company, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+    public DataCenterRack(DataCenter dataCenter, String title, Integer rackNumber, Integer totalUnit, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+        this.dataCenter = dataCenter;
         this.title = title;
-        this.company = company;
+        this.rackNumber = rackNumber;
+        this.totalUnit = totalUnit;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -61,12 +70,20 @@ public class DataCenter implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getDataCenterId() {
-        return dataCenterId;
+    public Long getRackId() {
+        return rackId;
     }
 
-    public void setDataCenterId(Long dataCenterId) {
-        this.dataCenterId = dataCenterId;
+    public void setRackId(Long rackId) {
+        this.rackId = rackId;
+    }
+
+    public DataCenter getDataCenter() {
+        return dataCenter;
+    }
+
+    public void setDataCenter(DataCenter dataCenter) {
+        this.dataCenter = dataCenter;
     }
 
     public String getTitle() {
@@ -77,12 +94,20 @@ public class DataCenter implements Serializable {
         this.title = title;
     }
 
-    public String getCompany() {
-        return company;
+    public Integer getRackNumber() {
+        return rackNumber;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setRackNumber(Integer rackNumber) {
+        this.rackNumber = rackNumber;
+    }
+
+    public Integer getTotalUnit() {
+        return totalUnit;
+    }
+
+    public void setTotalUnit(Integer totalUnit) {
+        this.totalUnit = totalUnit;
     }
 
     public String getCreatedBy() {

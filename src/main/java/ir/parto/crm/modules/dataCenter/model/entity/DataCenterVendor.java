@@ -8,19 +8,23 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_datacenter")
-public class DataCenter implements Serializable {
+@Table(name = "crm_datacenter_vendor")
+public class DataCenterVendor implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
     @SequenceGenerator(name = "crm_datacenter_seq", sequenceName = "crm_datacenter_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_datacenter_seq")
-    private Long dataCenterId;
+    private Long vendorId;
 
     @Column(name = "title", columnDefinition = "nvarchar2(100)")
     private String title;
 
-    @Column(name = "company", columnDefinition = "nvarchar2(100)")
-    private String company;
+    @Column(name = "model", columnDefinition = "nvarchar2(100)")
+    private String model;
+
+    // type => [1: server, 2: switch]
+    @Column(name = "type", columnDefinition = "number(1)")
+    private Integer type;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -46,12 +50,13 @@ public class DataCenter implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public DataCenter() {
+    public DataCenterVendor() {
     }
 
-    public DataCenter(String title, String company, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+    public DataCenterVendor(String title, String model, Integer type, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
         this.title = title;
-        this.company = company;
+        this.model = model;
+        this.type = type;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -61,12 +66,12 @@ public class DataCenter implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getDataCenterId() {
-        return dataCenterId;
+    public Long getVendorId() {
+        return vendorId;
     }
 
-    public void setDataCenterId(Long dataCenterId) {
-        this.dataCenterId = dataCenterId;
+    public void setVendorId(Long vendorId) {
+        this.vendorId = vendorId;
     }
 
     public String getTitle() {
@@ -77,12 +82,20 @@ public class DataCenter implements Serializable {
         this.title = title;
     }
 
-    public String getCompany() {
-        return company;
+    public String getModel() {
+        return model;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public String getCreatedBy() {

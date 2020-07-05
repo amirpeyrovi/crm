@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.dataCenter.model.entity;
 
+import ir.parto.crm.modules.popSite.model.entity.PopSiteSwitch;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -8,19 +9,24 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_datacenter")
-public class DataCenter implements Serializable {
+@Table(name = "crm_datacenter_switch_port")
+public class DataCenterSwitchPort implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "crm_datacenter_seq", sequenceName = "crm_datacenter_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_datacenter_seq")
-    private Long dataCenterId;
+    @SequenceGenerator(name = "crm_popsite_seq", sequenceName = "crm_popsite_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_popsite_seq")
+    private Long portId;
 
-    @Column(name = "title", columnDefinition = "nvarchar2(100)")
-    private String title;
+    @ManyToOne
+    @JoinColumn(name = "datacenter_switch_id", foreignKey = @ForeignKey(name = "datacenter_port_datacenter_switch_fk"))
+    private DataCenterSwitch dataCenterSwitch;
 
-    @Column(name = "company", columnDefinition = "nvarchar2(100)")
-    private String company;
+    // status => [1: active, 2: deActive, 3: reserved, 4: sold]
+    @Column(name = "status", columnDefinition = "number(1)")
+    private Integer status;
+
+    @Column(name = "port_number", columnDefinition = "number(4)")
+    private Integer number;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -46,12 +52,13 @@ public class DataCenter implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public DataCenter() {
+    public DataCenterSwitchPort() {
     }
 
-    public DataCenter(String title, String company, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
-        this.title = title;
-        this.company = company;
+    public DataCenterSwitchPort(DataCenterSwitch dataCenterSwitch, Integer status, Integer number, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+        this.dataCenterSwitch = dataCenterSwitch;
+        this.status = status;
+        this.number = number;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -61,28 +68,36 @@ public class DataCenter implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getDataCenterId() {
-        return dataCenterId;
+    public Long getPortId() {
+        return portId;
     }
 
-    public void setDataCenterId(Long dataCenterId) {
-        this.dataCenterId = dataCenterId;
+    public void setPortId(Long portId) {
+        this.portId = portId;
     }
 
-    public String getTitle() {
-        return title;
+    public DataCenterSwitch getDataCenterSwitch() {
+        return dataCenterSwitch;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDataCenterSwitch(DataCenterSwitch dataCenterSwitch) {
+        this.dataCenterSwitch = dataCenterSwitch;
     }
 
-    public String getCompany() {
-        return company;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public String getCreatedBy() {

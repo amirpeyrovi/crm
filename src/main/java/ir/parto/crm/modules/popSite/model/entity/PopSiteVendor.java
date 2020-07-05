@@ -8,24 +8,19 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_popsite_radio")
-public class PopSiteRadio implements Serializable {
+@Table(name = "crm_popsite_vendor")
+public class PopSiteVendor implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
     @SequenceGenerator(name = "crm_popsite_seq", sequenceName = "crm_popsite_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_popsite_seq")
-    private Long radioId;
+    private Long vendorId;
 
     @Column(name = "title", columnDefinition = "nvarchar2(100)")
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "vendor", foreignKey = @ForeignKey(name = "popsite_radio_popsite_vendor_fk"))
-    private PopSiteVendor popSiteVendor;
-
-    @ManyToOne
-    @JoinColumn(name = "popsite_port_id", foreignKey = @ForeignKey(name = "popsite_radio_popsite_port_fk"))
-    private PopSitePort popSitePort;
+    @Column(name = "model", columnDefinition = "nvarchar2(100)")
+    private String model;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
