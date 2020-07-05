@@ -24,6 +24,7 @@ public class PopSitePortService implements ServiceInterface<PopSitePort> {
     @Override
     @Transactional
     public PopSitePort addNewItem(PopSitePort popSitePort) {
+        popSitePort.setCreatedBy("");
         return this.popSitePortRepository.save(popSitePort);
     }
 
@@ -33,6 +34,7 @@ public class PopSitePortService implements ServiceInterface<PopSitePort> {
         PopSitePort exist = this.popSitePortRepository.findByIsDeletedIsNullAndPortId(popSitePort.getPortId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, popSitePort);
+        exist.setUpdatedBy("");
         return this.popSitePortRepository.save(exist);
     }
 

@@ -26,6 +26,7 @@ public class PopSiteTowerBranchService implements ServiceInterface<PopSiteTowerB
     @Override
     @Transactional
     public PopSiteTowerBranch addNewItem(PopSiteTowerBranch popSiteTowerBranch) {
+        popSiteTowerBranch.setCreatedBy("");
         return this.popSiteTowerBranchRepository.save(popSiteTowerBranch);
     }
 
@@ -35,6 +36,7 @@ public class PopSiteTowerBranchService implements ServiceInterface<PopSiteTowerB
         PopSiteTowerBranch exist = this.popSiteTowerBranchRepository.findByIsDeletedIsNullAndBranchId(popSiteTowerBranch.getBranchId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, popSiteTowerBranch);
+        exist.setUpdatedBy("");
         return this.popSiteTowerBranchRepository.save(exist);
     }
 

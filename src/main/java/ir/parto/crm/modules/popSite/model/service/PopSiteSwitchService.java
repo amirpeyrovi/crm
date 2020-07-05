@@ -26,6 +26,7 @@ public class PopSiteSwitchService implements ServiceInterface<PopSiteSwitch> {
     @Override
     @Transactional
     public PopSiteSwitch addNewItem(PopSiteSwitch popSiteSwitch) {
+        popSiteSwitch.setCreatedBy("");
         return this.popSiteSwitchRepository.save(popSiteSwitch);
     }
 
@@ -35,6 +36,7 @@ public class PopSiteSwitchService implements ServiceInterface<PopSiteSwitch> {
         PopSiteSwitch exist = this.popSiteSwitchRepository.findByIsDeletedIsNullAndSwitchId(popSiteSwitch.getSwitchId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, popSiteSwitch);
+        exist.setUpdatedBy("");
         return this.popSiteSwitchRepository.save(exist);
     }
 

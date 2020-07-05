@@ -26,16 +26,18 @@ public class PopSiteRackService implements ServiceInterface<PopSiteRack> {
     @Override
     @Transactional
     public PopSiteRack addNewItem(PopSiteRack popSiteRack) {
+        popSiteRack.setCreatedBy("");
         return this.popSiteRackRepository.save(popSiteRack);
     }
 
     @Override
     @Transactional
     public PopSiteRack updateItem(PopSiteRack popSiteRack) throws InvocationTargetException, IllegalAccessException {
-        PopSiteRack exit = this.popSiteRackRepository.findByIsDeletedIsNullAndRackId(popSiteRack.getRackId());
+        PopSiteRack exist = this.popSiteRackRepository.findByIsDeletedIsNullAndRackId(popSiteRack.getRackId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
-        myBeanCopy.copyProperties(exit, popSiteRack);
-        return this.popSiteRackRepository.save(exit);
+        myBeanCopy.copyProperties(exist, popSiteRack);
+        exist.setUpdatedBy("");
+        return this.popSiteRackRepository.save(exist);
     }
 
     @Override

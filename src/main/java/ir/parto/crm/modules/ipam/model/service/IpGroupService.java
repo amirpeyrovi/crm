@@ -26,6 +26,7 @@ public class IpGroupService implements ServiceInterface<IpGroup> {
     @Override
     @Transactional
     public IpGroup addNewItem(IpGroup ipGroup) {
+        ipGroup.setCreatedBy("");
         return this.ipGroupRepository.save(ipGroup);
     }
 
@@ -35,6 +36,7 @@ public class IpGroupService implements ServiceInterface<IpGroup> {
         IpGroup exist = this.ipGroupRepository.findByIsDeletedIsNullAndIpGroupId(ipGroup.getIpGroupId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ipGroup);
+        exist.setUpdatedBy("");
         return this.ipGroupRepository.save(exist);
     }
 

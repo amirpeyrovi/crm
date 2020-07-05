@@ -26,6 +26,7 @@ public class PopSiteTowerService implements ServiceInterface<PopSiteTower> {
     @Override
     @Transactional
     public PopSiteTower addNewItem(PopSiteTower popSiteTower) {
+        popSiteTower.setCreatedBy("");
         return this.popSiteTowerRepository.save(popSiteTower);
     }
 
@@ -35,6 +36,7 @@ public class PopSiteTowerService implements ServiceInterface<PopSiteTower> {
         PopSiteTower exist = this.popSiteTowerRepository.findByIsDeletedIsNullAndTowerId(popSiteTower.getTowerId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, popSiteTower);
+        exist.setUpdatedBy("");
         return this.popSiteTowerRepository.save(exist);
     }
 

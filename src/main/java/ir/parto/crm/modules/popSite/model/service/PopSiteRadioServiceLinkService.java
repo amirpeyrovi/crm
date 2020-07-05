@@ -26,6 +26,7 @@ public class PopSiteRadioServiceLinkService implements ServiceInterface<PopSiteR
     @Override
     @Transactional
     public PopSiteRadioServiceLink addNewItem(PopSiteRadioServiceLink popSiteRadioServiceLink) {
+        popSiteRadioServiceLink.setCreatedBy("");
         return this.popSiteRadioServiceLinkRepository.save(popSiteRadioServiceLink);
     }
 
@@ -35,6 +36,7 @@ public class PopSiteRadioServiceLinkService implements ServiceInterface<PopSiteR
         PopSiteRadioServiceLink exist = this.popSiteRadioServiceLinkRepository.findByIsDeletedIsNullAndRadioServiceLinkId(popSiteRadioServiceLink.getRadioServiceLinkId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, popSiteRadioServiceLink);
+        exist.setUpdatedBy("");
         return this.popSiteRadioServiceLinkRepository.save(exist);
     }
 

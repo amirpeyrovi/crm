@@ -26,6 +26,7 @@ public class IpAddressService implements ServiceInterface<IpAddress> {
     @Override
     @Transactional
     public IpAddress addNewItem(IpAddress ipAddress) {
+        ipAddress.setCreatedBy("");
         return this.ipAddressRepository.save(ipAddress);
     }
 
@@ -35,6 +36,7 @@ public class IpAddressService implements ServiceInterface<IpAddress> {
         IpAddress exist = this.ipAddressRepository.findByIsDeletedIsNullAndIpAddressId(ipAddress.getIpAddressId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ipAddress);
+        exist.setUpdatedBy("");
         return this.ipAddressRepository.save(exist);
     }
 

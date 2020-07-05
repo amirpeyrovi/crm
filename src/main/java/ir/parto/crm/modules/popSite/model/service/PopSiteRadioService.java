@@ -26,6 +26,7 @@ public class PopSiteRadioService implements ServiceInterface<PopSiteRadio> {
     @Override
     @Transactional
     public PopSiteRadio addNewItem(PopSiteRadio popSiteRadio) {
+        popSiteRadio.setCreatedBy("");
         return this.popSiteRadioRepository.save(popSiteRadio);
     }
 
@@ -35,6 +36,7 @@ public class PopSiteRadioService implements ServiceInterface<PopSiteRadio> {
         PopSiteRadio exist = this.popSiteRadioRepository.findByIsDeletedIsNullAndRadioId(popSiteRadio.getRadioId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, popSiteRadio);
+        exist.setUpdatedBy("");
         return this.popSiteRadioRepository.save(exist);
     }
 

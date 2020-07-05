@@ -26,6 +26,7 @@ public class IpGroupProductLinkService implements ServiceInterface<IpGroupProduc
     @Override
     @Transactional
     public IpGroupProductLink addNewItem(IpGroupProductLink ipGroupProductLink) {
+        ipGroupProductLink.setCreatedBy("");
         return this.ipGroupProductLinkRepository.save(ipGroupProductLink);
     }
 
@@ -35,6 +36,7 @@ public class IpGroupProductLinkService implements ServiceInterface<IpGroupProduc
         IpGroupProductLink exist = this.ipGroupProductLinkRepository.findByIsDeletedIsNullAndIpGroupProductLinkId(ipGroupProductLink.getIpGroupProductLinkId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ipGroupProductLink);
+        exist.setUpdatedBy("");
         return this.ipGroupProductLinkRepository.save(exist);
     }
 
