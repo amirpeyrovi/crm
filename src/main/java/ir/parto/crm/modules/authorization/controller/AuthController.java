@@ -33,6 +33,7 @@ import java.util.Collections;
 @RequestMapping("/api/auth")
 public class AuthController {
 
+    @Autowired
     AuthenticationManager authenticationManager;
 
     @Autowired
@@ -49,13 +50,14 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser( @RequestBody LoginRequest loginRequest) {
+        System.out.println(loginRequest.getPassword()+"---------"+passwordEncoder.encode(loginRequest.getPassword()));
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),
-                        loginRequest.getPassword()
+                        passwordEncoder.encode(loginRequest.getPassword())
                 )
         );
-
+        System.out.println("------60---------");
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);

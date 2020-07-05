@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "crm_admin")
-public class Admin implements UserDetails {
+public class Admin implements UserDetails , Serializable{
     @Id
     @Column(name = "id", columnDefinition = "number")
     @SequenceGenerator(name = "admin_seq", sequenceName = "admin_seq", allocationSize = 1)
@@ -126,22 +126,22 @@ public class Admin implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     public void setUsername(String username) {
@@ -266,7 +266,7 @@ public class Admin implements UserDetails {
     }
 
     public static Admin create(Admin admin) {
-        List<GrantedAuthority> authorities = new ArrayList<String>(Arrays.asList("admin" , "client" , "reseller")).stream().map(role ->
+        List<GrantedAuthority> authorities = new ArrayList<String>(Arrays.asList("admin")).stream().map(role ->
                 new SimpleGrantedAuthority("admin")
         ).collect(Collectors.toList());
         return new Admin(

@@ -1,4 +1,4 @@
-package ir.parto.crm.modules.authorize.model.entity;
+package ir.parto.crm.modules.authenticate.model.entity;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Table(name = "crm_permission")
 public class Permission implements Serializable {
     @Id
-    @Column(name = "id", columnDefinition = "number")
+    @Column(name = "PERMISSION_ID", columnDefinition = "number")
     @SequenceGenerator(name = "permission_seq", sequenceName = "permission_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "permission_seq")
     private Long permissionId;

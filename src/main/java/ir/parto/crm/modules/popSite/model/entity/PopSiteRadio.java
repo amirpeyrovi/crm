@@ -20,7 +20,7 @@ public class PopSiteRadio implements Serializable {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "vendor", foreignKey = @ForeignKey(name = "popsite_radio_popsite_vendor_fk"))
+    @JoinColumn(name = "vendor_id", foreignKey = @ForeignKey(name = "popsite_radio_popsite_vendor_fk"))
     private PopSiteVendor popSiteVendor;
 
     @ManyToOne

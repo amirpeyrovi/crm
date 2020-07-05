@@ -25,9 +25,11 @@ public class CustomUserDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
         // Let people login with either username or email
         Admin admin = adminRepository.findByUsername(username);
+        System.out.println("---------userdetail-----"+admin.getAdminId());
         if (admin == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
+        System.out.println("---------userdetail-111----"+admin);
 
         return Admin.create(admin);
     }
@@ -41,4 +43,5 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return Admin.create(admin);
     }
+
 }
