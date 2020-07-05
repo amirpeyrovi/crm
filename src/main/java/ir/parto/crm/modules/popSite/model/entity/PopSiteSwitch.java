@@ -60,12 +60,12 @@ public class PopSiteSwitch implements Serializable {
     private LocalDateTime deletedDate;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public PopSiteSwitch() {
     }
 
-    public PopSiteSwitch(PopSiteRack popSiteRack, Integer port_count, String title, String vendor, Integer startUnit, Integer endUnit, Integer totalUnit, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+    public PopSiteSwitch(PopSiteRack popSiteRack, Integer port_count, String title, String vendor, Integer startUnit, Integer endUnit, Integer totalUnit, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.popSiteRack = popSiteRack;
         this.port_count = port_count;
         this.title = title;
@@ -194,11 +194,11 @@ public class PopSiteSwitch implements Serializable {
         this.deletedDate = deletedDate;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }
