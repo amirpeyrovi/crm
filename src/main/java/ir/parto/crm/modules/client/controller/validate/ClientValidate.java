@@ -38,7 +38,8 @@ public class ClientValidate implements ValidateInterface<Client> {
         }
         if(client == null  || client.getEmailAddress() == null || client.getEmailAddress().isEmpty()){
             errorList.add("Email is required");
-        }else{
+        }
+        if(client != null && client.getEmailAddress() != null){
             Client exist = this.clientService.findByEmail(client.getEmailAddress());
             if(exist != null){
                 errorList.add("Email must be unique");
@@ -62,20 +63,26 @@ public class ClientValidate implements ValidateInterface<Client> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(client == null || client.getFirstName().isEmpty() || client.getFirstName() == null){
+        if(client != null && client.getFirstName() != null && client.getFirstName().isEmpty() ){
             errorList.add("First Name is required");
         }
-        if(client == null || client.getLastName().isEmpty() || client.getLastName() == null){
+        if(client != null && client.getLastName() != null && client.getLastName().isEmpty() ){
             errorList.add("Last Name is required");
         }
-        if(client == null || client.getBirthDate() == null){
+        if(client != null && client.getBirthDate() != null && client.getBirthDate().equals(null)){
             errorList.add("Birth Date is required");
         }
-        if(client == null || client.getMobileNumber().isEmpty() || client.getMobileNumber() == null){
+        if(client != null && client.getMobileNumber() != null && client.getMobileNumber().isEmpty() ){
             errorList.add("Mobile Number is required");
         }
-        if(client == null || client.getEmailAddress().isEmpty() || client.getEmailAddress() == null){
+        if(client != null && client.getEmailAddress() != null && client.getEmailAddress().isEmpty() ){
             errorList.add("Email is required");
+        }
+        if(client != null){
+            Client exist = this.clientService.findByEmail(client.getEmailAddress());
+            if(exist != null && exist.getClientId() != client.getClientId()){
+                errorList.add("Email must be unique");
+            }
         }
 
         validateObject.setCount(errorList.size());
@@ -114,7 +121,7 @@ public class ClientValidate implements ValidateInterface<Client> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(client == null || !this.clientService.existsById(client.getClientId())){
+        if(client == null || !this.clientService.existsByIdNotDeleted(client.getClientId())){
             errorList.add("Client Id not defined");
         }
 

@@ -48,7 +48,6 @@ public class ClientService implements ServiceInterface<Client> {
         client.setIsDeleted(1);
         client.setDeletedAt(LocalDateTime.now());
         client.setDeletedBy(authentication.getName());
-        client.setIsDeleted(1);
         this.clientRepository.save(client);
         return client;
     }
@@ -60,7 +59,8 @@ public class ClientService implements ServiceInterface<Client> {
 
     @Override
     public Page<Client> findAllItem(Pageable pageable) {
-        return this.clientRepository.findAll(pageable);
+//        return this.clientRepository.findAll(pageable);
+        return this.clientRepository.findAllByIsDeletedIsNull(pageable);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class ClientService implements ServiceInterface<Client> {
 
     @Override
     public Client findById(Long id) {
-        if(this.clientRepository.existsById(id)){
+        if(this.clientRepository.existsByClientIdAndIsDeletedIsNull(id)){
             return this.clientRepository.getOne(id);
         }
         return null;
@@ -87,6 +87,10 @@ public class ClientService implements ServiceInterface<Client> {
     }
 
     public Client findByEmail(String email) {
-        return this.clientRepository.findByEmailAddress(email);
+        return this.clientRepository.findByEmailAddressAndIsDeletedIsNull(email);
+    }
+
+    public Boolean existsByIdNotDeleted(Long id) {
+        return this.clientRepository.existsByClientIdAndIsDeletedIsNull(id);
     }
 }

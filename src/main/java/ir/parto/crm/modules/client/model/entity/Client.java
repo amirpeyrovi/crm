@@ -54,7 +54,7 @@ public class Client implements Serializable {
     @Column(name = "address2", columnDefinition = "nvarchar2(500)")
     private String address2;
 
-    @Column(name = "email", columnDefinition = "nvarchar2(100)")
+    @Column(name = "email", columnDefinition = "nvarchar2(100)",unique = true)
     private String emailAddress;
 
     @Column(name = "is_reseller", columnDefinition = "number(1)")
@@ -85,7 +85,7 @@ public class Client implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private int isDeleted;
+    private Integer isDeleted;
 
     public Client() {
     }
@@ -291,11 +291,11 @@ public class Client implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public int getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(int isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }
