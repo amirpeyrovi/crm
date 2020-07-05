@@ -83,6 +83,8 @@ public class SpringSecurityConfig  extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers(HttpMethod.DELETE, "/v1/client/**")
                 .permitAll()
+                .antMatchers(HttpMethod.PUT, "/v1/client/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated();
 

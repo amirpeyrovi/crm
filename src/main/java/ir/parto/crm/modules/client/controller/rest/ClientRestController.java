@@ -33,20 +33,14 @@ public class ClientRestController implements RestControllerInterface {
         this.clientValidate = clientValidate;
     }
 
-    @RequestMapping(value = {"/page/{page}/size/{size}",""},method = RequestMethod.GET)
-    public Object findAllClient(@PathVariable(name = "page",required = false) int page,
-                                @PathVariable(name="size",required = false) int size){
+    @RequestMapping(method = RequestMethod.GET)
+    public Object findAllClient(Pageable pageable){
         ValidateObject validateObject = this.clientValidate.findAll();
         if(validateObject.getResult().equals("error")){
             return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
         }
-//        if(page == 0){
-//            page =1;
-//        }
-        if(size== 0){
-            size =25;
-        }
-        Pageable pageable = PageRequest.of(page,size);
+        Pageable pageable0 = PageRequest.of(pageable.getPageNumber(),pageable.getPageSize());
+        System.out.println(pageable0.getSort()+"--------------43--------"+pageable0.getPageNumber());
         Page<Client> clientList = this.clientService.findAllItem(pageable);
         return new ApiResponse("success",clientList.getContent()).getSuccessResponse();
     }
@@ -83,8 +77,14 @@ public class ClientRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
-    public Object updateClient(@PathVariable("id") long id){
-        Client client = this.clientService.findById(id);
+    public Object updateClient(@PathVariable("id") long id,@RequestBody Client client){
+
+        Client exist = this.clientService.findById(id);
+        ValidateObject clientValidateObject = this.clientValidate.findOne(exist);
+        if(clientValidateObject.getResult().equals("error")){
+            return new ApiResponse("error",101,clientValidateObject.getMessages()).getFaultResponse();
+        }
+        client.setClientId(id);
         ValidateObject validateObject = this.clientValidate.validateUpdateItem(client);
         if(validateObject.getResult().equals("error")){
             return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
@@ -95,10 +95,10 @@ public class ClientRestController implements RestControllerInterface {
             return new ApiResponse("success", Arrays.asList(updatedClient)).getSuccessResponse();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
-            return new ApiResponse("error", 102,Arrays.asList("an error occurrd during update")).getFaultResponse();
+            return new ApiResponse("error", 102,Arrays.asList("An error occurrd during update")).getFaultResponse();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-            return new ApiResponse("error", 102,Arrays.asList("an error occurrd during update")).getFaultResponse();
+            return new ApiResponse("error", 102,Arrays.asList("An error occurrd during update")).getFaultResponse();
         }
     }
 

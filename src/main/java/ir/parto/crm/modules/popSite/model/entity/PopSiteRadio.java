@@ -53,12 +53,12 @@ public class PopSiteRadio implements Serializable {
     private LocalDateTime deletedDate;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public PopSiteRadio() {
     }
 
-    public PopSiteRadio(String title, PopSiteVendor popSiteVendor, PopSitePort popSitePort, PopSiteTowerBranch popSiteTowerBranch, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+    public PopSiteRadio(String title, PopSiteVendor popSiteVendor, PopSitePort popSitePort, PopSiteTowerBranch popSiteTowerBranch, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.title = title;
         this.popSiteVendor = popSiteVendor;
         this.popSitePort = popSitePort;
@@ -152,11 +152,11 @@ public class PopSiteRadio implements Serializable {
         this.deletedDate = deletedDate;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 

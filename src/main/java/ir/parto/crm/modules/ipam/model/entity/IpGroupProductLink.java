@@ -48,12 +48,12 @@ public class IpGroupProductLink implements Serializable {
     private LocalDateTime deletedDate;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public IpGroupProductLink() {
     }
 
-    public IpGroupProductLink(IpGroup ipGroup, ProductAddon productAddon, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+    public IpGroupProductLink(IpGroup ipGroup, ProductAddon productAddon, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.ipGroup = ipGroup;
         this.productAddon = productAddon;
         this.createdBy = createdBy;
@@ -137,11 +137,11 @@ public class IpGroupProductLink implements Serializable {
         this.deletedDate = deletedDate;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }
