@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 public class InventoryItemServiceLink implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "inventory_seq", sequenceName = "inventory_seq", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "inventory_seq")
+    @SequenceGenerator(name = "crm_inventory_seq", sequenceName = "crm_inventory_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_inventory_seq")
     private Long inventoryServiceLinkId;
 
     @ManyToOne

@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 public class IpGroup implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "ipam_ip_seq", sequenceName = "ipam_ip_seq", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ipam_ip_seq")
+    @SequenceGenerator(name = "crm_ipam_ip_seq", sequenceName = "crm_ipam_ip_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_ipam_ip_seq")
     private Long ipGroupId;
 
     @Column(name = "title", columnDefinition = "nvarchar2(32)")
