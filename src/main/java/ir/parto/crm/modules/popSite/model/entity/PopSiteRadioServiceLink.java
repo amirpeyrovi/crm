@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.popSite.model.entity;
 
+import ir.parto.crm.modules.service.model.entity.Service;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -8,26 +9,21 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_popsite_rack")
-public class PopSiteRack implements Serializable {
+@Table(name = "crm_popsite_radio_service_link")
+public class PopSiteRadioServiceLink implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
     @SequenceGenerator(name = "crm_popsite_seq", sequenceName = "crm_popsite_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_popsite_seq")
-    private Long rackId;
+    private Long radioServiceLinkId;
 
     @ManyToOne
-    @JoinColumn(name = "popsite_id", foreignKey = @ForeignKey(name = "popsite_rack_popsite_fk"))
-    private PopSite popSite;
+    @JoinColumn(name = "popsite_radio_id", foreignKey = @ForeignKey(name = "popsite_radio_service_link_popsite_radio_fk"))
+    private PopSiteRadio popSiteRadio;
 
-    @Column(name = "title", columnDefinition = "nvarchar2(100)")
-    private String title;
-
-    @Column(name = "rack_number", columnDefinition = "number(4)")
-    private Integer rackNumber;
-
-    @Column(name = "total_unit", columnDefinition = "number(4)")
-    private Integer totalUnit;
+    @ManyToOne
+    @JoinColumn(name = "popsite_tower_branch_id", foreignKey = @ForeignKey(name = "popsite_radio_service_link_popsite_service_fk"))
+    private Service service;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -53,14 +49,12 @@ public class PopSiteRack implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
 
-    public PopSiteRack() {
+    public PopSiteRadioServiceLink() {
     }
 
-    public PopSiteRack(PopSite popSite, String title, Integer rackNumber, Integer totalUnit, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
-        this.popSite = popSite;
-        this.title = title;
-        this.rackNumber = rackNumber;
-        this.totalUnit = totalUnit;
+    public PopSiteRadioServiceLink(PopSiteRadio popSiteRadio, Service service, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+        this.popSiteRadio = popSiteRadio;
+        this.service = service;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -70,44 +64,28 @@ public class PopSiteRack implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getRackId() {
-        return rackId;
+    public Long getRadioServiceLinkId() {
+        return radioServiceLinkId;
     }
 
-    public void setRackId(Long rackId) {
-        this.rackId = rackId;
+    public void setRadioServiceLinkId(Long radioServiceLinkId) {
+        this.radioServiceLinkId = radioServiceLinkId;
     }
 
-    public PopSite getPopSite() {
-        return popSite;
+    public PopSiteRadio getPopSiteRadio() {
+        return popSiteRadio;
     }
 
-    public void setPopSite(PopSite popSite) {
-        this.popSite = popSite;
+    public void setPopSiteRadio(PopSiteRadio popSiteRadio) {
+        this.popSiteRadio = popSiteRadio;
     }
 
-    public String getTitle() {
-        return title;
+    public Service getService() {
+        return service;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Integer getRackNumber() {
-        return rackNumber;
-    }
-
-    public void setRackNumber(Integer rackNumber) {
-        this.rackNumber = rackNumber;
-    }
-
-    public Integer getTotalUnit() {
-        return totalUnit;
-    }
-
-    public void setTotalUnit(Integer totalUnit) {
-        this.totalUnit = totalUnit;
+    public void setService(Service service) {
+        this.service = service;
     }
 
     public String getCreatedBy() {

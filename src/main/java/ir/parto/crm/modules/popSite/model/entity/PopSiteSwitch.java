@@ -61,4 +61,144 @@ public class PopSiteSwitch implements Serializable {
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
+
+    public PopSiteSwitch() {
+    }
+
+    public PopSiteSwitch(PopSiteRack popSiteRack, Integer port_count, String title, String vendor, Integer startUnit, Integer endUnit, Integer totalUnit, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+        this.popSiteRack = popSiteRack;
+        this.port_count = port_count;
+        this.title = title;
+        this.vendor = vendor;
+        this.startUnit = startUnit;
+        this.endUnit = endUnit;
+        this.totalUnit = totalUnit;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+        this.deletedDate = deletedDate;
+        this.isDeleted = isDeleted;
+    }
+
+    public Long getSwitchId() {
+        return switchId;
+    }
+
+    public void setSwitchId(Long switchId) {
+        this.switchId = switchId;
+    }
+
+    public PopSiteRack getPopSiteRack() {
+        return popSiteRack;
+    }
+
+    public void setPopSiteRack(PopSiteRack popSiteRack) {
+        this.popSiteRack = popSiteRack;
+    }
+
+    public Integer getPort_count() {
+        return port_count;
+    }
+
+    public void setPort_count(Integer port_count) {
+        this.port_count = port_count;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
+    }
+
+    public Integer getStartUnit() {
+        return startUnit;
+    }
+
+    public void setStartUnit(Integer startUnit) {
+        this.startUnit = startUnit;
+    }
+
+    public Integer getEndUnit() {
+        return endUnit;
+    }
+
+    public void setEndUnit(Integer endUnit) {
+        this.endUnit = endUnit;
+    }
+
+    public Integer getTotalUnit() {
+        return totalUnit;
+    }
+
+    public void setTotalUnit(Integer totalUnit) {
+        this.totalUnit = totalUnit;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public LocalDateTime getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(LocalDateTime deletedDate) {
+        this.deletedDate = deletedDate;
+    }
+
+    public LocalDateTime getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(LocalDateTime isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 }

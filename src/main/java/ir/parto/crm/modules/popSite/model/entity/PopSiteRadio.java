@@ -27,6 +27,10 @@ public class PopSiteRadio implements Serializable {
     @JoinColumn(name = "popsite_port_id", foreignKey = @ForeignKey(name = "popsite_radio_popsite_port_fk"))
     private PopSitePort popSitePort;
 
+    @ManyToOne
+    @JoinColumn(name = "popsite_tower_branch_id", foreignKey = @ForeignKey(name = "popsite_radio_popsite_tower_branch_fk"))
+    private PopSiteTowerBranch popSiteTowerBranch;
+
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
@@ -50,4 +54,117 @@ public class PopSiteRadio implements Serializable {
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private LocalDateTime isDeleted;
+
+    public PopSiteRadio() {
+    }
+
+    public PopSiteRadio(String title, PopSiteVendor popSiteVendor, PopSitePort popSitePort, PopSiteTowerBranch popSiteTowerBranch, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+        this.title = title;
+        this.popSiteVendor = popSiteVendor;
+        this.popSitePort = popSitePort;
+        this.popSiteTowerBranch = popSiteTowerBranch;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+        this.deletedDate = deletedDate;
+        this.isDeleted = isDeleted;
+    }
+
+    public Long getRadioId() {
+        return radioId;
+    }
+
+    public void setRadioId(Long radioId) {
+        this.radioId = radioId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public PopSiteVendor getPopSiteVendor() {
+        return popSiteVendor;
+    }
+
+    public void setPopSiteVendor(PopSiteVendor popSiteVendor) {
+        this.popSiteVendor = popSiteVendor;
+    }
+
+    public PopSitePort getPopSitePort() {
+        return popSitePort;
+    }
+
+    public void setPopSitePort(PopSitePort popSitePort) {
+        this.popSitePort = popSitePort;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public LocalDateTime getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(LocalDateTime deletedDate) {
+        this.deletedDate = deletedDate;
+    }
+
+    public LocalDateTime getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(LocalDateTime isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public PopSiteTowerBranch getPopSiteTowerBranch() {
+        return popSiteTowerBranch;
+    }
+
+    public void setPopSiteTowerBranch(PopSiteTowerBranch popSiteTowerBranch) {
+        this.popSiteTowerBranch = popSiteTowerBranch;
+    }
 }
