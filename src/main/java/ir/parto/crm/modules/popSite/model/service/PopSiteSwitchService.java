@@ -7,6 +7,7 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class PopSiteSwitchService implements ServiceInterface<PopSiteSwitch> {
     @Override
     @Transactional
     public PopSiteSwitch addNewItem(PopSiteSwitch popSiteSwitch) {
-        popSiteSwitch.setCreatedBy("");
+        popSiteSwitch.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.popSiteSwitchRepository.save(popSiteSwitch);
     }
 
@@ -36,7 +37,7 @@ public class PopSiteSwitchService implements ServiceInterface<PopSiteSwitch> {
         PopSiteSwitch exist = this.popSiteSwitchRepository.findByIsDeletedIsNullAndSwitchId(popSiteSwitch.getSwitchId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, popSiteSwitch);
-        exist.setUpdatedBy("");
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.popSiteSwitchRepository.save(exist);
     }
 
@@ -45,7 +46,7 @@ public class PopSiteSwitchService implements ServiceInterface<PopSiteSwitch> {
     public PopSiteSwitch deleteItem(PopSiteSwitch popSiteSwitch) {
         PopSiteSwitch exist = this.popSiteSwitchRepository.findByIsDeletedIsNullAndSwitchId(popSiteSwitch.getSwitchId());
         exist.setIsDeleted(1);
-        exist.setDeletedBy("");
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         exist.setDeletedDate(LocalDateTime.now());
         return this.popSiteSwitchRepository.save(exist);
     }

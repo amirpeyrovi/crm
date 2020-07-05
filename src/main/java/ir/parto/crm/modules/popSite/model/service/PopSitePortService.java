@@ -7,6 +7,7 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
@@ -24,7 +25,7 @@ public class PopSitePortService implements ServiceInterface<PopSitePort> {
     @Override
     @Transactional
     public PopSitePort addNewItem(PopSitePort popSitePort) {
-        popSitePort.setCreatedBy("");
+        popSitePort.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.popSitePortRepository.save(popSitePort);
     }
 
@@ -34,7 +35,7 @@ public class PopSitePortService implements ServiceInterface<PopSitePort> {
         PopSitePort exist = this.popSitePortRepository.findByIsDeletedIsNullAndPortId(popSitePort.getPortId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, popSitePort);
-        exist.setUpdatedBy("");
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.popSitePortRepository.save(exist);
     }
 
@@ -43,7 +44,7 @@ public class PopSitePortService implements ServiceInterface<PopSitePort> {
     public PopSitePort deleteItem(PopSitePort popSitePort) {
         PopSitePort exist = this.popSitePortRepository.findByIsDeletedIsNullAndPortId(popSitePort.getPortId());
         popSitePort.setIsDeleted(1);
-        popSitePort.setDeletedBy("");
+        popSitePort.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         popSitePort.setDeletedDate(LocalDateTime.now());
         return this.popSitePortRepository.save(popSitePort);
     }

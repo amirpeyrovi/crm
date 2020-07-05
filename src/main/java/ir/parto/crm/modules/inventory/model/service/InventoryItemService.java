@@ -7,6 +7,7 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class InventoryItemService implements ServiceInterface<InventoryItem> {
     @Override
     @Transactional
     public InventoryItem addNewItem(InventoryItem inventoryItem) {
-        inventoryItem.setCreatedBy("");
+        inventoryItem.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.inventoryItemRepository.save(inventoryItem);
     }
 
@@ -36,7 +37,7 @@ public class InventoryItemService implements ServiceInterface<InventoryItem> {
         InventoryItem exist = this.inventoryItemRepository.findByIsDeletedIsNullAndInventoryItemId(inventoryItem.getInventoryItemId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, inventoryItem);
-        exist.setUpdatedBy("");
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.inventoryItemRepository.save(exist);
     }
 
@@ -45,7 +46,7 @@ public class InventoryItemService implements ServiceInterface<InventoryItem> {
     public InventoryItem deleteItem(InventoryItem inventoryItem) {
         InventoryItem exist = this.inventoryItemRepository.findByIsDeletedIsNullAndInventoryItemId(inventoryItem.getInventoryItemId());
         exist.setIsDeleted(1);
-        exist.setDeletedBy("");
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         exist.setDeletedDate(LocalDateTime.now());
         return this.inventoryItemRepository.save(exist);
     }

@@ -7,6 +7,7 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class PopSiteRadioServiceLinkService implements ServiceInterface<PopSiteR
     @Override
     @Transactional
     public PopSiteRadioServiceLink addNewItem(PopSiteRadioServiceLink popSiteRadioServiceLink) {
-        popSiteRadioServiceLink.setCreatedBy("");
+        popSiteRadioServiceLink.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.popSiteRadioServiceLinkRepository.save(popSiteRadioServiceLink);
     }
 
@@ -36,7 +37,7 @@ public class PopSiteRadioServiceLinkService implements ServiceInterface<PopSiteR
         PopSiteRadioServiceLink exist = this.popSiteRadioServiceLinkRepository.findByIsDeletedIsNullAndRadioServiceLinkId(popSiteRadioServiceLink.getRadioServiceLinkId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, popSiteRadioServiceLink);
-        exist.setUpdatedBy("");
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.popSiteRadioServiceLinkRepository.save(exist);
     }
 
@@ -45,7 +46,7 @@ public class PopSiteRadioServiceLinkService implements ServiceInterface<PopSiteR
     public PopSiteRadioServiceLink deleteItem(PopSiteRadioServiceLink popSiteRadioServiceLink) {
         PopSiteRadioServiceLink exist = this.popSiteRadioServiceLinkRepository.findByIsDeletedIsNullAndRadioServiceLinkId(popSiteRadioServiceLink.getRadioServiceLinkId());
         exist.setIsDeleted(1);
-        exist.setDeletedBy("");
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         exist.setDeletedDate(LocalDateTime.now());
         return this.popSiteRadioServiceLinkRepository.save(exist);
     }

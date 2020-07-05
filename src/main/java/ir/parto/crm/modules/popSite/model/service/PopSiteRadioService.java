@@ -7,6 +7,7 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class PopSiteRadioService implements ServiceInterface<PopSiteRadio> {
     @Override
     @Transactional
     public PopSiteRadio addNewItem(PopSiteRadio popSiteRadio) {
-        popSiteRadio.setCreatedBy("");
+        popSiteRadio.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.popSiteRadioRepository.save(popSiteRadio);
     }
 
@@ -36,7 +37,7 @@ public class PopSiteRadioService implements ServiceInterface<PopSiteRadio> {
         PopSiteRadio exist = this.popSiteRadioRepository.findByIsDeletedIsNullAndRadioId(popSiteRadio.getRadioId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, popSiteRadio);
-        exist.setUpdatedBy("");
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.popSiteRadioRepository.save(exist);
     }
 
@@ -45,7 +46,7 @@ public class PopSiteRadioService implements ServiceInterface<PopSiteRadio> {
     public PopSiteRadio deleteItem(PopSiteRadio popSiteRadio) {
         PopSiteRadio exist = this.popSiteRadioRepository.findByIsDeletedIsNullAndRadioId(popSiteRadio.getRadioId());
         exist.setIsDeleted(1);
-        exist.setDeletedBy("");
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         exist.setDeletedDate(LocalDateTime.now());
         return this.popSiteRadioRepository.save(exist);
     }

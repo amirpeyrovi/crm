@@ -7,6 +7,7 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class IpGroupService implements ServiceInterface<IpGroup> {
     @Override
     @Transactional
     public IpGroup addNewItem(IpGroup ipGroup) {
-        ipGroup.setCreatedBy("");
+        ipGroup.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.ipGroupRepository.save(ipGroup);
     }
 
@@ -36,7 +37,7 @@ public class IpGroupService implements ServiceInterface<IpGroup> {
         IpGroup exist = this.ipGroupRepository.findByIsDeletedIsNullAndIpGroupId(ipGroup.getIpGroupId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ipGroup);
-        exist.setUpdatedBy("");
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.ipGroupRepository.save(exist);
     }
 
@@ -45,7 +46,7 @@ public class IpGroupService implements ServiceInterface<IpGroup> {
     public IpGroup deleteItem(IpGroup ipGroup) {
         IpGroup exist = this.ipGroupRepository.findByIsDeletedIsNullAndIpGroupId(ipGroup.getIpGroupId());
         exist.setIsDeleted(1);
-        exist.setDeletedBy("");
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         exist.setDeletedDate(LocalDateTime.now());
         return this.ipGroupRepository.save(exist);
     }

@@ -7,6 +7,7 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class PopSiteTowerBranchService implements ServiceInterface<PopSiteTowerB
     @Override
     @Transactional
     public PopSiteTowerBranch addNewItem(PopSiteTowerBranch popSiteTowerBranch) {
-        popSiteTowerBranch.setCreatedBy("");
+        popSiteTowerBranch.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.popSiteTowerBranchRepository.save(popSiteTowerBranch);
     }
 
@@ -36,7 +37,7 @@ public class PopSiteTowerBranchService implements ServiceInterface<PopSiteTowerB
         PopSiteTowerBranch exist = this.popSiteTowerBranchRepository.findByIsDeletedIsNullAndBranchId(popSiteTowerBranch.getBranchId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, popSiteTowerBranch);
-        exist.setUpdatedBy("");
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.popSiteTowerBranchRepository.save(exist);
     }
 
@@ -45,7 +46,7 @@ public class PopSiteTowerBranchService implements ServiceInterface<PopSiteTowerB
     public PopSiteTowerBranch deleteItem(PopSiteTowerBranch popSiteTowerBranch) {
         PopSiteTowerBranch exist = this.popSiteTowerBranchRepository.findByIsDeletedIsNullAndBranchId(popSiteTowerBranch.getBranchId());
         exist.setIsDeleted(1);
-        exist.setDeletedBy("");
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         exist.setDeletedDate(LocalDateTime.now());
         return this.popSiteTowerBranchRepository.save(exist);
     }

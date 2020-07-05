@@ -7,6 +7,7 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class PopSiteVendorService implements ServiceInterface<PopSiteVendor> {
     @Override
     @Transactional
     public PopSiteVendor addNewItem(PopSiteVendor popSiteVendor) {
-        popSiteVendor.setCreatedBy("");
+        popSiteVendor.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.popSiteVendorRepository.save(popSiteVendor);
     }
 
@@ -36,7 +37,7 @@ public class PopSiteVendorService implements ServiceInterface<PopSiteVendor> {
         PopSiteVendor exist = this.popSiteVendorRepository.findByIsDeletedIsNullAndVendorId(popSiteVendor.getVendorId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, popSiteVendor);
-        exist.setUpdatedBy("");
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.popSiteVendorRepository.save(exist);
     }
 
@@ -44,7 +45,7 @@ public class PopSiteVendorService implements ServiceInterface<PopSiteVendor> {
     public PopSiteVendor deleteItem(PopSiteVendor popSiteVendor) {
         PopSiteVendor exist = this.popSiteVendorRepository.findByIsDeletedIsNullAndVendorId(popSiteVendor.getVendorId());
         exist.setIsDeleted(1);
-        exist.setDeletedBy("");
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         exist.setDeletedDate(LocalDateTime.now());
         return this.popSiteVendorRepository.save(exist);
     }

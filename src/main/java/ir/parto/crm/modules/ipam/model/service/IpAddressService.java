@@ -7,6 +7,7 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class IpAddressService implements ServiceInterface<IpAddress> {
     @Override
     @Transactional
     public IpAddress addNewItem(IpAddress ipAddress) {
-        ipAddress.setCreatedBy("");
+        ipAddress.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.ipAddressRepository.save(ipAddress);
     }
 
@@ -36,7 +37,7 @@ public class IpAddressService implements ServiceInterface<IpAddress> {
         IpAddress exist = this.ipAddressRepository.findByIsDeletedIsNullAndIpAddressId(ipAddress.getIpAddressId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ipAddress);
-        exist.setUpdatedBy("");
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.ipAddressRepository.save(exist);
     }
 
@@ -45,7 +46,7 @@ public class IpAddressService implements ServiceInterface<IpAddress> {
     public IpAddress deleteItem(IpAddress ipAddress) {
         IpAddress exist = this.ipAddressRepository.findByIsDeletedIsNullAndIpAddressId(ipAddress.getIpAddressId());
         exist.setIsDeleted(1);
-        exist.setDeletedBy("");
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         exist.setDeletedDate(LocalDateTime.now());
         return this.ipAddressRepository.save(exist);
     }

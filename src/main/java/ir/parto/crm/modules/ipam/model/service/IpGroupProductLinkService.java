@@ -7,6 +7,7 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class IpGroupProductLinkService implements ServiceInterface<IpGroupProduc
     @Override
     @Transactional
     public IpGroupProductLink addNewItem(IpGroupProductLink ipGroupProductLink) {
-        ipGroupProductLink.setCreatedBy("");
+        ipGroupProductLink.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.ipGroupProductLinkRepository.save(ipGroupProductLink);
     }
 
@@ -36,7 +37,7 @@ public class IpGroupProductLinkService implements ServiceInterface<IpGroupProduc
         IpGroupProductLink exist = this.ipGroupProductLinkRepository.findByIsDeletedIsNullAndIpGroupProductLinkId(ipGroupProductLink.getIpGroupProductLinkId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ipGroupProductLink);
-        exist.setUpdatedBy("");
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.ipGroupProductLinkRepository.save(exist);
     }
 
@@ -45,7 +46,7 @@ public class IpGroupProductLinkService implements ServiceInterface<IpGroupProduc
     public IpGroupProductLink deleteItem(IpGroupProductLink ipGroupProductLink) {
         IpGroupProductLink exist = this.ipGroupProductLinkRepository.findByIsDeletedIsNullAndIpGroupProductLinkId(ipGroupProductLink.getIpGroupProductLinkId());
         exist.setIsDeleted(1);
-        exist.setDeletedBy("");
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         exist.setDeletedDate(LocalDateTime.now());
         return this.ipGroupProductLinkRepository.save(exist);
     }
