@@ -66,12 +66,12 @@ public class IpAddress implements Serializable {
     private LocalDateTime deletedDate;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public IpAddress() {
     }
 
-    public IpAddress(String ipAddress, Integer ipNetmask, Integer ipVersion, String startIpAddress, String endIpAddress, IpGroup ipGroup, Service service, Integer status, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+    public IpAddress(String ipAddress, Integer ipNetmask, Integer ipVersion, String startIpAddress, String endIpAddress, IpGroup ipGroup, Service service, Integer status, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.ipAddress = ipAddress;
         this.ipNetmask = ipNetmask;
         this.ipVersion = ipVersion;
@@ -209,11 +209,11 @@ public class IpAddress implements Serializable {
         this.deletedDate = deletedDate;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

@@ -42,18 +42,18 @@ public class InventoryGroup implements Serializable {
 
     @Column(name = "update_at", columnDefinition = "TIMESTAMP(6)")
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedDate;
 
     @Column(name = "deleted_at", columnDefinition = "TIMESTAMP(6)")
-    private LocalDateTime deletedAt;
+    private LocalDateTime deletedDate;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public InventoryGroup() {
     }
 
-    public InventoryGroup(String name, String description, InventoryType inventoryType, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public InventoryGroup(String name, String description, InventoryType inventoryType, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.name = name;
         this.description = description;
         this.inventoryType = inventoryType;
@@ -61,8 +61,8 @@ public class InventoryGroup implements Serializable {
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
         this.createdDate = createdDate;
-        this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
+        this.updatedDate = updatedDate;
+        this.deletedDate = deletedDate;
         this.isDeleted = isDeleted;
     }
 
@@ -130,27 +130,27 @@ public class InventoryGroup implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
-    public LocalDateTime getDeletedAt() {
-        return deletedAt;
+    public LocalDateTime getDeletedDate() {
+        return deletedDate;
     }
 
-    public void setDeletedAt(LocalDateTime deletedAt) {
-        this.deletedAt = deletedAt;
+    public void setDeletedDate(LocalDateTime deletedDate) {
+        this.deletedDate = deletedDate;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }
