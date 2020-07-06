@@ -51,12 +51,12 @@ public class DataCenterRack implements Serializable {
     private LocalDateTime deletedDate;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public DataCenterRack() {
     }
 
-    public DataCenterRack(DataCenter dataCenter, String title, Integer rackNumber, Integer totalUnit, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+    public DataCenterRack(DataCenter dataCenter, String title, Integer rackNumber, Integer totalUnit, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.dataCenter = dataCenter;
         this.title = title;
         this.rackNumber = rackNumber;
@@ -158,11 +158,11 @@ public class DataCenterRack implements Serializable {
         this.deletedDate = deletedDate;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

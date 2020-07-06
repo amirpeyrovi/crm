@@ -47,12 +47,12 @@ public class DataCenterServerServiceLink implements Serializable {
     private LocalDateTime deletedDate;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public DataCenterServerServiceLink() {
     }
 
-    public DataCenterServerServiceLink(DataCenterServer dataCenterServer, Service service, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+    public DataCenterServerServiceLink(DataCenterServer dataCenterServer, Service service, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.dataCenterServer = dataCenterServer;
         this.service = service;
         this.createdBy = createdBy;
@@ -136,11 +136,11 @@ public class DataCenterServerServiceLink implements Serializable {
         this.deletedDate = deletedDate;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }
