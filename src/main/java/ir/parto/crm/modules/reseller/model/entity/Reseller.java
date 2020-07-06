@@ -1,6 +1,6 @@
-package ir.parto.crm.modules.promotion.model.entity;
+package ir.parto.crm.modules.reseller.model.entity;
 
-import ir.parto.crm.modules.product.model.entity.Product;
+import ir.parto.crm.modules.client.model.entity.Client;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -9,22 +9,20 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_promotion_code_product")
-public class PromotionCodeProduct implements Serializable {
+@Table(name = "crm_reseller")
+public class Reseller implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "crm_promotion_seq", sequenceName = "crm_promotion_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_promotion_seq")
-    private Long promotionCodeProductId;
+    @SequenceGenerator(name = "reseller_seq", sequenceName = "reseller_seq", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "reseller_seq")
+    private Long resellerId;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "promotion_code_product_product_fk"))
-    private Product product;
+    @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "reseller_client_fk"))
+    private Client client;
 
-    @ManyToOne
-    @JoinColumn(name = "promotion_code_id", foreignKey = @ForeignKey(name = "promotion_code_product_promotion_code_fk"))
-    private PromotionCode promotionCode;
 
+    @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
 
     @Column(name = "update_by", columnDefinition = "nvarchar2(60)")
@@ -47,12 +45,11 @@ public class PromotionCodeProduct implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private Integer isDeleted;
 
-    public PromotionCodeProduct() {
+    public Reseller() {
     }
 
-    public PromotionCodeProduct(Product product, PromotionCode promotionCode, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
-        this.product = product;
-        this.promotionCode = promotionCode;
+    public Reseller(Client client, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
+        this.client = client;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -62,28 +59,20 @@ public class PromotionCodeProduct implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getPromotionCodeProductId() {
-        return promotionCodeProductId;
+    public Long getResellerId() {
+        return resellerId;
     }
 
-    public void setPromotionCodeProductId(Long promotionCodeProductId) {
-        this.promotionCodeProductId = promotionCodeProductId;
+    public void setResellerId(Long resellerId) {
+        this.resellerId = resellerId;
     }
 
-    public Product getProduct() {
-        return product;
+    public Client getClient() {
+        return client;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public PromotionCode getPromotionCode() {
-        return promotionCode;
-    }
-
-    public void setPromotionCode(PromotionCode promotionCode) {
-        this.promotionCode = promotionCode;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public String getCreatedBy() {

@@ -3,6 +3,7 @@ package ir.parto.crm.modules.service.model.entity;
 import ir.parto.crm.modules.client.model.entity.Client;
 import ir.parto.crm.modules.product.model.entity.Product;
 import ir.parto.crm.modules.product.model.entity.ProductCycle;
+import ir.parto.crm.modules.reseller.model.entity.Reseller;
 import ir.parto.crm.modules.server.model.entity.Server;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -29,6 +30,10 @@ public class Service implements Serializable {
 
     @Column(name = "password", columnDefinition = "nvarchar2(100)")
     private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "reseller_id", foreignKey = @ForeignKey(name = "service_reseller_fk"))
+    private Reseller reseller;
 
     @ManyToOne
     @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "service_product_fk"))
