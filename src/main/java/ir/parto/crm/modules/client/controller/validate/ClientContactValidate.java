@@ -24,16 +24,17 @@ public class ClientContactValidate implements ValidateInterface<ClientContact> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(clientContact == null || clientContact.getClient() == null || clientContact.getClient().getClientId() == 0){
+        if(clientContact != null && (clientContact.getClient() == null || clientContact.getClient().getClientId() == 0)){
             errorList.add("Client Id is required");
         }
-        if(clientContact == null || clientContact.getFirstName().isEmpty() || clientContact.getFirstName() == null){
+        if(clientContact != null && (clientContact.getFirstName() == null || clientContact.getFirstName().isEmpty())){
             errorList.add("First Name is required");
         }
-        if(clientContact == null || clientContact.getLastName().isEmpty() || clientContact.getLastName() == null){
+        if(clientContact != null && (clientContact.getLastName() == null || clientContact.getLastName().isEmpty())){
             errorList.add("Last Name is required");
         }
-        if(clientContact == null || clientContact.getMobileNumber().isEmpty() || clientContact.getMobileNumber() == null){
+        if(clientContact != null && (clientContact.getMobileNumber() == null ||clientContact.getMobileNumber().isEmpty()))
+        {
             errorList.add("Mobile Number is required");
         }
 
@@ -53,16 +54,16 @@ public class ClientContactValidate implements ValidateInterface<ClientContact> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(clientContact == null || clientContact.getClient() == null || clientContact.getClient().getClientId() == 0){
+        if(clientContact != null && (clientContact.getClient() != null && clientContact.getClient().getClientId() == 0)){
             errorList.add("Client Id is required");
         }
-        if(clientContact == null || clientContact.getFirstName().isEmpty() || clientContact.getFirstName() == null){
+        if(clientContact != null && (clientContact.getFirstName() != null && clientContact.getFirstName().isEmpty())){
             errorList.add("First Name is required");
         }
-        if(clientContact == null || clientContact.getLastName().isEmpty() || clientContact.getLastName() == null){
+        if(clientContact != null && (clientContact.getLastName() != null && clientContact.getLastName().isEmpty())){
             errorList.add("Last Name is required");
         }
-        if(clientContact == null || clientContact.getMobileNumber().isEmpty() || clientContact.getMobileNumber() == null){
+        if(clientContact != null && (clientContact.getMobileNumber() != null && clientContact.getMobileNumber().isEmpty() )){
             errorList.add("Mobile Number is required");
         }
 
@@ -102,7 +103,7 @@ public class ClientContactValidate implements ValidateInterface<ClientContact> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(!this.clientContactService.existsById(clientContact.getClientContactId())){
+        if(clientContact == null || !this.clientContactService.existsById(clientContact.getClientContactId())){
             errorList.add("Contact Id not defined");
         }
 
@@ -122,7 +123,7 @@ public class ClientContactValidate implements ValidateInterface<ClientContact> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(!this.clientContactService.existsById(clientContact.getClientContactId())){
+        if(clientContact == null || this.clientContactService.existsById(clientContact.getClientContactId())){
             errorList.add("Contact Id not defined");
         }
 

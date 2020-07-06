@@ -39,9 +39,9 @@ public class ClientRestController implements RestControllerInterface {
         if(validateObject.getResult().equals("error")){
             return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
         }
-        Pageable pageable0 = PageRequest.of(pageable.getPageNumber(),pageable.getPageSize());
-        System.out.println(pageable0.getSort()+"--------------43--------"+pageable0.getPageNumber());
-        Page<Client> clientList = this.clientService.findAllItem(pageable);
+
+        Pageable pageable0 = PageRequest.of(pageable.getPageNumber(),pageable.getPageSize(),pageable.getSort());
+        Page<Client> clientList = this.clientService.findAllItem(pageable0);
         return new ApiResponse("success",clientList.getContent()).getSuccessResponse();
     }
 

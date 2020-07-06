@@ -15,4 +15,5 @@ public interface ClientRepository extends JpaRepository<Client, Long>, Repositor
     Page<Client> findAllByIsDeletedIsNull(Pageable pageable);
     Client findByEmailAddressAndIsDeletedIsNull(String email);
     Boolean existsByClientIdAndIsDeletedIsNull(Long id);
+    Client findByClientIdAndIsDeletedIsNull(Long clientId);
 }

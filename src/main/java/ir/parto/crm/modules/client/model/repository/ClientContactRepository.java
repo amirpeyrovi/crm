@@ -14,4 +14,6 @@ import java.util.List;
 public interface ClientContactRepository extends JpaRepository<ClientContact, Long>, RepositoryInterface<ClientContact> {
     List<ClientContact> findAllByIsDeletedIsNull();
     Page<ClientContact> findAllByIsDeletedIsNull(Pageable pageable);
+    ClientContact findByClientContactIdAndIsDeletedIsNull(Long clientContactId);
+    Boolean existsByClientContactIdAndIsDeletedIsNull(Long id);
 }

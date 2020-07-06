@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,26 +29,29 @@ public class ClientContactService implements ServiceInterface<ClientContact> {
     @Override
     @Transactional
     public ClientContact addNewItem(ClientContact clientContact) {
+        clientContact.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.clientContactRepository.save(clientContact);
     }
 
     @Override
     @Transactional
     public ClientContact updateItem(ClientContact clientContact) throws InvocationTargetException, IllegalAccessException {
-        ClientContact exist = this.clientContactRepository.getOne(clientContact.getClientContactId());
+        ClientContact exist = this.clientContactRepository.findByClientContactIdAndIsDeletedIsNull(clientContact.getClientContactId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, clientContact);
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.clientContactRepository.save(exist);
     }
 
     @Override
     @Transactional
     public ClientContact deleteItem(ClientContact clientContact) {
-        Admin authentication = (Admin) SecurityContextHolder.getContext().getAuthentication().getDetails();
-        clientContact.setDeletedAt(LocalDateTime.now());
-        clientContact.setDeletedBy(authentication.getUsername());
+        ClientContact exist = this.clientContactRepository.findByClientContactIdAndIsDeletedIsNull(clientContact.getClientContactId());
+        Principal authentication =  SecurityContextHolder.getContext().getAuthentication();
         clientContact.setIsDeleted(1);
-        this.clientContactRepository.save(clientContact);
+        clientContact.setDeletedAt(LocalDateTime.now());
+        clientContact.setDeletedBy(authentication.getName());
+        this.clientContactRepository.save(exist);
         return clientContact;
     }
 
@@ -68,22 +72,22 @@ public class ClientContactService implements ServiceInterface<ClientContact> {
 
     @Override
     public ClientContact findOne(ClientContact clientContact) {
-        if(this.clientContactRepository.existsById(clientContact.getClientContactId())){
-            return this.clientContactRepository.getOne(clientContact.getClientContactId());
+        if(this.clientContactRepository.existsByClientContactIdAndIsDeletedIsNull(clientContact.getClientContactId())){
+            return this.clientContactRepository.findByClientContactIdAndIsDeletedIsNull(clientContact.getClientContactId());
         }
         return null;
     }
 
     @Override
     public ClientContact findById(Long id) {
-        if(this.clientContactRepository.existsById(id)){
-            return this.clientContactRepository.getOne(id);
+        if(this.clientContactRepository.existsByClientContactIdAndIsDeletedIsNull(id)){
+            return this.clientContactRepository.findByClientContactIdAndIsDeletedIsNull(id);
         }
         return null;
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.clientContactRepository.existsById(id);
+        return this.clientContactRepository.existsByClientContactIdAndIsDeletedIsNull(id);
     }
 }

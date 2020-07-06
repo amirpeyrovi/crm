@@ -150,7 +150,7 @@ public class Admin implements UserDetails , Serializable{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authority;
     }
 
     public String getPassword() {

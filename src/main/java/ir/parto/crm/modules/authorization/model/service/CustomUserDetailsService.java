@@ -30,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
         System.out.println("---------userdetail-111----"+admin);
-
+        System.out.println(Admin.create(admin)+"-------------33");
         return Admin.create(admin);
     }
 
