@@ -3,6 +3,7 @@ package ir.parto.crm.modules.client.model.service;
 import ir.parto.crm.modules.admin.model.entity.Admin;
 import ir.parto.crm.modules.client.model.entity.Client;
 import ir.parto.crm.modules.client.model.repository.ClientRepository;
+import ir.parto.crm.modules.ipam.model.entity.IpAddress;
 import ir.parto.crm.utils.MyBeanCopy;
 import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,26 +30,29 @@ public class ClientService implements ServiceInterface<Client> {
     @Override
     @Transactional
     public Client addNewItem(Client client) {
+        client.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.clientRepository.save(client);
     }
 
     @Override
     @Transactional
     public Client updateItem(Client client) throws InvocationTargetException, IllegalAccessException {
-        Client exist = this.clientRepository.getOne(client.getClientId());
+        Client exist = this.clientRepository.findByClientIdAndIsDeletedIsNull(client.getClientId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, client);
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.clientRepository.save(exist);
     }
 
     @Override
     @Transactional
     public Client deleteItem(Client client) {
+        Client exist = this.clientRepository.findByClientIdAndIsDeletedIsNull(client.getClientId());
         Principal authentication =  SecurityContextHolder.getContext().getAuthentication();
         client.setIsDeleted(1);
         client.setDeletedAt(LocalDateTime.now());
         client.setDeletedBy(authentication.getName());
-        this.clientRepository.save(client);
+        this.clientRepository.save(exist);
         return client;
     }
 
@@ -59,18 +63,17 @@ public class ClientService implements ServiceInterface<Client> {
 
     @Override
     public Page<Client> findAllItem(Pageable pageable) {
-//        return this.clientRepository.findAll(pageable);
         return this.clientRepository.findAllByIsDeletedIsNull(pageable);
     }
 
     @Override
     public Page<Client> findAllItemWithDeleted(Pageable pageable) {
-        return this.findAllItemWithDeleted(pageable);
+        return this.findAllItem(pageable);
     }
 
     @Override
     public Client findOne(Client client) {
-        return this.clientRepository.getOne(client.getClientId());
+        return this.clientRepository.findByClientIdAndIsDeletedIsNull(client.getClientId());
     }
 
     @Override
