@@ -1,9 +1,7 @@
 package ir.parto.crm.modules.client.model.service;
 
-import ir.parto.crm.modules.admin.model.entity.Admin;
 import ir.parto.crm.modules.client.model.entity.Client;
 import ir.parto.crm.modules.client.model.repository.ClientRepository;
-import ir.parto.crm.modules.ipam.model.entity.IpAddress;
 import ir.parto.crm.utils.MyBeanCopy;
 import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +66,7 @@ public class ClientService implements ServiceInterface<Client> {
 
     @Override
     public Page<Client> findAllItemWithDeleted(Pageable pageable) {
-        return this.findAllItem(pageable);
+        return this.clientRepository.findAll(pageable);
     }
 
     @Override
