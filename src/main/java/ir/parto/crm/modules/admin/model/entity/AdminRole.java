@@ -43,12 +43,12 @@ public class AdminRole implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private int isDeleted;
+    private Integer isDeleted;
 
     public AdminRole() {
     }
 
-    public AdminRole(String title, String description, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
+    public AdminRole(String title, String description, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.title = title;
         this.description = description;
         this.createdBy = createdBy;
@@ -132,11 +132,11 @@ public class AdminRole implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public int getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(int isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

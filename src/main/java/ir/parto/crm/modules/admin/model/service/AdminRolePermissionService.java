@@ -28,13 +28,14 @@ public class AdminRolePermissionService implements ServiceInterface<AdminRolePer
     @Override
     @Transactional
     public AdminRolePermission addNewItem(AdminRolePermission adminRolePermission) {
+        adminRolePermission.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.adminRolePermissionRepository.save(adminRolePermission);
     }
 
     @Override
     @Transactional
     public AdminRolePermission updateItem(AdminRolePermission adminRolePermission) throws InvocationTargetException, IllegalAccessException {
-        AdminRolePermission exist = this.adminRolePermissionRepository.getOne(adminRolePermission.getAdminRolePermissionId());
+        AdminRolePermission exist = this.adminRolePermissionRepository.findByIsDeletedIsNullAndAdminRolePermissionId(adminRolePermission.getAdminRolePermissionId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, adminRolePermission);
         return this.adminRolePermissionRepository.save(exist);
@@ -43,43 +44,40 @@ public class AdminRolePermissionService implements ServiceInterface<AdminRolePer
     @Override
     @Transactional
     public AdminRolePermission deleteItem(AdminRolePermission adminRolePermission) {
-        Admin authentication = (Admin) SecurityContextHolder.getContext().getAuthentication().getDetails();
-        adminRolePermission.setIsDeleted(1);
-        adminRolePermission.setDeletedAt(LocalDateTime.now());
-        adminRolePermission.setDeletedBy(authentication.getUsername());
-        return this.adminRolePermissionRepository.save(adminRolePermission);
+        AdminRolePermission exist = this.adminRolePermissionRepository.findByIsDeletedIsNullAndAdminRolePermissionId(adminRolePermission.getAdminRolePermissionId());
+        exist.setIsDeleted(1);
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setDeletedAt(LocalDateTime.now());
+        return this.adminRolePermissionRepository.save(exist);
     }
 
     @Override
     public List<AdminRolePermission> findAllItem() {
-        return this.adminRolePermissionRepository.findAll();
+        return this.adminRolePermissionRepository.findAllByIsDeletedIsNull();
     }
 
     @Override
     public Page<AdminRolePermission> findAllItem(Pageable pageable) {
-        return this.adminRolePermissionRepository.findAll(pageable);
+        return this.adminRolePermissionRepository.findAllByIsDeletedIsNull(pageable);
     }
 
     @Override
     public Page<AdminRolePermission> findAllItemWithDeleted(Pageable pageable) {
-        return null;
+        return this.adminRolePermissionRepository.findAll(pageable);
     }
 
     @Override
     public AdminRolePermission findOne(AdminRolePermission adminRolePermission) {
-        return this.adminRolePermissionRepository.getOne(adminRolePermission.getAdminRolePermissionId());
+        return this.adminRolePermissionRepository.findByIsDeletedIsNullAndAdminRolePermissionId(adminRolePermission.getAdminRolePermissionId());
     }
 
     @Override
     public AdminRolePermission findById(Long id) {
-        if(this.adminRolePermissionRepository.existsById(id)){
-            return this.adminRolePermissionRepository.getOne(id);
-        }
-        return null;
+        return this.adminRolePermissionRepository.findByIsDeletedIsNullAndAdminRolePermissionId(id);
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.adminRolePermissionRepository.existsById(id);
+        return this.adminRolePermissionRepository.existsByIsDeletedIsNullAndAdminRolePermissionId(id);
     }
 }
