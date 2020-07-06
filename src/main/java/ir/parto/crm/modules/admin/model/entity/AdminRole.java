@@ -43,7 +43,7 @@ public class AdminRole implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private int isDeleted;
+    private Integer isDeleted;
 
     public AdminRole() {
     }

@@ -40,13 +40,18 @@ public class SpringSecurityConfig  extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
-    }
+    @Autowired
+    private JwtAuthenticationFilter jwtRequestFilter;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder
+                .userDetailsService(customUserDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -89,7 +94,6 @@ public class SpringSecurityConfig  extends WebSecurityConfigurerAdapter {
                 .authenticated();
 
         // Add our custom JWT security filter
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

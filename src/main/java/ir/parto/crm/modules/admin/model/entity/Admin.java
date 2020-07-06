@@ -82,12 +82,12 @@ public class Admin implements UserDetails , Serializable{
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public Admin() {
     }
 
-    public Admin(String username, String password, String firstName, String lastName, String identifyCode, String phoneNumber, AdminRole adminRole, Client client, Collection<? extends GrantedAuthority> authority, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public Admin(String username, String password, String firstName, String lastName, String identifyCode, String phoneNumber, AdminRole adminRole, Client client, Collection<? extends GrantedAuthority> authority, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -150,7 +150,7 @@ public class Admin implements UserDetails , Serializable{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authority;
     }
 
     public String getPassword() {
@@ -257,11 +257,11 @@ public class Admin implements UserDetails , Serializable{
         this.deletedAt = deletedAt;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 

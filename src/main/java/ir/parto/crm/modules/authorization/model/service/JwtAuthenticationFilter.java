@@ -4,6 +4,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -30,10 +32,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 Long userId = tokenProvider.getUserIdFromJWT(jwt);
 
                 UserDetails userDetails = customUserDetailsService.loadUserById(userId);
+                System.out.println("-----------------3------------");
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                System.out.println("-----------------4------------"+authentication.getName());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                System.out.println("-----------------4------------"+authentication.getName());
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                System.out.println("-----------------4------------"+authentication.getName());
+
             }
         } catch (Exception ex) {
             logger.error("Could not set user authentication in security context", ex);
