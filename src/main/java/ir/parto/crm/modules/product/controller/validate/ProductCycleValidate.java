@@ -1,39 +1,47 @@
 package ir.parto.crm.modules.product.controller.validate;
 
-import ir.parto.crm.modules.product.model.entity.ProductGroup;
-import ir.parto.crm.modules.product.model.service.ProductGroupService;
+import ir.parto.crm.modules.product.model.entity.ProductCycle;
+import ir.parto.crm.modules.product.model.service.ProductCycleService;
+import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
-    private ProductGroupService productGroupService;
+@ValidationAnnotation
+public class ProductCycleValidate implements ValidateInterface<ProductCycle> {
+    private ProductCycleService productCycleService;
 
     @Autowired
-    public ProductGroupValidate(ProductGroupService productGroupService) {
-        this.productGroupService = productGroupService;
+    public ProductCycleValidate(ProductCycleService productCycleService) {
+        this.productCycleService = productCycleService;
     }
 
     @Override
-    public ValidateObject validateAddNewItem(ProductGroup productGroup) {
+    public ValidateObject validateAddNewItem(ProductCycle productCycle) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (productGroup == null) {
+        if (productCycle == null) {
             errorList.add("object is nul");
         } else {
-            if(productGroup.getProductGroup() != null && !this.productGroupService.existsById(productGroup.getProductGroup().getProductGroupId())){
-                errorList.add("Parent ProductGroup not defined");
-            }
-
-            if (productGroup.getTitle() == null || productGroup.getTitle().isEmpty()) {
+            if (productCycle.getTitle() == null || productCycle.getTitle().isEmpty()) {
                 errorList.add("Title is required");
             }
+
+            if ((productCycle.getDays() == null || productCycle.getDays() == 0) && (productCycle.getMonth() == null || productCycle.getMonth() == 0)) {
+                errorList.add("Days or Month is required");
+            }
+
+            if (productCycle.getPaidType() == null || (productCycle.getPaidType() != 1 &&productCycle.getPaidType() != 2)) {
+                errorList.add("PaidType is required and must be 1 or 2");
+            }
+
+            if (productCycle.getOfficialType() == null || (productCycle.getOfficialType() != 1 &&productCycle.getOfficialType() != 2)) {
+                errorList.add("OfficialType is required and must be 1 or 2");
+            }
         }
 
         validateObject.setCount(errorList.size());
@@ -48,47 +56,31 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
     }
 
     @Override
-    public ValidateObject validateUpdateItem(ProductGroup productGroup) {
+    public ValidateObject validateUpdateItem(ProductCycle productCycle) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (productGroup == null) {
+        if (productCycle == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.productGroupService.existsById(productGroup.getProductGroupId())) {
-                errorList.add("ProductGroup not defined");
+            if(!this.productCycleService.existsById(productCycle.getProductCycleId())) {
+                errorList.add("ProductCycle not found");
             }
 
-            if(productGroup.getProductGroup() != null && !this.productGroupService.existsById(productGroup.getProductGroup().getProductGroupId())){
-                errorList.add("Parent ProductGroup not defined");
-            }
-
-            if (productGroup.getTitle() == null || productGroup.getTitle().isEmpty()) {
+            if (productCycle.getTitle() == null || productCycle.getTitle().isEmpty()) {
                 errorList.add("Title is required");
             }
-        }
 
-        validateObject.setCount(errorList.size());
-        validateObject.setMessages(errorList);
-        if (errorList.size() > 0) {
-            validateObject.setResult("error");
-        } else {
-            validateObject.setResult("success");
-        }
+            if ((productCycle.getDays() == null || productCycle.getDays() == 0) && (productCycle.getMonth() == null || productCycle.getMonth() == 0)) {
+                errorList.add("Days or Month is required");
+            }
 
-        return validateObject;
-    }
+            if (productCycle.getPaidType() == null || (productCycle.getPaidType() != 1 &&productCycle.getPaidType() != 2)) {
+                errorList.add("PaidType is required and must be 1 or 2");
+            }
 
-    @Override
-    public ValidateObject deleteItem(ProductGroup productGroup) {
-        List<String> errorList = new ArrayList<>();
-        ValidateObject validateObject = new ValidateObject();
-
-        if (productGroup == null) {
-            errorList.add("object is nul");
-        } else {
-            if (!this.productGroupService.existsById(productGroup.getProductGroupId())) {
-                errorList.add("ProductGroup not defined");
+            if (productCycle.getOfficialType() == null || (productCycle.getOfficialType() != 1 &&productCycle.getOfficialType() != 2)) {
+                errorList.add("OfficialType is required and must be 1 or 2");
             }
         }
 
@@ -104,15 +96,15 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
     }
 
     @Override
-    public ValidateObject findOne(ProductGroup productGroup) {
+    public ValidateObject deleteItem(ProductCycle productCycle) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (productGroup == null) {
+        if (productCycle == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.productGroupService.existsById(productGroup.getProductGroupId())) {
-                errorList.add("ProductGroup not defined");
+            if (!this.productCycleService.existsById(productCycle.getProductCycleId())) {
+                errorList.add("Product Id not defined");
             }
         }
 
@@ -128,15 +120,39 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
     }
 
     @Override
-    public ValidateObject findById(ProductGroup productGroup) {
+    public ValidateObject findOne(ProductCycle productCycle) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (productGroup == null) {
+        if (productCycle == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.productGroupService.existsById(productGroup.getProductGroupId())) {
-                errorList.add("ProductGroup not defined");
+            if (!this.productCycleService.existsById(productCycle.getProductCycleId())) {
+                errorList.add("Product Id not defined");
+            }
+        }
+
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if (errorList.size() > 0) {
+            validateObject.setResult("error");
+        } else {
+            validateObject.setResult("success");
+        }
+
+        return validateObject;
+    }
+
+    @Override
+    public ValidateObject findById(ProductCycle productCycle) {
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+
+        if (productCycle == null) {
+            errorList.add("object is nul");
+        } else {
+            if (!this.productCycleService.existsById(productCycle.getProductCycleId())) {
+                errorList.add("Product Id not defined");
             }
         }
 

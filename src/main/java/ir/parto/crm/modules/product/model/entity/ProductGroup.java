@@ -23,6 +23,15 @@ public class ProductGroup implements Serializable {
     @Column(name = "title", columnDefinition = "nvarchar2(100)")
     private String title;
 
+    @Column(name = "admin_description", columnDefinition = "nvarchar2(1000)")
+    private String adminDescription;
+
+    @Column(name = "client_description", columnDefinition = "nvarchar2(1000)")
+    private String clientDescription;
+
+    @Column(name = "cover", columnDefinition = "nvarchar2(256)")
+    private String cover;
+
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
@@ -50,9 +59,12 @@ public class ProductGroup implements Serializable {
     public ProductGroup() {
     }
 
-    public ProductGroup(ProductGroup productGroup, String title, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
+    public ProductGroup(ProductGroup productGroup, String title, String adminDescription, String clientDescription, String cover, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.productGroup = productGroup;
         this.title = title;
+        this.adminDescription = adminDescription;
+        this.clientDescription = clientDescription;
+        this.cover = cover;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -84,6 +96,30 @@ public class ProductGroup implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getAdminDescription() {
+        return adminDescription;
+    }
+
+    public void setAdminDescription(String adminDescription) {
+        this.adminDescription = adminDescription;
+    }
+
+    public String getClientDescription() {
+        return clientDescription;
+    }
+
+    public void setClientDescription(String clientDescription) {
+        this.clientDescription = clientDescription;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     public String getCreatedBy() {

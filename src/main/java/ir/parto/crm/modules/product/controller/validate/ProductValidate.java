@@ -25,16 +25,16 @@ public class ProductValidate implements ValidateInterface<Product> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(product == null || product.getTitle() == null || product.getTitle().isEmpty()){
-            errorList.add("Title is required");
-        }
-        if(product == null || product.getProductGroup() == null || product.getProductGroup().getProductGroupId() == 0){
-            errorList.add("Product Group is required");
-        }
+        if(product == null){
+            errorList.add("object is nul");
+        }else{
+            if(product.getTitle() == null || product.getTitle().isEmpty()){
+                errorList.add("Title is required");
+            }
 
-        Product exist = this.productService.findByTitleAndProductGroup(product.getTitle(),product.getProductGroup());
-        if(product != null && exist != null){
-            errorList.add("Title is repetetive in Product Group");
+            if(product.getProductGroup() == null || product.getProductGroup().getProductGroupId() == 0){
+                errorList.add("Product Group is required");
+            }
         }
 
         validateObject.setCount(errorList.size());
@@ -53,16 +53,20 @@ public class ProductValidate implements ValidateInterface<Product> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        Product exist = this.productService.findByTitleAndProductGroup(product.getTitle(),product.getProductGroup());
+        if(product == null){
+            errorList.add("object is nul");
+        }else{
+            if(!this.productService.existsById(product.getProductId())){
+                errorList.add("Product Id not defined");
+            }
 
-        if(product != null || product.getTitle() == null || product.getTitle().isEmpty()){
-            errorList.add("Title is required");
-        }
-        if(product != null || product.getProductGroup() == null || product.getProductGroup().getProductGroupId() == 0){
-            errorList.add("Product Group is required");
-        }
-        if(product != null && exist != null && exist.getProductId() != product.getProductId()){
-            errorList.add("Title is repetetive in Product Group");
+            if(product.getTitle() == null || product.getTitle().isEmpty()){
+                errorList.add("Title is required");
+            }
+
+            if(product.getProductGroup() == null || product.getProductGroup().getProductGroupId() == 0){
+                errorList.add("Product Group is required");
+            }
         }
 
         validateObject.setCount(errorList.size());
@@ -80,9 +84,15 @@ public class ProductValidate implements ValidateInterface<Product> {
     public ValidateObject deleteItem(Product product) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(!this.productService.existsById(product.getProductId())){
-            errorList.add("Product Id not defined");
+
+        if(product == null){
+            errorList.add("object is nul");
+        }else{
+            if(!this.productService.existsById(product.getProductId())){
+                errorList.add("Product Id not defined");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
         if(errorList.size()>0){
@@ -98,9 +108,15 @@ public class ProductValidate implements ValidateInterface<Product> {
     public ValidateObject findOne(Product product) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(!this.productService.existsById(product.getProductId())){
-            errorList.add("Product Id not defined");
+
+        if(product == null){
+            errorList.add("object is nul");
+        }else{
+            if(!this.productService.existsById(product.getProductId())){
+                errorList.add("Product Id not defined");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
         if(errorList.size()>0){
@@ -116,9 +132,15 @@ public class ProductValidate implements ValidateInterface<Product> {
     public ValidateObject findById(Product product) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(!this.productService.existsById(product.getProductId())){
-            errorList.add("Product Id not defined");
+
+        if(product == null){
+            errorList.add("object is nul");
+        }else{
+            if(!this.productService.existsById(product.getProductId())){
+                errorList.add("Product Id not defined");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
         if(errorList.size()>0){

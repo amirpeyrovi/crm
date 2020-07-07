@@ -6,10 +6,11 @@ import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/v1/product/product")
 public class ProductRestController implements RestControllerInterface {
     private ProductValidate productValidate;
 
@@ -19,14 +20,14 @@ public class ProductRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Object findAllProduct(){
+    public Object findAllProduct(@RequestParam(required = false, defaultValue = "0") String page,
+                                 @RequestParam(required = false, defaultValue = "0") String sort){
         ValidateObject validateObject = this.productValidate.findAll();
         if(validateObject.getResult().equals("success")){
-//            return new ApiRe
+            return null;
         }else{
-
+            return null;
         }
-        return null ;
     }
 
 }

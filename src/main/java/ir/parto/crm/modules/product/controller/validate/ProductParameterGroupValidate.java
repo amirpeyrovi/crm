@@ -1,37 +1,33 @@
 package ir.parto.crm.modules.product.controller.validate;
 
-import ir.parto.crm.modules.product.model.entity.ProductGroup;
-import ir.parto.crm.modules.product.model.service.ProductGroupService;
+import ir.parto.crm.modules.product.model.entity.ProductParameterGroup;
+import ir.parto.crm.modules.product.model.service.ProductParameterGroupService;
+import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
-    private ProductGroupService productGroupService;
+@ValidationAnnotation
+public class ProductParameterGroupValidate implements ValidateInterface<ProductParameterGroup> {
+    private ProductParameterGroupService productParameterGroupService;
 
     @Autowired
-    public ProductGroupValidate(ProductGroupService productGroupService) {
-        this.productGroupService = productGroupService;
+    public ProductParameterGroupValidate(ProductParameterGroupService productParameterGroupService) {
+        this.productParameterGroupService = productParameterGroupService;
     }
 
     @Override
-    public ValidateObject validateAddNewItem(ProductGroup productGroup) {
+    public ValidateObject validateAddNewItem(ProductParameterGroup productParameterGroup) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (productGroup == null) {
+        if (productParameterGroup == null) {
             errorList.add("object is nul");
         } else {
-            if(productGroup.getProductGroup() != null && !this.productGroupService.existsById(productGroup.getProductGroup().getProductGroupId())){
-                errorList.add("Parent ProductGroup not defined");
-            }
-
-            if (productGroup.getTitle() == null || productGroup.getTitle().isEmpty()) {
+            if (productParameterGroup.getTitle() == null || productParameterGroup.getTitle().isEmpty()) {
                 errorList.add("Title is required");
             }
         }
@@ -48,22 +44,18 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
     }
 
     @Override
-    public ValidateObject validateUpdateItem(ProductGroup productGroup) {
+    public ValidateObject validateUpdateItem(ProductParameterGroup productParameterGroup) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (productGroup == null) {
+        if (productParameterGroup == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.productGroupService.existsById(productGroup.getProductGroupId())) {
-                errorList.add("ProductGroup not defined");
+            if (!this.productParameterGroupService.existsById(productParameterGroup.getProductParameterGroupId())) {
+                errorList.add("ProductParameterGroup not defined");
             }
 
-            if(productGroup.getProductGroup() != null && !this.productGroupService.existsById(productGroup.getProductGroup().getProductGroupId())){
-                errorList.add("Parent ProductGroup not defined");
-            }
-
-            if (productGroup.getTitle() == null || productGroup.getTitle().isEmpty()) {
+            if (productParameterGroup.getTitle() == null || productParameterGroup.getTitle().isEmpty()) {
                 errorList.add("Title is required");
             }
         }
@@ -80,15 +72,15 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
     }
 
     @Override
-    public ValidateObject deleteItem(ProductGroup productGroup) {
+    public ValidateObject deleteItem(ProductParameterGroup productParameterGroup) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (productGroup == null) {
+        if (productParameterGroup == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.productGroupService.existsById(productGroup.getProductGroupId())) {
-                errorList.add("ProductGroup not defined");
+            if (!this.productParameterGroupService.existsById(productParameterGroup.getProductParameterGroupId())) {
+                errorList.add("ProductParameterGroup not defined");
             }
         }
 
@@ -104,15 +96,15 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
     }
 
     @Override
-    public ValidateObject findOne(ProductGroup productGroup) {
+    public ValidateObject findOne(ProductParameterGroup productParameterGroup) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (productGroup == null) {
+        if (productParameterGroup == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.productGroupService.existsById(productGroup.getProductGroupId())) {
-                errorList.add("ProductGroup not defined");
+            if (!this.productParameterGroupService.existsById(productParameterGroup.getProductParameterGroupId())) {
+                errorList.add("ProductParameterGroup not defined");
             }
         }
 
@@ -128,15 +120,15 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
     }
 
     @Override
-    public ValidateObject findById(ProductGroup productGroup) {
+    public ValidateObject findById(ProductParameterGroup productParameterGroup) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (productGroup == null) {
+        if (productParameterGroup == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.productGroupService.existsById(productGroup.getProductGroupId())) {
-                errorList.add("ProductGroup not defined");
+            if (!this.productParameterGroupService.existsById(productParameterGroup.getProductParameterGroupId())) {
+                errorList.add("ProductParameterGroup not defined");
             }
         }
 
