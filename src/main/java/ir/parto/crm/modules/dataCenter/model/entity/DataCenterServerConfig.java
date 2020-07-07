@@ -55,12 +55,12 @@ public class DataCenterServerConfig implements Serializable {
     private LocalDateTime deletedDate;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public DataCenterServerConfig() {
     }
 
-    public DataCenterServerConfig(DataCenterServerConfigGroup dataCenterServerConfigGroup, String title, String description, String type, String options, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+    public DataCenterServerConfig(DataCenterServerConfigGroup dataCenterServerConfigGroup, String title, String description, String type, String options, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.dataCenterServerConfigGroup = dataCenterServerConfigGroup;
         this.title = title;
         this.description = description;
@@ -171,11 +171,11 @@ public class DataCenterServerConfig implements Serializable {
         this.deletedDate = deletedDate;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

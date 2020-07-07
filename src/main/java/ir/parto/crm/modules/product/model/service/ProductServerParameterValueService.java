@@ -7,10 +7,12 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,55 +27,57 @@ public class ProductServerParameterValueService implements ServiceInterface<Prod
     @Override
     @Transactional
     public ProductServerParameterValue addNewItem(ProductServerParameterValue productServerParameterValue) {
+        productServerParameterValue.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.productServerParameterValueRepository.save(productServerParameterValue);
     }
 
     @Override
     @Transactional
     public ProductServerParameterValue updateItem(ProductServerParameterValue productServerParameterValue) throws InvocationTargetException, IllegalAccessException {
-        ProductServerParameterValue exist = this.productServerParameterValueRepository.getOne(productServerParameterValue.getProductServerParameterId());
+        ProductServerParameterValue exist = this.productServerParameterValueRepository.findByIsDeletedIsNullAndProductServerParameterId(productServerParameterValue.getProductServerParameterId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, productServerParameterValue);
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.productServerParameterValueRepository.save(exist);
     }
 
     @Override
     @Transactional
     public ProductServerParameterValue deleteItem(ProductServerParameterValue productServerParameterValue) {
-        this.productServerParameterValueRepository.delete(productServerParameterValue);
-        return productServerParameterValue;
+        ProductServerParameterValue exist = this.productServerParameterValueRepository.findByIsDeletedIsNullAndProductServerParameterId(productServerParameterValue.getProductServerParameterId());
+        exist.setIsDeleted(1);
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setDeletedDate(LocalDateTime.now());
+        return this.productServerParameterValueRepository.save(exist);
     }
 
     @Override
     public List<ProductServerParameterValue> findAllItem() {
-        return this.productServerParameterValueRepository.findAll();
+        return this.productServerParameterValueRepository.findAllByIsDeletedIsNull();
     }
 
     @Override
     public Page<ProductServerParameterValue> findAllItem(Pageable pageable) {
-        return this.productServerParameterValueRepository.findAll(pageable);
+        return this.productServerParameterValueRepository.findAllByIsDeletedIsNull(pageable);
     }
 
     @Override
     public Page<ProductServerParameterValue> findAllItemWithDeleted(Pageable pageable) {
-        return null;
+        return this.productServerParameterValueRepository.findAll(pageable);
     }
 
     @Override
     public ProductServerParameterValue findOne(ProductServerParameterValue productServerParameterValue) {
-        return this.productServerParameterValueRepository.getOne(productServerParameterValue.getProductServerParameterId());
+        return this.productServerParameterValueRepository.findByIsDeletedIsNullAndProductServerParameterId(productServerParameterValue.getProductServerParameterId());
     }
 
     @Override
     public ProductServerParameterValue findById(Long id) {
-        if(this.productServerParameterValueRepository.existsById(id)){
-            return this.productServerParameterValueRepository.getOne(id);
-        }
-        return null;
+        return this.productServerParameterValueRepository.findByIsDeletedIsNullAndProductServerParameterId(id);
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.productServerParameterValueRepository.existsById(id);
+        return this.productServerParameterValueRepository.existsByIsDeletedIsNullAndProductProductServerParameterId(id);
     }
 }

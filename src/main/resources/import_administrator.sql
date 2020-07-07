@@ -6,11 +6,9 @@ where not exists(select id from crm_admin where username = 'administrator');
 insert into crm_admin_role (title , id) select 'administrator' , role_seq.nextval from dual where not exists (select id from crm_admin_role where title = 'administrator');
 update crm_admin set admin_role_id = (select id from crm_admin_role where title ='administrator');
 
-insert into CRM_PERMISSION_VALUE (PERMISSION_VALUE_ID, ADMIN_ROLE_ID, PERMISSION_ID
- , CLIENT_ADD_ITEM, CLIENT_UPDATE_ITEM, CLIENT_DELETE_ITEM, CLIENT_SHOW_ITEM,
-ADMIN_ADD_ITEM, ADMIN_UPDATE_ITEM, ADMIN_DELETE_ITEM, ADMIN_SHOW_ITEM )
-select permission_value_seq.nextval , (select id from crm_admin_role where title = 'administrator') ,
+insert into crm_admin_permission (id, ADMIN_ROLE_ID, PERMISSION_ID
+    , CLIENT_ADD_ITEM, CLIENT_UPDATE_ITEM, CLIENT_DELETE_ITEM, CLIENT_SHOW_ITEM,
+                             ADMIN_ADD_ITEM, ADMIN_UPDATE_ITEM, ADMIN_DELETE_ITEM, ADMIN_SHOW_ITEM )
+select admin_seq.nextval , (select id from crm_admin_role where title = 'administrator') ,
        crm_permission.PERMISSION_ID, 1,1,1,1,1,1 ,1,1 from crm_permission where not exists
-           (select ADMIN_ROLE_ID, PERMISSION_ID from CRM_PERMISSION_VALUE where ADMIN_ROLE_ID =
-                                                (select id from crm_admin_role where title = 'administrator')
-                                              AND crm_permission.PERMISSION_ID = CRM_PERMISSION_VALUE.PERMISSION_ID);
+    (select ADMIN_ROLE_ID, PERMISSION_ID from crm_admin_permission where ADMIN_ROLE_ID = (select id from crm_admin_role where title = 'administrator')  AND crm_permission.PERMISSION_ID = crm_admin_permission.PERMISSION_ID);

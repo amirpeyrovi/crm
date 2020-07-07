@@ -69,12 +69,12 @@ public class AdminRolePermission implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private int isDeleted;
+    private Integer isDeleted;
 
     public AdminRolePermission() {
     }
 
-    public AdminRolePermission(String title, String client_addPerm, String client_updatePerm, String client_deletePerm, String client_viewPerm, String admin_addPerm, String admin_updatePerm, String admin_deletePerm, String admin_viewPerm, AdminRole adminRole, String createdBy, String updatedBy, LocalDateTime createdDate, LocalDateTime updatedAt, String deletedBy, LocalDateTime deletedAt, int isDeleted) {
+    public AdminRolePermission(String title, String client_addPerm, String client_updatePerm, String client_deletePerm, String client_viewPerm, String admin_addPerm, String admin_updatePerm, String admin_deletePerm, String admin_viewPerm, AdminRole adminRole, String createdBy, String updatedBy, LocalDateTime createdDate, LocalDateTime updatedAt, String deletedBy, LocalDateTime deletedAt, Integer isDeleted) {
         this.title = title;
         this.client_addPerm = client_addPerm;
         this.client_updatePerm = client_updatePerm;
@@ -230,11 +230,11 @@ public class AdminRolePermission implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public int getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(int isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

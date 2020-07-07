@@ -39,30 +39,35 @@ public class PromotionCodeProduct implements Serializable {
 
     @Column(name = "update_at", columnDefinition = "TIMESTAMP(6)")
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedDate;
 
     @Column(name = "deleted_at", columnDefinition = "TIMESTAMP(6)")
-    private LocalDateTime deletedAt;
+    private LocalDateTime deletedDate;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public PromotionCodeProduct() {
     }
 
-    public PromotionCodeProduct(Product product, PromotionCode promotionCode, String createdBy, LocalDateTime createdDate) {
+    public PromotionCodeProduct(Product product, PromotionCode promotionCode, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.product = product;
         this.promotionCode = promotionCode;
         this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
         this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+        this.deletedDate = deletedDate;
+        this.isDeleted = isDeleted;
     }
 
-    public Long getPromotionId() {
+    public Long getPromotionCodeProductId() {
         return promotionCodeProductId;
     }
 
-    public void setPromotionId(Long promotionId) {
-        this.promotionCodeProductId = promotionId;
+    public void setPromotionCodeProductId(Long promotionCodeProductId) {
+        this.promotionCodeProductId = promotionCodeProductId;
     }
 
     public Product getProduct() {
@@ -89,11 +94,51 @@ public class PromotionCodeProduct implements Serializable {
         this.createdBy = createdBy;
     }
 
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public LocalDateTime getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(LocalDateTime deletedDate) {
+        this.deletedDate = deletedDate;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

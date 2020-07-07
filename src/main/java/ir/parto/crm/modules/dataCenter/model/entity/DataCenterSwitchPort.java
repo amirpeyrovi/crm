@@ -50,12 +50,12 @@ public class DataCenterSwitchPort implements Serializable {
     private LocalDateTime deletedDate;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public DataCenterSwitchPort() {
     }
 
-    public DataCenterSwitchPort(DataCenterSwitch dataCenterSwitch, Integer status, Integer number, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, LocalDateTime isDeleted) {
+    public DataCenterSwitchPort(DataCenterSwitch dataCenterSwitch, Integer status, Integer number, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.dataCenterSwitch = dataCenterSwitch;
         this.status = status;
         this.number = number;
@@ -148,11 +148,11 @@ public class DataCenterSwitchPort implements Serializable {
         this.deletedDate = deletedDate;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

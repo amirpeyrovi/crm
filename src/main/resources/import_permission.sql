@@ -120,7 +120,7 @@ select 603 , 'ServiceProductHistory' , 'History Of Service' , 1 , sysdate from d
 where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 603);
 
 INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
-select 604 , 'ServiceProduct_ParamerValue' , 'Value Of Parameter OF Service' , 1 , sysdate from dual
+select 604 , 'ServiceProduct_ParameterValue' , 'Value Of Parameter OF Service' , 1 , sysdate from dual
 where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 604);
 ----------------------------TICKET----------------------------------
 

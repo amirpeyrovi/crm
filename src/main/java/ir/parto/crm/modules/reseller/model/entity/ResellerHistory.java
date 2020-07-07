@@ -35,8 +35,8 @@ public class ResellerHistory implements Serializable {
     private OrderItem orderItem;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id", foreignKey = @ForeignKey(name = "reseller_history_admin_fk"))
-    private Admin admin;
+    @JoinColumn(name = "reseller_id", foreignKey = @ForeignKey(name = "reseller_history_reseller_fk"))
+    private Reseller reseller;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -54,39 +54,31 @@ public class ResellerHistory implements Serializable {
 
     @Column(name = "update_at", columnDefinition = "TIMESTAMP(6)")
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedDate;
 
     @Column(name = "deleted_at", columnDefinition = "TIMESTAMP(6)")
-    private LocalDateTime deletedAt;
+    private LocalDateTime deletedDate;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public ResellerHistory() {
     }
 
-    public ResellerHistory(String description, Long amountIn, Long amountOut, Integer percentage, OrderItem orderItem, Admin admin, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public ResellerHistory(String description, Long amountIn, Long amountOut, Integer percentage, OrderItem orderItem, Reseller reseller, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.description = description;
         this.amountIn = amountIn;
         this.amountOut = amountOut;
         this.percentage = percentage;
         this.orderItem = orderItem;
-        this.admin = admin;
+        this.reseller = reseller;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
         this.createdDate = createdDate;
-        this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
+        this.updatedDate = updatedDate;
+        this.deletedDate = deletedDate;
         this.isDeleted = isDeleted;
-    }
-
-    public Admin getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
     }
 
     public Long getResellerHistoryId() {
@@ -137,6 +129,14 @@ public class ResellerHistory implements Serializable {
         this.orderItem = orderItem;
     }
 
+    public Reseller getReseller() {
+        return reseller;
+    }
+
+    public void setReseller(Reseller reseller) {
+        this.reseller = reseller;
+    }
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -169,27 +169,27 @@ public class ResellerHistory implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
-    public LocalDateTime getDeletedAt() {
-        return deletedAt;
+    public LocalDateTime getDeletedDate() {
+        return deletedDate;
     }
 
-    public void setDeletedAt(LocalDateTime deletedAt) {
-        this.deletedAt = deletedAt;
+    public void setDeletedDate(LocalDateTime deletedDate) {
+        this.deletedDate = deletedDate;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

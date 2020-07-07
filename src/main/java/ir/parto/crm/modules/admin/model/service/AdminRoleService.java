@@ -29,13 +29,14 @@ public class AdminRoleService implements ServiceInterface<AdminRole> {
     @Override
     @Transactional
     public AdminRole addNewItem(AdminRole adminRole) {
+        adminRole.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.adminRoleRepository.save(adminRole);
     }
 
     @Override
     @Transactional
     public AdminRole updateItem(AdminRole adminRole) throws InvocationTargetException, IllegalAccessException {
-        AdminRole exist = this.adminRoleRepository.getOne(adminRole.getAdminRoleId());
+        AdminRole exist = this.adminRoleRepository.findByIsDeletedIsNullAndAdminRoleId(adminRole.getAdminRoleId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, adminRole);
         return this.adminRoleRepository.save(exist);
@@ -44,43 +45,40 @@ public class AdminRoleService implements ServiceInterface<AdminRole> {
     @Override
     @Transactional
     public AdminRole deleteItem(AdminRole adminRole) {
-        Admin authentication = (Admin) SecurityContextHolder.getContext().getAuthentication().getDetails();
-        adminRole.setIsDeleted(1);
-        adminRole.setDeletedAt(LocalDateTime.now());
-        adminRole.setDeletedBy(authentication.getUsername());
-        return this.adminRoleRepository.save(adminRole);
+        AdminRole exist = this.adminRoleRepository.findByIsDeletedIsNullAndAdminRoleId(adminRole.getAdminRoleId());
+        exist.setIsDeleted(1);
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setDeletedAt(LocalDateTime.now());
+        return this.adminRoleRepository.save(exist);
     }
 
     @Override
     public List<AdminRole> findAllItem() {
-        return this.adminRoleRepository.findAll();
+        return this.adminRoleRepository.findAllByIsDeletedIsNull();
     }
 
     @Override
     public Page<AdminRole> findAllItem(Pageable pageable) {
-        return this.adminRoleRepository.findAll(pageable);
+        return this.adminRoleRepository.findAllByIsDeletedIsNull(pageable);
     }
 
     @Override
     public Page<AdminRole> findAllItemWithDeleted(Pageable pageable) {
-        return null;
+        return this.adminRoleRepository.findAll(pageable);
     }
 
     @Override
     public AdminRole findOne(AdminRole adminRole) {
-        return this.adminRoleRepository.getOne(adminRole.getAdminRoleId());
+        return this.adminRoleRepository.findByIsDeletedIsNullAndAdminRoleId(adminRole.getAdminRoleId());
     }
 
     @Override
     public AdminRole findById(Long id) {
-        if(this.adminRoleRepository.existsById(id)){
-            return this.adminRoleRepository.getOne(id);
-        }
-        return null;
+        return this.adminRoleRepository.findByIsDeletedIsNullAndAdminRoleId(id);
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.adminRoleRepository.existsById(id);
+        return this.adminRoleRepository.existsByIsDeletedIsNullAndAdminRoleId(id);
     }
 }

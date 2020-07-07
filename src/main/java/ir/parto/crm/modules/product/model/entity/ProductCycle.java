@@ -25,6 +25,20 @@ public class ProductCycle implements Serializable {
     @Column(name = "month", columnDefinition = "number")
     private Integer month;
 
+    @Column(name = "is_one_time", columnDefinition = "number(1)")
+    private Integer isOneTime;
+
+    // status => [1: postPaid, 2: prePaid]
+    @Column(name = "paid_type", columnDefinition = "number(1)")
+    private Integer paidType;
+
+    @Column(name = "is_auto_renew", columnDefinition = "number(1)")
+    private Integer isAutoRenew;
+
+    // status => [1: official, 2: unofficial]
+    @Column(name = "official_type", columnDefinition = "number(1)")
+    private Integer officialType;
+
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
@@ -41,27 +55,31 @@ public class ProductCycle implements Serializable {
 
     @Column(name = "update_at", columnDefinition = "TIMESTAMP(6)")
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedDate;
 
     @Column(name = "deleted_at", columnDefinition = "TIMESTAMP(6)")
-    private LocalDateTime deletedAt;
+    private LocalDateTime deletedDate;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public ProductCycle() {
     }
 
-    public ProductCycle(String title, Integer days, Integer month, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public ProductCycle(String title, Integer days, Integer month, Integer isOneTime, Integer paidType, Integer isAutoRenew, Integer officialType, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.title = title;
         this.days = days;
         this.month = month;
+        this.isOneTime = isOneTime;
+        this.paidType = paidType;
+        this.isAutoRenew = isAutoRenew;
+        this.officialType = officialType;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
         this.createdDate = createdDate;
-        this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
+        this.updatedDate = updatedDate;
+        this.deletedDate = deletedDate;
         this.isDeleted = isDeleted;
     }
 
@@ -97,6 +115,38 @@ public class ProductCycle implements Serializable {
         this.month = month;
     }
 
+    public Integer getIsOneTime() {
+        return isOneTime;
+    }
+
+    public void setIsOneTime(Integer isOneTime) {
+        this.isOneTime = isOneTime;
+    }
+
+    public Integer getPaidType() {
+        return paidType;
+    }
+
+    public void setPaidType(Integer paidType) {
+        this.paidType = paidType;
+    }
+
+    public Integer getIsAutoRenew() {
+        return isAutoRenew;
+    }
+
+    public void setIsAutoRenew(Integer isAutoRenew) {
+        this.isAutoRenew = isAutoRenew;
+    }
+
+    public Integer getOfficialType() {
+        return officialType;
+    }
+
+    public void setOfficialType(Integer officialType) {
+        this.officialType = officialType;
+    }
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -129,27 +179,27 @@ public class ProductCycle implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
-    public LocalDateTime getDeletedAt() {
-        return deletedAt;
+    public LocalDateTime getDeletedDate() {
+        return deletedDate;
     }
 
-    public void setDeletedAt(LocalDateTime deletedAt) {
-        this.deletedAt = deletedAt;
+    public void setDeletedDate(LocalDateTime deletedDate) {
+        this.deletedDate = deletedDate;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }
