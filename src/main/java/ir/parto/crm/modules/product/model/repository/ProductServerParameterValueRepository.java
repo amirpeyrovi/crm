@@ -17,5 +17,5 @@ public interface ProductServerParameterValueRepository extends JpaRepository<Pro
 
     ProductServerParameterValue findByIsDeletedIsNullAndProductServerParameterId(Long id);
 
-    boolean existsByIsDeletedIsNullAndProductProductServerParameterId(Long id);
+    boolean existsByIsDeletedIsNullAndProductServerParameterId(Long id);
 }
