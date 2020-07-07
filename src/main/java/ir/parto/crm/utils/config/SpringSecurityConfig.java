@@ -1,8 +1,7 @@
 package ir.parto.crm.utils.config;
 
-import ir.parto.crm.modules.authorization.model.service.CustomUserDetailsService;
-import ir.parto.crm.modules.authorization.model.service.JwtAuthenticationEntryPoint;
-import ir.parto.crm.modules.authorization.model.service.JwtAuthenticationFilter;
+import ir.parto.crm.modules.authenticate.controller.JwtAuthenticationEntryPoint;
+import ir.parto.crm.modules.authenticate.controller.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,11 +27,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 )
 public class SpringSecurityConfig  extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    CustomUserDetailsService customUserDetailsService;
+
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    private UserDetailsService jwtUserDetailsService;
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     @Override
@@ -40,17 +45,10 @@ public class SpringSecurityConfig  extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Autowired
-    private JwtAuthenticationFilter jwtRequestFilter;
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
-                .userDetailsService(customUserDetailsService)
+                .userDetailsService(jwtUserDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
 
@@ -62,7 +60,7 @@ public class SpringSecurityConfig  extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .exceptionHandling()
-                .authenticationEntryPoint(unauthorizedHandler)
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -78,9 +76,9 @@ public class SpringSecurityConfig  extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                 .permitAll()
-                .antMatchers("/api/auth/**")
+                .antMatchers("/**")
                 .permitAll()
-                .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
+                .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability", "/v1/login/authenticate")
                 .permitAll()
                 .antMatchers("/**/**/**")
 //                .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**","/v1/client/**")
