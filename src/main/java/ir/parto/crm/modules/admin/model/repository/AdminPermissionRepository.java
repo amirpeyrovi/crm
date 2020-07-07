@@ -2,7 +2,7 @@ package ir.parto.crm.modules.admin.model.repository;
 
 import ir.parto.crm.modules.admin.model.entity.AdminPermission;
 import ir.parto.crm.modules.admin.model.entity.AdminRole;
-import ir.parto.crm.modules.authentication.model.entity.Permission;
+import ir.parto.crm.modules.authenticate.model.entity.Permission;
 import ir.parto.crm.utils.interfaces.RepositoryInterface;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

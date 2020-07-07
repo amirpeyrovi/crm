@@ -3,7 +3,7 @@ package ir.parto.crm.modules.admin.model.service;
 import ir.parto.crm.modules.admin.model.entity.AdminPermission;
 import ir.parto.crm.modules.admin.model.entity.AdminRole;
 import ir.parto.crm.modules.admin.model.repository.AdminPermissionRepository;
-import ir.parto.crm.modules.authentication.model.entity.Permission;
+import ir.parto.crm.modules.authenticate.model.entity.Permission;
 import ir.parto.crm.utils.MyBeanCopy;
 import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package ir.parto.crm.modules.authenticate.controller;
+package ir.parto.crm.modules.authenticate.model.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

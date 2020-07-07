@@ -1,4 +1,4 @@
-package ir.parto.crm.modules.authenticate.controller;
+package ir.parto.crm.modules.authenticate.model.service;
 
 import java.io.Serializable;
 

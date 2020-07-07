@@ -1,6 +1,5 @@
-package ir.parto.crm.modules.authenticate.controller;
+package ir.parto.crm.modules.authenticate.model.service;
 
-import ir.parto.crm.modules.authenticate.model.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

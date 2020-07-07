@@ -1,7 +1,7 @@
-package ir.parto.crm.modules.authentication.model.service;
+package ir.parto.crm.modules.authenticate.model.service;
 
-import ir.parto.crm.modules.authentication.model.entity.Permission;
-import ir.parto.crm.modules.authentication.model.repository.PermissionRepository;
+import ir.parto.crm.modules.authenticate.model.entity.Permission;
+import ir.parto.crm.modules.authenticate.model.repository.PermissionRepository;
 import ir.parto.crm.utils.MyBeanCopy;
 import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;

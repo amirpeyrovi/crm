@@ -107,6 +107,12 @@ public class Admin implements UserDetails , Serializable{
     }
 
     public Admin(Long adminId, String firstName, String lastName, String username, String password, List<GrantedAuthority> authorities) {
+        this.adminId = adminId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.authority = authorities;
     }
 
     public Admin(String firstName, String username, String password) {

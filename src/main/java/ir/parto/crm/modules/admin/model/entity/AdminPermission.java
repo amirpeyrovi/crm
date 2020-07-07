@@ -1,5 +1,5 @@
 package ir.parto.crm.modules.admin.model.entity;
-import ir.parto.crm.modules.authentication.model.entity.Permission;
+import ir.parto.crm.modules.authenticate.model.entity.Permission;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

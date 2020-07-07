@@ -1,4 +1,4 @@
-package ir.parto.crm.modules.authentication.model.entity;
+package ir.parto.crm.modules.authenticate.model.entity;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;

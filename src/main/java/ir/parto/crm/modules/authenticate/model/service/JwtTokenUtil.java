@@ -1,4 +1,4 @@
-package ir.parto.crm.modules.authenticate.controller;
+package ir.parto.crm.modules.authenticate.model.service;
 
 import io.jsonwebtoken.*;
 import ir.parto.crm.modules.admin.model.entity.Admin;
