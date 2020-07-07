@@ -1,6 +1,5 @@
 package ir.parto.crm.modules.server.model.service;
 
-import ir.parto.crm.modules.admin.model.entity.Admin;
 import ir.parto.crm.modules.server.model.entity.ServerGroup;
 import ir.parto.crm.modules.server.model.repository.ServerGroupRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -28,61 +27,58 @@ public class ServerGroupService implements ServiceInterface<ServerGroup> {
     @Override
     @Transactional
     public ServerGroup addNewItem(ServerGroup serverGroup) {
+        serverGroup.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.serverGroupRepository.save(serverGroup);
     }
 
     @Override
     @Transactional
     public ServerGroup updateItem(ServerGroup serverGroup) throws InvocationTargetException, IllegalAccessException {
-        ServerGroup exist = this.serverGroupRepository.getOne(serverGroup.getServerGroupId());
+        ServerGroup exist = this.serverGroupRepository.findByIsDeletedIsNullAndServerGroupId(serverGroup.getServerGroupId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
-        myBeanCopy.copyProperties(exist,serverGroup);
+        myBeanCopy.copyProperties(exist, serverGroup);
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.serverGroupRepository.save(exist);
     }
 
     @Override
     @Transactional
     public ServerGroup deleteItem(ServerGroup serverGroup) {
-        Admin authentication = (Admin) SecurityContextHolder.getContext().getAuthentication().getDetails();
-        serverGroup.setIsDeleted(1);
-        serverGroup.setDeletedAt(LocalDateTime.now());
-        serverGroup.setDeletedBy(authentication.getUsername());
-        return this.serverGroupRepository.save(serverGroup);
+        ServerGroup exist = this.serverGroupRepository.findByIsDeletedIsNullAndServerGroupId(serverGroup.getServerGroupId());
+        exist.setIsDeleted(1);
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setDeletedAt(LocalDateTime.now());
+        return this.serverGroupRepository.save(exist);
     }
 
     @Override
     public List<ServerGroup> findAllItem() {
-        return this.serverGroupRepository.findAll();
+        return this.serverGroupRepository.findAllByIsDeletedIsNull();
+
     }
 
     @Override
     public Page<ServerGroup> findAllItem(Pageable pageable) {
-        return this.serverGroupRepository.findAll(pageable);
+        return this.serverGroupRepository.findAllByIsDeletedIsNull(pageable);
     }
 
     @Override
     public Page<ServerGroup> findAllItemWithDeleted(Pageable pageable) {
-        return null;
+        return this.serverGroupRepository.findAll(pageable);
     }
 
     @Override
     public ServerGroup findOne(ServerGroup serverGroup) {
-        if(this.serverGroupRepository.existsById(serverGroup.getServerGroupId())){
-            return this.serverGroupRepository.getOne(serverGroup.getServerGroupId());
-        }
-        return null;
+        return this.serverGroupRepository.findByIsDeletedIsNullAndServerGroupId(serverGroup.getServerGroupId());
     }
 
     @Override
     public ServerGroup findById(Long id) {
-        if(this.serverGroupRepository.existsById(id)){
-            return this.serverGroupRepository.getOne(id);
-        }
-        return null;
+        return this.serverGroupRepository.findByIsDeletedIsNullAndServerGroupId(id);
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.serverGroupRepository.existsById(id);
+        return this.serverGroupRepository.existsByIsDeletedIsNullAndServerGroupId(id);
     }
 }

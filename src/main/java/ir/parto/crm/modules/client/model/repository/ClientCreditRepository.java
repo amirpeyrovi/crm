@@ -13,4 +13,6 @@ import java.util.List;
 public interface ClientCreditRepository extends JpaRepository<ClientCredit, Long>, RepositoryInterface<ClientCredit> {
     List<ClientCredit> findAllByIsDeletedIsNull();
     Page<ClientCredit> findAllByIsDeletedIsNull(Pageable pageable);
+    Boolean existsByIsDeletedIsNullAndClientCreditId(Long id);
+    ClientCredit findByIsDeletedIsNullAndClientCreditId(Long id);
 }

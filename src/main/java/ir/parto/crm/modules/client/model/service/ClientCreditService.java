@@ -28,6 +28,7 @@ public class ClientCreditService implements ServiceInterface<ClientCredit> {
     @Override
     @Transactional
     public ClientCredit addNewItem(ClientCredit clientCredit) {
+        clientCredit.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.clientCreditRepository.save(clientCredit);
     }
 
@@ -37,18 +38,18 @@ public class ClientCreditService implements ServiceInterface<ClientCredit> {
         ClientCredit exist = this.clientCreditRepository.getOne(clientCredit.getClientCreditId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, clientCredit);
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.clientCreditRepository.save(exist);
     }
 
     @Override
     @Transactional
     public ClientCredit deleteItem(ClientCredit clientCredit) {
-        Admin authentication = (Admin) SecurityContextHolder.getContext().getAuthentication().getDetails();
-        clientCredit.setIsDeleted(1);
-        clientCredit.setDeletedAt(LocalDateTime.now());
-        clientCredit.setDeletedBy(authentication.getUsername());
-        this.clientCreditRepository.save(clientCredit);
-        return clientCredit;
+        ClientCredit exist = this.clientCreditRepository.findByIsDeletedIsNullAndClientCreditId(clientCredit.getClientCreditId());
+        exist.setIsDeleted(1);
+        exist.setDeletedAt(LocalDateTime.now());
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        return this.clientCreditRepository.save(clientCredit);
     }
 
     @Override
@@ -68,19 +69,16 @@ public class ClientCreditService implements ServiceInterface<ClientCredit> {
 
     @Override
     public ClientCredit findOne(ClientCredit clientCredit) {
-        return this.clientCreditRepository.getOne(clientCredit.getClientCreditId());
+        return this.clientCreditRepository.findByIsDeletedIsNullAndClientCreditId(clientCredit.getClientCreditId());
     }
 
     @Override
     public ClientCredit findById(Long id) {
-        if(this.clientCreditRepository.existsById(id)){
-            return this.clientCreditRepository.getOne(id);
-        }
-        return null;
+        return this.clientCreditRepository.findByIsDeletedIsNullAndClientCreditId(id);
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.clientCreditRepository.existsById(id);
+        return this.clientCreditRepository.existsByIsDeletedIsNullAndClientCreditId(id);
     }
 }

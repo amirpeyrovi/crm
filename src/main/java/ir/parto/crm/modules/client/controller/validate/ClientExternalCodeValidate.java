@@ -24,7 +24,7 @@ public class ClientExternalCodeValidate implements ValidateInterface<ClientExter
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(clientExternalCode == null || clientExternalCode.getClient() == null || clientExternalCode.getClient().getClientId() != 0){
+        if(clientExternalCode == null || clientExternalCode.getClient() == null || clientExternalCode.getClient().getClientId() == 0){
             errorList.add("Client Id is required");
         }
         if(clientExternalCode == null || clientExternalCode.getTitle() == null ){
@@ -50,13 +50,13 @@ public class ClientExternalCodeValidate implements ValidateInterface<ClientExter
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(clientExternalCode == null || clientExternalCode.getClient() == null || clientExternalCode.getClient().getClientId() != 0){
+        if(clientExternalCode != null && clientExternalCode.getClient() != null && clientExternalCode.getClient().getClientId() == 0){
             errorList.add("Client Id is required");
         }
-        if(clientExternalCode == null || clientExternalCode.getTitle() == null ){
+        if(clientExternalCode != null && clientExternalCode.getTitle() == null ){
             errorList.add("Title is required");
         }
-        if(clientExternalCode == null || clientExternalCode.getExternalCode() == null ){
+        if(clientExternalCode != null && clientExternalCode.getExternalCode() == null ){
             errorList.add("ExternalCode is required");
         }
 
@@ -96,7 +96,7 @@ public class ClientExternalCodeValidate implements ValidateInterface<ClientExter
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(!this.clientExternalCodeService.existsById(clientExternalCode.getClientExternalCodeId())){
+        if(clientExternalCode == null || !this.clientExternalCodeService.existsById(clientExternalCode.getClientExternalCodeId())){
             errorList.add("Client External Code not defined");
         }
 

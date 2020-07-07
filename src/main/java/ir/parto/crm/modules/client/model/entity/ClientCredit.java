@@ -13,7 +13,7 @@ public class ClientCredit implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long ClientCreditId;
+    private Long clientCreditId;
 
     @ManyToOne
     @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "client_credit_client_fk"))
@@ -29,13 +29,13 @@ public class ClientCredit implements Serializable {
     private String type;
 
     @Column(name = "amount_in", columnDefinition = "number")
-    private Long amountIn;
+    private Double amountIn;
 
     @Column(name = "amount_out", columnDefinition = "number")
-    private Long amountOut;
+    private Double amountOut;
 
     @Column(name = "total", columnDefinition = "number")
-    private Long total;
+    private Double total;
 
     @Column(name = "invoice_transaction_id", columnDefinition = "number")
     private Long invoiceTransactionId;
@@ -62,12 +62,13 @@ public class ClientCredit implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private int isDeleted;
+    private Integer isDeleted;
 
     public ClientCredit() {
     }
 
-    public ClientCredit(Client client, String description, String caption, String type, Long amountIn, Long amountOut, Long total, Long invoiceTransactionId, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
+    public ClientCredit(Client client, String description, String caption, String type, Double amountIn,
+                        Double amountOut, Double total, Long invoiceTransactionId, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.client = client;
         this.description = description;
         this.caption = caption;
@@ -86,11 +87,11 @@ public class ClientCredit implements Serializable {
     }
 
     public Long getClientCreditId() {
-        return ClientCreditId;
+        return clientCreditId;
     }
 
     public void setClientCreditId(Long clientCreditId) {
-        ClientCreditId = clientCreditId;
+        this.clientCreditId = clientCreditId;
     }
 
     public Client getClient() {
@@ -125,27 +126,27 @@ public class ClientCredit implements Serializable {
         this.type = type;
     }
 
-    public Long getAmountIn() {
+    public Double getAmountIn() {
         return amountIn;
     }
 
-    public void setAmountIn(Long amountIn) {
+    public void setAmountIn(Double amountIn) {
         this.amountIn = amountIn;
     }
 
-    public Long getAmountOut() {
+    public Double getAmountOut() {
         return amountOut;
     }
 
-    public void setAmountOut(Long amountOut) {
+    public void setAmountOut(Double amountOut) {
         this.amountOut = amountOut;
     }
 
-    public Long getTotal() {
+    public Double getTotal() {
         return total;
     }
 
-    public void setTotal(Long total) {
+    public void setTotal(Double total) {
         this.total = total;
     }
 
@@ -205,11 +206,11 @@ public class ClientCredit implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public int getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(int isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }
