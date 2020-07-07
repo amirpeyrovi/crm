@@ -49,7 +49,7 @@ public class ClientExternalCodeRestController implements RestControllerInterface
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     public Object findOneClient(@PathVariable("id") long id){
         ClientExternalCode client = this.clientExternalCodeService.findById(id);
-        ValidateObject validateObject = this.clientExternalCodeValidate.findById(client);
+        ValidateObject validateObject = this.clientExternalCodeValidate.findOne(client);
         if(validateObject.getResult().equals("error")){
             return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
         }
@@ -84,14 +84,16 @@ public class ClientExternalCodeRestController implements RestControllerInterface
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
-    public Object updateClient(@RequestParam("id") long id){
+    public Object updateClient(@PathVariable("id") long id,@RequestBody ClientExternalCode clientExternalCode){
+        System.out.println("---------------------------------------");
         ClientExternalCode client = this.clientExternalCodeService.findById(id);
-        ValidateObject validateObject = this.clientExternalCodeValidate.validateUpdateItem(client);
+        ValidateObject validateObject = this.clientExternalCodeValidate.findOne(client);
         if(validateObject.getResult().equals("error")){
             return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
         }
+        clientExternalCode.setClientExternalCodeId(id);
         try {
-            ClientExternalCode updatedClient = this.clientExternalCodeService.updateItem(client);
+            ClientExternalCode updatedClient = this.clientExternalCodeService.updateItem(clientExternalCode);
             return new ApiResponse("success", Arrays.asList(updatedClient)).getSuccessResponse();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
