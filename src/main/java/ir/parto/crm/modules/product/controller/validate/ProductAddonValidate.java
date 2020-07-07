@@ -60,7 +60,7 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
         if(productAddon != null || productAddon.getProductGroup() == null || productAddon.getProductGroup().getProductGroupId() == 0){
             errorList.add("Product Group is required");
         }
-        if(productAddon != null && exist != null && exist.getProductId() !=productAddon.getProductId()){
+        if(productAddon != null && exist != null && exist.getProductAddonId() !=productAddon.getProductAddonId()){
             errorList.add("Title is repetetive in Product Group");
         }
 
@@ -79,7 +79,7 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
     public ValidateObject deleteItem(ProductAddon productAddon) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(!this.productAddonService.existsById(productAddon.getProductId())){
+        if(!this.productAddonService.existsById(productAddon.getProductAddonId())){
             errorList.add("Product Addon Id not defined");
         }
         validateObject.setCount(errorList.size());
@@ -97,7 +97,7 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
     public ValidateObject findOne(ProductAddon productAddon) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(!this.productAddonService.existsById(productAddon.getProductId())){
+        if(!this.productAddonService.existsById(productAddon.getProductAddonId())){
             errorList.add("Product Addon Id not defined");
         }
         validateObject.setCount(errorList.size());
@@ -115,7 +115,7 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
     public ValidateObject findById(ProductAddon productAddon) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(!this.productAddonService.existsById(productAddon.getProductId())){
+        if(!this.productAddonService.existsById(productAddon.getProductAddonId())){
             errorList.add("Product Addon Id not defined");
         }
         validateObject.setCount(errorList.size());
