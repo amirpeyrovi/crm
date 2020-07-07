@@ -13,4 +13,6 @@ import java.util.List;
 public interface ClientExternalCodeRepository extends JpaRepository<ClientExternalCode, Long>, RepositoryInterface<ClientExternalCode> {
     List<ClientExternalCode> findAllByIsDeletedIsNull();
     Page<ClientExternalCode> findAllByIsDeletedIsNull(Pageable pageable);
+    Boolean existsByIsDeletedIsNullAndClientExternalCodeId(Long id);
+    ClientExternalCode findByIsDeletedIsNullAndClientExternalCodeId(Long id);
 }
