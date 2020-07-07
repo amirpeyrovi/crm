@@ -78,6 +78,6 @@ public class ProductServerParameterValueService implements ServiceInterface<Prod
 
     @Override
     public Boolean existsById(Long id) {
-        return this.productServerParameterValueRepository.existsByIsDeletedIsNullAndProductProductServerParameterId(id);
+        return this.productServerParameterValueRepository.existsByIsDeletedIsNullAndProductServerParameterId(id);
     }
 }
