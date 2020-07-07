@@ -24,7 +24,7 @@ public class CheckPermission {
         this.permissionService = permissionService;
     }
 
-    public Boolean chech(String perms, String action) {
+    public Boolean check(String perms, String action) {
         if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
             return false;
         }

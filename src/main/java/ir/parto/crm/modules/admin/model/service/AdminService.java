@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.List;
 @Service
 public class AdminService implements ServiceInterface<Admin> {
     private AdminRepository adminRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public AdminService(AdminRepository adminRepository) {
@@ -28,6 +30,7 @@ public class AdminService implements ServiceInterface<Admin> {
     @Transactional
     public Admin addNewItem(Admin admin) {
         admin.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         return this.adminRepository.save(admin);
     }
 

@@ -127,3 +127,10 @@ where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 
 INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
 select 701 , 'Ticket' , 'Ticket_Information' , 1 , sysdate from dual
 where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 701);
+
+----------------------------ADMIN----------------------------------
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 801 , 'Admin' , 'Admin_Information' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 801);
+
