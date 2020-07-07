@@ -24,6 +24,10 @@ public class ProductParameterGroupLink implements Serializable {
     @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "product_parameter_group_link_product_fk"))
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "product_addon_id", foreignKey = @ForeignKey(name = "product_parameter_group_link_product_addon_fk"))
+    private ProductAddon productAddon;
+
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
@@ -51,9 +55,10 @@ public class ProductParameterGroupLink implements Serializable {
     public ProductParameterGroupLink() {
     }
 
-    public ProductParameterGroupLink(ProductParameterGroup productParameterGroup, Product product, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
+    public ProductParameterGroupLink(ProductParameterGroup productParameterGroup, Product product, ProductAddon productAddon, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.productParameterGroup = productParameterGroup;
         this.product = product;
+        this.productAddon = productAddon;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -85,6 +90,14 @@ public class ProductParameterGroupLink implements Serializable {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public ProductAddon getProductAddon() {
+        return productAddon;
+    }
+
+    public void setProductAddon(ProductAddon productAddon) {
+        this.productAddon = productAddon;
     }
 
     public String getCreatedBy() {

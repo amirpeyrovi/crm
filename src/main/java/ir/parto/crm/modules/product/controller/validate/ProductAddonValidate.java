@@ -24,23 +24,23 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(productAddon == null || productAddon.getTitle() == null || productAddon.getTitle().isEmpty()){
-            errorList.add("Title is required");
-        }
-        if(productAddon == null || productAddon.getProductGroup() == null || productAddon.getProductGroup().getProductGroupId() == 0){
-            errorList.add("Product Group is required");
-        }
+        if (productAddon == null) {
+            errorList.add("object is nul");
+        } else {
+            if (productAddon.getTitle() == null || productAddon.getTitle().isEmpty()) {
+                errorList.add("Title is required");
+            }
 
-        ProductAddon exist = this.productAddonService.findByTitleAndProductGroup(productAddon.getTitle(),productAddon.getProductGroup());
-        if(productAddon != null && exist != null){
-            errorList.add("Title is repetetive in Product Group");
+            if (productAddon.getProductGroup() == null || productAddon.getProductGroup().getProductGroupId() == 0) {
+                errorList.add("Product Group is required");
+            }
         }
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
 
@@ -52,23 +52,27 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        ProductAddon exist = this.productAddonService.findByTitleAndProductGroup(productAddon.getTitle(),productAddon.getProductGroup());
+        if (productAddon == null) {
+            errorList.add("object is nul");
+        } else {
+            if (!this.productAddonService.existsById(productAddon.getProductAddonId())) {
+                errorList.add("ProductAddon not defined");
+            }
 
-        if(productAddon != null || productAddon.getTitle() == null || productAddon.getTitle().isEmpty()){
-            errorList.add("Title is required");
-        }
-        if(productAddon != null || productAddon.getProductGroup() == null || productAddon.getProductGroup().getProductGroupId() == 0){
-            errorList.add("Product Group is required");
-        }
-        if(productAddon != null && exist != null && exist.getProductAddonId() !=productAddon.getProductAddonId()){
-            errorList.add("Title is repetetive in Product Group");
+            if (productAddon.getTitle() == null || productAddon.getTitle().isEmpty()) {
+                errorList.add("Title is required");
+            }
+
+            if (productAddon.getProductGroup() == null || productAddon.getProductGroup().getProductGroupId() == 0) {
+                errorList.add("Product Group is required");
+            }
         }
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
 
@@ -79,14 +83,20 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
     public ValidateObject deleteItem(ProductAddon productAddon) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(!this.productAddonService.existsById(productAddon.getProductAddonId())){
-            errorList.add("Product Addon Id not defined");
+
+        if (productAddon == null) {
+            errorList.add("object is nul");
+        } else {
+            if (!this.productAddonService.existsById(productAddon.getProductAddonId())) {
+                errorList.add("Product Addon Id not defined");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
 
@@ -97,14 +107,20 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
     public ValidateObject findOne(ProductAddon productAddon) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(!this.productAddonService.existsById(productAddon.getProductAddonId())){
-            errorList.add("Product Addon Id not defined");
+
+        if (productAddon == null) {
+            errorList.add("object is nul");
+        } else {
+            if (!this.productAddonService.existsById(productAddon.getProductAddonId())) {
+                errorList.add("Product Addon Id not defined");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
 
@@ -115,14 +131,20 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
     public ValidateObject findById(ProductAddon productAddon) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(!this.productAddonService.existsById(productAddon.getProductAddonId())){
-            errorList.add("Product Addon Id not defined");
+
+        if (productAddon == null) {
+            errorList.add("object is nul");
+        } else {
+            if (!this.productAddonService.existsById(productAddon.getProductAddonId())) {
+                errorList.add("Product Addon Id not defined");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
 
@@ -136,9 +158,9 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
 

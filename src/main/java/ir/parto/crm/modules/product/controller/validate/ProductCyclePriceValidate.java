@@ -1,8 +1,8 @@
 package ir.parto.crm.modules.product.controller.validate;
 
+import ir.parto.crm.modules.product.model.entity.ProductAddon;
 import ir.parto.crm.modules.product.model.entity.ProductCyclePrice;
-import ir.parto.crm.modules.product.model.service.ProductCyclePriceService;
-import ir.parto.crm.modules.product.model.service.ProductGroupService;
+import ir.parto.crm.modules.product.model.service.*;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,16 @@ import java.util.List;
 @Component
 public class ProductCyclePriceValidate implements ValidateInterface<ProductCyclePrice> {
     private ProductCyclePriceService productCyclePriceService;
+    private ProductCycleService productCycleService;
+    private ProductService productService;
+    private ProductAddonService productAddonService;
 
     @Autowired
-    public ProductCyclePriceValidate(ProductCyclePriceService productCyclePriceService) {
+    public ProductCyclePriceValidate(ProductCyclePriceService productCyclePriceService, ProductCycleService productCycleService, ProductService productService, ProductAddonService productAddonService) {
         this.productCyclePriceService = productCyclePriceService;
+        this.productCycleService = productCycleService;
+        this.productService = productService;
+        this.productAddonService = productAddonService;
     }
 
     @Override
@@ -25,14 +31,30 @@ public class ProductCyclePriceValidate implements ValidateInterface<ProductCycle
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (productCyclePrice != null || productCyclePrice.getProductCycle() == null
-                || productCyclePrice.getProductCycle().getProductCycleId() == 0) {
-            errorList.add("Product Cycle Id is required");
-        }
+        if (productCyclePrice == null) {
+            errorList.add("object is nul");
+        } else {
+            if (productCyclePrice.getProductCycle() == null) {
+                errorList.add("ProductCycle object is nul");
+            } else {
+                if (productCyclePrice.getProduct() == null && productCyclePrice.getProductAddon() == null) {
+                    errorList.add("Product and ProductAddon object is nul");
+                } else {
+                    if (productCyclePrice.getProduct() != null &&
+                            !this.productService.existsById(productCyclePrice.getProduct().getProductId())) {
+                        errorList.add("ProductCyclePrice not found");
+                    }
 
-        if (productCyclePrice != null || productCyclePrice.getProduct() == null
-                || productCyclePrice.getProduct().getProductId() == 0) {
-            errorList.add("Product Id is required");
+                    if (productCyclePrice.getProductAddon() != null &&
+                            !this.productAddonService.existsById(productCyclePrice.getProductAddon().getProductAddonId())) {
+                        errorList.add("ProductCyclePrice not found");
+                    }
+
+                    if (productCyclePrice.getPrice() == null || productCyclePrice.getPrice() <= 0) {
+                        errorList.add("Price is required and must be bigger than zero");
+                    }
+                }
+            }
         }
 
         validateObject.setCount(errorList.size());
@@ -51,14 +73,34 @@ public class ProductCyclePriceValidate implements ValidateInterface<ProductCycle
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (productCyclePrice != null || productCyclePrice.getProductCycle() == null
-                || productCyclePrice.getProductCycle().getProductCycleId() == 0) {
-            errorList.add("Product Cycle Id is required");
-        }
+        if (productCyclePrice == null) {
+            errorList.add("object is nul");
+        } else {
+            if (productCyclePrice.getProductCycle() == null) {
+                errorList.add("ProductCycle object is nul");
+            } else {
+                if (productCyclePrice.getProduct() == null && productCyclePrice.getProductAddon() == null) {
+                    errorList.add("Product and ProductAddon object is nul");
+                } else {
+                    if (!this.productCyclePriceService.existsById(productCyclePrice.getProductCyclePriceId())) {
+                        errorList.add("ProductCyclePrice not found");
+                    }
 
-        if (productCyclePrice != null || productCyclePrice.getProduct() == null
-                || productCyclePrice.getProduct().getProductId() == 0) {
-            errorList.add("Product Id is required");
+                    if (productCyclePrice.getProduct() != null &&
+                            !this.productService.existsById(productCyclePrice.getProduct().getProductId())) {
+                        errorList.add("ProductCyclePrice not found");
+                    }
+
+                    if (productCyclePrice.getProductAddon() != null &&
+                            !this.productAddonService.existsById(productCyclePrice.getProductAddon().getProductAddonId())) {
+                        errorList.add("ProductCyclePrice not found");
+                    }
+
+                    if (productCyclePrice.getPrice() == null || productCyclePrice.getPrice() <= 0) {
+                        errorList.add("Price is required and must be bigger than zero");
+                    }
+                }
+            }
         }
 
         validateObject.setCount(errorList.size());
@@ -76,9 +118,15 @@ public class ProductCyclePriceValidate implements ValidateInterface<ProductCycle
     public ValidateObject deleteItem(ProductCyclePrice productCyclePrice) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if (!this.productCyclePriceService.existsById(productCyclePrice.getProductCyclePriceId())) {
-            errorList.add("Product Cycle Price Id not defined");
+
+        if (productCyclePrice == null) {
+            errorList.add("object is nul");
+        } else {
+            if (!this.productCyclePriceService.existsById(productCyclePrice.getProductCyclePriceId())) {
+                errorList.add("ProductCyclePrice not found");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
         if (errorList.size() > 0) {
@@ -94,9 +142,15 @@ public class ProductCyclePriceValidate implements ValidateInterface<ProductCycle
     public ValidateObject findOne(ProductCyclePrice productCyclePrice) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if (!this.productCyclePriceService.existsById(productCyclePrice.getProductCyclePriceId())) {
-            errorList.add("Product Cycle Price Id not defined");
+
+        if (productCyclePrice == null) {
+            errorList.add("object is nul");
+        } else {
+            if (!this.productCyclePriceService.existsById(productCyclePrice.getProductCyclePriceId())) {
+                errorList.add("ProductCyclePrice not found");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
         if (errorList.size() > 0) {
@@ -112,9 +166,15 @@ public class ProductCyclePriceValidate implements ValidateInterface<ProductCycle
     public ValidateObject findById(ProductCyclePrice productCyclePrice) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if (!this.productCyclePriceService.existsById(productCyclePrice.getProductCyclePriceId())) {
-            errorList.add("Product Cycle Price Id not defined");
+
+        if (productCyclePrice == null) {
+            errorList.add("object is nul");
+        } else {
+            if (!this.productCyclePriceService.existsById(productCyclePrice.getProductCyclePriceId())) {
+                errorList.add("ProductCyclePrice not found");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
         if (errorList.size() > 0) {

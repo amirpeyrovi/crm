@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/v1/product/product")
 public class ProductRestController implements RestControllerInterface {
     private ProductValidate productValidate;
 
