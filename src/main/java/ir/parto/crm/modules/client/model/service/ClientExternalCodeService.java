@@ -1,6 +1,5 @@
 package ir.parto.crm.modules.client.model.service;
 
-import ir.parto.crm.modules.admin.model.entity.Admin;
 import ir.parto.crm.modules.client.model.entity.ClientExternalCode;
 import ir.parto.crm.modules.client.model.repository.ClientExternalCodeRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -43,12 +43,14 @@ public class ClientExternalCodeService implements ServiceInterface<ClientExterna
     @Override
     @Transactional
     public ClientExternalCode deleteItem(ClientExternalCode clientExternalCode) {
-        Admin authentication = (Admin) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        Principal authentication =  SecurityContextHolder.getContext().getAuthentication();
+        ClientExternalCode exist = this.clientExternalCodeRepository
+                .findByIsDeletedIsNullAndClientExternalCodeId(clientExternalCode.getClientExternalCodeId());
         clientExternalCode.setIsDeleted(1);
         clientExternalCode.setDeletedAt(LocalDateTime.now());
-        clientExternalCode.setDeletedBy(authentication.getUsername());
+        clientExternalCode.setDeletedBy(authentication.getName());
         this.clientExternalCodeRepository.save(clientExternalCode);
-        return clientExternalCode;
+        return this.clientExternalCodeRepository.save(clientExternalCode);
     }
 
     @Override
@@ -68,19 +70,16 @@ public class ClientExternalCodeService implements ServiceInterface<ClientExterna
 
     @Override
     public ClientExternalCode findOne(ClientExternalCode clientExternalCode) {
-        return this.clientExternalCodeRepository.getOne(clientExternalCode.getClientExternalCodeId());
+        return this.clientExternalCodeRepository.findByIsDeletedIsNullAndClientExternalCodeId(clientExternalCode.getClientExternalCodeId());
     }
 
     @Override
     public ClientExternalCode findById(Long id) {
-        if(this.clientExternalCodeRepository.existsById(id)){
-            return this.clientExternalCodeRepository.getOne(id);
-        }
-        return null;
+        return this.clientExternalCodeRepository.findByIsDeletedIsNullAndClientExternalCodeId(id);
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.clientExternalCodeRepository.existsById(id);
+        return this.clientExternalCodeRepository.existsByIsDeletedIsNullAndClientExternalCodeId(id);
     }
 }
