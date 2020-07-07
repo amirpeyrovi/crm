@@ -64,7 +64,7 @@ public class ClientCreditValidate implements ValidateInterface<ClientCredit> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(!this.clientCreditService.existsById(clientCredit.getClientCreditId())){
+        if(clientCredit == null || !this.clientCreditService.existsById(clientCredit.getClientCreditId())){
             errorList.add("Client Credit Id not defined");
         }
 
@@ -84,7 +84,7 @@ public class ClientCreditValidate implements ValidateInterface<ClientCredit> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(!this.clientCreditService.existsById(clientCredit.getClientCreditId())){
+        if(clientCredit == null || !this.clientCreditService.existsById(clientCredit.getClientCreditId())){
             errorList.add("Client Credit Id not defined");
         }
 
@@ -104,7 +104,7 @@ public class ClientCreditValidate implements ValidateInterface<ClientCredit> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(!this.clientCreditService.existsById(clientCredit.getClientCreditId())){
+        if(clientCredit == null || !this.clientCreditService.existsById(clientCredit.getClientCreditId())){
             errorList.add("Client Credit Id not defined");
         }
 
@@ -123,7 +123,6 @@ public class ClientCreditValidate implements ValidateInterface<ClientCredit> {
     public ValidateObject findAll() {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
         if(errorList.size()>0){
@@ -131,7 +130,6 @@ public class ClientCreditValidate implements ValidateInterface<ClientCredit> {
         }else{
             validateObject.setResult("success");
         }
-
         return validateObject;
     }
 }
