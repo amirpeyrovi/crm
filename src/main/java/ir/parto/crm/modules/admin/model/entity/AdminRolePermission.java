@@ -47,6 +47,10 @@ public class AdminRolePermission implements Serializable {
     @JoinColumn(name = "admin_role_id", foreignKey = @ForeignKey(name = "permission_role_fk"))
     private AdminRole adminRole;
 
+    @ManyToOne
+    @JoinColumn(name = "admin_permission_id", foreignKey = @ForeignKey(name = "permission_role_fk_permission"))
+    private AdminPermission adminPermission;
+
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
@@ -236,5 +240,13 @@ public class AdminRolePermission implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public AdminPermission getAdminPermission() {
+        return adminPermission;
+    }
+
+    public void setAdminPermission(AdminPermission adminPermission) {
+        this.adminPermission = adminPermission;
     }
 }

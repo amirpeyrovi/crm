@@ -1,6 +1,8 @@
 package ir.parto.crm.modules.admin.model.service;
 
 import ir.parto.crm.modules.admin.model.entity.Admin;
+import ir.parto.crm.modules.admin.model.entity.AdminPermission;
+import ir.parto.crm.modules.admin.model.entity.AdminRole;
 import ir.parto.crm.modules.admin.model.entity.AdminRolePermission;
 import ir.parto.crm.modules.admin.model.repository.AdminRolePermissionRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -79,5 +81,9 @@ public class AdminRolePermissionService implements ServiceInterface<AdminRolePer
     @Override
     public Boolean existsById(Long id) {
         return this.adminRolePermissionRepository.existsByIsDeletedIsNullAndAdminRolePermissionId(id);
+    }
+
+    public AdminRolePermission findByAdminRoleAndPermission(AdminRole adminRole, AdminPermission permission) {
+        return this.adminRolePermissionRepository.findByAdminRoleAndAdminPermission(adminRole , permission);
     }
 }

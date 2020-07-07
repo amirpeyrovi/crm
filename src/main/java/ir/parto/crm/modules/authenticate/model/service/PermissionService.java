@@ -1,6 +1,6 @@
 package ir.parto.crm.modules.authenticate.model.service;
 
-import ir.parto.crm.modules.authenticate.model.entity.Permission;
+import ir.parto.crm.modules.admin.model.entity.AdminPermission;
 import ir.parto.crm.modules.authenticate.model.repository.PermissionRepository;
 import ir.parto.crm.utils.MyBeanCopy;
 import ir.parto.crm.utils.interfaces.ServiceInterface;
@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 @Service
-public class PermissionService implements ServiceInterface<Permission> {
+public class PermissionService implements ServiceInterface<AdminPermission> {
     private PermissionRepository permissionRepository;
 
     @Autowired
@@ -25,48 +25,48 @@ public class PermissionService implements ServiceInterface<Permission> {
 
     @Override
     @Transactional
-    public Permission addNewItem(Permission permission) {
-        permission.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        return this.permissionRepository.save(permission);
+    public AdminPermission addNewItem(AdminPermission adminPermission) {
+        adminPermission.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        return this.permissionRepository.save(adminPermission);
     }
 
     @Override
     @Transactional
-    public Permission updateItem(Permission permission) throws InvocationTargetException, IllegalAccessException {
-        Permission exist = this.permissionRepository.getOne(permission.getPermissionId());
+    public AdminPermission updateItem(AdminPermission adminPermission) throws InvocationTargetException, IllegalAccessException {
+        AdminPermission exist = this.permissionRepository.getOne(adminPermission.getPermissionId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
-        myBeanCopy.copyProperties(exist, permission);
+        myBeanCopy.copyProperties(exist, adminPermission);
         return this.permissionRepository.save(exist);
     }
 
     @Override
     @Transactional
-    public Permission deleteItem(Permission permission) {
-       return permission;
+    public AdminPermission deleteItem(AdminPermission adminPermission) {
+       return adminPermission;
     }
 
     @Override
-    public List<Permission> findAllItem() {
+    public List<AdminPermission> findAllItem() {
         return this.permissionRepository.findAll();
     }
 
     @Override
-    public Page<Permission> findAllItem(Pageable pageable) {
+    public Page<AdminPermission> findAllItem(Pageable pageable) {
         return this.permissionRepository.findAll(pageable);
     }
 
     @Override
-    public Page<Permission> findAllItemWithDeleted(Pageable pageable) {
+    public Page<AdminPermission> findAllItemWithDeleted(Pageable pageable) {
         return this.permissionRepository.findAll(pageable);
     }
 
     @Override
-    public Permission findOne(Permission permission) {
-        return this.permissionRepository.getOne(permission.getPermissionId());
+    public AdminPermission findOne(AdminPermission adminPermission) {
+        return this.permissionRepository.getOne(adminPermission.getPermissionId());
     }
 
     @Override
-    public Permission findById(Long id) {
+    public AdminPermission findById(Long id) {
         return this.permissionRepository.getOne(id);
     }
 
@@ -75,7 +75,7 @@ public class PermissionService implements ServiceInterface<Permission> {
         return this.permissionRepository.existsById(id);
     }
 
-    public Permission findByTitle(String title) {
+    public AdminPermission findByTitle(String title) {
         return this.permissionRepository.findByTitle(title);
     }
 }

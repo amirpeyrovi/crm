@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.admin.model.repository;
 
+import ir.parto.crm.modules.admin.model.entity.AdminPermission;
+import ir.parto.crm.modules.admin.model.entity.AdminRole;
 import ir.parto.crm.modules.admin.model.entity.AdminRolePermission;
 import ir.parto.crm.utils.interfaces.RepositoryInterface;
 import org.springframework.data.domain.Page;
@@ -18,4 +20,6 @@ public interface AdminRolePermissionRepository extends JpaRepository<AdminRolePe
     Page<AdminRolePermission> findAllByIsDeletedIsNull(Pageable pageable);
 
     Boolean existsByIsDeletedIsNullAndAdminRolePermissionId(Long id);
+
+    AdminRolePermission findByAdminRoleAndAdminPermission(AdminRole adminRole, AdminPermission permission);
 }

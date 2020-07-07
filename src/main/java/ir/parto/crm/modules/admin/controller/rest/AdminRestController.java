@@ -51,6 +51,9 @@ public class AdminRestController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Object addAdmin(@RequestBody Admin admin){
+        if(!checkPermission.check("Admin","admin_add"))
+            return new ApiResponse("error", 102, Arrays.asList("Access denied!")).getFaultResponse();
+
         if(admin.getAdminRole() != null && admin.getAdminRole().getAdminRoleId() != null && admin.getAdminRole().getAdminRoleId() != 0){
             AdminRole adminRole = this.adminRoleService.findById(admin.getAdminRole().getAdminRoleId());
             ValidateObject validateObjectAdminRole = this.adminRoleValidate.findOne(adminRole);
@@ -70,6 +73,9 @@ public class AdminRestController {
 
     @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
     public Object updateAdmin(@PathVariable("id") long id, @RequestBody Admin admin){
+        if(!checkPermission.check("Admin","admin_update"))
+            return new ApiResponse("error", 102, Arrays.asList("Access denied!")).getFaultResponse();
+
         admin.setAdminId(id);
         if(admin.getAdminRole() != null && admin.getAdminRole().getAdminRoleId() != null && admin.getAdminRole().getAdminRoleId() != 0){
             AdminRole adminRole = this.adminRoleService.findById(admin.getAdminRole().getAdminRoleId());
@@ -99,6 +105,9 @@ public class AdminRestController {
 
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
     public Object deleteAdmin(@PathVariable("id") long id){
+        if(!checkPermission.check("Admin","admin_delete"))
+            return new ApiResponse("error", 102, Arrays.asList("Access denied!")).getFaultResponse();
+
         Admin admin = this.adminService.findById(id);
         ValidateObject validateObject = this.adminValidate.deleteItem(admin);
         if(validateObject.getResult().equals("error")){
@@ -110,6 +119,9 @@ public class AdminRestController {
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     public Object findoneAdmin(@PathVariable("id") long id){
+        if(!checkPermission.check("Admin","admin_show"))
+            return new ApiResponse("error", 102, Arrays.asList("Access denied!")).getFaultResponse();
+
         Admin admin = this.adminService.findById(id);
         ValidateObject validateObject = this.adminValidate.findOne(admin);
         if(validateObject.getResult().equals("error")){
