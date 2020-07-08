@@ -1,6 +1,8 @@
 package ir.parto.crm.modules.product.controller.validate;
 
+import ir.parto.crm.modules.product.model.entity.ProductAddon;
 import ir.parto.crm.modules.product.model.entity.ProductServerParameterValue;
+import ir.parto.crm.modules.product.model.service.ProductAddonService;
 import ir.parto.crm.modules.product.model.service.ProductServerParameterValueService;
 import ir.parto.crm.modules.product.model.service.ProductService;
 import ir.parto.crm.modules.server.model.service.ServerParameterService;
@@ -16,12 +18,14 @@ import java.util.List;
 public class ProductServerParameterValueValidate implements ValidateInterface<ProductServerParameterValue> {
     private ProductServerParameterValueService productServerParameterValueService;
     private ServerParameterService serverParameterService;
+    private ProductAddonService productAddonService;
     private ProductService productService;
 
     @Autowired
-    public ProductServerParameterValueValidate(ProductServerParameterValueService productServerParameterValueService, ServerParameterService serverParameterService, ProductService productService) {
+    public ProductServerParameterValueValidate(ProductServerParameterValueService productServerParameterValueService, ServerParameterService serverParameterService, ProductAddonService productAddonService, ProductService productService) {
         this.productServerParameterValueService = productServerParameterValueService;
         this.serverParameterService = serverParameterService;
+        this.productAddonService = productAddonService;
         this.productService = productService;
     }
 
@@ -33,18 +37,18 @@ public class ProductServerParameterValueValidate implements ValidateInterface<Pr
         if (productServerParameterValue == null) {
             errorList.add("ProductServerParameterValue object is null");
         } else {
-            if(productServerParameterValue.getServerParameter() == null){
+            if (productServerParameterValue.getServerParameter() == null) {
                 errorList.add("ServerParameter object is null");
-            }else {
-                if (productServerParameterValue.getProduct() == null) {
-                    errorList.add("Product object is null");
+            } else {
+                if (productServerParameterValue.getProduct() == null && productServerParameterValue.getProductAddon() == null) {
+                    errorList.add("Product and ProductAddon object is null");
                 } else {
-                    if (!this.productService.existsById(productServerParameterValue.getProduct().getProductId())) {
-                        errorList.add("ProductServerParameterValue not found");
+                    if (productServerParameterValue.getProduct() != null && !this.productService.existsById(productServerParameterValue.getProduct().getProductId())) {
+                        errorList.add("Product not found");
                     }
 
-                    if (!this.serverParameterService.existsById(productServerParameterValue.getServerParameter().getServerParameterId())) {
-                        errorList.add("ServerParameter not found");
+                    if (productServerParameterValue.getProductAddon() != null && !this.productAddonService.existsById(productServerParameterValue.getProductAddon().getProductAddonId())) {
+                        errorList.add("ProductAddon not found");
                     }
 
                     if (!this.serverParameterService.existsById(productServerParameterValue.getServerParameter().getServerParameterId())) {
@@ -77,22 +81,22 @@ public class ProductServerParameterValueValidate implements ValidateInterface<Pr
         if (productServerParameterValue == null) {
             errorList.add("ProductServerParameterValue object is null");
         } else {
-            if(productServerParameterValue.getServerParameter() == null){
+            if (productServerParameterValue.getServerParameter() == null) {
                 errorList.add("ServerParameter object is null");
-            }else {
-                if (productServerParameterValue.getProduct() == null) {
-                    errorList.add("Product object is null");
+            } else {
+                if (productServerParameterValue.getProduct() == null && productServerParameterValue.getProductAddon() == null) {
+                    errorList.add("Product and productAddon object is null");
                 } else {
                     if (!this.productServerParameterValueService.existsById(productServerParameterValue.getProductServerParameterId())) {
                         errorList.add("ProductServerParameterValue not found");
                     }
 
-                    if (!this.productService.existsById(productServerParameterValue.getProduct().getProductId())) {
-                        errorList.add("ProductServerParameterValue not found");
+                    if (productServerParameterValue.getProduct() != null && !this.productService.existsById(productServerParameterValue.getProduct().getProductId())) {
+                        errorList.add("Product not found");
                     }
 
-                    if (!this.serverParameterService.existsById(productServerParameterValue.getServerParameter().getServerParameterId())) {
-                        errorList.add("ServerParameter not found");
+                    if (productServerParameterValue.getProductAddon() != null && !this.productAddonService.existsById(productServerParameterValue.getProductAddon().getProductAddonId())) {
+                        errorList.add("ProductAddon not found");
                     }
 
                     if (!this.serverParameterService.existsById(productServerParameterValue.getServerParameter().getServerParameterId())) {
@@ -196,9 +200,9 @@ public class ProductServerParameterValueValidate implements ValidateInterface<Pr
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
 
