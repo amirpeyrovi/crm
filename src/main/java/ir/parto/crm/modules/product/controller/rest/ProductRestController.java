@@ -21,7 +21,7 @@ public class ProductRestController implements RestControllerInterface {
 
     @RequestMapping(method = RequestMethod.GET)
     public Object findAllProduct(@RequestParam(required = false, defaultValue = "0") String page,
-                                 @RequestParam(required = false, defaultValue = "0") String sort){
+                                 @RequestParam(required = false, defaultValue = "") String sort){
         ValidateObject validateObject = this.productValidate.findAll();
         if(validateObject.getResult().equals("success")){
             return null;

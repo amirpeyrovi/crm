@@ -1,7 +1,6 @@
 package ir.parto.crm.modules.product.model.repository;
 
 import ir.parto.crm.modules.product.model.entity.ProductAddon;
-import ir.parto.crm.modules.product.model.entity.ProductCycle;
 import ir.parto.crm.modules.product.model.entity.ProductGroup;
 import ir.parto.crm.utils.interfaces.RepositoryInterface;
 import org.springframework.data.domain.Page;

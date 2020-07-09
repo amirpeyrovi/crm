@@ -22,6 +22,10 @@ public class ProductServerParameterValue implements Serializable {
     private Product product;
 
     @ManyToOne
+    @JoinColumn(name = "product_addon_id", foreignKey = @ForeignKey(name = "product_server_parameter_value_product_addon_fk"))
+    private ProductAddon productAddon;
+
+    @ManyToOne
     @JoinColumn(name = "server_parameter_id", foreignKey = @ForeignKey(name = "product_server_parameter_value_server_parameter_fk"))
     private ServerParameter serverParameter;
 
@@ -55,8 +59,9 @@ public class ProductServerParameterValue implements Serializable {
     public ProductServerParameterValue() {
     }
 
-    public ProductServerParameterValue(Product product, ServerParameter serverParameter, String value, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
+    public ProductServerParameterValue(Product product, ProductAddon productAddon, ServerParameter serverParameter, String value, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.product = product;
+        this.productAddon = productAddon;
         this.serverParameter = serverParameter;
         this.value = value;
         this.createdBy = createdBy;
@@ -82,6 +87,14 @@ public class ProductServerParameterValue implements Serializable {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public ProductAddon getProductAddon() {
+        return productAddon;
+    }
+
+    public void setProductAddon(ProductAddon productAddon) {
+        this.productAddon = productAddon;
     }
 
     public ServerParameter getServerParameter() {
