@@ -22,10 +22,10 @@ public class ResellerHistory implements Serializable {
     private String description;
 
     @Column(name = "amount_in", columnDefinition = "number(16,0)")
-    private Long amountIn;
+    private Long amountIn = 0L;
 
     @Column(name = "amount_out", columnDefinition = "number(16,0)")
-    private Long amountOut;
+    private Long amountOut = 0L;
 
     @Column(name = "percentage", columnDefinition = "number(3)")
     private Integer percentage;

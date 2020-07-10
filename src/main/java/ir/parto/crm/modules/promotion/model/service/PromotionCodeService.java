@@ -34,7 +34,7 @@ public class PromotionCodeService implements ServiceInterface<PromotionCode> {
     @Override
     @Transactional
     public PromotionCode updateItem(PromotionCode promotionCode) throws InvocationTargetException, IllegalAccessException {
-        PromotionCode exist = this.promotionCodeRepository.findByIsDeletedIsNullAndPromotionCodeId(promotionCode.getPromotionId());
+        PromotionCode exist = this.promotionCodeRepository.findByIsDeletedIsNullAndPromotionCodeId(promotionCode.getPromotionCodeId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, promotionCode);
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -44,7 +44,7 @@ public class PromotionCodeService implements ServiceInterface<PromotionCode> {
     @Override
     @Transactional
     public PromotionCode deleteItem(PromotionCode promotionCode) {
-        PromotionCode exist = this.promotionCodeRepository.findByIsDeletedIsNullAndPromotionCodeId(promotionCode.getPromotionId());
+        PromotionCode exist = this.promotionCodeRepository.findByIsDeletedIsNullAndPromotionCodeId(promotionCode.getPromotionCodeId());
         exist.setIsDeleted(1);
         exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         exist.setDeletedDate(LocalDateTime.now());
@@ -68,7 +68,7 @@ public class PromotionCodeService implements ServiceInterface<PromotionCode> {
 
     @Override
     public PromotionCode findOne(PromotionCode promotionCode) {
-        return this.promotionCodeRepository.findByIsDeletedIsNullAndPromotionCodeId(promotionCode.getPromotionId());
+        return this.promotionCodeRepository.findByIsDeletedIsNullAndPromotionCodeId(promotionCode.getPromotionCodeId());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.promotion.model.entity;
 
 import ir.parto.crm.modules.product.model.entity.Product;
+import ir.parto.crm.modules.product.model.entity.ProductAddon;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -20,6 +21,10 @@ public class PromotionCodeProduct implements Serializable {
     @ManyToOne
     @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "promotion_code_product_product_fk"))
     private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "product_addon_id", foreignKey = @ForeignKey(name = "promotion_code_product_product_addon_fk"))
+    private ProductAddon productAddon;
 
     @ManyToOne
     @JoinColumn(name = "promotion_code_id", foreignKey = @ForeignKey(name = "promotion_code_product_promotion_code_fk"))
@@ -50,8 +55,9 @@ public class PromotionCodeProduct implements Serializable {
     public PromotionCodeProduct() {
     }
 
-    public PromotionCodeProduct(Product product, PromotionCode promotionCode, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
+    public PromotionCodeProduct(Product product, ProductAddon productAddon, PromotionCode promotionCode, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.product = product;
+        this.productAddon = productAddon;
         this.promotionCode = promotionCode;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
@@ -76,6 +82,14 @@ public class PromotionCodeProduct implements Serializable {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public ProductAddon getProductAddon() {
+        return productAddon;
+    }
+
+    public void setProductAddon(ProductAddon productAddon) {
+        this.productAddon = productAddon;
     }
 
     public PromotionCode getPromotionCode() {

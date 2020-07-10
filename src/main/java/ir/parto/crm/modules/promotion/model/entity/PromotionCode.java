@@ -29,7 +29,11 @@ public class PromotionCode implements Serializable {
 
     // type => [1: percentage, 2: fix amount]
     @Column(name = "type", columnDefinition = "number(1)")
-    private String type;
+    private Integer type = 1;
+
+    // type => [1: buy, 2: renew, 3: change, all: 4]
+    @Column(name = "type", columnDefinition = "number(1)")
+    private Integer orderType = 4;
 
     @Column(name = "value", columnDefinition = "number(10)")
     private Long value;
@@ -70,11 +74,12 @@ public class PromotionCode implements Serializable {
     public PromotionCode() {
     }
 
-    public PromotionCode(Client client, String promotionCode, String promotionName, String type, Long value, Integer maxUsage, Integer usage, LocalDateTime validUntilDate, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
+    public PromotionCode(Client client, String promotionCode, String promotionName, Integer type, Integer orderType, Long value, Integer maxUsage, Integer usage, LocalDateTime validUntilDate, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.client = client;
         this.promotionCode = promotionCode;
         this.promotionName = promotionName;
         this.type = type;
+        this.orderType = orderType;
         this.value = value;
         this.maxUsage = maxUsage;
         this.usage = usage;
@@ -88,12 +93,12 @@ public class PromotionCode implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getPromotionId() {
+    public Long getPromotionCodeId() {
         return promotionCodeId;
     }
 
-    public void setPromotionId(Long promotionId) {
-        this.promotionCodeId = promotionId;
+    public void setPromotionCodeId(Long promotionCodeId) {
+        this.promotionCodeId = promotionCodeId;
     }
 
     public Client getClient() {
@@ -120,12 +125,20 @@ public class PromotionCode implements Serializable {
         this.promotionName = promotionName;
     }
 
-    public String getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Integer getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
     }
 
     public Long getValue() {
