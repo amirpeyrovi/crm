@@ -60,12 +60,12 @@ public class TicketState implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public TicketState() {
     }
 
-    public TicketState(String title, String description, String color, TicketStateAction ticketStateAction, Integer isActive, Integer isPending, Integer isClose, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public TicketState(String title, String description, String color, TicketStateAction ticketStateAction, Integer isActive, Integer isPending, Integer isClose, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.title = title;
         this.description = description;
         this.color = color;
@@ -194,11 +194,11 @@ public class TicketState implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

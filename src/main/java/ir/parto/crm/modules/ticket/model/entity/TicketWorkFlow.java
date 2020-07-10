@@ -28,7 +28,7 @@ public class TicketWorkFlow implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "previous_ticket_state_id", foreignKey = @ForeignKey(name = "ticket_previous_ticket_state_fk"))
-    private TicketStage previousTicketState;
+    private TicketState previousTicketState;
 
     @ManyToOne
     @JoinColumn(name = "next_ticket_stage_id", foreignKey = @ForeignKey(name = "ticket_next_ticket_stage_fk"))
@@ -36,7 +36,7 @@ public class TicketWorkFlow implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "next_ticket_state_id", foreignKey = @ForeignKey(name = "ticket_next_ticket_state_fk"))
-    private TicketStage nextTicketState;
+    private TicketState nextTicketState;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -60,12 +60,12 @@ public class TicketWorkFlow implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public TicketWorkFlow() {
     }
 
-    public TicketWorkFlow(String title, String description, TicketStage previousTicketStage, TicketStage previousTicketState, TicketStage nextTicketStage, TicketStage nextTicketState, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public TicketWorkFlow(String title, String description, TicketStage previousTicketStage, TicketState previousTicketState, TicketStage nextTicketStage, TicketState nextTicketState, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.title = title;
         this.description = description;
         this.previousTicketStage = previousTicketStage;
@@ -113,11 +113,11 @@ public class TicketWorkFlow implements Serializable {
         this.previousTicketStage = previousTicketStage;
     }
 
-    public TicketStage getPreviousTicketState() {
+    public TicketState getPreviousTicketState() {
         return previousTicketState;
     }
 
-    public void setPreviousTicketState(TicketStage previousTicketState) {
+    public void setPreviousTicketState(TicketState previousTicketState) {
         this.previousTicketState = previousTicketState;
     }
 
@@ -129,11 +129,11 @@ public class TicketWorkFlow implements Serializable {
         this.nextTicketStage = nextTicketStage;
     }
 
-    public TicketStage getNextTicketState() {
+    public TicketState getNextTicketState() {
         return nextTicketState;
     }
 
-    public void setNextTicketState(TicketStage nextTicketState) {
+    public void setNextTicketState(TicketState nextTicketState) {
         this.nextTicketState = nextTicketState;
     }
 
@@ -185,11 +185,11 @@ public class TicketWorkFlow implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

@@ -7,10 +7,12 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,55 +27,61 @@ public class TicketStateService implements ServiceInterface<TicketState> {
     @Override
     @Transactional
     public TicketState addNewItem(TicketState ticketState) {
+        ticketState.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.ticketStateRepository.save(ticketState);
     }
 
     @Override
     @Transactional
     public TicketState updateItem(TicketState ticketState) throws InvocationTargetException, IllegalAccessException {
-        TicketState exist = this.ticketStateRepository.getOne(ticketState.getTicketStateId());
+        TicketState exist = this.ticketStateRepository.findByIsDeletedIsNullAndTicketStateId(ticketState.getTicketStateId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ticketState);
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.ticketStateRepository.save(exist);
     }
 
     @Override
     @Transactional
     public TicketState deleteItem(TicketState ticketState) {
-        this.ticketStateRepository.delete(ticketState);
-        return ticketState;
+        TicketState exist = this.ticketStateRepository.findByIsDeletedIsNullAndTicketStateId(ticketState.getTicketStateId());
+        exist.setIsDeleted(1);
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setDeletedAt(LocalDateTime.now());
+        return this.ticketStateRepository.save(exist);
     }
 
     @Override
     public List<TicketState> findAllItem() {
-        return this.ticketStateRepository.findAll();
+        return this.ticketStateRepository.findAllByIsDeletedIsNull();
     }
 
     @Override
     public Page<TicketState> findAllItem(Pageable pageable) {
-        return this.ticketStateRepository.findAll(pageable);
+        return this.ticketStateRepository.findAllByIsDeletedIsNull(pageable);
     }
 
     @Override
     public Page<TicketState> findAllItemWithDeleted(Pageable pageable) {
-        return null;
+        return this.ticketStateRepository.findAll(pageable);
     }
 
     @Override
     public TicketState findOne(TicketState ticketState) {
-        return this.ticketStateRepository.getOne(ticketState.getTicketStateId());
+        return this.ticketStateRepository.findByIsDeletedIsNullAndTicketStateId(ticketState.getTicketStateId());
     }
 
     @Override
     public TicketState findById(Long id) {
-        if(this.ticketStateRepository.existsById(id)){
-            return this.ticketStateRepository.getOne(id);
-        }
-        return null;
+        return this.ticketStateRepository.findByIsDeletedIsNullAndTicketStateId(id);
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.ticketStateRepository.existsById(id);
+        return this.ticketStateRepository.existsByIsDeletedIsNullAndTicketStateId(id);
+    }
+
+    public TicketState findByIsDeletedIsNullAndTitle(String title) {
+        return  this.ticketStateRepository.findByIsDeletedIsNullAndTitle(title);
     }
 }
