@@ -90,7 +90,7 @@ public class PromotionCodeProductValidate implements ValidateInterface<Promotion
                     if (!this.promotionCodeService.existsById(promotionCodeProduct.getPromotionCode().getPromotionCodeId())) {
                         errorList.add("PromotionCode Id not defined");
                     }
-                    
+
                     if (promotionCodeProduct.getProductAddon() != null &&
                             !this.productAddonService.existsById(promotionCodeProduct.getProductAddon().getProductAddonId())) {
                         errorList.add("ProductAddon Id not defined");
