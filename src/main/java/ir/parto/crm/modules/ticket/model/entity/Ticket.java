@@ -45,7 +45,6 @@ public class Ticket implements Serializable {
     @JoinColumn(name = "admin_id", foreignKey = @ForeignKey(name = "ticket_admin_fk"))
     private Admin admin;
 
-
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
 
@@ -67,12 +66,12 @@ public class Ticket implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public Ticket() {
     }
 
-    public Ticket(String title, String message, Client client, Service service, TicketStage ticketStage, TicketState ticketState, Admin admin, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public Ticket(String title, String message, Client client, Service service, TicketStage ticketStage, TicketState ticketState, Admin admin, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.title = title;
         this.message = message;
         this.client = client;
@@ -203,11 +202,11 @@ public class Ticket implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }
