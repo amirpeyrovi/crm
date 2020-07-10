@@ -46,12 +46,12 @@ public class TicketNote implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public TicketNote() {
     }
 
-    public TicketNote(String message, Ticket ticket, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public TicketNote(String message, Ticket ticket, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.message = message;
         this.ticket = ticket;
         this.createdBy = createdBy;
@@ -135,11 +135,11 @@ public class TicketNote implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }
