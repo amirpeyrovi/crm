@@ -7,6 +7,7 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,23 +26,23 @@ public class TicketLogService implements ServiceInterface<TicketLog> {
     @Override
     @Transactional
     public TicketLog addNewItem(TicketLog ticketLog) {
+        ticketLog.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.ticketLogRepository.save(ticketLog);
     }
 
     @Override
     @Transactional
     public TicketLog updateItem(TicketLog ticketLog) throws InvocationTargetException, IllegalAccessException {
-        TicketLog exist = this.ticketLogRepository.getOne(ticketLog.getTicketLogId());
-        MyBeanCopy myBeanCopy = new MyBeanCopy();
-        myBeanCopy.copyProperties(exist, ticketLog);
-        return this.ticketLogRepository.save(exist);
+        //log not updatable
+        return null;
     }
 
     @Override
     @Transactional
     public TicketLog deleteItem(TicketLog ticketLog) {
-        this.ticketLogRepository.delete(ticketLog);
-        return ticketLog;
+        //log not deletable
+        //this.ticketLogRepository.delete(ticketLog);
+        return null;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class TicketLogService implements ServiceInterface<TicketLog> {
 
     @Override
     public Page<TicketLog> findAllItemWithDeleted(Pageable pageable) {
-        return null;
+        return this.ticketLogRepository.findAll(pageable);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class TicketLogService implements ServiceInterface<TicketLog> {
 
     @Override
     public TicketLog findById(Long id) {
-        if(this.ticketLogRepository.existsById(id)){
+        if (this.ticketLogRepository.existsById(id)) {
             return this.ticketLogRepository.getOne(id);
         }
         return null;
