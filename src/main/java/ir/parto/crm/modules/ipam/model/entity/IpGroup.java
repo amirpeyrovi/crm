@@ -35,6 +35,12 @@ public class IpGroup implements Serializable {
     @Column(name = "end_ip_address", columnDefinition = "nvarchar2(32)")
     private String endIpAddress;
 
+    @Column(name = "ip_netmask", columnDefinition = "number(1)")
+    private Integer ipNetmask;
+
+    @Column(name = "ip_version", columnDefinition = "number(1)")
+    private Integer ipVersion;
+
     // status => [1: active, 2: deActive]
     @Column(name = "status", columnDefinition = "number(1)")
     private Integer status;
@@ -66,13 +72,15 @@ public class IpGroup implements Serializable {
     public IpGroup() {
     }
 
-    public IpGroup(String title, String description, Integer owner, String ownerName, String startIpAddress, String endIpAddress, Integer status, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
+    public IpGroup(String title, String description, Integer owner, String ownerName, String startIpAddress, String endIpAddress, Integer ipNetmask, Integer ipVersion, Integer status, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.title = title;
         this.description = description;
         this.owner = owner;
         this.ownerName = ownerName;
         this.startIpAddress = startIpAddress;
         this.endIpAddress = endIpAddress;
+        this.ipNetmask = ipNetmask;
+        this.ipVersion = ipVersion;
         this.status = status;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
@@ -137,6 +145,22 @@ public class IpGroup implements Serializable {
 
     public void setEndIpAddress(String endIpAddress) {
         this.endIpAddress = endIpAddress;
+    }
+
+    public Integer getIpNetmask() {
+        return ipNetmask;
+    }
+
+    public void setIpNetmask(Integer ipNetmask) {
+        this.ipNetmask = ipNetmask;
+    }
+
+    public Integer getIpVersion() {
+        return ipVersion;
+    }
+
+    public void setIpVersion(Integer ipVersion) {
+        this.ipVersion = ipVersion;
     }
 
     public Integer getStatus() {
