@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class InventoryItem implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "crm_inventory_seq", sequenceName = "crm_inventory_seq", allocationSize=1)
+    @SequenceGenerator(name = "crm_inventory_seq", sequenceName = "crm_inventory_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_inventory_seq")
     private Long inventoryItemId;
 
@@ -24,7 +24,7 @@ public class InventoryItem implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "inventory_group_id", foreignKey = @ForeignKey(name = "inventory_item_inventory_group_fk"))
-    private InventoryType inventoryType;
+    private InventoryGroup inventoryGroup;
 
     @Column(name = "parameter_1", columnDefinition = "nvarchar2(50)")
     private String parameter1;
@@ -74,10 +74,10 @@ public class InventoryItem implements Serializable {
     public InventoryItem() {
     }
 
-    public InventoryItem(String name, String description, InventoryType inventoryType, String parameter1, String parameter2, String parameter3, String parameter4, String parameter5, String parameter6, String fileName, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
+    public InventoryItem(String name, String description, InventoryGroup inventoryGroup, String parameter1, String parameter2, String parameter3, String parameter4, String parameter5, String parameter6, String fileName, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.name = name;
         this.description = description;
-        this.inventoryType = inventoryType;
+        this.inventoryGroup = inventoryGroup;
         this.parameter1 = parameter1;
         this.parameter2 = parameter2;
         this.parameter3 = parameter3;
@@ -118,12 +118,12 @@ public class InventoryItem implements Serializable {
         this.description = description;
     }
 
-    public InventoryType getInventoryType() {
-        return inventoryType;
+    public InventoryGroup getInventoryGroup() {
+        return inventoryGroup;
     }
 
-    public void setInventoryType(InventoryType inventoryType) {
-        this.inventoryType = inventoryType;
+    public void setInventoryGroup(InventoryGroup inventoryGroup) {
+        this.inventoryGroup = inventoryGroup;
     }
 
     public String getParameter1() {
