@@ -1,40 +1,35 @@
-package ir.parto.crm.modules.product.controller.validate;
+package ir.parto.crm.modules.dataCenter.controller.validate;
 
-import ir.parto.crm.modules.product.model.entity.Product;
-import ir.parto.crm.modules.product.model.repository.ProductRepository;
-import ir.parto.crm.modules.product.model.service.ProductService;
+import ir.parto.crm.modules.dataCenter.model.entity.DataCenter;
+import ir.parto.crm.modules.dataCenter.model.service.DataCenterService;
+import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class ProductValidate implements ValidateInterface<Product> {
-    private ProductService productService;
+@ValidationAnnotation
+public class DataCenterValidate implements ValidateInterface<DataCenter> {
+    private DataCenterService dataCenterService;
 
     @Autowired
-    public ProductValidate(ProductService productService) {
-        this.productService = productService;
+    public DataCenterValidate(DataCenterService dataCenterService) {
+        this.dataCenterService = dataCenterService;
     }
 
     @Override
-    public ValidateObject validateAddNewItem(Product product) {
+    public ValidateObject validateAddNewItem(DataCenter dataCenter) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (product == null) {
+        if (dataCenter == null) {
             errorList.add("object is nul");
         } else {
-            if (product.getTitle() == null || product.getTitle().isEmpty()) {
+            if (dataCenter.getTitle() == null || dataCenter.getTitle().isEmpty()) {
                 errorList.add("Title is required");
             }
-
-            if (product.getProductGroup() == null || product.getProductGroup().getProductGroupId() == 0) {
-                errorList.add("Product Group is required");
-            }
         }
 
         validateObject.setCount(errorList.size());
@@ -49,23 +44,43 @@ public class ProductValidate implements ValidateInterface<Product> {
     }
 
     @Override
-    public ValidateObject validateUpdateItem(Product product) {
+    public ValidateObject validateUpdateItem(DataCenter dataCenter) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (product == null) {
+        if (dataCenter == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.productService.existsById(product.getProductId())) {
-                errorList.add("Product Id not defined");
+            if (!this.dataCenterService.existsById(dataCenter.getDataCenterId())) {
+                errorList.add("DataCenter Id not defined");
             }
 
-            if (product.getTitle() == null || product.getTitle().isEmpty()) {
+            if (dataCenter.getTitle() == null || dataCenter.getTitle().isEmpty()) {
                 errorList.add("Title is required");
             }
+        }
 
-            if (product.getProductGroup() == null || product.getProductGroup().getProductGroupId() == 0) {
-                errorList.add("Product Group is required");
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if (errorList.size() > 0) {
+            validateObject.setResult("error");
+        } else {
+            validateObject.setResult("success");
+        }
+
+        return validateObject;
+    }
+
+    @Override
+    public ValidateObject deleteItem(DataCenter dataCenter) {
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+
+        if (dataCenter == null) {
+            errorList.add("object is nul");
+        } else {
+            if (!this.dataCenterService.existsById(dataCenter.getDataCenterId())) {
+                errorList.add("DataCenter Id not defined");
             }
         }
 
@@ -81,15 +96,15 @@ public class ProductValidate implements ValidateInterface<Product> {
     }
 
     @Override
-    public ValidateObject deleteItem(Product product) {
+    public ValidateObject findOne(DataCenter dataCenter) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (product == null) {
+        if (dataCenter == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.productService.existsById(product.getProductId())) {
-                errorList.add("Product Id not defined");
+            if (!this.dataCenterService.existsById(dataCenter.getDataCenterId())) {
+                errorList.add("DataCenter Id not defined");
             }
         }
 
@@ -105,39 +120,15 @@ public class ProductValidate implements ValidateInterface<Product> {
     }
 
     @Override
-    public ValidateObject findOne(Product product) {
+    public ValidateObject findById(DataCenter dataCenter) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (product == null) {
+        if (dataCenter == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.productService.existsById(product.getProductId())) {
-                errorList.add("Product Id not defined");
-            }
-        }
-
-        validateObject.setCount(errorList.size());
-        validateObject.setMessages(errorList);
-        if (errorList.size() > 0) {
-            validateObject.setResult("error");
-        } else {
-            validateObject.setResult("success");
-        }
-
-        return validateObject;
-    }
-
-    @Override
-    public ValidateObject findById(Product product) {
-        List<String> errorList = new ArrayList<>();
-        ValidateObject validateObject = new ValidateObject();
-
-        if (product == null) {
-            errorList.add("object is nul");
-        } else {
-            if (!this.productService.existsById(product.getProductId())) {
-                errorList.add("Product Id not defined");
+            if (!this.dataCenterService.existsById(dataCenter.getDataCenterId())) {
+                errorList.add("DataCenter Id not defined");
             }
         }
 

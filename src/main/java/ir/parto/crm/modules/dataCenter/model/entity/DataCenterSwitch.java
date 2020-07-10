@@ -22,7 +22,7 @@ public class DataCenterSwitch implements Serializable {
     private DataCenterRack dataCenterRack;
 
     @Column(name = "port_count", columnDefinition = "number(4)")
-    private Integer port_count;
+    private Integer portCount;
 
     @Column(name = "title", columnDefinition = "nvarchar2(100)")
     private String title;
@@ -66,9 +66,9 @@ public class DataCenterSwitch implements Serializable {
     public DataCenterSwitch() {
     }
 
-    public DataCenterSwitch(DataCenterRack dataCenterRack, Integer port_count, String title, String vendor, Integer startUnit, Integer endUnit, Integer totalUnit, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
+    public DataCenterSwitch(DataCenterRack dataCenterRack, Integer portCount, String title, String vendor, Integer startUnit, Integer endUnit, Integer totalUnit, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.dataCenterRack = dataCenterRack;
-        this.port_count = port_count;
+        this.portCount = portCount;
         this.title = title;
         this.vendor = vendor;
         this.startUnit = startUnit;
@@ -99,12 +99,12 @@ public class DataCenterSwitch implements Serializable {
         this.dataCenterRack = dataCenterRack;
     }
 
-    public Integer getPort_count() {
-        return port_count;
+    public Integer getPortCount() {
+        return portCount;
     }
 
-    public void setPort_count(Integer port_count) {
-        this.port_count = port_count;
+    public void setPortCount(Integer portCount) {
+        this.portCount = portCount;
     }
 
     public String getTitle() {
