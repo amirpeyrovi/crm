@@ -7,7 +7,6 @@ import ir.parto.crm.modules.admin.model.service.AdminPermissionService;
 import ir.parto.crm.modules.admin.model.service.AdminRolePermissionService;
 import ir.parto.crm.modules.admin.model.service.AdminRoleService;
 import ir.parto.crm.modules.admin.model.entity.AdminPermission;
-import ir.parto.crm.modules.authenticate.model.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

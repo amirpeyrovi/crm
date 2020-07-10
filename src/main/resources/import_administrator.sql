@@ -3,7 +3,7 @@ INSERT INTO crm_admin (id , username , password , create_by,create_at)
 select admin_seq.nextval , 'administrator' , '$2a$10$RD/Qfrq60kKwlchas4LAPO3UK8o7ebg.jbEUjZewQtoTGLQTkQw4.',  1,sysdate from dual
 where not exists(select id from crm_admin where username = 'administrator');
 
-insert into crm_admin_role (title , id) select 'administrator' , role_seq.nextval from dual where not exists (select id from crm_admin_role where title = 'administrator');
+insert into crm_admin_role (title , id) select 'administrator' , admin_seq.nextval from dual where not exists (select id from crm_admin_role where title = 'administrator');
 update crm_admin set admin_role_id = (select id from crm_admin_role where title ='administrator');
 
 insert into crm_admin_role_permission (id, admin_role_id, admin_permission_id
