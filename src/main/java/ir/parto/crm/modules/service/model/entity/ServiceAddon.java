@@ -161,11 +161,11 @@ public class ServiceAddon implements Serializable {
         this.price = price;
     }
 
-    public Long getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Long orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 
