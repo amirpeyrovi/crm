@@ -28,14 +28,16 @@ public class ServerService implements ServiceInterface<Server> {
     @Override
     @Transactional
     public Server addNewItem(Server server) {
+        server.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.serverRepository.save(server);
     }
 
     @Override
     @Transactional
     public Server updateItem(Server server) throws InvocationTargetException, IllegalAccessException {
-        Server exist = this.serverRepository.getOne(server.getServerId());
+        Server exist = this.serverRepository.findByIsDeletedIsNullAndServerId(server.getServerId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         myBeanCopy.copyProperties(exist,server);
         return this.serverRepository.save(exist);
     }
@@ -43,43 +45,41 @@ public class ServerService implements ServiceInterface<Server> {
     @Override
     @Transactional
     public Server deleteItem(Server server) {
-        Admin authentication = (Admin) SecurityContextHolder.getContext().getAuthentication().getDetails();
-        server.setIsDeleted(1);
-        server.setDeletedAt(LocalDateTime.now());
-        server.setDeletedBy(authentication.getUsername());
-        return this.serverRepository.save(server);
+        Server exist = this.serverRepository.findByIsDeletedIsNullAndServerId(server.getServerId());
+        exist.setIsDeleted(1);
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setDeletedAt(LocalDateTime.now());
+        return this.serverRepository.save(exist);
     }
 
     @Override
     public List<Server> findAllItem() {
-        return this.serverRepository.findAll();
+        return this.serverRepository.findAllByIsDeletedIsNull();
     }
 
     @Override
     public Page<Server> findAllItem(Pageable pageable) {
-        return this.serverRepository.findAll(pageable);
+        return this.serverRepository.findAllByIsDeletedIsNull(pageable);
+
     }
 
     @Override
     public Page<Server> findAllItemWithDeleted(Pageable pageable) {
-        return null;
+        return this.serverRepository.findAll(pageable);
     }
 
     @Override
     public Server findOne(Server server) {
-        return this.serverRepository.getOne(server.getServerId());
+        return this.serverRepository.findByIsDeletedIsNullAndServerId(server.getServerId());
     }
 
     @Override
     public Server findById(Long id) {
-        if(this.serverRepository.existsById(id)){
-            return this.serverRepository.getOne(id);
-        }
-        return null;
+        return this.serverRepository.findByIsDeletedIsNullAndServerId(id);
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.serverRepository.existsById(id);
+        return this.serverRepository.existsByIsDeletedIsNullAndServerId(id);
     }
 }

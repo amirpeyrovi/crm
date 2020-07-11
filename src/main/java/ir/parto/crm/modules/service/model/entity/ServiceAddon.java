@@ -40,7 +40,7 @@ public class ServiceAddon implements Serializable {
     private Long price;
 
     @Column(name = "order_date", columnDefinition = "TIMESTAMP(6)")
-    private Long orderDate;
+    private LocalDate orderDate;
 
     @Column(name = "start_cycle_date", columnDefinition = "TIMESTAMP(6)")
     private LocalDate startDate;
@@ -85,12 +85,12 @@ public class ServiceAddon implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public ServiceAddon() {
     }
 
-    public ServiceAddon(Service service, ProductAddon productAddon, ProductCycle productCycle, Server server, Long price, Long orderDate, LocalDate startDate, LocalDate endDate, LocalDate contractDate, LocalDate activationDate, LocalDate terminationDate, LocalDate suspensionDate, String status, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, LocalDateTime isDeleted) {
+    public ServiceAddon(Service service, ProductAddon productAddon, ProductCycle productCycle, Server server, Long price, LocalDate orderDate, LocalDate startDate, LocalDate endDate, LocalDate contractDate, LocalDate activationDate, LocalDate terminationDate, LocalDate suspensionDate, String status, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.service = service;
         this.productAddon = productAddon;
         this.productCycle = productCycle;
@@ -161,11 +161,11 @@ public class ServiceAddon implements Serializable {
         this.price = price;
     }
 
-    public Long getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Long orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -273,11 +273,11 @@ public class ServiceAddon implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(LocalDateTime isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

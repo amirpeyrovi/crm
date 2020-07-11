@@ -28,61 +28,58 @@ public class ServerParameterService implements ServiceInterface<ServerParameter>
     @Override
     @Transactional
     public ServerParameter addNewItem(ServerParameter serverParameter) {
+        serverParameter.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.serverParameterRepository.save(serverParameter);
     }
 
     @Override
     @Transactional
     public ServerParameter updateItem(ServerParameter serverParameter) throws InvocationTargetException, IllegalAccessException {
-        ServerParameter exist = this.serverParameterRepository.getOne(serverParameter.getServerParameterId());
+        ServerParameter exist = this.serverParameterRepository.findByIsDeletedIsNullAndServerParameterId(serverParameter.getServerParameterId());
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist,serverParameter);
-        return this.serverParameterRepository.save(serverParameter);
+        return this.serverParameterRepository.save(exist);
     }
 
     @Override
     @Transactional
     public ServerParameter deleteItem(ServerParameter serverParameter) {
-        Admin authentication = (Admin) SecurityContextHolder.getContext().getAuthentication().getDetails();
-        serverParameter.setIsDeleted(1);
-        serverParameter.setDeletedAt(LocalDateTime.now());
-        serverParameter.setDeletedBy(authentication.getUsername());
-        return this.serverParameterRepository.save(serverParameter);
+        ServerParameter exist = this.serverParameterRepository.findByIsDeletedIsNullAndServerParameterId(serverParameter
+                .getServerParameterId());
+        exist.setIsDeleted(1);
+        exist.setDeletedAt(LocalDateTime.now());
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        return this.serverParameterRepository.save(exist);
     }
 
     @Override
     public List<ServerParameter> findAllItem() {
-        return this.serverParameterRepository.findAll();
+        return this.serverParameterRepository.findAllByIsDeletedIsNull();
     }
 
     @Override
     public Page<ServerParameter> findAllItem(Pageable pageable) {
-        return this.serverParameterRepository.findAll(pageable);
+        return this.serverParameterRepository.findAllByIsDeletedIsNull(pageable);
     }
 
     @Override
     public Page<ServerParameter> findAllItemWithDeleted(Pageable pageable) {
-        return null;
+        return this.serverParameterRepository.findAll(pageable);
     }
 
     @Override
     public ServerParameter findOne(ServerParameter serverParameter) {
-        if(this.serverParameterRepository.existsById(serverParameter.getServerParameterId())){
-            return this.serverParameterRepository.getOne(serverParameter.getServerParameterId());
-        }
-        return null;
+        return this.serverParameterRepository.findByIsDeletedIsNullAndServerParameterId(serverParameter.getServerParameterId());
     }
 
     @Override
     public ServerParameter findById(Long id) {
-        if(this.serverParameterRepository.existsById(id)){
-            return this.serverParameterRepository.getOne(id);
-        }
-        return null;
+        return this.serverParameterRepository.findByIsDeletedIsNullAndServerParameterId(id);
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.serverParameterRepository.existsById(id);
+        return this.serverParameterRepository.existsByIsDeletedIsNullAndServerParameterId(id);
     }
 }
