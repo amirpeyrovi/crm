@@ -25,7 +25,6 @@ public class TicketStageRole implements Serializable {
     @JoinColumn(name = "admin_role_id", foreignKey = @ForeignKey(name = "ticket_stage_role_admin_role_fk"))
     private AdminRole adminRole;
 
-
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
 
@@ -47,16 +46,21 @@ public class TicketStageRole implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public TicketStageRole() {
     }
 
-    public TicketStageRole(TicketStage ticketStage, AdminRole adminRole, String createdBy, LocalDateTime createdDate) {
+    public TicketStageRole(TicketStage ticketStage, AdminRole adminRole, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.ticketStage = ticketStage;
         this.adminRole = adminRole;
         this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
         this.createdDate = createdDate;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.isDeleted = isDeleted;
     }
 
     public Long getTicketStageRoleId() {
@@ -135,11 +139,11 @@ public class TicketStageRole implements Serializable {
         return this;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public TicketStageRole setIsDeleted(LocalDateTime isDeleted) {
+    public TicketStageRole setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
         return this;
     }

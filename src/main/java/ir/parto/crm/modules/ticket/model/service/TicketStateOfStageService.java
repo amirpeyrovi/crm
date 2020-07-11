@@ -7,6 +7,7 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class TicketStateOfStageService implements ServiceInterface<TicketStateOf
     @Override
     @Transactional
     public TicketStateOfStage addNewItem(TicketStateOfStage ticketStateOfStage) {
+        ticketStateOfStage.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.ticketStateOfStageRepository.save(ticketStateOfStage);
     }
 

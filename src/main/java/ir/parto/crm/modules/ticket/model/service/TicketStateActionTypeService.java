@@ -7,10 +7,12 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,33 +27,39 @@ public class TicketStateActionTypeService implements ServiceInterface<TicketStat
     @Override
     @Transactional
     public TicketStateActionType addNewItem(TicketStateActionType ticketStateActionType) {
+        ticketStateActionType.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.ticketStateActionTypeRepository.save(ticketStateActionType);
     }
 
     @Override
     @Transactional
     public TicketStateActionType updateItem(TicketStateActionType ticketStateActionType) throws InvocationTargetException, IllegalAccessException {
-        TicketStateActionType exist = this.ticketStateActionTypeRepository.getOne(ticketStateActionType.getTicketStateActionTypeId());
+        TicketStateActionType exist = this.ticketStateActionTypeRepository.findByIsDeletedIsNullAndTicketStateActionTypeId(ticketStateActionType.getTicketStateActionTypeId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ticketStateActionType);
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.ticketStateActionTypeRepository.save(exist);
     }
 
     @Override
     @Transactional
     public TicketStateActionType deleteItem(TicketStateActionType ticketStateActionType) {
-        this.ticketStateActionTypeRepository.delete(ticketStateActionType);
-        return ticketStateActionType;
+        TicketStateActionType exist = this.ticketStateActionTypeRepository.findByIsDeletedIsNullAndTicketStateActionTypeId(ticketStateActionType.getTicketStateActionTypeId());
+        exist.setIsDeleted(1);
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setDeletedAt(LocalDateTime.now());
+        return this.ticketStateActionTypeRepository.save(exist);
+
     }
 
     @Override
     public List<TicketStateActionType> findAllItem() {
-        return this.ticketStateActionTypeRepository.findAll();
+        return this.ticketStateActionTypeRepository.findAllByIsDeletedIsNull();
     }
 
     @Override
     public Page<TicketStateActionType> findAllItem(Pageable pageable) {
-        return this.ticketStateActionTypeRepository.findAll(pageable);
+        return this.ticketStateActionTypeRepository.findAllByIsDeletedIsNull(pageable);
     }
 
     @Override
@@ -61,19 +69,20 @@ public class TicketStateActionTypeService implements ServiceInterface<TicketStat
 
     @Override
     public TicketStateActionType findOne(TicketStateActionType ticketStateActionType) {
-        return this.ticketStateActionTypeRepository.getOne(ticketStateActionType.getTicketStateActionTypeId());
+        return this.ticketStateActionTypeRepository.findByIsDeletedIsNullAndTicketStateActionTypeId(ticketStateActionType.getTicketStateActionTypeId());
     }
 
     @Override
     public TicketStateActionType findById(Long id) {
-        if(this.ticketStateActionTypeRepository.existsById(id)){
-            return this.ticketStateActionTypeRepository.getOne(id);
-        }
-        return null;
+        return this.ticketStateActionTypeRepository.findByIsDeletedIsNullAndTicketStateActionTypeId(id);
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.ticketStateActionTypeRepository.existsById(id);
+        return this.ticketStateActionTypeRepository.existsfindByIsDeletedIsNullAndTicketStateActionTypeId(id);
+    }
+
+    public TicketStateActionType findByIsDeletedIsNullAndTitle(String title) {
+        return this.ticketStateActionTypeRepository.findByIsDeletedIsNullAndTitle(title);
     }
 }

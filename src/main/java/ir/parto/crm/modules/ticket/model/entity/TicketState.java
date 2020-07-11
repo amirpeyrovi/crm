@@ -38,7 +38,6 @@ public class TicketState implements Serializable {
     @Column(name = "is_close", columnDefinition = "number(1)")
     private Integer isClose;
 
-
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
 

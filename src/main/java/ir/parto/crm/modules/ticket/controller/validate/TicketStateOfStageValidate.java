@@ -7,6 +7,9 @@ import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ValidationAnnotation
 public class TicketStateOfStageValidate implements ValidateInterface<TicketStateOfStage> {
     private TicketStateOfStageService ticketStateOfStageService;
@@ -18,31 +21,119 @@ public class TicketStateOfStageValidate implements ValidateInterface<TicketState
 
     @Override
     public ValidateObject validateAddNewItem(TicketStateOfStage ticketStateOfStage) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+        if (ticketStateOfStage == null) {
+            errorList.add("Object is null");
+        } else {
+            if (ticketStateOfStage.getTicketState() != null || ticketStateOfStage.getTicketState().getTicketStateId() == null || ticketStateOfStage.getTicketState().getTicketStateId() == 0) {
+                errorList.add("TicketState is required");
+            }
+
+            if (ticketStateOfStage.getTicketStage() != null || ticketStateOfStage.getTicketStage().getTicketStageId() == null || ticketStateOfStage.getTicketStage().getTicketStageId() == 0) {
+                errorList.add("TicketState is required");
+            }
+        }
+
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if (errorList.size() > 0) {
+            validateObject.setResult("error");
+        } else {
+            validateObject.setResult("success");
+        }
+
+        return validateObject;
     }
 
     @Override
     public ValidateObject validateUpdateItem(TicketStateOfStage ticketStateOfStage) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+        if (ticketStateOfStage == null) {
+            errorList.add("Object is null");
+        }
+
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if (errorList.size() > 0) {
+            validateObject.setResult("error");
+        } else {
+            validateObject.setResult("success");
+        }
+
+        return validateObject;
     }
 
     @Override
     public ValidateObject deleteItem(TicketStateOfStage ticketStateOfStage) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+        if (ticketStateOfStage == null) {
+            errorList.add("Object is null");
+        }
+
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if (errorList.size() > 0) {
+            validateObject.setResult("error");
+        } else {
+            validateObject.setResult("success");
+        }
+
+        return validateObject;
     }
 
     @Override
     public ValidateObject findOne(TicketStateOfStage ticketStateOfStage) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+        if (ticketStateOfStage == null) {
+            errorList.add("Object is null");
+        }
+
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if (errorList.size() > 0) {
+            validateObject.setResult("error");
+        } else {
+            validateObject.setResult("success");
+        }
+
+        return validateObject;
     }
 
     @Override
     public ValidateObject findById(TicketStateOfStage ticketStateOfStage) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+        if (ticketStateOfStage == null) {
+            errorList.add("Object is null");
+        }
+
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if (errorList.size() > 0) {
+            validateObject.setResult("error");
+        } else {
+            validateObject.setResult("success");
+        }
+
+        return validateObject;
     }
 
     @Override
     public ValidateObject findAll() {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if (errorList.size() > 0) {
+            validateObject.setResult("error");
+        } else {
+            validateObject.setResult("success");
+        }
+
+        return validateObject;
     }
 }
