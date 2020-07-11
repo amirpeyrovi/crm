@@ -8,6 +8,9 @@ import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ValidationAnnotation
 @Component
 public class ServerValidate implements ValidateInterface<Server> {
@@ -20,31 +23,124 @@ public class ServerValidate implements ValidateInterface<Server> {
 
     @Override
     public ValidateObject validateAddNewItem(Server server) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+        if(server == null || server.getTitle() == null || server.getTitle().isEmpty()){
+            errorList.add("Title is required");
+        }
+        if(server == null || server.getAddress() == null || server.getAddress().isEmpty()){
+            errorList.add("Title is required");
+        }
+        if(server == null || server.getUsername() == null || server.getUsername().isEmpty()){
+            errorList.add("Username is required");
+        }
+        if(server == null || server.getPassword() == null || server.getPassword().isEmpty()){
+            errorList.add("Password is required");
+        }
+        if(server == null || server.getServerGroup() == null || server.getServerGroup().getServerGroupId() == 0){
+            errorList.add("Server Group is required");
+        }
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if(errorList.size()>0){
+            validateObject.setResult("error");
+        }else{
+            validateObject.setResult("success");
+        }
+        return validateObject;
     }
 
     @Override
     public ValidateObject validateUpdateItem(Server server) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+        if(server != null && server.getTitle() != null && server.getTitle().isEmpty()){
+            errorList.add("Title is required");
+        }
+        if(server != null && server.getAddress() != null && server.getAddress().isEmpty()){
+            errorList.add("Title is required");
+        }
+        if(server != null && server.getUsername() != null && server.getUsername().isEmpty()){
+            errorList.add("Username is required");
+        }
+        if(server != null && server.getPassword() != null && server.getPassword().isEmpty()){
+            errorList.add("Password is required");
+        }
+        if(server != null && server.getServerGroup() != null && server.getServerGroup().getServerGroupId() == 0){
+            errorList.add("Server Group is required");
+        }
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if(errorList.size()>0){
+            validateObject.setResult("error");
+        }else{
+            validateObject.setResult("success");
+        }
+        return validateObject;
     }
 
     @Override
     public ValidateObject deleteItem(Server server) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+        if(server == null || this.serverService.existsById(server.getServerId())){
+            errorList.add("Server Id not defined");
+        }
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if(errorList.size()>0){
+            validateObject.setResult("error");
+        }else{
+            validateObject.setResult("success");
+        }
+        return validateObject;
     }
 
     @Override
     public ValidateObject findOne(Server server) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+        if(server == null || this.serverService.existsById(server.getServerId())){
+            errorList.add("Server Id not defined");
+        }
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if(errorList.size()>0){
+            validateObject.setResult("error");
+        }else{
+            validateObject.setResult("success");
+        }
+        return validateObject;
     }
 
     @Override
     public ValidateObject findById(Server server) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+        if(server == null || this.serverService.existsById(server.getServerId())){
+            errorList.add("Server Id not defined");
+        }
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if(errorList.size()>0){
+            validateObject.setResult("error");
+        }else{
+            validateObject.setResult("success");
+        }
+        return validateObject;
     }
 
     @Override
     public ValidateObject findAll() {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if(errorList.size()>0){
+            validateObject.setResult("error");
+        }else{
+            validateObject.setResult("success");
+        }
+        return validateObject;
     }
 }
