@@ -17,7 +17,7 @@ public interface TicketStageRepository extends JpaRepository<TicketStage, Long>,
 
     Page<TicketStage> findAllByIsDeletedIsNull(Pageable pageable);
 
-    Boolean eixstsByIsDeletedIsNullAndTicketStageId(Long id);
+    Boolean existsByIsDeletedIsNullAndTicketStageId(Long id);
 
     TicketStage findByIsDeletedIsNullAndTitle(String title);
 }

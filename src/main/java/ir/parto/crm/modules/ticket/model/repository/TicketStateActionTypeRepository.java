@@ -17,7 +17,7 @@ public interface TicketStateActionTypeRepository extends JpaRepository<TicketSta
 
     Page<TicketStateActionType> findAllByIsDeletedIsNull(Pageable pageable);
 
-    Boolean existsfindByIsDeletedIsNullAndTicketStateActionTypeId(Long id);
+    Boolean existsByIsDeletedIsNullAndTicketStateActionTypeId(Long id);
 
     TicketStateActionType findByIsDeletedIsNullAndTitle(String title);
 }

@@ -32,7 +32,7 @@ public class PromotionCode implements Serializable {
     private Integer type = 1;
 
     // type => [1: buy, 2: renew, 3: change, all: 4]
-    @Column(name = "type", columnDefinition = "number(1)")
+    @Column(name = "order_type", columnDefinition = "number(1)")
     private Integer orderType = 4;
 
     @Column(name = "value", columnDefinition = "number(10)")
