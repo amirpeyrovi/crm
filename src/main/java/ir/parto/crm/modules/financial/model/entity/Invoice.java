@@ -57,12 +57,12 @@ public class Invoice implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private int isDeleted;
+    private Integer isDeleted;
 
     public Invoice() {
     }
 
-    public Invoice(Order order, String description, String invoiceNumber, Integer status, Integer officialType, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
+    public Invoice(Order order, String description, String invoiceNumber, Integer status, Integer officialType, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.order = order;
         this.description = description;
         this.invoiceNumber = invoiceNumber;
@@ -173,11 +173,11 @@ public class Invoice implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public int getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(int isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }
