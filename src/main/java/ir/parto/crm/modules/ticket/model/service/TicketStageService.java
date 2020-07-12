@@ -78,7 +78,7 @@ public class TicketStageService implements ServiceInterface<TicketStage> {
 
     @Override
     public Boolean existsById(Long id) {
-        return this.ticketStageRepository.eixstsByIsDeletedIsNullAndTicketStageId(id);
+        return this.ticketStageRepository.existsByIsDeletedIsNullAndTicketStageId(id);
     }
 
     public TicketStage findByIsDeletedIsNullAndTitle(String title) {

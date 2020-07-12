@@ -79,7 +79,7 @@ public class TicketStateActionTypeService implements ServiceInterface<TicketStat
 
     @Override
     public Boolean existsById(Long id) {
-        return this.ticketStateActionTypeRepository.existsfindByIsDeletedIsNullAndTicketStateActionTypeId(id);
+        return this.ticketStateActionTypeRepository.existsByIsDeletedIsNullAndTicketStateActionTypeId(id);
     }
 
     public TicketStateActionType findByIsDeletedIsNullAndTitle(String title) {
