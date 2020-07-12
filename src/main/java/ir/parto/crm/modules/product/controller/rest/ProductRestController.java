@@ -35,8 +35,8 @@ public class ProductRestController implements RestControllerInterface {
         }
         ValidateObject validateObject = this.productValidate.findAll();
         if (validateObject.getResult().equals("success")) {
-            Pageable pageable = PageRequest.of(Integer.parseInt(page), 25, new Sort(Sort.Direction.ASC));
-            return this.productService.findAllItem(pageable);
+//            Pageable pageable = PageRequest.of(Integer.parseInt(page), 25, new Sort(Sort.Direction.ASC));
+            return this.productService.findAllItem();
         } else {
             return null;
         }
