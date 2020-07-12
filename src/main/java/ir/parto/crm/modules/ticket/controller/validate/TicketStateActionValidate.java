@@ -2,6 +2,7 @@ package ir.parto.crm.modules.ticket.controller.validate;
 
 import ir.parto.crm.modules.ticket.model.entity.TicketStateAction;
 import ir.parto.crm.modules.ticket.model.service.TicketStateActionService;
+import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;

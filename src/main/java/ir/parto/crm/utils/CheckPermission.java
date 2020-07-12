@@ -10,7 +10,7 @@ import ir.parto.crm.modules.admin.model.entity.AdminPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
+//        CheckPermission.getInstance().check("client_update", "Client_Credit")
 @Component
 public class CheckPermission {
     private AdminPermissionService adminPermissionService;
@@ -22,6 +22,15 @@ public class CheckPermission {
         this.adminPermissionService = adminPermissionService;
         this.adminRoleService = adminRoleService;
         this.adminRolePermissionService = adminRolePermissionService;
+    }
+
+    private static CheckPermission checkPermission = new CheckPermission( );
+
+    private CheckPermission() { }
+
+    /* Static 'instance' method */
+    public static CheckPermission getInstance( ) {
+        return checkPermission;
     }
 
     public Boolean check(String perms, String action) {
