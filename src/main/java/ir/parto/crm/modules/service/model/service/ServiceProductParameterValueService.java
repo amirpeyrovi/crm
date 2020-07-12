@@ -7,10 +7,12 @@ import ir.parto.crm.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,55 +27,58 @@ public class ServiceProductParameterValueService implements ServiceInterface<Ser
     @Override
     @Transactional
     public ServiceProductParameterValue addNewItem(ServiceProductParameterValue serviceProductParameterValue) {
+        serviceProductParameterValue.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.serviceProductParameterValueRepository.save(serviceProductParameterValue);
     }
 
     @Override
     @Transactional
     public ServiceProductParameterValue updateItem(ServiceProductParameterValue serviceProductParameterValue) throws InvocationTargetException, IllegalAccessException {
-        ServiceProductParameterValue exist = this.serviceProductParameterValueRepository.getOne(serviceProductParameterValue.getServiceProductHistory());
+        ServiceProductParameterValue exist = this.serviceProductParameterValueRepository.findByIsDeletedIsNullAndServiceProductHistory(serviceProductParameterValue.getServiceProductHistory());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, serviceProductParameterValue);
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.serviceProductParameterValueRepository.save(exist);
     }
 
     @Override
     @Transactional
     public ServiceProductParameterValue deleteItem(ServiceProductParameterValue serviceProductParameterValue) {
+        ServiceProductParameterValue exist = this.serviceProductParameterValueRepository.findByIsDeletedIsNullAndServiceProductHistory(serviceProductParameterValue.getServiceProductHistory());
         this.serviceProductParameterValueRepository.delete(serviceProductParameterValue);
-        return serviceProductParameterValue;
+        exist.setIsDeleted(1);
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setDeletedAt(LocalDateTime.now());
+        return this.serviceProductParameterValueRepository.save(exist);
     }
 
     @Override
     public List<ServiceProductParameterValue> findAllItem() {
-        return this.serviceProductParameterValueRepository.findAll();
+        return this.serviceProductParameterValueRepository.findAllByIsDeletedIsNull();
     }
 
     @Override
     public Page<ServiceProductParameterValue> findAllItem(Pageable pageable) {
-        return this.serviceProductParameterValueRepository.findAll(pageable);
+        return this.serviceProductParameterValueRepository.findAllByIsDeletedIsNull(pageable);
     }
 
     @Override
     public Page<ServiceProductParameterValue> findAllItemWithDeleted(Pageable pageable) {
-        return null;
+        return this.serviceProductParameterValueRepository.findAll(pageable);
     }
 
     @Override
     public ServiceProductParameterValue findOne(ServiceProductParameterValue serviceProductParameterValue) {
-        return this.serviceProductParameterValueRepository.getOne(serviceProductParameterValue.getServiceProductHistory());
+        return this.serviceProductParameterValueRepository.findByIsDeletedIsNullAndServiceProductHistory(serviceProductParameterValue.getServiceProductHistory());
     }
 
     @Override
     public ServiceProductParameterValue findById(Long id) {
-        if(this.serviceProductParameterValueRepository.existsById(id)){
-            return this.serviceProductParameterValueRepository.getOne(id);
-        }
-        return null;
+        return this.serviceProductParameterValueRepository.findByIsDeletedIsNullAndServiceProductHistory(id);
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.serviceProductParameterValueRepository.existsById(id);
+        return this.serviceProductParameterValueRepository.existsByIsDeletedIsNullAndServiceProductHistory(id);
     }
 }

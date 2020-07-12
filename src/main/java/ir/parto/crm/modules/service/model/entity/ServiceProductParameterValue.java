@@ -50,7 +50,7 @@ public class ServiceProductParameterValue implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private LocalDateTime isDeleted;
+    private Integer isDeleted;
 
     public ServiceProductParameterValue() {
     }
@@ -147,11 +147,11 @@ public class ServiceProductParameterValue implements Serializable {
         return this;
     }
 
-    public LocalDateTime getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public ServiceProductParameterValue setIsDeleted(LocalDateTime isDeleted) {
+    public ServiceProductParameterValue setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
         return this;
     }

@@ -78,7 +78,6 @@ public class Service implements Serializable {
     @Column(name = "status", columnDefinition = "nvarchar2(100)")
     private String status;
 
-
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
 
