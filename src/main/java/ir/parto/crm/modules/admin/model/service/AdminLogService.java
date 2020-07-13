@@ -28,7 +28,7 @@ public class AdminLogService implements ServiceInterface<AdminLog> {
     @Transactional
     public AdminLog addNewItem(AdminLog adminLog)
     {
-//        adminLog.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        adminLog.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.adminLogRepository.save(adminLog);
     }
 
@@ -38,6 +38,7 @@ public class AdminLogService implements ServiceInterface<AdminLog> {
         AdminLog exist = this.adminLogRepository.findByIsDeletedIsNullAndAdminLogId(adminLog.getAdminLogId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, adminLog);
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.adminLogRepository.save(exist);
     }
 
@@ -47,7 +48,7 @@ public class AdminLogService implements ServiceInterface<AdminLog> {
         AdminLog exist = this.adminLogRepository.findByIsDeletedIsNullAndAdminLogId(adminLog.getAdminLogId());
         exist.setIsDeleted(1);
         exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        exist.setDeletedDate(LocalDateTime.now());
+        exist.setDeletedAt(LocalDateTime.now());
         return this.adminLogRepository.save(exist);
     }
 

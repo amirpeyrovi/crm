@@ -40,6 +40,7 @@ public class AdminService implements ServiceInterface<Admin> {
         Admin exist = this.adminRepository.findByIsDeletedIsNullAndAdminId(admin.getAdminId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, admin);
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.adminRepository.save(exist);
     }
 

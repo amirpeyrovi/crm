@@ -39,6 +39,7 @@ public class AdminRoleService implements ServiceInterface<AdminRole> {
         AdminRole exist = this.adminRoleRepository.findByIsDeletedIsNullAndAdminRoleId(adminRole.getAdminRoleId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, adminRole);
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.adminRoleRepository.save(exist);
     }
 
