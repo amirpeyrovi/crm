@@ -74,6 +74,10 @@ public class ServiceValidate implements ValidateInterface<Service> {
         if (service == null || service.getServiceId() == null || service.getServiceId() == 0) {
             errorList.add("Ticket not defined!");
         } else {
+            if (!this.serviceService.existsById(service.getServiceId())) {
+                errorList.add("Service Product History not defined");
+            }
+
             if (service.getTerminationDate() != null) {
                 if (service.getTerminationDate().compareTo(LocalDate.now()) < 0) {
                     errorList.add("TerminationDate is not correct");
@@ -99,6 +103,10 @@ public class ServiceValidate implements ValidateInterface<Service> {
         ValidateObject validateObject = new ValidateObject();
         if (service == null || service.getServiceId() == null || service.getServiceId() == 0) {
             errorList.add("Ticket not defined!");
+        } else {
+            if (!this.serviceService.existsById(service.getServiceId())) {
+                errorList.add("Service Product History not defined");
+            }
         }
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
@@ -117,6 +125,10 @@ public class ServiceValidate implements ValidateInterface<Service> {
         ValidateObject validateObject = new ValidateObject();
         if (service == null || service.getServiceId() == null || service.getServiceId() == 0) {
             errorList.add("Ticket not defined!");
+        } else {
+            if (!this.serviceService.existsById(service.getServiceId())) {
+                errorList.add("Service Product History not defined");
+            }
         }
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
@@ -135,6 +147,10 @@ public class ServiceValidate implements ValidateInterface<Service> {
         ValidateObject validateObject = new ValidateObject();
         if (service == null || service.getServiceId() == null || service.getServiceId() == 0) {
             errorList.add("Ticket not defined!");
+        } else {
+            if (!this.serviceService.existsById(service.getServiceId())) {
+                errorList.add("Service Product History not defined");
+            }
         }
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
