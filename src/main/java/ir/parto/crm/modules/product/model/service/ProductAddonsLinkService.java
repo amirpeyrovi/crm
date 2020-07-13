@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.product.model.service;
 
+import ir.parto.crm.modules.product.model.entity.Product;
+import ir.parto.crm.modules.product.model.entity.ProductAddon;
 import ir.parto.crm.modules.product.model.entity.ProductAddonsLink;
 import ir.parto.crm.modules.product.model.repository.ProductAddonsLinkRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -79,5 +81,14 @@ public class ProductAddonsLinkService implements ServiceInterface<ProductAddonsL
     @Override
     public Boolean existsById(Long id) {
         return this.productAddonsLinkRepository.existsByIsDeletedIsNullAndProductAddonLinkId(id);
+    }
+
+
+    public Page<ProductAddonsLink> findAllItemByProduct(Product product, Pageable pageable) {
+        return this.productAddonsLinkRepository.findAllByIsDeletedIsNullAndProduct(product, pageable);
+    }
+
+    public Page<ProductAddonsLink> findAllItemByProductAddon(ProductAddon productAddon, Pageable pageable) {
+        return this.productAddonsLinkRepository.findAllByIsDeletedIsNullAndProductAddon(productAddon, pageable);
     }
 }

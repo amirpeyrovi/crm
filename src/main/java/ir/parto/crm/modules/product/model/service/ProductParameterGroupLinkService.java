@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.product.model.service;
 
+import ir.parto.crm.modules.product.model.entity.Product;
+import ir.parto.crm.modules.product.model.entity.ProductAddon;
 import ir.parto.crm.modules.product.model.entity.ProductParameterGroupLink;
 import ir.parto.crm.modules.product.model.repository.ProductParameterGroupLinkRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -79,5 +81,13 @@ public class ProductParameterGroupLinkService implements ServiceInterface<Produc
     @Override
     public Boolean existsById(Long id) {
         return this.productParameterGroupLinkRepository.existsByIsDeletedIsNullAndProductParameterGroupLinkId(id);
+    }
+
+    public Page<ProductParameterGroupLink> findAllItemByProduct(Product product, Pageable pageable) {
+        return this.productParameterGroupLinkRepository.findAllByIsDeletedIsNullAndProduct(product, pageable);
+    }
+
+    public Page<ProductParameterGroupLink> findAllItemByProductAddon(ProductAddon productAddon, Pageable pageable) {
+        return this.productParameterGroupLinkRepository.findAllByIsDeletedIsNullAndProductAddon(productAddon, pageable);
     }
 }
