@@ -3,6 +3,10 @@ package ir.parto.crm.modules.product.controller.rest;
 import ir.parto.crm.modules.product.controller.validate.ProductAddonValidate;
 import ir.parto.crm.modules.product.model.entity.ProductAddon;
 import ir.parto.crm.modules.product.model.service.ProductAddonService;
+import ir.parto.crm.modules.product.model.service.ProductGroupService;
+import ir.parto.crm.modules.server.model.service.ServerGroupService;
+import ir.parto.crm.modules.ticket.model.service.TicketStageService;
+import ir.parto.crm.modules.ticket.model.service.TicketStateService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.ProductAnnotation;
@@ -22,11 +26,19 @@ import java.util.Arrays;
 public class ProductAddonRestController implements RestControllerInterface {
     private ProductAddonValidate productAddonValidate;
     private ProductAddonService productAddonService;
+    private ProductGroupService productGroupService;
+    private ServerGroupService serverGroupService;
+    private TicketStageService ticketStageService;
+    private TicketStateService ticketStateService;
 
     @Autowired
-    public ProductAddonRestController(ProductAddonValidate productAddonValidate, ProductAddonService productAddonService) {
+    public ProductAddonRestController(ProductAddonValidate productAddonValidate, ProductAddonService productAddonService, ProductGroupService productGroupService, ServerGroupService serverGroupService, TicketStageService ticketStageService, TicketStateService ticketStateService) {
         this.productAddonValidate = productAddonValidate;
         this.productAddonService = productAddonService;
+        this.productGroupService = productGroupService;
+        this.serverGroupService = serverGroupService;
+        this.ticketStageService = ticketStageService;
+        this.ticketStateService = ticketStateService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -52,6 +64,10 @@ public class ProductAddonRestController implements RestControllerInterface {
     @RequestMapping(method = RequestMethod.POST)
     public Object addOne(@RequestBody ProductAddon productAddon) {
         if (CheckPermission.getInstance().check("admin_add", "ProductAddon")) {
+            productAddon.setProductGroup(this.productGroupService.findOne(productAddon.getProductGroup()));
+            productAddon.setServerGroup(this.serverGroupService.findOne(productAddon.getServerGroup()));
+            productAddon.setTicketStage(this.ticketStageService.findOne(productAddon.getTicketStage()));
+            productAddon.setTicketState(this.ticketStateService.findOne(productAddon.getTicketState()));
             return new ApiResponse("Error", 101, Arrays.asList("ProductAddon - admin_add - access denied!"))
                     .getFaultResponse();
         }
@@ -80,6 +96,10 @@ public class ProductAddonRestController implements RestControllerInterface {
         ValidateObject validateObject = this.productAddonValidate.validateUpdateItem(productAddon);
         if (validateObject.getResult().equals("success")) {
             try {
+                productAddon.setProductGroup(this.productGroupService.findOne(productAddon.getProductGroup()));
+                productAddon.setServerGroup(this.serverGroupService.findOne(productAddon.getServerGroup()));
+                productAddon.setTicketStage(this.ticketStageService.findOne(productAddon.getTicketStage()));
+                productAddon.setTicketState(this.ticketStateService.findOne(productAddon.getTicketState()));
                 return new ApiResponse("Success", Arrays.asList(this.productAddonService.updateItem(productAddon)))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {

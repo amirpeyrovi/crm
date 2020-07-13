@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.promotion.model.repository;
 
+import ir.parto.crm.modules.promotion.model.entity.PromotionCode;
 import ir.parto.crm.modules.promotion.model.entity.PromotionCodeProduct;
 import ir.parto.crm.utils.interfaces.RepositoryInterface;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,8 @@ public interface PromotionCodeProductRepository extends JpaRepository<PromotionC
     List<PromotionCodeProduct> findAllByIsDeletedIsNull();
 
     Page<PromotionCodeProduct> findAllByIsDeletedIsNull(Pageable pageable);
+
+    Page<PromotionCodeProduct> findAllByIsDeletedIsNullAndPromotionCode(PromotionCode promotionCode, Pageable pageable);
 
     PromotionCodeProduct findByIsDeletedIsNullAndPromotionCodeProductId(Long id);
 

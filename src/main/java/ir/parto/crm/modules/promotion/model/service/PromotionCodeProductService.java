@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.promotion.model.service;
 
+import ir.parto.crm.modules.promotion.model.entity.PromotionCode;
 import ir.parto.crm.modules.promotion.model.entity.PromotionCodeProduct;
 import ir.parto.crm.modules.promotion.model.repository.PromotionCodeProductRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -79,5 +80,9 @@ public class PromotionCodeProductService implements ServiceInterface<PromotionCo
     @Override
     public Boolean existsById(Long id) {
         return this.promotionCodeProductRepository.existsByIsDeletedIsNullAndPromotionCodeProductId(id);
+    }
+
+    public Page<PromotionCodeProduct> findAllItemByPromotionCode(PromotionCode promotionCode, Pageable pageable) {
+        return this.promotionCodeProductRepository.findAllByIsDeletedIsNullAndPromotionCode(promotionCode, pageable);
     }
 }

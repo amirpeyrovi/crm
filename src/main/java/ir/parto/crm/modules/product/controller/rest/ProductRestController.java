@@ -2,7 +2,11 @@ package ir.parto.crm.modules.product.controller.rest;
 
 import ir.parto.crm.modules.product.controller.validate.ProductValidate;
 import ir.parto.crm.modules.product.model.entity.Product;
+import ir.parto.crm.modules.product.model.service.ProductGroupService;
 import ir.parto.crm.modules.product.model.service.ProductService;
+import ir.parto.crm.modules.server.model.service.ServerGroupService;
+import ir.parto.crm.modules.ticket.model.service.TicketStageService;
+import ir.parto.crm.modules.ticket.model.service.TicketStateService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.ProductAnnotation;
@@ -26,11 +30,19 @@ import java.util.List;
 public class ProductRestController implements RestControllerInterface {
     private ProductValidate productValidate;
     private ProductService productService;
+    private ProductGroupService productGroupService;
+    private ServerGroupService serverGroupService;
+    private TicketStageService ticketStageService;
+    private TicketStateService ticketStateService;
 
     @Autowired
-    public ProductRestController(ProductValidate productValidate, ProductService productService) {
+    public ProductRestController(ProductValidate productValidate, ProductService productService, ProductGroupService productGroupService, ServerGroupService serverGroupService, TicketStageService ticketStageService, TicketStateService ticketStateService) {
         this.productValidate = productValidate;
         this.productService = productService;
+        this.productGroupService = productGroupService;
+        this.serverGroupService = serverGroupService;
+        this.ticketStageService = ticketStageService;
+        this.ticketStateService = ticketStateService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -64,6 +76,10 @@ public class ProductRestController implements RestControllerInterface {
 
         ValidateObject validateObject = this.productValidate.validateAddNewItem(product);
         if (validateObject.getResult().equals("success")) {
+            product.setProductGroup(this.productGroupService.findOne(product.getProductGroup()));
+            product.setServerGroup(this.serverGroupService.findOne(product.getServerGroup()));
+            product.setTicketStage(this.ticketStageService.findOne(product.getTicketStage()));
+            product.setTicketState(this.ticketStateService.findOne(product.getTicketState()));
             return new ApiResponse("Success", Arrays.asList(this.productService.addNewItem(product)))
                     .getSuccessResponse();
         } else {
@@ -84,6 +100,10 @@ public class ProductRestController implements RestControllerInterface {
         ValidateObject validateObject = this.productValidate.validateUpdateItem(product);
         if (validateObject.getResult().equals("success")) {
             try {
+                product.setProductGroup(this.productGroupService.findOne(product.getProductGroup()));
+                product.setServerGroup(this.serverGroupService.findOne(product.getServerGroup()));
+                product.setTicketStage(this.ticketStageService.findOne(product.getTicketStage()));
+                product.setTicketState(this.ticketStateService.findOne(product.getTicketState()));
                 return new ApiResponse("Success", Arrays.asList(this.productService.updateItem(product)))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
