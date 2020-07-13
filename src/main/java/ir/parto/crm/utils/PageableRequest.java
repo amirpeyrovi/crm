@@ -18,7 +18,7 @@ public class PageableRequest {
         return pageableRequest;
     }
 
-    public Pageable createPageRequest(String page, String sortProperty, String sortOrder){
+    public Pageable createPageRequest(String page, String objectName, String sortProperty, String sortOrder){
 //        List<Sort.Order> orderArrayList = new ArrayList<>();
 //        orderArrayList.add(new Sort.Order(Sort.Direction.ASC, ""));
 //        Sort sort = new Sort(orderArrayList);
