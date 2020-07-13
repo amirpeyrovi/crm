@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.admin.model.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,28 +29,45 @@ public class AdminLog implements Serializable {
     @JoinColumn(name = "admin_id")
     private Admin admin;
 
-    @Column(name = "create_at", updatable = false, columnDefinition = "TIMESTAMP(6)")
-    @CreationTimestamp
-    private LocalDateTime createdDate;
+    @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
+    private String createdBy;
+
+    @Column(name = "update_by", columnDefinition = "nvarchar2(60)")
+    private String updatedBy;
 
     @Column(name = "deleted_by", columnDefinition = "nvarchar2(60)")
     private String deletedBy;
 
+    @Column(name = "create_at", updatable = false, columnDefinition = "TIMESTAMP(6)")
+    @CreationTimestamp
+    private LocalDateTime createdDate;
+
+    @Column(name = "update_at", columnDefinition = "TIMESTAMP(6)")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
     @Column(name = "deleted_at", columnDefinition = "TIMESTAMP(6)")
-    private LocalDateTime deletedDate;
+    private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private int isDeleted;
+    private Integer isDeleted;
+
 
     public AdminLog() {
     }
 
-    public AdminLog(String log, String username, String ipAddress, Admin admin, LocalDateTime createdDate) {
+    public AdminLog(String log, String username, String ipAddress, Admin admin, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.log = log;
         this.username = username;
         this.ipAddress = ipAddress;
         this.admin = admin;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
         this.createdDate = createdDate;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.isDeleted = isDeleted;
     }
 
     public Long getAdminLogId() {
@@ -108,19 +126,48 @@ public class AdminLog implements Serializable {
         this.deletedBy = deletedBy;
     }
 
-    public LocalDateTime getDeletedDate() {
-        return deletedDate;
-    }
-
-    public void setDeletedDate(LocalDateTime deletedDate) {
-        this.deletedDate = deletedDate;
-    }
 
     public int getIsDeleted() {
         return isDeleted;
     }
 
     public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 }

@@ -35,27 +35,31 @@ public class AdminPermissionService implements ServiceInterface<AdminPermission>
     @Override
     @Transactional
     public AdminPermission updateItem(AdminPermission adminPermission) throws InvocationTargetException, IllegalAccessException {
-        AdminPermission exist = this.adminPermissionRepository.getOne(adminPermission.getPermissionId());
+        AdminPermission exist = this.adminPermissionRepository.findByIsDeletedIsNullAndPermissionId(adminPermission.getPermissionId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, adminPermission);
+        exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.adminPermissionRepository.save(exist);
     }
 
     @Override
     @Transactional
     public AdminPermission deleteItem(AdminPermission adminPermission) {
-        AdminPermission exist = this.adminPermissionRepository.getOne(adminPermission.getPermissionId());
+        AdminPermission exist = this.adminPermissionRepository.findByIsDeletedIsNullAndPermissionId(adminPermission.getPermissionId());
+        exist.setIsDeleted(1);
+        exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setDeletedAt(LocalDateTime.now());
         return this.adminPermissionRepository.save(exist);
     }
 
     @Override
     public List<AdminPermission> findAllItem() {
-        return this.adminPermissionRepository.findAll();
+        return this.adminPermissionRepository.findAllByIsDeletedIsNull();
     }
 
     @Override
     public Page<AdminPermission> findAllItem(Pageable pageable) {
-        return this.adminPermissionRepository.findAll(pageable);
+        return this.adminPermissionRepository.findAllByIsDeletedIsNull(pageable);
     }
 
     @Override
@@ -65,18 +69,17 @@ public class AdminPermissionService implements ServiceInterface<AdminPermission>
 
     @Override
     public AdminPermission findOne(AdminPermission adminPermission) {
-        return this.adminPermissionRepository.getOne(adminPermission.getPermissionId());
+        return this.adminPermissionRepository.findByIsDeletedIsNullAndPermissionId(adminPermission.getPermissionId());
     }
 
     @Override
     public AdminPermission findById(Long id) {
-        return this.adminPermissionRepository.getOne(id);
+        return this.adminPermissionRepository.findByIsDeletedIsNullAndPermissionId(id);
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.adminPermissionRepository.existsById(id);
-
+        return this.adminPermissionRepository.existsByIsDeletedIsNullAndPermissionId(id);
     }
 
     public AdminPermission findByTitle(String perms) {

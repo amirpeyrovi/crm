@@ -13,4 +13,12 @@ import java.util.List;
 @Repository
 public interface AdminPermissionRepository extends JpaRepository<AdminPermission, Long>, RepositoryInterface<AdminPermission> {
     AdminPermission findByTitle(String perms);
+
+    AdminPermission findByIsDeletedIsNullAndPermissionId(Long permissionId);
+
+    Page<AdminPermission> findAllByIsDeletedIsNull(Pageable pageable);
+
+    List<AdminPermission> findAllByIsDeletedIsNull();
+
+    Boolean existsByIsDeletedIsNullAndPermissionId(Long id);
 }

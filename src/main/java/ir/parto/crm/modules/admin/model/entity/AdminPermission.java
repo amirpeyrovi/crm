@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.admin.model.entity;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,14 +28,35 @@ public class AdminPermission implements Serializable {
     @CreationTimestamp
     private LocalDateTime createdDate;
 
+    @Column(name = "update_by", columnDefinition = "nvarchar2(60)")
+    private String updatedBy;
+
+    @Column(name = "deleted_by", columnDefinition = "nvarchar2(60)")
+    private String deletedBy;
+
+    @Column(name = "update_at", columnDefinition = "TIMESTAMP(6)")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_at", columnDefinition = "TIMESTAMP(6)")
+    private LocalDateTime deletedAt;
+
+    @Column(name = "is_deleted", columnDefinition = "number(1)")
+    private Integer isDeleted;
+
     public AdminPermission() {
     }
 
-    public AdminPermission(String title, String showName, String createdBy, LocalDateTime createdDate) {
+    public AdminPermission(String title, String showName, String createdBy, LocalDateTime createdDate, String updatedBy, String deletedBy, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.title = title;
         this.showName = showName;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.isDeleted = isDeleted;
     }
 
     public Long getPermissionId() {
@@ -75,5 +97,45 @@ public class AdminPermission implements Serializable {
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

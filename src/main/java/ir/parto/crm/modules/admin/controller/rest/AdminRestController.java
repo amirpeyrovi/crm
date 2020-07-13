@@ -3,19 +3,15 @@ package ir.parto.crm.modules.admin.controller.rest;
 import ir.parto.crm.modules.admin.controller.validate.AdminRoleValidate;
 import ir.parto.crm.modules.admin.controller.validate.AdminValidate;
 import ir.parto.crm.modules.admin.model.entity.Admin;
-import ir.parto.crm.modules.admin.model.entity.AdminRole;
 import ir.parto.crm.modules.admin.model.service.AdminRoleService;
 import ir.parto.crm.modules.admin.model.service.AdminService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.AdminAnnotation;
-import ir.parto.crm.utils.annotations.AdminAnnotation;
 import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -64,9 +60,9 @@ public class AdminRestController {
                     .getFaultResponse();
         }
         admin.setAdminId(null);
-
         ValidateObject validateObject = this.adminValidate.validateAddNewItem(admin);
         if (validateObject.getResult().equals("success")) {
+            admin.setAdminRole(this.adminRoleService.findOne(admin.getAdminRole()));
             return new ApiResponse("Success", Arrays.asList(this.adminService.addNewItem(admin)))
                     .getSuccessResponse();
         } else {
@@ -81,12 +77,12 @@ public class AdminRestController {
             return new ApiResponse("Error", 101, Arrays.asList("Admin - admin_update - access denied!"))
                     .getFaultResponse();
         }
-
         admin.setAdminId(id);
 
         ValidateObject validateObject = this.adminValidate.validateUpdateItem(admin);
         if (validateObject.getResult().equals("success")) {
             try {
+                admin.setAdminRole(this.adminRoleService.findOne(admin.getAdminRole()));
                 return new ApiResponse("Success", Arrays.asList(this.adminService.updateItem(admin)))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
@@ -139,5 +135,4 @@ public class AdminRestController {
                     .getFaultResponse();
         }
     }
-
 }
