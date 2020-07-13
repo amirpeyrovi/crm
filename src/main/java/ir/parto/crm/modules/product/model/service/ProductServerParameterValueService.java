@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.product.model.service;
 
+import ir.parto.crm.modules.product.model.entity.Product;
+import ir.parto.crm.modules.product.model.entity.ProductAddon;
 import ir.parto.crm.modules.product.model.entity.ProductServerParameterValue;
 import ir.parto.crm.modules.product.model.repository.ProductServerParameterValueRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -79,5 +81,13 @@ public class ProductServerParameterValueService implements ServiceInterface<Prod
     @Override
     public Boolean existsById(Long id) {
         return this.productServerParameterValueRepository.existsByIsDeletedIsNullAndProductServerParameterId(id);
+    }
+
+    public Page<ProductServerParameterValue> findAllItemByProduct(Product product, Pageable pageable) {
+        return this.productServerParameterValueRepository.findAllByIsDeletedIsNullAndProduct(product, pageable);
+    }
+
+    public Page<ProductServerParameterValue> findAllItemByProductAddon(ProductAddon productAddon, Pageable pageable) {
+        return this.productServerParameterValueRepository.findAllByIsDeletedIsNullAndProductAddon(productAddon, pageable);
     }
 }

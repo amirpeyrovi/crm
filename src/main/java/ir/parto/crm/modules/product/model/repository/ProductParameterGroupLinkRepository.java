@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.product.model.repository;
 
+import ir.parto.crm.modules.product.model.entity.Product;
+import ir.parto.crm.modules.product.model.entity.ProductAddon;
 import ir.parto.crm.modules.product.model.entity.ProductParameterGroupLink;
 import ir.parto.crm.utils.interfaces.RepositoryInterface;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,10 @@ public interface ProductParameterGroupLinkRepository extends JpaRepository<Produ
     List<ProductParameterGroupLink> findAllByIsDeletedIsNull();
 
     Page<ProductParameterGroupLink> findAllByIsDeletedIsNull(Pageable pageable);
+
+    Page<ProductParameterGroupLink> findAllByIsDeletedIsNullAndProduct(Product product, Pageable pageable);
+
+    Page<ProductParameterGroupLink> findAllByIsDeletedIsNullAndProductAddon(ProductAddon productAddon, Pageable pageable);
 
     ProductParameterGroupLink findByIsDeletedIsNullAndProductParameterGroupLinkId(Long id);
 

@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.product.model.repository;
 
+import ir.parto.crm.modules.product.model.entity.Product;
+import ir.parto.crm.modules.product.model.entity.ProductAddon;
 import ir.parto.crm.modules.product.model.entity.ProductAddonsLink;
 import ir.parto.crm.modules.product.model.entity.ProductCyclePrice;
 import ir.parto.crm.utils.interfaces.RepositoryInterface;
@@ -15,6 +17,10 @@ public interface ProductCyclePriceRepository extends JpaRepository<ProductCycleP
     List<ProductCyclePrice> findAllByIsDeletedIsNull();
 
     Page<ProductCyclePrice> findAllByIsDeletedIsNull(Pageable pageable);
+
+    Page<ProductCyclePrice> findAllByIsDeletedIsNullAndProduct(Product product, Pageable pageable);
+
+    Page<ProductCyclePrice> findAllByIsDeletedIsNullAndProductAddon(ProductAddon productAddon, Pageable pageable);
 
     ProductCyclePrice findByIsDeletedIsNullAndProductCyclePriceId(Long id);
 

@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.product.model.service;
 
+import ir.parto.crm.modules.product.model.entity.Product;
+import ir.parto.crm.modules.product.model.entity.ProductAddon;
 import ir.parto.crm.modules.product.model.entity.ProductCyclePrice;
 import ir.parto.crm.modules.product.model.repository.ProductCyclePriceRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -79,5 +81,13 @@ public class ProductCyclePriceService implements ServiceInterface<ProductCyclePr
     @Override
     public Boolean existsById(Long id) {
         return this.productCyclePriceRepository.existsByIsDeletedIsNullAndProductCyclePriceId(id);
+    }
+
+    public Page<ProductCyclePrice> findAllItemByProduct(Product product, Pageable pageable){
+        return this.productCyclePriceRepository.findAllByIsDeletedIsNullAndProduct(product, pageable);
+    }
+
+    public Page<ProductCyclePrice> findAllItemByProductAddon(ProductAddon productAddon, Pageable pageable){
+        return this.productCyclePriceRepository.findAllByIsDeletedIsNullAndProductAddon(productAddon, pageable);
     }
 }

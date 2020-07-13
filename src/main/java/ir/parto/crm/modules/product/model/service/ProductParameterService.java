@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.product.model.service;
 
 import ir.parto.crm.modules.product.model.entity.ProductParameter;
+import ir.parto.crm.modules.product.model.entity.ProductParameterGroup;
 import ir.parto.crm.modules.product.model.repository.ProductParameterRepository;
 import ir.parto.crm.utils.MyBeanCopy;
 import ir.parto.crm.utils.interfaces.ServiceInterface;
@@ -79,5 +80,9 @@ public class ProductParameterService implements ServiceInterface<ProductParamete
     @Override
     public Boolean existsById(Long id) {
         return this.productParameterRepository.existsByIsDeletedIsNullAndProductParameterId(id);
+    }
+
+    public Page<ProductParameter> findAllItemByParameterGroup(ProductParameterGroup productParameterGroup, Pageable pageable) {
+        return this.productParameterRepository.findAllByIsDeletedIsNullAndProductParameterGroup(productParameterGroup, pageable);
     }
 }

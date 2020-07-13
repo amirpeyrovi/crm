@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.product.model.repository;
 
+import ir.parto.crm.modules.product.model.entity.Product;
+import ir.parto.crm.modules.product.model.entity.ProductAddon;
 import ir.parto.crm.modules.product.model.entity.ProductServerParameterValue;
 import ir.parto.crm.utils.interfaces.RepositoryInterface;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,10 @@ public interface ProductServerParameterValueRepository extends JpaRepository<Pro
     List<ProductServerParameterValue> findAllByIsDeletedIsNull();
 
     Page<ProductServerParameterValue> findAllByIsDeletedIsNull(Pageable pageable);
+
+    Page<ProductServerParameterValue> findAllByIsDeletedIsNullAndProduct(Product product, Pageable pageable);
+
+    Page<ProductServerParameterValue> findAllByIsDeletedIsNullAndProductAddon(ProductAddon productAddon, Pageable pageable);
 
     ProductServerParameterValue findByIsDeletedIsNullAndProductServerParameterId(Long id);
 

@@ -24,7 +24,6 @@ public class ProductCyclePrice implements Serializable {
     @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "product_cycle_price_product_fk"))
     private Product product;
 
-
     @ManyToOne
     @JoinColumn(name = "product_addon_id", foreignKey = @ForeignKey(name = "product_cycle_price_product_addon_fk"))
     private ProductAddon productAddon;

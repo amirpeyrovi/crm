@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 @RestController
@@ -78,12 +77,12 @@ public class ProductAddonsLinkRestController implements RestControllerInterface 
             Product product = new Product();
             product.setProductId(id);
             ValidateObject validateObjectProduct = this.productValidate.findOne(product);
-            if(validateObjectProduct.getResult().equals("success")) {
+            if (validateObjectProduct.getResult().equals("success")) {
                 Product productExist = this.productService.findOne(product);
                 Page<ProductAddonsLink> productPage = this.productAddonsLinkService.findAllItemByProduct(productExist, PageableRequest.getInstance().createPageRequest(page, "ProductAddonsLink", sortProperty, sortOrder));
                 return new ApiResponse("Success", productPage)
                         .getSuccessResponse();
-            }else {
+            } else {
                 return new ApiResponse("Error", 102, validateObjectProduct.getMessages())
                         .getFaultResponse();
             }
@@ -95,9 +94,9 @@ public class ProductAddonsLinkRestController implements RestControllerInterface 
 
     @RequestMapping(value = "/productAddon/{id}", method = RequestMethod.GET)
     public Object findAllByProductAddon(@PathVariable("id") Long id,
-                                   @RequestParam(required = false, defaultValue = "0") String page,
-                                   @RequestParam(required = false, defaultValue = "default") String sortProperty,
-                                   @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
+                                        @RequestParam(required = false, defaultValue = "0") String page,
+                                        @RequestParam(required = false, defaultValue = "default") String sortProperty,
+                                        @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
         if (CheckPermission.getInstance().check("admin_show", "ProductAddonsLink")) {
             return new ApiResponse("Error", 101, Arrays.asList("ProductAddonsLink - admin_show - access denied!"))
                     .getFaultResponse();
@@ -108,12 +107,12 @@ public class ProductAddonsLinkRestController implements RestControllerInterface 
             ProductAddon productAddon = new ProductAddon();
             productAddon.setProductAddonId(id);
             ValidateObject validateObjectProductAddon = this.productAddonValidate.findOne(productAddon);
-            if(validateObjectProductAddon.getResult().equals("success")) {
+            if (validateObjectProductAddon.getResult().equals("success")) {
                 ProductAddon productAddonExist = this.productAddonService.findOne(productAddon);
                 Page<ProductAddonsLink> productPage = this.productAddonsLinkService.findAllItemByProductAddon(productAddonExist, PageableRequest.getInstance().createPageRequest(page, "ProductAddonsLink", sortProperty, sortOrder));
                 return new ApiResponse("Success", productPage)
                         .getSuccessResponse();
-            }else {
+            } else {
                 return new ApiResponse("Error", 102, validateObjectProductAddon.getMessages())
                         .getFaultResponse();
             }
@@ -134,6 +133,8 @@ public class ProductAddonsLinkRestController implements RestControllerInterface 
 
         ValidateObject validateObject = this.productAddonsLinkValidate.validateAddNewItem(productAddonsLink);
         if (validateObject.getResult().equals("success")) {
+            productAddonsLink.setProduct(this.productService.findOne(productAddonsLink.getProduct()));
+            productAddonsLink.setProductAddon(this.productAddonService.findOne(productAddonsLink.getProductAddon()));
             return new ApiResponse("Success", Arrays.asList(this.productAddonsLinkService.addNewItem(productAddonsLink)))
                     .getSuccessResponse();
         } else {
