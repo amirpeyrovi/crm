@@ -60,7 +60,6 @@ public class Admin implements UserDetails , Serializable{
     @Transient
     private Collection<? extends GrantedAuthority> authority;
 
-
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
 

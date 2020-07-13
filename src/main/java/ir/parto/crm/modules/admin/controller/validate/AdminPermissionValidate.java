@@ -7,6 +7,9 @@ import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ValidationAnnotation
 public class AdminPermissionValidate implements ValidateInterface<AdminPermission> {
     private AdminPermissionService adminPermissionService;
@@ -18,31 +21,143 @@ public class AdminPermissionValidate implements ValidateInterface<AdminPermissio
 
     @Override
     public ValidateObject validateAddNewItem(AdminPermission adminPermission) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+
+        if(adminPermission == null){
+            errorList.add("Admin information is required");
+        }else{
+            if(adminPermission.getTitle() == null || adminPermission.getTitle().isEmpty() ){
+                errorList.add("Title is required");
+            }
+
+            if(adminPermission.getShowName() == null || adminPermission.getShowName().isEmpty() ){
+                errorList.add("ShowName is required");
+            }
+        }
+
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if(errorList.size()>0){
+            validateObject.setResult("error");
+        }else{
+            validateObject.setResult("success");
+        }
+
+        return validateObject;
+
     }
 
     @Override
     public ValidateObject validateUpdateItem(AdminPermission adminPermission) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+
+        if(adminPermission == null){
+            errorList.add("AdminPermission information is required");
+        }else{
+            if(this.adminPermissionService.existsById(adminPermission.getPermissionId())){
+                errorList.add("AdminPermission is not defined!");
+            }
+
+            if(adminPermission.getTitle() == null || adminPermission.getTitle().isEmpty()){
+                errorList.add("Title is required");
+            }
+            if(adminPermission.getShowName() == null || adminPermission.getShowName().isEmpty()){
+                errorList.add("ShowName is required");
+            }
+        }
+
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if(errorList.size()>0){
+            validateObject.setResult("error");
+        }else{
+            validateObject.setResult("success");
+        }
+        return validateObject;
     }
 
     @Override
     public ValidateObject deleteItem(AdminPermission adminPermission) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+
+        if(adminPermission == null){
+            errorList.add("Admin information is required");
+        }else{
+            if(!this.adminPermissionService.existsById(adminPermission.getPermissionId())){
+                errorList.add("Admin is not defined!");
+            }
+        }
+
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if(errorList.size()>0){
+            validateObject.setResult("error");
+        }else{
+            validateObject.setResult("success");
+        }
+        return validateObject;
     }
 
     @Override
     public ValidateObject findOne(AdminPermission adminPermission) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+
+        if(adminPermission == null){
+            errorList.add("Admin information is required");
+        }else{
+            if(!this.adminPermissionService.existsById(adminPermission.getPermissionId())){
+                errorList.add("Admin is not defined!");
+            }
+        }
+
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if(errorList.size()>0){
+            validateObject.setResult("error");
+        }else{
+            validateObject.setResult("success");
+        }
+        return validateObject;
     }
 
     @Override
     public ValidateObject findById(AdminPermission adminPermission) {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+
+        if(adminPermission == null){
+            errorList.add("Admin information is required");
+        }else{
+            if(!this.adminPermissionService.existsById(adminPermission.getPermissionId())){
+                errorList.add("Admin is not defined!");
+            }
+        }
+
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if(errorList.size()>0){
+            validateObject.setResult("error");
+        }else{
+            validateObject.setResult("success");
+        }
+        return validateObject;
     }
 
     @Override
     public ValidateObject findAll() {
-        return null;
+        List<String> errorList = new ArrayList<>();
+        ValidateObject validateObject = new ValidateObject();
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
+        if(errorList.size()>0){
+            validateObject.setResult("error");
+        }else{
+            validateObject.setResult("success");
+        }
+        return validateObject;
     }
 }
