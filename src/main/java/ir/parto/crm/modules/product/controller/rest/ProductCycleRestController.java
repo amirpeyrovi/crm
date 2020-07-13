@@ -1,8 +1,8 @@
 package ir.parto.crm.modules.product.controller.rest;
 
-import ir.parto.crm.modules.product.controller.validate.ProductValidate;
-import ir.parto.crm.modules.product.model.entity.Product;
-import ir.parto.crm.modules.product.model.service.ProductService;
+import ir.parto.crm.modules.product.controller.validate.ProductCycleValidate;
+import ir.parto.crm.modules.product.model.entity.ProductCycle;
+import ir.parto.crm.modules.product.model.service.ProductCycleService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.ProductAnnotation;
@@ -11,40 +11,36 @@ import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @RestController
 @ProductAnnotation
-@RequestMapping("/v1/product/product")
-public class ProductRestController implements RestControllerInterface {
-    private ProductValidate productValidate;
-    private ProductService productService;
+@RequestMapping("/v1/product/productCycle")
+public class ProductCycleRestController implements RestControllerInterface {
+    private ProductCycleValidate productCycleValidate;
+    private ProductCycleService productCycleService;
 
     @Autowired
-    public ProductRestController(ProductValidate productValidate, ProductService productService) {
-        this.productValidate = productValidate;
-        this.productService = productService;
+    public ProductCycleRestController(ProductCycleValidate productCycleValidate, ProductCycleService productCycleService) {
+        this.productCycleValidate = productCycleValidate;
+        this.productCycleService = productCycleService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public Object findAll(@RequestParam(required = false, defaultValue = "0") String page,
                           @RequestParam(required = false, defaultValue = "default") String sortProperty,
                           @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
-        if (CheckPermission.getInstance().check("admin_show", "Product")) {
-            return new ApiResponse("Error", 101, Arrays.asList("Product - admin_show - access denied!"))
+        if (CheckPermission.getInstance().check("admin_show", "ProductCycle")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ProductCycle - admin_show - access denied!"))
                     .getFaultResponse();
         }
 
-        ValidateObject validateObject = this.productValidate.findAll();
+        ValidateObject validateObject = this.productCycleValidate.findAll();
         if (validateObject.getResult().equals("success")) {
-            Page<Product> productPage = this.productService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "Product", sortProperty, sortOrder));
+            Page<ProductCycle> productPage = this.productCycleService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "ProductCycle", sortProperty, sortOrder));
             return new ApiResponse("Success", productPage)
                     .getSuccessResponse();
         } else {
@@ -54,17 +50,17 @@ public class ProductRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody Product product) {
-        if (CheckPermission.getInstance().check("admin_add", "Product")) {
-            return new ApiResponse("Error", 101, Arrays.asList("Product - admin_add - access denied!"))
+    public Object addOne(@RequestBody ProductCycle productCycle) {
+        if (CheckPermission.getInstance().check("admin_add", "ProductCycle")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ProductCycle - admin_add - access denied!"))
                     .getFaultResponse();
         }
 
-        product.setProductId(null);
+        productCycle.setProductCycleId(null);
 
-        ValidateObject validateObject = this.productValidate.validateAddNewItem(product);
+        ValidateObject validateObject = this.productCycleValidate.validateAddNewItem(productCycle);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.productService.addNewItem(product)))
+            return new ApiResponse("Success", Arrays.asList(this.productCycleService.addNewItem(productCycle)))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -73,18 +69,18 @@ public class ProductRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody Product product) {
-        if (CheckPermission.getInstance().check("admin_update", "Product")) {
-            return new ApiResponse("Error", 101, Arrays.asList("Product - admin_update - access denied!"))
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody ProductCycle productCycle) {
+        if (CheckPermission.getInstance().check("admin_update", "ProductCycle")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ProductCycle - admin_update - access denied!"))
                     .getFaultResponse();
         }
 
-        product.setProductId(id);
+        productCycle.setProductCycleId(id);
 
-        ValidateObject validateObject = this.productValidate.validateUpdateItem(product);
+        ValidateObject validateObject = this.productCycleValidate.validateUpdateItem(productCycle);
         if (validateObject.getResult().equals("success")) {
             try {
-                return new ApiResponse("Success", Arrays.asList(this.productService.updateItem(product)))
+                return new ApiResponse("Success", Arrays.asList(this.productCycleService.updateItem(productCycle)))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
                 return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
@@ -101,16 +97,16 @@ public class ProductRestController implements RestControllerInterface {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Object deleteOne(@PathVariable("id") Long id) {
-        if (CheckPermission.getInstance().check("admin_delete", "Product")) {
-            return new ApiResponse("Error", 101, Arrays.asList("Product - admin_delete - access denied!"))
+        if (CheckPermission.getInstance().check("admin_delete", "ProductCycle")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ProductCycle - admin_delete - access denied!"))
                     .getFaultResponse();
         }
 
-        Product product = new Product();
-        product.setProductId(id);
-        ValidateObject validateObject = this.productValidate.deleteItem(product);
+        ProductCycle productCycle = new ProductCycle();
+        productCycle.setProductCycleId(id);
+        ValidateObject validateObject = this.productCycleValidate.deleteItem(productCycle);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.productService.deleteItem(product)))
+            return new ApiResponse("Success", Arrays.asList(this.productCycleService.deleteItem(productCycle)))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -120,16 +116,16 @@ public class ProductRestController implements RestControllerInterface {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Object findOne(@PathVariable("id") Long id) {
-        if (CheckPermission.getInstance().check("admin_show", "Product")) {
-            return new ApiResponse("Error", 101, Arrays.asList("Product - admin_show - access denied!"))
+        if (CheckPermission.getInstance().check("admin_show", "ProductCycle")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ProductCycle - admin_show - access denied!"))
                     .getFaultResponse();
         }
 
-        Product product = new Product();
-        product.setProductId(id);
-        ValidateObject validateObject = this.productValidate.findOne(product);
+        ProductCycle productCycle = new ProductCycle();
+        productCycle.setProductCycleId(id);
+        ValidateObject validateObject = this.productCycleValidate.findOne(productCycle);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.productService.findOne(product)))
+            return new ApiResponse("Success", Arrays.asList(this.productCycleService.findOne(productCycle)))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
