@@ -42,7 +42,7 @@ public class ProductRestController implements RestControllerInterface {
 
         ValidateObject validateObject = this.productValidate.findAll();
         if (validateObject.getResult().equals("success")) {
-            Page<Product> productPage = this.productService.findAllItem(PageableRequest.getInstance().createPageRequest(page, sortProperty, sortOrder));
+            Page<Product> productPage = this.productService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "Product", sortProperty, sortOrder));
             return new ApiResponse("Success", productPage)
                     .getSuccessResponse();
         } else {
@@ -85,10 +85,10 @@ public class ProductRestController implements RestControllerInterface {
                 return new ApiResponse("Success", Arrays.asList(this.productService.updateItem(product)))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
-                return new ApiResponse("Error", 102, Arrays.asList("An error occurred Try again later"))
+                return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
                         .getFaultResponse();
             } catch (IllegalAccessException e) {
-                return new ApiResponse("Error", 102, Arrays.asList("An error occurred Try again later"))
+                return new ApiResponse("Error", 104, Arrays.asList("An error occurred Try again later"))
                         .getFaultResponse();
             }
         } else {
