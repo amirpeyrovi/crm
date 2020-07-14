@@ -2,6 +2,7 @@ package ir.parto.crm.modules.server.model.service;
 
 import ir.parto.crm.modules.admin.model.entity.Admin;
 import ir.parto.crm.modules.server.model.entity.Server;
+import ir.parto.crm.modules.server.model.entity.ServerGroup;
 import ir.parto.crm.modules.server.model.repository.ServerRepository;
 import ir.parto.crm.utils.MyBeanCopy;
 import ir.parto.crm.utils.interfaces.ServiceInterface;
@@ -38,7 +39,7 @@ public class ServerService implements ServiceInterface<Server> {
         Server exist = this.serverRepository.findByIsDeletedIsNullAndServerId(server.getServerId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        myBeanCopy.copyProperties(exist,server);
+        myBeanCopy.copyProperties(exist, server);
         return this.serverRepository.save(exist);
     }
 
@@ -81,5 +82,10 @@ public class ServerService implements ServiceInterface<Server> {
     @Override
     public Boolean existsById(Long id) {
         return this.serverRepository.existsByIsDeletedIsNullAndServerId(id);
+    }
+
+    public Page<Server> findAllItemByServerGroup(ServerGroup serverGroup, Pageable pageable) {
+        return this.serverRepository.findAllByIsDeletedIsNullAndServerGroup(serverGroup, pageable);
+
     }
 }

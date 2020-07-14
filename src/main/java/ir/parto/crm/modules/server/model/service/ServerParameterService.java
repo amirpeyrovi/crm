@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.server.model.service;
 
 import ir.parto.crm.modules.admin.model.entity.Admin;
+import ir.parto.crm.modules.server.model.entity.ServerGroup;
 import ir.parto.crm.modules.server.model.entity.ServerParameter;
 import ir.parto.crm.modules.server.model.repository.ServerParameterRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -61,6 +62,10 @@ public class ServerParameterService implements ServiceInterface<ServerParameter>
     @Override
     public Page<ServerParameter> findAllItem(Pageable pageable) {
         return this.serverParameterRepository.findAllByIsDeletedIsNull(pageable);
+    }
+
+    public Page<ServerParameter> findAllItemByServerGroup(ServerGroup serverGroup, Pageable pageable) {
+        return this.serverParameterRepository.findAllByIsDeletedIsNullAndServerGroup(serverGroup, pageable);
     }
 
     @Override
