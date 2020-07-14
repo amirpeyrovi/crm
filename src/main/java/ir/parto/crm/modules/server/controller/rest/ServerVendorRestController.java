@@ -1,10 +1,7 @@
 package ir.parto.crm.modules.server.controller.rest;
 
-
-import ir.parto.crm.modules.server.controller.validate.ServerGroupValidate;
-import ir.parto.crm.modules.server.model.entity.ServerGroup;
+import ir.parto.crm.modules.server.controller.validate.ServerVendorValidate;
 import ir.parto.crm.modules.server.model.entity.ServerVendor;
-import ir.parto.crm.modules.server.model.service.ServerGroupService;
 import ir.parto.crm.modules.server.model.service.ServerVendorService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
@@ -14,25 +11,21 @@ import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 @RestController
 @ServerAnnotation
-@RequestMapping("/v1/server/serverGroup")
-public class ServerGroupRestController implements RestControllerInterface {
-    private ServerGroupValidate serverGroupValidate;
-    private ServerGroupService serverGroupService;
+@RequestMapping("/v1/server/serverVendor")
+public class ServerVendorRestController implements RestControllerInterface {
+    private ServerVendorValidate serverVendorValidate;
     private ServerVendorService serverVendorService;
 
-    public ServerGroupRestController(ServerGroupValidate serverGroupValidate, ServerGroupService serverGroupService, ServerVendorService serverVendorService) {
-        this.serverGroupValidate = serverGroupValidate;
-        this.serverGroupService = serverGroupService;
+    @Autowired
+    public ServerVendorRestController(ServerVendorValidate serverVendorValidate, ServerVendorService serverVendorService) {
+        this.serverVendorValidate = serverVendorValidate;
         this.serverVendorService = serverVendorService;
     }
 
@@ -40,14 +33,14 @@ public class ServerGroupRestController implements RestControllerInterface {
     public Object findAll(@RequestParam(required = false, defaultValue = "0") String page,
                           @RequestParam(required = false, defaultValue = "default") String sortProperty,
                           @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
-        if (CheckPermission.getInstance().check("admin_show", "ServerGroup")) {
-            return new ApiResponse("Error", 101, Arrays.asList("ServerGroup - admin_show - access denied!"))
+        if (CheckPermission.getInstance().check("admin_show", "ServerVendor")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ServerVendor - admin_show - access denied!"))
                     .getFaultResponse();
         }
 
-        ValidateObject validateObject = this.serverGroupValidate.findAll();
+        ValidateObject validateObject = this.serverVendorValidate.findAll();
         if (validateObject.getResult().equals("success")) {
-            Page<ServerGroup> productPage = this.serverGroupService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "ServerGroup", sortProperty, sortOrder));
+            Page<ServerVendor> productPage = this.serverVendorService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "ServerVendor", sortProperty, sortOrder));
             return new ApiResponse("Success", productPage)
                     .getSuccessResponse();
         } else {
@@ -57,18 +50,17 @@ public class ServerGroupRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody ServerGroup serverGroup) {
-        if (CheckPermission.getInstance().check("admin_add", "ServerGroup")) {
-            return new ApiResponse("Error", 101, Arrays.asList("ServerGroup - admin_add - access denied!"))
+    public Object addOne(@RequestBody ServerVendor serverVendor) {
+        if (CheckPermission.getInstance().check("admin_add", "ServerVendor")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ServerVendor - admin_add - access denied!"))
                     .getFaultResponse();
         }
 
-        serverGroup.setServerGroupId(null);
+        serverVendor.setServerVendorId(null);
 
-        ValidateObject validateObject = this.serverGroupValidate.validateAddNewItem(serverGroup);
+        ValidateObject validateObject = this.serverVendorValidate.validateAddNewItem(serverVendor);
         if (validateObject.getResult().equals("success")) {
-            serverGroup.setServerVendor(this.serverVendorService.findOne(serverGroup.getServerVendor()));
-            return new ApiResponse("Success", Arrays.asList(this.serverGroupService.addNewItem(serverGroup)))
+            return new ApiResponse("Success", Arrays.asList(this.serverVendorService.addNewItem(serverVendor)))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -77,19 +69,18 @@ public class ServerGroupRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody ServerGroup serverGroup) {
-        if (CheckPermission.getInstance().check("admin_update", "ServerGroup")) {
-            return new ApiResponse("Error", 101, Arrays.asList("ServerGroup - admin_update - access denied!"))
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody ServerVendor serverVendor) {
+        if (CheckPermission.getInstance().check("admin_update", "ServerVendor")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ServerVendor - admin_update - access denied!"))
                     .getFaultResponse();
         }
 
-        serverGroup.setServerGroupId(id);
+        serverVendor.setServerVendorId(id);
 
-        ValidateObject validateObject = this.serverGroupValidate.validateUpdateItem(serverGroup);
+        ValidateObject validateObject = this.serverVendorValidate.validateUpdateItem(serverVendor);
         if (validateObject.getResult().equals("success")) {
             try {
-                serverGroup.setServerVendor(this.serverVendorService.findOne(serverGroup.getServerVendor()));
-                return new ApiResponse("Success", Arrays.asList(this.serverGroupService.updateItem(serverGroup)))
+                return new ApiResponse("Success", Arrays.asList(this.serverVendorService.updateItem(serverVendor)))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
                 return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
@@ -106,16 +97,16 @@ public class ServerGroupRestController implements RestControllerInterface {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Object deleteOne(@PathVariable("id") Long id) {
-        if (CheckPermission.getInstance().check("admin_delete", "ServerGroup")) {
-            return new ApiResponse("Error", 101, Arrays.asList("ServerGroup - admin_delete - access denied!"))
+        if (CheckPermission.getInstance().check("admin_delete", "ServerVendor")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ServerVendor - admin_delete - access denied!"))
                     .getFaultResponse();
         }
 
-        ServerGroup serverGroup = new ServerGroup();
-        serverGroup.setServerGroupId(id);
-        ValidateObject validateObject = this.serverGroupValidate.deleteItem(serverGroup);
+        ServerVendor serverVendor = new ServerVendor();
+        serverVendor.setServerVendorId(id);
+        ValidateObject validateObject = this.serverVendorValidate.deleteItem(serverVendor);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.serverGroupService.deleteItem(serverGroup)))
+            return new ApiResponse("Success", Arrays.asList(this.serverVendorService.deleteItem(serverVendor)))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -125,16 +116,16 @@ public class ServerGroupRestController implements RestControllerInterface {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Object findOne(@PathVariable("id") Long id) {
-        if (CheckPermission.getInstance().check("admin_show", "ServerGroup")) {
-            return new ApiResponse("Error", 101, Arrays.asList("ServerGroup - admin_show - access denied!"))
+        if (CheckPermission.getInstance().check("admin_show", "ServerVendor")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ServerVendor - admin_show - access denied!"))
                     .getFaultResponse();
         }
 
-        ServerGroup serverGroup = new ServerGroup();
-        serverGroup.setServerGroupId(id);
-        ValidateObject validateObject = this.serverGroupValidate.findOne(serverGroup);
+        ServerVendor serverVendor = new ServerVendor();
+        serverVendor.setServerVendorId(id);
+        ValidateObject validateObject = this.serverVendorValidate.findOne(serverVendor);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.serverGroupService.findOne(serverGroup)))
+            return new ApiResponse("Success", Arrays.asList(this.serverVendorService.findOne(serverVendor)))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
