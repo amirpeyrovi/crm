@@ -6,6 +6,8 @@ import ir.parto.crm.modules.client.model.entity.Client;
 import ir.parto.crm.modules.client.model.entity.ClientCredit;
 import ir.parto.crm.modules.client.model.service.ClientCreditService;
 import ir.parto.crm.modules.client.model.service.ClientService;
+import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @RestController
-@RequestMapping("/v1/clientCredit")
+@RequestMapping("/v1/client/clientCredit")
 public class ClientCreditRestController  implements RestControllerInterface {
     private ClientCreditService clientCreditService;
     private ClientCreditValidate clientCreditValidate;
@@ -40,84 +42,107 @@ public class ClientCreditRestController  implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Object findAllClientCredit(Pageable pageable){
-        ValidateObject validateObject = this.clientCreditValidate.findAll();
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
+    public Object findAll(@RequestParam(required = false, defaultValue = "0") String page,
+                          @RequestParam(required = false, defaultValue = "default") String sortProperty,
+                          @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
+        if (CheckPermission.getInstance().check("client_show", "Client_Credit")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ClientCredit - client_show - access denied!"))
+                    .getFaultResponse();
         }
-        Pageable pageable0 = PageRequest.of(pageable.getPageNumber(),pageable.getPageSize(),pageable.getSort());
-        Page<ClientCredit> clientCreditList = this.clientCreditService.findAllItem(pageable0);
-        return new ApiResponse("success",new ArrayList(Arrays.asList(clientCreditList))).getSuccessResponse();
-    }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
-    public Object findOneClientCredit(@PathVariable("id") long id){
-        ClientCredit clientCredit = this.clientCreditService.findById(id);
-        ValidateObject validateObject = this.clientCreditValidate.findById(clientCredit);
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
+        ValidateObject validateObject = this.clientCreditValidate.findAll();
+        if (validateObject.getResult().equals("success")) {
+            Page<ClientCredit> productPage = this.clientCreditService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "ClientCredit", sortProperty, sortOrder));
+            return new ApiResponse("Success", productPage)
+                    .getSuccessResponse();
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
         }
-        return new ApiResponse("success", new ArrayList(Arrays.asList(clientCredit))).getSuccessResponse();
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addClientCredit(@RequestBody ClientCredit clientCredit){
+    public Object addOne(@RequestBody ClientCredit clientCredit) {
+        if (CheckPermission.getInstance().check("client_add", "Client_Credit")) {
+            clientCredit.setClient(this.clientService.findOne(clientCredit.getClient()));
+            return new ApiResponse("Error", 101, Arrays.asList("ClientCredit - client_add - access denied!"))
+                    .getFaultResponse();
+        }
+
+        clientCredit.setClientCreditId(null);
         ValidateObject validateObject = this.clientCreditValidate.validateAddNewItem(clientCredit);
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
+        if (validateObject.getResult().equals("success")) {
+            return new ApiResponse("Success", Arrays.asList(this.clientCreditService.addNewItem(clientCredit)))
+                    .getSuccessResponse();
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
         }
-        Client client = this.clientService.findById(clientCredit.getClient().getClientId());
-        ValidateObject clientValidateObject = this.clientValidate.findOne(client);
-        if(clientValidateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,clientValidateObject.getMessages()).getFaultResponse();
-        }
-        clientCredit.setClient(client);
-        ClientCredit clientCreditAdded = this.clientCreditService.addNewItem(clientCredit);
-        return new ApiResponse("success", new ArrayList(Arrays.asList(clientCreditAdded))).getSuccessResponse();
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
-    public Object deleteClientCredit(@PathVariable("id") long id){
-        ClientCredit clientCredit = this.clientCreditService.findById(id);
-        ValidateObject validateObject = this.clientCreditValidate.findById(clientCredit);
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody ClientCredit clientCredit) {
+        if (CheckPermission.getInstance().check("client_update", "Client_Credit")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ClientCredit - client_update - access denied!"))
+                    .getFaultResponse();
         }
-        Principal principal = SecurityContextHolder.getContext().getAuthentication();
-        clientCredit.setDeletedBy(principal.getName());
-        clientCredit.setDeletedAt(LocalDateTime.now());
-        this.clientCreditService.deleteItem(clientCredit);
-        return new ApiResponse("success", new ArrayList(Arrays.asList(clientCredit))).getSuccessResponse();
-    }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
-    public Object updateClientCredit(@PathVariable("id") long id,@RequestBody ClientCredit clientCredit){
-        ClientCredit exist = this.clientCreditService.findById(id);
-        ValidateObject validateObject = this.clientCreditValidate.validateUpdateItem(exist);
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
-        }
-        if(clientCredit.getClient() != null ){
-            Client client = this.clientService.findById(clientCredit.getClient().getClientId());
-            ValidateObject clientValidateObject = this.clientValidate.findOne(client);
-            if(clientValidateObject.getResult().equals("error")){
-                return new ApiResponse("error",101,clientValidateObject.getMessages()).getFaultResponse();
-            }
-            clientCredit.setClient(client);
-        }else{
-            clientCredit.setClient(exist.getClient());
-        }
         clientCredit.setClientCreditId(id);
-        try {
-            ClientCredit updatedClientCredit = this.clientCreditService.updateItem(clientCredit);
-            return new ApiResponse("success", new ArrayList(Arrays.asList(updatedClientCredit))).getSuccessResponse();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            return new ApiResponse("error", 102,new ArrayList(Arrays.asList("An error occurrd during update"))).getFaultResponse();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return new ApiResponse("error", 102,new ArrayList(Arrays.asList("An error occurrd during update"))).getFaultResponse();
+
+        ValidateObject validateObject = this.clientCreditValidate.validateUpdateItem(clientCredit);
+        if (validateObject.getResult().equals("success")) {
+            try {
+                clientCredit.setClient(this.clientService.findOne(clientCredit.getClient()));
+                return new ApiResponse("Success", Arrays.asList(this.clientCreditService.updateItem(clientCredit)))
+                        .getSuccessResponse();
+            } catch (InvocationTargetException e) {
+                return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
+                        .getFaultResponse();
+            } catch (IllegalAccessException e) {
+                return new ApiResponse("Error", 104, Arrays.asList("An error occurred Try again later"))
+                        .getFaultResponse();
+            }
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
         }
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Object deleteOne(@PathVariable("id") Long id) {
+        if (CheckPermission.getInstance().check("client_delete", "Client_Credit")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ClientCredit - client_delete - access denied!"))
+                    .getFaultResponse();
+        }
+
+        ClientCredit clientCredit = new ClientCredit();
+        clientCredit.setClientCreditId(id);
+        ValidateObject validateObject = this.clientCreditValidate.deleteItem(clientCredit);
+        if (validateObject.getResult().equals("success")) {
+            return new ApiResponse("Success", Arrays.asList(this.clientCreditService.deleteItem(clientCredit)))
+                    .getSuccessResponse();
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
+        }
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Object findOne(@PathVariable("id") Long id) {
+        if (CheckPermission.getInstance().check("client_show", "Client_Credit")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ClientCredit - client_show - access denied!"))
+                    .getFaultResponse();
+        }
+
+        ClientCredit clientCredit = new ClientCredit();
+        clientCredit.setClientCreditId(id);
+        ValidateObject validateObject = this.clientCreditValidate.findOne(clientCredit);
+        if (validateObject.getResult().equals("success")) {
+            return new ApiResponse("Success", Arrays.asList(this.clientCreditService.findOne(clientCredit)))
+                    .getSuccessResponse();
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
+        }
+    }
 }

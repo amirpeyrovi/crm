@@ -6,6 +6,8 @@ import ir.parto.crm.modules.client.model.entity.Client;
 import ir.parto.crm.modules.client.model.entity.ClientExternalCode;
 import ir.parto.crm.modules.client.model.service.ClientExternalCodeService;
 import ir.parto.crm.modules.client.model.service.ClientService;
+import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
@@ -19,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 @RestController
-@RequestMapping("/v1/clientExternalCode")
+@RequestMapping("/v1/client/clientExternalCode")
 public class ClientExternalCodeRestController implements RestControllerInterface {
     private ClientExternalCodeService clientExternalCodeService;
     private ClientExternalCodeValidate clientExternalCodeValidate;
@@ -36,72 +38,109 @@ public class ClientExternalCodeRestController implements RestControllerInterface
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Object findAll(Pageable pageable){
-        ValidateObject validateObject = this.clientExternalCodeValidate.findAll();
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
+    public Object findAll(@RequestParam(required = false, defaultValue = "0") String page,
+                          @RequestParam(required = false, defaultValue = "default") String sortProperty,
+                          @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
+        if (CheckPermission.getInstance().check("client_show", "Client_ExternalCode")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ClientExternalCode - client_show - access denied!"))
+                    .getFaultResponse();
         }
-        Pageable pageable0 = PageRequest.of(pageable.getPageNumber(),pageable.getPageSize(),pageable.getSort());
-        Page<ClientExternalCode> clientList = this.clientExternalCodeService.findAllItem(pageable0);
-        return new ApiResponse("success",clientList).getSuccessResponse();
+
+        ValidateObject validateObject = this.clientExternalCodeValidate.findAll();
+        if (validateObject.getResult().equals("success")) {
+            Page<ClientExternalCode> clientList = this.clientExternalCodeService.findAllItem(
+                    PageableRequest.getInstance().createPageRequest(page, "Client", sortProperty, sortOrder));
+            return new ApiResponse("Success", clientList)
+                    .getSuccessResponse();
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
+        }
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
-    public Object findOneClient(@PathVariable("id") long id){
-        ClientExternalCode client = this.clientExternalCodeService.findById(id);
-        ValidateObject validateObject = this.clientExternalCodeValidate.findOne(client);
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Object findOne(@PathVariable("id") Long id) {
+        if (CheckPermission.getInstance().check("client_show", "Client_ExternalCode")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ClientExternalCode - client_show - access denied!"))
+                    .getFaultResponse();
         }
-        return new ApiResponse("success", Arrays.asList(client)).getSuccessResponse();
+
+        ClientExternalCode clientExternalCode = new ClientExternalCode();
+        clientExternalCode.setClientExternalCodeId(id);
+        ValidateObject validateObject = this.clientExternalCodeValidate.findOne(clientExternalCode);
+        if (validateObject.getResult().equals("success")) {
+            return new ApiResponse("Success", Arrays.asList(this.clientExternalCodeService.findOne(clientExternalCode)))
+                    .getSuccessResponse();
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addClient(@RequestBody ClientExternalCode clientExternalCode){
+    public Object addOne(@RequestBody ClientExternalCode clientExternalCode) {
+        if (CheckPermission.getInstance().check("client_add", "Client_ExternalCode")) {
+            clientExternalCode.setClient(this.clientService.findOne(clientExternalCode.getClient()));
+            return new ApiResponse("Error", 101, Arrays.asList("ClientExternalCode - client_add - access denied!"))
+                    .getFaultResponse();
+        }
+
+        clientExternalCode.setClientExternalCodeId(null);
         ValidateObject validateObject = this.clientExternalCodeValidate.validateAddNewItem(clientExternalCode);
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
+        if (validateObject.getResult().equals("success")) {
+            return new ApiResponse("Success", Arrays.asList(this.clientExternalCodeService.addNewItem(clientExternalCode)))
+                    .getSuccessResponse();
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
         }
-        Client client = this.clientService.findById(clientExternalCode.getClient().getClientId());
-        ValidateObject clientValidateObject = this.clientValidate.findOne(client);
-        if(clientValidateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,clientValidateObject.getMessages()).getFaultResponse();
-        }
-        clientExternalCode.setClient(client);
-        ClientExternalCode clientAdded = this.clientExternalCodeService.addNewItem(clientExternalCode);
-        return new ApiResponse("success", Arrays.asList(clientAdded)).getSuccessResponse();
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
-    public Object deleteClient(@PathVariable("id") long id){
-        ClientExternalCode client = this.clientExternalCodeService.findById(id);
-        ValidateObject validateObject = this.clientExternalCodeValidate.findOne(client);
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Object deleteOne(@PathVariable("id") Long id) {
+        if (CheckPermission.getInstance().check("client_delete", "Client_ExternalCode")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ClientExternalCode - client_delete - access denied!"))
+                    .getFaultResponse();
         }
-        ClientExternalCode deleted = this.clientExternalCodeService.deleteItem(client);
-        return new ApiResponse("success", Arrays.asList(deleted)).getSuccessResponse();
-    }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
-    public Object updateClient(@PathVariable("id") long id,@RequestBody ClientExternalCode clientExternalCode){
-        System.out.println("---------------------------------------");
-        ClientExternalCode client = this.clientExternalCodeService.findById(id);
-        ValidateObject validateObject = this.clientExternalCodeValidate.findOne(client);
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
-        }
+        ClientExternalCode clientExternalCode = new ClientExternalCode();
         clientExternalCode.setClientExternalCodeId(id);
-        try {
-            ClientExternalCode updatedClient = this.clientExternalCodeService.updateItem(clientExternalCode);
-            return new ApiResponse("success", Arrays.asList(updatedClient)).getSuccessResponse();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            return new ApiResponse("error", 102,Arrays.asList("an error occurrd during update")).getFaultResponse();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return new ApiResponse("error", 102,Arrays.asList("an error occurrd during update")).getFaultResponse();
+        ValidateObject validateObject = this.clientExternalCodeValidate.deleteItem(clientExternalCode);
+        if (validateObject.getResult().equals("success")) {
+            return new ApiResponse("Success", Arrays.asList(this.clientExternalCodeService.deleteItem(clientExternalCode)))
+                    .getSuccessResponse();
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
         }
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody ClientExternalCode clientExternalCode) {
+        if (CheckPermission.getInstance().check("client_update", "Client_ExternalCode")) {
+            return new ApiResponse("Error", 101, Arrays.asList("ClientExternalCode - client_update - access denied!"))
+                    .getFaultResponse();
+        }
+
+        clientExternalCode.setClientExternalCodeId(id);
+        ValidateObject validateObject = this.clientExternalCodeValidate.validateUpdateItem(clientExternalCode);
+        if (validateObject.getResult().equals("success")) {
+            try {
+                clientExternalCode.setClient(this.clientService.findOne(clientExternalCode.getClient()));
+                return new ApiResponse("Success", Arrays.asList(this.clientExternalCodeService.updateItem(clientExternalCode)))
+                        .getSuccessResponse();
+            } catch (InvocationTargetException e) {
+                return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
+                        .getFaultResponse();
+            } catch (IllegalAccessException e) {
+                return new ApiResponse("Error", 104, Arrays.asList("An error occurred Try again later"))
+                        .getFaultResponse();
+            }
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
+        }
+    }
+
 
 }
