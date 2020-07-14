@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.reseller.model.service;
 
+import ir.parto.crm.modules.product.model.entity.ProductGroup;
+import ir.parto.crm.modules.reseller.model.entity.Reseller;
 import ir.parto.crm.modules.reseller.model.entity.ResellerCommission;
 import ir.parto.crm.modules.reseller.model.repository.ResellerCommissionRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -79,5 +81,13 @@ public class ResellerCommissionService implements ServiceInterface<ResellerCommi
     @Override
     public Boolean existsById(Long id) {
         return this.resellerCommissionRepository.existsByIsDeletedIsNullAndResellerCommissionId(id);
+    }
+
+    public Page<ResellerCommission> findAllItemByReseller(Reseller reseller, Pageable pageable) {
+        return this.resellerCommissionRepository.findAllByIsDeletedIsNullAndReseller(reseller, pageable);
+    }
+
+    public Page<ResellerCommission> findAllItemByResellerAndProductGroup(Reseller reseller, ProductGroup productGroup, Pageable pageable) {
+        return this.resellerCommissionRepository.findAllByIsDeletedIsNullAndResellerAndProductGroup(reseller, productGroup, pageable);
     }
 }

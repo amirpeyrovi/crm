@@ -1,6 +1,6 @@
 package ir.parto.crm.modules.reseller.controller.validate;
 
-import ir.parto.crm.modules.client.model.service.ClientService;
+import ir.parto.crm.modules.admin.model.service.AdminService;
 import ir.parto.crm.modules.reseller.model.entity.Reseller;
 import ir.parto.crm.modules.reseller.model.service.ResellerService;
 import ir.parto.crm.utils.annotations.ValidationAnnotation;
@@ -14,12 +14,12 @@ import java.util.List;
 @ValidationAnnotation
 public class ResellerValidate implements ValidateInterface<Reseller> {
     private ResellerService resellerService;
-    private ClientService clientService;
+    private AdminService adminService;
 
     @Autowired
-    public ResellerValidate(ResellerService resellerService, ClientService clientService) {
+    public ResellerValidate(ResellerService resellerService, AdminService adminService) {
         this.resellerService = resellerService;
-        this.clientService = clientService;
+        this.adminService = adminService;
     }
 
     @Override
@@ -30,11 +30,11 @@ public class ResellerValidate implements ValidateInterface<Reseller> {
         if (reseller == null) {
             errorList.add("Reseller object is nul");
         } else {
-            if (reseller.getClient() == null) {
+            if (reseller.getAdmin() == null) {
                 errorList.add("Client object is nul");
             } else {
-                if (!this.resellerService.existsById(reseller.getClient().getClientId())) {
-                    errorList.add("Client Id not defined");
+                if (!this.adminService.existsById(reseller.getAdmin().getAdminId())) {
+                    errorList.add("Admin Id not defined");
                 }
             }
         }
@@ -58,15 +58,15 @@ public class ResellerValidate implements ValidateInterface<Reseller> {
         if (reseller == null) {
             errorList.add("Reseller object is nul");
         } else {
-            if (reseller.getClient() == null) {
+            if (reseller.getAdmin() == null) {
                 errorList.add("Client object is nul");
             } else {
                 if (!this.resellerService.existsById(reseller.getResellerId())) {
                     errorList.add("Reseller Id not defined");
                 }
 
-                if (!this.resellerService.existsById(reseller.getClient().getClientId())) {
-                    errorList.add("Client Id not defined");
+                if (!this.adminService.existsById(reseller.getAdmin().getAdminId())) {
+                    errorList.add("Admin Id not defined");
                 }
             }
         }

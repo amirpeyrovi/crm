@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.reseller.model.entity;
 
+import ir.parto.crm.modules.admin.model.entity.Admin;
 import ir.parto.crm.modules.client.model.entity.Client;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -18,8 +19,8 @@ public class Reseller implements Serializable {
     private Long resellerId;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "reseller_client_fk"))
-    private Client client;
+    @JoinColumn(name = "admin_id", foreignKey = @ForeignKey(name = "reseller_admin_fk"))
+    private Admin admin;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -48,8 +49,8 @@ public class Reseller implements Serializable {
     public Reseller() {
     }
 
-    public Reseller(Client client, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
-        this.client = client;
+    public Reseller(Admin admin, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
+        this.admin = admin;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -67,12 +68,12 @@ public class Reseller implements Serializable {
         this.resellerId = resellerId;
     }
 
-    public Client getClient() {
-        return client;
+    public Admin getAdmin() {
+        return admin;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
 
     public String getCreatedBy() {
