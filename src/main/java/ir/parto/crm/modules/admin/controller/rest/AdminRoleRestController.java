@@ -17,7 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 @RestController
-@RequestMapping("/v1/adminRole/adminRolerole")
+@RequestMapping("/v1/admin/adminRole")
 public class AdminRoleRestController {
     private AdminRoleService adminRoleService;
     private AdminRoleValidate adminRoleValidate;
@@ -34,13 +34,12 @@ public class AdminRoleRestController {
         this.adminRolePermissionValidate = adminRolePermissionValidate;
     }
 
-
     @RequestMapping(method = RequestMethod.GET)
     public Object findAll(@RequestParam(required = false, defaultValue = "0") String page,
                           @RequestParam(required = false, defaultValue = "default") String sortProperty,
                           @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
-        if (CheckPermission.getInstance().check("adminRole_show", "AdminRole")) {
-            return new ApiResponse("Error", 101, Arrays.asList("AdminRole - adminRole_show - access denied!"))
+        if (CheckPermission.getInstance().check("admin_show", "AdminRole")) {
+            return new ApiResponse("Error", 101, Arrays.asList("AdminRole - admin_show - access denied!"))
                     .getFaultResponse();
         }
 
@@ -57,8 +56,8 @@ public class AdminRoleRestController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Object addOne(@RequestBody AdminRole adminRole) {
-        if (CheckPermission.getInstance().check("adminRole_add", "AdminRole")) {
-            return new ApiResponse("Error", 101, Arrays.asList("AdminRole - adminRole_add - access denied!"))
+        if (CheckPermission.getInstance().check("admin_add", "AdminRole")) {
+            return new ApiResponse("Error", 101, Arrays.asList("AdminRole - admin_add - access denied!"))
                     .getFaultResponse();
         }
         adminRole.setAdminRoleId(null);
@@ -74,8 +73,8 @@ public class AdminRoleRestController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Object updateOne(@PathVariable("id") Long id, @RequestBody AdminRole adminRole) {
-        if (CheckPermission.getInstance().check("adminRole_update", "AdminRole")) {
-            return new ApiResponse("Error", 101, Arrays.asList("AdminRole - adminRole_update - access denied!"))
+        if (CheckPermission.getInstance().check("admin_update", "AdminRole")) {
+            return new ApiResponse("Error", 101, Arrays.asList("AdminRole - admin_update - access denied!"))
                     .getFaultResponse();
         }
         adminRole.setAdminRoleId(id);
@@ -100,8 +99,8 @@ public class AdminRoleRestController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Object deleteOne(@PathVariable("id") Long id) {
-        if (CheckPermission.getInstance().check("adminRole_delete", "AdminRole")) {
-            return new ApiResponse("Error", 101, Arrays.asList("AdminRole - adminRole_delete - access denied!"))
+        if (CheckPermission.getInstance().check("admin_delete", "AdminRole")) {
+            return new ApiResponse("Error", 101, Arrays.asList("AdminRole - admin_delete - access denied!"))
                     .getFaultResponse();
         }
 
@@ -119,8 +118,8 @@ public class AdminRoleRestController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Object findOne(@PathVariable("id") Long id) {
-        if (CheckPermission.getInstance().check("adminRole_show", "AdminRole")) {
-            return new ApiResponse("Error", 101, Arrays.asList("AdminRole - adminRole_show - access denied!"))
+        if (CheckPermission.getInstance().check("admin_show", "AdminRole")) {
+            return new ApiResponse("Error", 101, Arrays.asList("AdminRole - admin_show - access denied!"))
                     .getFaultResponse();
         }
 

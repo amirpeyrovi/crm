@@ -134,3 +134,11 @@ INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create
 select 801 , 'Admin' , 'Admin_Information' , 1 , sysdate from dual
 where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 801);
 
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 802 , 'AdminRole' , 'Admin_Role_Information' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 802);
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 803 , 'AdminLog' , 'Admin_Log_Information' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 803);
+
