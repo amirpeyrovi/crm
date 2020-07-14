@@ -1,45 +1,28 @@
 package ir.parto.crm.modules.server.controller.validate;
 
-import ir.parto.crm.modules.server.model.entity.ServerGroup;
-import ir.parto.crm.modules.server.model.service.ServerGroupService;
+import ir.parto.crm.modules.server.model.entity.ServerVendor;
 import ir.parto.crm.modules.server.model.service.ServerVendorService;
 import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ValidationAnnotation
-public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
-    private ServerGroupService serverGroupService;
+public class ServerVendorValidate implements ValidateInterface<ServerVendor> {
     private ServerVendorService serverVendorService;
 
-    @Autowired
-    public ServerGroupValidate(ServerGroupService serverGroupService, ServerVendorService serverVendorService) {
-        this.serverGroupService = serverGroupService;
-        this.serverVendorService = serverVendorService;
-    }
-
     @Override
-    public ValidateObject validateAddNewItem(ServerGroup serverGroup) {
+    public ValidateObject validateAddNewItem(ServerVendor serverVendor) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (serverGroup == null) {
-            errorList.add("ServerGroup object is nul");
+        if (serverVendor == null) {
+            errorList.add("object is nul");
         } else {
-            if (serverGroup.getServerVendor() == null) {
-                errorList.add("ServerVendor object is nul");
-            } else {
-                if (!this.serverVendorService.existsById(serverGroup.getServerVendor().getServerVendorId())) {
-                    errorList.add("ServerVendor Id not defined");
-                }
-
-                if (serverGroup.getTitle() == null || serverGroup.getTitle().isEmpty()) {
-                    errorList.add("Title is required");
-                }
+            if (serverVendor.getTitle() == null || serverVendor.getTitle().isEmpty()) {
+                errorList.add("Title is required");
             }
         }
 
@@ -55,27 +38,19 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
     }
 
     @Override
-    public ValidateObject validateUpdateItem(ServerGroup serverGroup) {
+    public ValidateObject validateUpdateItem(ServerVendor serverVendor) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (serverGroup == null) {
-            errorList.add("ServerGroup object is nul");
+        if (serverVendor == null) {
+            errorList.add("object is nul");
         } else {
-            if (serverGroup.getServerVendor() == null) {
-                errorList.add("ServerVendor object is nul");
-            } else {
-                if (!this.serverGroupService.existsById(serverGroup.getServerGroupId())) {
-                    errorList.add("ServerGroup Id not defined");
-                }
+            if (!this.serverVendorService.existsById(serverVendor.getServerVendorId())) {
+                errorList.add("ServerVendor Id not defined");
+            }
 
-                if (!this.serverVendorService.existsById(serverGroup.getServerVendor().getServerVendorId())) {
-                    errorList.add("ServerVendor Id not defined");
-                }
-
-                if (serverGroup.getTitle() == null || serverGroup.getTitle().isEmpty()) {
-                    errorList.add("Title is required");
-                }
+            if (serverVendor.getTitle() == null || serverVendor.getTitle().isEmpty()) {
+                errorList.add("Title is required");
             }
         }
 
@@ -91,15 +66,15 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
     }
 
     @Override
-    public ValidateObject deleteItem(ServerGroup serverGroup) {
+    public ValidateObject deleteItem(ServerVendor serverVendor) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (serverGroup == null) {
-            errorList.add("ServerGroup object is nul");
+        if (serverVendor == null) {
+            errorList.add("object is nul");
         } else {
-            if (!this.serverGroupService.existsById(serverGroup.getServerGroupId())) {
-                errorList.add("ServerGroup Id not defined");
+            if (!this.serverVendorService.existsById(serverVendor.getServerVendorId())) {
+                errorList.add("Product Id not defined");
             }
         }
 
@@ -115,15 +90,15 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
     }
 
     @Override
-    public ValidateObject findOne(ServerGroup serverGroup) {
+    public ValidateObject findOne(ServerVendor serverVendor) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (serverGroup == null) {
-            errorList.add("ServerGroup object is nul");
+        if (serverVendor == null) {
+            errorList.add("object is nul");
         } else {
-            if (!this.serverGroupService.existsById(serverGroup.getServerGroupId())) {
-                errorList.add("ServerGroup Id not defined");
+            if (!this.serverVendorService.existsById(serverVendor.getServerVendorId())) {
+                errorList.add("Product Id not defined");
             }
         }
 
@@ -139,15 +114,15 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
     }
 
     @Override
-    public ValidateObject findById(ServerGroup serverGroup) {
+    public ValidateObject findById(ServerVendor serverVendor) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (serverGroup == null) {
-            errorList.add("ServerGroup object is nul");
+        if (serverVendor == null) {
+            errorList.add("object is nul");
         } else {
-            if (!this.serverGroupService.existsById(serverGroup.getServerGroupId())) {
-                errorList.add("ServerGroup Id not defined");
+            if (!this.serverVendorService.existsById(serverVendor.getServerVendorId())) {
+                errorList.add("Product Id not defined");
             }
         }
 

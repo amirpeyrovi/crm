@@ -12,7 +12,10 @@ import java.util.List;
 @Repository
 public interface ServerRepository extends JpaRepository<Server, Long>, RepositoryInterface<Server> {
     Boolean existsByIsDeletedIsNullAndServerId(Long id);
+
     Server findByIsDeletedIsNullAndServerId(Long id);
+
     Page<Server> findAllByIsDeletedIsNull(Pageable pageable);
+
     List<Server> findAllByIsDeletedIsNull();
 }

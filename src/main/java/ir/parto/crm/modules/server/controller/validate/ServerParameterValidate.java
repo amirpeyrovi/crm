@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.server.controller.validate;
 
 import ir.parto.crm.modules.server.model.entity.ServerParameter;
+import ir.parto.crm.modules.server.model.service.ServerGroupService;
 import ir.parto.crm.modules.server.model.service.ServerParameterService;
 import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
@@ -15,35 +16,51 @@ import java.util.List;
 @Component
 public class ServerParameterValidate implements ValidateInterface<ServerParameter> {
     private ServerParameterService serverParameterService;
+    private ServerGroupService serverGroupService;
 
     @Autowired
-    public ServerParameterValidate(ServerParameterService serverParameterService) {
+    public ServerParameterValidate(ServerParameterService serverParameterService, ServerGroupService serverGroupService) {
         this.serverParameterService = serverParameterService;
+        this.serverGroupService = serverGroupService;
     }
 
     @Override
     public ValidateObject validateAddNewItem(ServerParameter serverParameter) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(serverParameter == null || serverParameter.getServerGroup() == null || serverParameter.getServerGroup().getServerGroupId() == 0 ){
-            errorList.add("Server Group is required");
+
+        if (serverParameter == null) {
+            errorList.add("ServerParameter object is nul");
+        } else {
+            if (serverParameter.getServerGroup() == null) {
+                errorList.add("ServerGroup object is nul");
+            } else {
+                if (!this.serverGroupService.existsById(serverParameter.getServerGroup().getServerGroupId())) {
+                    errorList.add("ServerGroup Id not defined");
+                }
+
+                if(serverParameter.getTitle() == null || serverParameter.getTitle().isEmpty() ){
+                    errorList.add("Title is required");
+                }
+
+                if(serverParameter.getType() == null || serverParameter.getType().isEmpty() ){
+                    errorList.add("Type is required");
+                }
+
+                if(serverParameter.getOptions() == null || serverParameter.getOptions().isEmpty() ){
+                    errorList.add("Option is required");
+                }
+            }
         }
-        if(serverParameter == null || serverParameter.getTitle() == null || serverParameter.getTitle().isEmpty() ){
-            errorList.add("Title is required");
-        }
-        if(serverParameter == null || serverParameter.getType() == null || serverParameter.getType().isEmpty() ){
-            errorList.add("Type is required");
-        }
-        if(serverParameter == null || serverParameter.getOptions() == null || serverParameter.getOptions().isEmpty() ){
-            errorList.add("Option is required");
-        }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
+
         return validateObject;
     }
 
@@ -51,25 +68,43 @@ public class ServerParameterValidate implements ValidateInterface<ServerParamete
     public ValidateObject validateUpdateItem(ServerParameter serverParameter) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(serverParameter != null && serverParameter.getServerGroup() != null && serverParameter.getServerGroup().getServerGroupId() == 0 ){
-            errorList.add("Server Group is required");
+
+        if (serverParameter == null) {
+            errorList.add("ServerParameter object is nul");
+        } else {
+            if (serverParameter.getServerGroup() == null) {
+                errorList.add("ServerGroup object is nul");
+            } else {
+                if (!this.serverParameterService.existsById(serverParameter.getServerParameterId())) {
+                    errorList.add("ServerParameter Id not defined");
+                }
+
+                if (!this.serverGroupService.existsById(serverParameter.getServerGroup().getServerGroupId())) {
+                    errorList.add("ServerGroup Id not defined");
+                }
+
+                if(serverParameter.getTitle() == null || serverParameter.getTitle().isEmpty() ){
+                    errorList.add("Title is required");
+                }
+
+                if(serverParameter.getType() == null || serverParameter.getType().isEmpty() ){
+                    errorList.add("Type is required");
+                }
+
+                if(serverParameter.getOptions() == null || serverParameter.getOptions().isEmpty() ){
+                    errorList.add("Option is required");
+                }
+            }
         }
-        if(serverParameter != null && serverParameter.getTitle() == null && serverParameter.getTitle().isEmpty() ){
-            errorList.add("Title is required");
-        }
-        if(serverParameter != null && serverParameter.getType() == null && serverParameter.getType().isEmpty() ){
-            errorList.add("Type is required");
-        }
-        if(serverParameter != null && serverParameter.getOptions() == null && serverParameter.getOptions().isEmpty() ){
-            errorList.add("Option is required");
-        }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
+
         return validateObject;
     }
 
@@ -77,16 +112,23 @@ public class ServerParameterValidate implements ValidateInterface<ServerParamete
     public ValidateObject deleteItem(ServerParameter serverParameter) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(serverParameter == null || !this.serverParameterService.existsById(serverParameter.getServerParameterId())){
-            errorList.add("Server Parameter Id not defined");
+
+        if (serverParameter == null) {
+            errorList.add("ServerParameter object is nul");
+        } else {
+            if (!this.serverParameterService.existsById(serverParameter.getServerParameterId())) {
+                errorList.add("ServerParameter Id not defined");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
+
         return validateObject;
     }
 
@@ -94,16 +136,23 @@ public class ServerParameterValidate implements ValidateInterface<ServerParamete
     public ValidateObject findOne(ServerParameter serverParameter) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(serverParameter == null || !this.serverParameterService.existsById(serverParameter.getServerParameterId())){
-            errorList.add("Server Parameter Id not defined");
+
+        if (serverParameter == null) {
+            errorList.add("ServerParameter object is nul");
+        } else {
+            if (!this.serverParameterService.existsById(serverParameter.getServerParameterId())) {
+                errorList.add("ServerParameter Id not defined");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
+
         return validateObject;
     }
 
@@ -111,16 +160,23 @@ public class ServerParameterValidate implements ValidateInterface<ServerParamete
     public ValidateObject findById(ServerParameter serverParameter) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(serverParameter == null || !this.serverParameterService.existsById(serverParameter.getServerParameterId())){
-            errorList.add("Server Parameter Id not defined");
+
+        if (serverParameter == null) {
+            errorList.add("ServerParameter object is nul");
+        } else {
+            if (!this.serverParameterService.existsById(serverParameter.getServerParameterId())) {
+                errorList.add("ServerParameter Id not defined");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
+
         return validateObject;
     }
 
@@ -128,13 +184,15 @@ public class ServerParameterValidate implements ValidateInterface<ServerParamete
     public ValidateObject findAll() {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
+
         return validateObject;
     }
 }
