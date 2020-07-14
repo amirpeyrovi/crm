@@ -3,26 +3,20 @@ package ir.parto.crm.modules.client.controller.rest;
 import ir.parto.crm.modules.client.controller.validate.ClientValidate;
 import ir.parto.crm.modules.client.model.entity.Client;
 import ir.parto.crm.modules.client.model.service.ClientService;
+import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
-import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 @RestController
-@RequestMapping("/v1/client")
+@RequestMapping("/v1/client/client")
 public class ClientRestController implements RestControllerInterface {
     private ClientService clientService;
     private ClientValidate clientValidate;
@@ -34,72 +28,103 @@ public class ClientRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Object findAllClient(Pageable pageable){
+    public Object findAll(@RequestParam(required = false, defaultValue = "0") String page,
+                          @RequestParam(required = false, defaultValue = "default") String sortProperty,
+                          @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
+        if (CheckPermission.getInstance().check("client_show", "Client_Client")) {
+            return new ApiResponse("Error", 101, Arrays.asList("Client - client_show - access denied!"))
+                    .getFaultResponse();
+        }
+
         ValidateObject validateObject = this.clientValidate.findAll();
         if(validateObject.getResult().equals("error")){
             return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
         }
 
-        Pageable pageable0 = PageRequest.of(pageable.getPageNumber(),pageable.getPageSize(),pageable.getSort());
-        Page<Client> clientList = this.clientService.findAllItem(pageable0);
-        return new ApiResponse("success",clientList.getContent()).getSuccessResponse();
+        Page<Client> clientList = this.clientService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "Client", sortProperty, sortOrder));
+        return new ApiResponse("success",clientList).getSuccessResponse();
+
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
-    public Object findOneClient(@PathVariable("id") long id){
-        Client client = this.clientService.findById(id);
-        ValidateObject validateObject = this.clientValidate.findOne(client);
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Object findOne(@PathVariable("id") Long id) {
+        if (CheckPermission.getInstance().check("client_show", "Client_Client")) {
+            return new ApiResponse("Error", 101, Arrays.asList("Client - client_show - access denied!"))
+                    .getFaultResponse();
         }
-        return new ApiResponse("success", Arrays.asList(client)).getSuccessResponse();
+
+        Client client = this.clientService.findById(id);
+        client.setClientId(id);
+        ValidateObject validateObject = this.clientValidate.findOne(client);
+        if (validateObject.getResult().equals("success")) {
+            return new ApiResponse("Success", Arrays.asList(client))
+                    .getSuccessResponse();
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addClient(@RequestBody Client client){
+    public Object addOne(@RequestBody Client client) {
+        if (CheckPermission.getInstance().check("client_add", "Client_Client")) {
+            return new ApiResponse("Error", 101, Arrays.asList("Client - client_add - access denied!"))
+                    .getFaultResponse();
+        }
+
         ValidateObject validateObject = this.clientValidate.validateAddNewItem(client);
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
+        if (validateObject.getResult().equals("success")) {
+            return new ApiResponse("Success", Arrays.asList(this.clientService.addNewItem(client)))
+                    .getSuccessResponse();
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
         }
-        Client clientAdded = this.clientService.addNewItem(client);
-        return new ApiResponse("success", Arrays.asList(clientAdded)).getSuccessResponse();
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
-    public Object deleteClient(@PathVariable("id") long id){
-        Client client = this.clientService.findById(id);
-        ValidateObject validateObject = this.clientValidate.findOne(client);
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Object deleteOne(@PathVariable("id") Long id) {
+        if (CheckPermission.getInstance().check("client_delete", "Client_Client")) {
+            return new ApiResponse("Error", 101, Arrays.asList("Client - client_delete - access denied!"))
+                    .getFaultResponse();
         }
-        this.clientService.deleteItem(client);
-        return new ApiResponse("success", Arrays.asList(client)).getSuccessResponse();
-    }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
-    public Object updateClient(@PathVariable("id") long id,@RequestBody Client client){
-
-        Client exist = this.clientService.findById(id);
-        ValidateObject clientValidateObject = this.clientValidate.findOne(exist);
-        if(clientValidateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,clientValidateObject.getMessages()).getFaultResponse();
-        }
+        Client client = new Client();
         client.setClientId(id);
-        ValidateObject validateObject = this.clientValidate.validateUpdateItem(client);
-        if(validateObject.getResult().equals("error")){
-            return new ApiResponse("error",101,validateObject.getMessages()).getFaultResponse();
-        }
-
-        try {
-            Client updatedClient = this.clientService.updateItem(client);
-            return new ApiResponse("success", Arrays.asList(updatedClient)).getSuccessResponse();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            return new ApiResponse("error", 102,Arrays.asList("An error occurrd during update")).getFaultResponse();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return new ApiResponse("error", 102,Arrays.asList("An error occurrd during update")).getFaultResponse();
+        ValidateObject validateObject = this.clientValidate.deleteItem(client);
+        if (validateObject.getResult().equals("success")) {
+            return new ApiResponse("Success", Arrays.asList(this.clientService.deleteItem(client)))
+                    .getSuccessResponse();
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
         }
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody Client client) {
+        if (CheckPermission.getInstance().check("client_update", "Client_Client")) {
+            return new ApiResponse("Error", 101, Arrays.asList("Client - client_update - access denied!"))
+                    .getFaultResponse();
+        }
+
+        client.setClientId(id);
+
+        ValidateObject validateObject = this.clientValidate.validateUpdateItem(client);
+        if (validateObject.getResult().equals("success")) {
+            try {
+                return new ApiResponse("Success", Arrays.asList(this.clientService.updateItem(client)))
+                        .getSuccessResponse();
+            } catch (InvocationTargetException e) {
+                return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
+                        .getFaultResponse();
+            } catch (IllegalAccessException e) {
+                return new ApiResponse("Error", 104, Arrays.asList("An error occurred Try again later"))
+                        .getFaultResponse();
+            }
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
+        }
+    }
 }

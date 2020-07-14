@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.reseller.model.service;
 
+import ir.parto.crm.modules.reseller.model.entity.Reseller;
 import ir.parto.crm.modules.reseller.model.entity.ResellerHistory;
 import ir.parto.crm.modules.reseller.model.repository.ResellerHistoryRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -79,5 +80,9 @@ public class ResellerHistoryService implements ServiceInterface<ResellerHistory>
     @Override
     public Boolean existsById(Long id) {
         return this.resellerHistoryRepository.existsByIsDeletedIsNullAndResellerHistoryId(id);
+    }
+
+    public Page<ResellerHistory> findAllItemByReseller(Reseller reseller, Pageable pageable) {
+        return this.resellerHistoryRepository.findAllByIsDeletedIsNull(pageable);
     }
 }

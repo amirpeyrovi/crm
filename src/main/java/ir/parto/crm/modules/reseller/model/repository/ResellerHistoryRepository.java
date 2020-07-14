@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.reseller.model.repository;
 
+import ir.parto.crm.modules.reseller.model.entity.Reseller;
 import ir.parto.crm.modules.reseller.model.entity.ResellerHistory;
 import ir.parto.crm.utils.interfaces.RepositoryInterface;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,8 @@ public interface ResellerHistoryRepository extends JpaRepository<ResellerHistory
     List<ResellerHistory> findAllByIsDeletedIsNull();
 
     Page<ResellerHistory> findAllByIsDeletedIsNull(Pageable pageable);
+
+    Page<ResellerHistory> findAllByIsDeletedIsNullAndReseller(Reseller reseller, Pageable pageable);
 
     ResellerHistory findByIsDeletedIsNullAndResellerHistoryId(Long id);
 

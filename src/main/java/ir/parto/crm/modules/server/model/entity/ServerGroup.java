@@ -19,6 +19,10 @@ public class ServerGroup implements Serializable {
     @Column(name = "title", columnDefinition = "nvarchar2(100)")
     private String title;
 
+    @ManyToOne
+    @JoinColumn(name = "server_vendor_id", foreignKey = @ForeignKey(name = "server_group_server_vendor_fk"))
+    private ServerVendor serverVendor;
+
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
@@ -46,8 +50,9 @@ public class ServerGroup implements Serializable {
     public ServerGroup() {
     }
 
-    public ServerGroup(String title, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
+    public ServerGroup(String title, ServerVendor serverVendor, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.title = title;
+        this.serverVendor = serverVendor;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -71,6 +76,15 @@ public class ServerGroup implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public ServerVendor getServerVendor() {
+        return serverVendor;
+    }
+
+    public ServerGroup setServerVendor(ServerVendor serverVendor) {
+        this.serverVendor = serverVendor;
+        return this;
     }
 
     public String getCreatedBy() {

@@ -1,41 +1,28 @@
-package ir.parto.crm.modules.reseller.controller.validate;
+package ir.parto.crm.modules.server.controller.validate;
 
-import ir.parto.crm.modules.admin.model.service.AdminService;
-import ir.parto.crm.modules.reseller.model.entity.Reseller;
-import ir.parto.crm.modules.reseller.model.service.ResellerService;
+import ir.parto.crm.modules.server.model.entity.ServerVendor;
+import ir.parto.crm.modules.server.model.service.ServerVendorService;
 import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ValidationAnnotation
-public class ResellerValidate implements ValidateInterface<Reseller> {
-    private ResellerService resellerService;
-    private AdminService adminService;
-
-    @Autowired
-    public ResellerValidate(ResellerService resellerService, AdminService adminService) {
-        this.resellerService = resellerService;
-        this.adminService = adminService;
-    }
+public class ServerVendorValidate implements ValidateInterface<ServerVendor> {
+    private ServerVendorService serverVendorService;
 
     @Override
-    public ValidateObject validateAddNewItem(Reseller reseller) {
+    public ValidateObject validateAddNewItem(ServerVendor serverVendor) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (reseller == null) {
-            errorList.add("Reseller object is nul");
+        if (serverVendor == null) {
+            errorList.add("object is nul");
         } else {
-            if (reseller.getAdmin() == null) {
-                errorList.add("Client object is nul");
-            } else {
-                if (!this.adminService.existsById(reseller.getAdmin().getAdminId())) {
-                    errorList.add("Admin Id not defined");
-                }
+            if (serverVendor.getTitle() == null || serverVendor.getTitle().isEmpty()) {
+                errorList.add("Title is required");
             }
         }
 
@@ -51,23 +38,19 @@ public class ResellerValidate implements ValidateInterface<Reseller> {
     }
 
     @Override
-    public ValidateObject validateUpdateItem(Reseller reseller) {
+    public ValidateObject validateUpdateItem(ServerVendor serverVendor) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (reseller == null) {
-            errorList.add("Reseller object is nul");
+        if (serverVendor == null) {
+            errorList.add("object is nul");
         } else {
-            if (reseller.getAdmin() == null) {
-                errorList.add("Client object is nul");
-            } else {
-                if (!this.resellerService.existsById(reseller.getResellerId())) {
-                    errorList.add("Reseller Id not defined");
-                }
+            if (!this.serverVendorService.existsById(serverVendor.getServerVendorId())) {
+                errorList.add("ServerVendor Id not defined");
+            }
 
-                if (!this.adminService.existsById(reseller.getAdmin().getAdminId())) {
-                    errorList.add("Admin Id not defined");
-                }
+            if (serverVendor.getTitle() == null || serverVendor.getTitle().isEmpty()) {
+                errorList.add("Title is required");
             }
         }
 
@@ -83,15 +66,15 @@ public class ResellerValidate implements ValidateInterface<Reseller> {
     }
 
     @Override
-    public ValidateObject deleteItem(Reseller reseller) {
+    public ValidateObject deleteItem(ServerVendor serverVendor) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (reseller == null) {
-            errorList.add("Reseller object is nul");
+        if (serverVendor == null) {
+            errorList.add("object is nul");
         } else {
-            if (!this.resellerService.existsById(reseller.getResellerId())) {
-                errorList.add("Reseller Id not defined");
+            if (!this.serverVendorService.existsById(serverVendor.getServerVendorId())) {
+                errorList.add("Product Id not defined");
             }
         }
 
@@ -107,15 +90,15 @@ public class ResellerValidate implements ValidateInterface<Reseller> {
     }
 
     @Override
-    public ValidateObject findOne(Reseller reseller) {
+    public ValidateObject findOne(ServerVendor serverVendor) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (reseller == null) {
-            errorList.add("Reseller object is nul");
+        if (serverVendor == null) {
+            errorList.add("object is nul");
         } else {
-            if (!this.resellerService.existsById(reseller.getResellerId())) {
-                errorList.add("Reseller Id not defined");
+            if (!this.serverVendorService.existsById(serverVendor.getServerVendorId())) {
+                errorList.add("Product Id not defined");
             }
         }
 
@@ -131,15 +114,15 @@ public class ResellerValidate implements ValidateInterface<Reseller> {
     }
 
     @Override
-    public ValidateObject findById(Reseller reseller) {
+    public ValidateObject findById(ServerVendor serverVendor) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (reseller == null) {
-            errorList.add("Reseller object is nul");
+        if (serverVendor == null) {
+            errorList.add("object is nul");
         } else {
-            if (!this.resellerService.existsById(reseller.getResellerId())) {
-                errorList.add("Reseller Id not defined");
+            if (!this.serverVendorService.existsById(serverVendor.getServerVendorId())) {
+                errorList.add("Product Id not defined");
             }
         }
 

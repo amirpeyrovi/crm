@@ -8,28 +8,17 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_server_parameter")
-public class ServerParameter implements Serializable {
+@Table(name = "crm_server_vendor")
+public class ServerVendor implements Serializable {
     @Id
-    @SequenceGenerator(name = "server_seq", sequenceName = "server_seq", allocationSize=1)
+    @Column(name = "id", columnDefinition = "number")
+    @SequenceGenerator(name = "server_vendor_seq", sequenceName = "server_vendor_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "server_seq")
-    private Long serverParameterId;
-
-    @ManyToOne
-    @JoinColumn(name = "server_group_id", foreignKey = @ForeignKey(name = "server_parameter_server_group_fk"))
-    private ServerGroup serverGroup;
+    private Long serverVendorId;
 
     @Column(name = "title", columnDefinition = "nvarchar2(100)")
     private String title;
 
-    @Column(name = "description", columnDefinition = "nvarchar2(200)")
-    private String description;
-
-    @Column(name = "type", columnDefinition = "nvarchar2(16)")
-    private String type;
-
-    @Column(name = "options", columnDefinition = "nvarchar2(500)")
-    private String options;
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
@@ -54,15 +43,11 @@ public class ServerParameter implements Serializable {
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private Integer isDeleted;
 
-    public ServerParameter() {
+    public ServerVendor() {
     }
 
-    public ServerParameter(ServerGroup serverGroup, String title, String description, String type, String options, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
-        this.serverGroup = serverGroup;
+    public ServerVendor(String title, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.title = title;
-        this.description = description;
-        this.type = type;
-        this.options = options;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -72,107 +57,84 @@ public class ServerParameter implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getServerParameterId() {
-        return serverParameterId;
+    public Long getServerVendorId() {
+        return serverVendorId;
     }
 
-    public void setServerParameterId(Long serverParameterId) {
-        this.serverParameterId = serverParameterId;
-    }
-
-    public ServerGroup getServerGroup() {
-        return serverGroup;
-    }
-
-    public void setServerGroup(ServerGroup serverGroup) {
-        this.serverGroup = serverGroup;
+    public ServerVendor setServerVendorId(Long serverVendorId) {
+        this.serverVendorId = serverVendorId;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public ServerVendor setTitle(String title) {
         this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getOptions() {
-        return options;
-    }
-
-    public void setOptions(String options) {
-        this.options = options;
+        return this;
     }
 
     public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public ServerVendor setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+        return this;
     }
 
     public String getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(String updatedBy) {
+    public ServerVendor setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
+        return this;
     }
 
     public String getDeletedBy() {
         return deletedBy;
     }
 
-    public void setDeletedBy(String deletedBy) {
+    public ServerVendor setDeletedBy(String deletedBy) {
         this.deletedBy = deletedBy;
+        return this;
     }
 
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public ServerVendor setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+        return this;
     }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public ServerVendor setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+        return this;
     }
 
     public LocalDateTime getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(LocalDateTime deletedAt) {
+    public ServerVendor setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
+        return this;
     }
 
     public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Integer isDeleted) {
+    public ServerVendor setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+        return this;
     }
 }

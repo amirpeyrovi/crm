@@ -2,6 +2,7 @@ package ir.parto.crm.modules.server.controller.validate;
 
 import ir.parto.crm.modules.server.model.entity.ServerGroup;
 import ir.parto.crm.modules.server.model.service.ServerGroupService;
+import ir.parto.crm.modules.server.model.service.ServerVendorService;
 import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
@@ -12,27 +13,44 @@ import java.util.List;
 
 @ValidationAnnotation
 public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
-
     private ServerGroupService serverGroupService;
+    private ServerVendorService serverVendorService;
+
     @Autowired
-    public ServerGroupValidate(ServerGroupService serverGroupService) {
+    public ServerGroupValidate(ServerGroupService serverGroupService, ServerVendorService serverVendorService) {
         this.serverGroupService = serverGroupService;
+        this.serverVendorService = serverVendorService;
     }
 
     @Override
     public ValidateObject validateAddNewItem(ServerGroup serverGroup) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(serverGroup == null || serverGroup.getTitle() == null ){
-            errorList.add("Title is required");
+
+        if (serverGroup == null) {
+            errorList.add("ServerGroup object is nul");
+        } else {
+            if (serverGroup.getServerVendor() == null) {
+                errorList.add("ServerVendor object is nul");
+            } else {
+                if (!this.serverVendorService.existsById(serverGroup.getServerVendor().getServerVendorId())) {
+                    errorList.add("ServerVendor Id not defined");
+                }
+
+                if (serverGroup.getTitle() == null || serverGroup.getTitle().isEmpty()) {
+                    errorList.add("Title is required");
+                }
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
+
         return validateObject;
     }
 
@@ -40,16 +58,35 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
     public ValidateObject validateUpdateItem(ServerGroup serverGroup) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(serverGroup != null && (serverGroup.getTitle() != null && serverGroup.getTitle().isEmpty())){
-            errorList.add("Title is required");
+
+        if (serverGroup == null) {
+            errorList.add("ServerGroup object is nul");
+        } else {
+            if (serverGroup.getServerVendor() == null) {
+                errorList.add("ServerVendor object is nul");
+            } else {
+                if (!this.serverGroupService.existsById(serverGroup.getServerGroupId())) {
+                    errorList.add("ServerGroup Id not defined");
+                }
+
+                if (!this.serverVendorService.existsById(serverGroup.getServerVendor().getServerVendorId())) {
+                    errorList.add("ServerVendor Id not defined");
+                }
+
+                if (serverGroup.getTitle() == null || serverGroup.getTitle().isEmpty()) {
+                    errorList.add("Title is required");
+                }
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
+
         return validateObject;
     }
 
@@ -57,16 +94,23 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
     public ValidateObject deleteItem(ServerGroup serverGroup) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(serverGroup == null || this.serverGroupService.existsById(serverGroup.getServerGroupId())){
-            errorList.add("Server Group Id not defined");
+
+        if (serverGroup == null) {
+            errorList.add("ServerGroup object is nul");
+        } else {
+            if (!this.serverGroupService.existsById(serverGroup.getServerGroupId())) {
+                errorList.add("ServerGroup Id not defined");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
+
         return validateObject;
     }
 
@@ -74,16 +118,23 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
     public ValidateObject findOne(ServerGroup serverGroup) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(serverGroup == null || !this.serverGroupService.existsById(serverGroup.getServerGroupId())){
-            errorList.add("Server Group Id not defined");
+
+        if (serverGroup == null) {
+            errorList.add("ServerGroup object is nul");
+        } else {
+            if (!this.serverGroupService.existsById(serverGroup.getServerGroupId())) {
+                errorList.add("ServerGroup Id not defined");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
+
         return validateObject;
     }
 
@@ -91,16 +142,23 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
     public ValidateObject findById(ServerGroup serverGroup) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(serverGroup == null || this.serverGroupService.existsById(serverGroup.getServerGroupId())){
-            errorList.add("Server Group Id not defined");
+
+        if (serverGroup == null) {
+            errorList.add("ServerGroup object is nul");
+        } else {
+            if (!this.serverGroupService.existsById(serverGroup.getServerGroupId())) {
+                errorList.add("ServerGroup Id not defined");
+            }
         }
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
+
         return validateObject;
     }
 
@@ -108,13 +166,15 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
     public ValidateObject findAll() {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
+
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
+
         return validateObject;
     }
 }
