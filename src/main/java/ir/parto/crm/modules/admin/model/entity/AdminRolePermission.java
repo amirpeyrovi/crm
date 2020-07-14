@@ -20,28 +20,28 @@ public class AdminRolePermission implements Serializable {
     private String title;
 
     @Column(name = "client_permission_add", columnDefinition = "number(1)")
-    private String client_addPerm;
+    private int client_addPerm;
 
     @Column(name = "client_permission_update", columnDefinition = "number(1)")
-    private String client_updatePerm;
+    private int client_updatePerm;
 
     @Column(name = "client_permission_delete", columnDefinition = "number(1)")
-    private String client_deletePerm;
+    private int client_deletePerm;
 
     @Column(name = "client_permission_view", columnDefinition = "number(1)")
-    private String client_viewPerm;
+    private int client_viewPerm;
 
     @Column(name = "admin_permission_add", columnDefinition = "number(1)")
-    private String admin_addPerm;
+    private int admin_addPerm;
 
     @Column(name = "admin_permission_update", columnDefinition = "number(1)")
-    private String admin_updatePerm;
+    private int admin_updatePerm;
 
     @Column(name = "admin_permission_delete", columnDefinition = "number(1)")
-    private String admin_deletePerm;
+    private int admin_deletePerm;
 
     @Column(name = "admin_permission_view", columnDefinition = "number(1)")
-    private String admin_viewPerm;
+    private int admin_viewPerm;
 
     @ManyToOne
     @JoinColumn(name = "admin_role_id", foreignKey = @ForeignKey(name = "permission_role_fk"))
@@ -78,7 +78,7 @@ public class AdminRolePermission implements Serializable {
     public AdminRolePermission() {
     }
 
-    public AdminRolePermission(String title, String client_addPerm, String client_updatePerm, String client_deletePerm, String client_viewPerm, String admin_addPerm, String admin_updatePerm, String admin_deletePerm, String admin_viewPerm, AdminRole adminRole, String createdBy, String updatedBy, LocalDateTime createdDate, LocalDateTime updatedAt, String deletedBy, LocalDateTime deletedAt, Integer isDeleted) {
+    public AdminRolePermission(String title, int client_addPerm, int client_updatePerm, int client_deletePerm, int client_viewPerm, int admin_addPerm, int admin_updatePerm, int admin_deletePerm, int admin_viewPerm, AdminRole adminRole, AdminPermission adminPermission, String createdBy, String updatedBy, LocalDateTime createdDate, LocalDateTime updatedAt, String deletedBy, LocalDateTime deletedAt, Integer isDeleted) {
         this.title = title;
         this.client_addPerm = client_addPerm;
         this.client_updatePerm = client_updatePerm;
@@ -89,6 +89,7 @@ public class AdminRolePermission implements Serializable {
         this.admin_deletePerm = admin_deletePerm;
         this.admin_viewPerm = admin_viewPerm;
         this.adminRole = adminRole;
+        this.adminPermission = adminPermission;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.createdDate = createdDate;
@@ -114,67 +115,67 @@ public class AdminRolePermission implements Serializable {
         this.title = title;
     }
 
-    public String getClient_addPerm() {
+    public int getClient_addPerm() {
         return client_addPerm;
     }
 
-    public void setClient_addPerm(String client_addPerm) {
+    public void setClient_addPerm(int client_addPerm) {
         this.client_addPerm = client_addPerm;
     }
 
-    public String getClient_updatePerm() {
+    public int getClient_updatePerm() {
         return client_updatePerm;
     }
 
-    public void setClient_updatePerm(String client_updatePerm) {
+    public void setClient_updatePerm(int client_updatePerm) {
         this.client_updatePerm = client_updatePerm;
     }
 
-    public String getClient_deletePerm() {
+    public int getClient_deletePerm() {
         return client_deletePerm;
     }
 
-    public void setClient_deletePerm(String client_deletePerm) {
+    public void setClient_deletePerm(int client_deletePerm) {
         this.client_deletePerm = client_deletePerm;
     }
 
-    public String getClient_viewPerm() {
+    public int getClient_viewPerm() {
         return client_viewPerm;
     }
 
-    public void setClient_viewPerm(String client_viewPerm) {
+    public void setClient_viewPerm(int client_viewPerm) {
         this.client_viewPerm = client_viewPerm;
     }
 
-    public String getAdmin_addPerm() {
+    public int getAdmin_addPerm() {
         return admin_addPerm;
     }
 
-    public void setAdmin_addPerm(String admin_addPerm) {
+    public void setAdmin_addPerm(int admin_addPerm) {
         this.admin_addPerm = admin_addPerm;
     }
 
-    public String getAdmin_updatePerm() {
+    public int getAdmin_updatePerm() {
         return admin_updatePerm;
     }
 
-    public void setAdmin_updatePerm(String admin_updatePerm) {
+    public void setAdmin_updatePerm(int admin_updatePerm) {
         this.admin_updatePerm = admin_updatePerm;
     }
 
-    public String getAdmin_deletePerm() {
+    public int getAdmin_deletePerm() {
         return admin_deletePerm;
     }
 
-    public void setAdmin_deletePerm(String admin_deletePerm) {
+    public void setAdmin_deletePerm(int admin_deletePerm) {
         this.admin_deletePerm = admin_deletePerm;
     }
 
-    public String getAdmin_viewPerm() {
+    public int getAdmin_viewPerm() {
         return admin_viewPerm;
     }
 
-    public void setAdmin_viewPerm(String admin_viewPerm) {
+    public void setAdmin_viewPerm(int admin_viewPerm) {
         this.admin_viewPerm = admin_viewPerm;
     }
 
@@ -184,6 +185,14 @@ public class AdminRolePermission implements Serializable {
 
     public void setAdminRole(AdminRole adminRole) {
         this.adminRole = adminRole;
+    }
+
+    public AdminPermission getAdminPermission() {
+        return adminPermission;
+    }
+
+    public void setAdminPermission(AdminPermission adminPermission) {
+        this.adminPermission = adminPermission;
     }
 
     public String getCreatedBy() {
@@ -240,13 +249,5 @@ public class AdminRolePermission implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
-    }
-
-    public AdminPermission getAdminPermission() {
-        return adminPermission;
-    }
-
-    public void setAdminPermission(AdminPermission adminPermission) {
-        this.adminPermission = adminPermission;
     }
 }
