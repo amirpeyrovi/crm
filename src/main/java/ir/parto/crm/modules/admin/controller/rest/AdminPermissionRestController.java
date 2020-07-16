@@ -66,4 +66,68 @@ public class AdminPermissionRestController {
         }
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody AdminPermission adminPermission) {
+        if (CheckPermission.getInstance().check("admin_update", "AdminPermission")) {
+            return new ApiResponse("Error", 101, Arrays.asList("AdminPermission - admin_update - access denied!"))
+                    .getFaultResponse();
+        }
+
+        adminPermission.setPermissionId(id);
+
+        ValidateObject validateObject = this.adminPermissionValidate.validateUpdateItem(adminPermission);
+        if (validateObject.getResult().equals("success")) {
+            try {
+                return new ApiResponse("Success", Arrays.asList(this.adminPermissionService.updateItem(adminPermission)))
+                        .getSuccessResponse();
+            } catch (InvocationTargetException e) {
+                return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
+                        .getFaultResponse();
+            } catch (IllegalAccessException e) {
+                return new ApiResponse("Error", 104, Arrays.asList("An error occurred Try again later"))
+                        .getFaultResponse();
+            }
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
+        }
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Object deleteOne(@PathVariable("id") Long id) {
+        if (CheckPermission.getInstance().check("admin_delete", "AdminPermission")) {
+            return new ApiResponse("Error", 101, Arrays.asList("Product - admin_delete - access denied!"))
+                    .getFaultResponse();
+        }
+
+        AdminPermission adminPermission = new AdminPermission();
+        adminPermission.setPermissionId(id);
+        ValidateObject validateObject = this.adminPermissionValidate.deleteItem(adminPermission);
+        if (validateObject.getResult().equals("success")) {
+            return new ApiResponse("Success", Arrays.asList(this.adminPermissionService.deleteItem(adminPermission)))
+                    .getSuccessResponse();
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
+        }
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Object findOne(@PathVariable("id") Long id) {
+        if (CheckPermission.getInstance().check("admin_show", "AdminPermission")) {
+            return new ApiResponse("Error", 101, Arrays.asList("Product - admin_show - access denied!"))
+                    .getFaultResponse();
+        }
+
+        AdminPermission adminPermission = new AdminPermission();
+        adminPermission.setPermissionId(id);
+        ValidateObject validateObject = this.adminPermissionValidate.findOne(adminPermission);
+        if (validateObject.getResult().equals("success")) {
+            return new ApiResponse("Success", Arrays.asList(this.adminPermissionService.findOne(adminPermission)))
+                    .getSuccessResponse();
+        } else {
+            return new ApiResponse("Error", 102, validateObject.getMessages())
+                    .getFaultResponse();
+        }
+    }
 }
