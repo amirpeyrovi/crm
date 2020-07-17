@@ -1,6 +1,8 @@
 package ir.parto.crm.modules.ticket.controller.validate;
 
 import ir.parto.crm.modules.ticket.model.entity.TicketWorkFlow;
+import ir.parto.crm.modules.ticket.model.service.TicketStageService;
+import ir.parto.crm.modules.ticket.model.service.TicketStateService;
 import ir.parto.crm.modules.ticket.model.service.TicketWorkFlowService;
 import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
@@ -13,10 +15,14 @@ import java.util.List;
 @ValidationAnnotation
 public class TicketWorkFlowValidate implements ValidateInterface<TicketWorkFlow> {
     private TicketWorkFlowService ticketWorkFlowService;
+    private TicketStageService ticketStageService;
+    private TicketStateService ticketStateService;
 
     @Autowired
-    public TicketWorkFlowValidate(TicketWorkFlowService ticketWorkFlowService) {
+    public TicketWorkFlowValidate(TicketWorkFlowService ticketWorkFlowService, TicketStageService ticketStageService, TicketStateService ticketStateService) {
         this.ticketWorkFlowService = ticketWorkFlowService;
+        this.ticketStageService = ticketStageService;
+        this.ticketStateService = ticketStateService;
     }
 
     @Override
@@ -37,11 +43,35 @@ public class TicketWorkFlowValidate implements ValidateInterface<TicketWorkFlow>
             if(ticketWorkFlow.getNextTicketStage() == null || ticketWorkFlow.getNextTicketStage().getTicketStageId() == null || ticketWorkFlow.getNextTicketStage().getTicketStageId() == 0)
             {
                 errorList.add("Next Stage of ticket is required!");
+            }else {
+                if (!this.ticketStageService.existsById(ticketWorkFlow.getNextTicketStage().getTicketStageId())) {
+                    errorList.add("TicketStage Not Defined");
+                }
             }
+
+            if(ticketWorkFlow.getPreviousTicketStage() != null && ticketWorkFlow.getPreviousTicketStage().getTicketStageId() != null && ticketWorkFlow.getPreviousTicketStage().getTicketStageId() == 0)
+            {
+                if (!this.ticketStageService.existsById(ticketWorkFlow.getPreviousTicketStage().getTicketStageId())) {
+                    errorList.add("TicketStage Not Defined");
+                }
+            }
+
             if(ticketWorkFlow.getNextTicketState() == null || ticketWorkFlow.getNextTicketState().getTicketStateId() == null || ticketWorkFlow.getNextTicketState().getTicketStateId() == 0)
             {
                 errorList.add("Next State of ticket is required!");
+            }else {
+                if (!this.ticketStateService.existsById(ticketWorkFlow.getNextTicketState().getTicketStateId())) {
+                    errorList.add("TicketState Not Defined");
+                }
             }
+
+            if(ticketWorkFlow.getPreviousTicketState() != null && ticketWorkFlow.getPreviousTicketState().getTicketStateId() != null && ticketWorkFlow.getPreviousTicketState().getTicketStateId() == 0)
+            {
+                if (!this.ticketStateService.existsById(ticketWorkFlow.getPreviousTicketState().getTicketStateId())) {
+                    errorList.add("TicketState Not Defined");
+                }
+            }
+
         }
 
 
