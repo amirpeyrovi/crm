@@ -7,6 +7,7 @@ import ir.parto.crm.modules.admin.model.service.AdminRolePermissionService;
 import ir.parto.crm.modules.admin.model.service.AdminRoleService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
+import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.Arrays;
 
 @RestController
 @RequestMapping("/v1/admin/adminRole")
-public class AdminRoleRestController {
+public class AdminRoleRestController implements RestControllerInterface {
     private AdminRoleService adminRoleService;
     private AdminRoleValidate adminRoleValidate;
     private CheckPermission checkPermission;
