@@ -156,8 +156,8 @@ public class ServerRestController implements RestControllerInterface {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Object findOne(@PathVariable("id") Long id) {
-        if (CheckPermission.getInstance().check("admin_show", "ServerGroup")) {
-            return new ApiResponse("Error", 101, Arrays.asList("ServerGroup - admin_show - access denied!"))
+        if (CheckPermission.getInstance().check("admin_show", "Server")) {
+            return new ApiResponse("Error", 101, Arrays.asList("Server - admin_show - access denied!"))
                     .getFaultResponse();
         }
 

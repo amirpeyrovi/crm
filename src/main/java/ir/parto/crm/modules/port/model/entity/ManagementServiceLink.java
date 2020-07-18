@@ -18,7 +18,7 @@ public class ManagementServiceLink implements Serializable {
     private Long managementServiceId;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", foreignKey = @ForeignKey(name = "management_service_link_management_fk"))
+    @JoinColumn(name = "management_id", foreignKey = @ForeignKey(name = "management_service_link_management_fk"))
     private Management management;
 
     @ManyToOne
