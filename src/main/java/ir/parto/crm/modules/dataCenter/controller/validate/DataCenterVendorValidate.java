@@ -25,11 +25,11 @@ public class DataCenterVendorValidate implements ValidateInterface<DataCenterVen
         ValidateObject validateObject = new ValidateObject();
 
         if (dataCenterVendor == null) {
-            errorList.add("Vendor object is nul");
+            errorList.add("Vendor object is null");
         } else {
-            if (!this.dataCenterVendorService.existsById(dataCenterVendor.getVendorId())) {
-                errorList.add("Vendor Id not defined");
-            }
+//            if (!this.dataCenterVendorService.existsById(dataCenterVendor.getVendorId())) {
+//                errorList.add("Vendor Id not defined");
+//            }
 
             if (dataCenterVendor.getTitle() == null || dataCenterVendor.getTitle().isEmpty()) {
                 errorList.add("Title is required");

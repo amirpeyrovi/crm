@@ -18,4 +18,6 @@ public interface DataCenterRackRepository extends JpaRepository<DataCenterRack, 
     DataCenterRack findByIsDeletedIsNullAndRackId(Long id);
 
     boolean existsByIsDeletedIsNullAndRackId(Long id);
+
+    List<DataCenterRack> findAllByIsDeletedIsNullAndAndRackId(Long rackId);
 }

@@ -18,4 +18,5 @@ public interface DataCenterVendorRepository extends JpaRepository<DataCenterVend
     DataCenterVendor findByIsDeletedIsNullAndVendorId(Long id);
 
     boolean existsByIsDeletedIsNullAndVendorId(Long id);
+    List<DataCenterVendor> findAllByIsDeletedIsNullAndVendorId(Long vendorId);
 }
