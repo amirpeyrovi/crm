@@ -187,7 +187,6 @@ where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 
 INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
 select 909 , 'TicketStageAction' , 'Ticket_Stage_Action' , 1 , sysdate from dual
 where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 909);
-== 1;
 ----------------------------INVENTORY----------------------------------
 
 INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
@@ -205,4 +204,3 @@ where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 
 INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
 select 1003 , 'InventoryItemService' , 'Inventory_Item_Service_Action' , 1 , sysdate from dual
 where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 1003);
-x

@@ -7,6 +7,7 @@ import ir.parto.crm.modules.inventory.model.service.InventoryTypeService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.InventoryAnnotation;
+import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.Arrays;
 @RestController
 @InventoryAnnotation
 @RequestMapping("/v1/invenory/inventoryGroup")
-public class InventoryGroupRestController {
+public class InventoryGroupRestController implements RestControllerInterface {
     private InventoryGroupService inventoryGroupService;
     private InventoryGroupValidate inventoryGroupValidate;
     private InventoryTypeService inventoryTypeService;

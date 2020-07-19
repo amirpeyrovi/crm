@@ -9,6 +9,7 @@ import ir.parto.crm.modules.inventory.model.service.InventoryItemService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.InventoryAnnotation;
+import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.Arrays;
 @RestController
 @InventoryAnnotation
 @RequestMapping("/v1/invenory/inventoryGroup")
-public class InventoryItemRestController {
+public class InventoryItemRestController  implements RestControllerInterface {
     private InventoryItemService inventoryItemService;
     private InventoryItemValidate inventoryItemValidate;
     private InventoryGroupService inventoryGroupService;
@@ -32,7 +33,6 @@ public class InventoryItemRestController {
         this.inventoryItemValidate = inventoryItemValidate;
         this.inventoryGroupService = inventoryGroupService;
     }
-
 
     @RequestMapping(method = RequestMethod.GET)
     public Object findAll(@RequestParam(required = false, defaultValue = "0") String page,
