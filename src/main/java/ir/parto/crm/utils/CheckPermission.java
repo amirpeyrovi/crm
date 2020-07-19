@@ -48,21 +48,21 @@ public class CheckPermission {
 
             switch (action) {
                 case "client_add":
-                    return adminRolePermission.getClient_addPerm().equals(1);
+                    return adminRolePermission.getClient_addPerm() == 1;
                 case "client_update":
-                    return adminRolePermission.getClient_updatePerm().equals(1);
+                    return adminRolePermission.getClient_updatePerm() == 1;
                 case "client_delete":
-                    return adminRolePermission.getClient_deletePerm().equals(1);
+                    return adminRolePermission.getClient_deletePerm() == 1;
                 case "client_show":
-                    return adminRolePermission.getClient_viewPerm().equals(1);
+                    return adminRolePermission.getClient_viewPerm() == 1;
                 case "admin_add":
-                    return adminRolePermission.getAdmin_addPerm().equals(1);
+                    return adminRolePermission.getAdmin_addPerm() == 1;
                 case "admin_update":
-                    return adminRolePermission.getAdmin_updatePerm().equals(1);
+                    return adminRolePermission.getAdmin_updatePerm() == 1;
                 case "admin_delete":
-                    return adminRolePermission.getAdmin_deletePerm().equals(1);
+                    return adminRolePermission.getAdmin_deletePerm() == 1;
                 case "admin_show":
-                    return adminRolePermission.getAdmin_viewPerm().equals(1);
+                    return adminRolePermission.getAdmin_viewPerm() == 1;
             }
             return false;
         }
