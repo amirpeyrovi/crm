@@ -3,8 +3,6 @@ package ir.parto.crm.modules.ticket.controller.rest;
 import ir.parto.crm.modules.ticket.controller.validate.TickeStateActionTypeValidate;
 import ir.parto.crm.modules.ticket.model.entity.TicketStateActionType;
 import ir.parto.crm.modules.ticket.model.service.TickeStateActionTypeService;
-import ir.parto.crm.modules.ticket.model.service.TicketStageService;
-import ir.parto.crm.modules.ticket.model.service.TicketStateService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.TicketAnnotation;

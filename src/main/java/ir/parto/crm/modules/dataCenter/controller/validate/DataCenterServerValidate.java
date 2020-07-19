@@ -1,6 +1,8 @@
 package ir.parto.crm.modules.dataCenter.controller.validate;
 
+import ir.parto.crm.modules.dataCenter.model.entity.DataCenterRack;
 import ir.parto.crm.modules.dataCenter.model.entity.DataCenterServer;
+import ir.parto.crm.modules.dataCenter.model.entity.DataCenterVendor;
 import ir.parto.crm.modules.dataCenter.model.service.DataCenterRackService;
 import ir.parto.crm.modules.dataCenter.model.service.DataCenterServerService;
 import ir.parto.crm.modules.dataCenter.model.service.DataCenterVendorService;
@@ -141,6 +143,16 @@ public class DataCenterServerValidate implements ValidateInterface<DataCenterSer
         } else {
             if (!this.dataCenterServerService.existsById(dataCenterServer.getServerId())) {
                 errorList.add("Server Id not defined");
+            }
+            List<DataCenterRack> dataCenterRacks = this.dataCenterRackService.findAllByIdAndIsDeletedIsNull(dataCenterServer.getDataCenterRack().getRackId());
+            if(dataCenterRacks.size()>0){
+                errorList.add("Related Racks");
+            }
+
+            List<DataCenterVendor> dataCenterVendors = this.dataCenterVendorService.findAllByIdAndIsDeletedIsNull(
+                    dataCenterServer.getDataCenterVendor().getVendorId());
+            if(dataCenterVendors.size()>0){
+                errorList.add("Related Vendors");
             }
         }
 

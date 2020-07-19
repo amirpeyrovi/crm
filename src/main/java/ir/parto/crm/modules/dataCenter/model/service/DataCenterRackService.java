@@ -80,4 +80,8 @@ public class DataCenterRackService implements ServiceInterface<DataCenterRack> {
     public Boolean existsById(Long id) {
         return this.dataCenterRackRepository.existsByIsDeletedIsNullAndRackId(id);
     }
+
+    public List<DataCenterRack> findAllByIdAndIsDeletedIsNull(Long rackId) {
+        return this.dataCenterRackRepository.findAllByIsDeletedIsNullAndAndRackId(rackId);
+    }
 }

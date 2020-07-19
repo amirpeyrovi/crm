@@ -80,4 +80,8 @@ public class DataCenterVendorService implements ServiceInterface<DataCenterVendo
     public Boolean existsById(Long id) {
         return this.dataCenterVendorRepository.existsByIsDeletedIsNullAndVendorId(id);
     }
+
+    public List<DataCenterVendor> findAllByIdAndIsDeletedIsNull(Long vendorId) {
+        return this.dataCenterVendorRepository.findAllByIsDeletedIsNullAndVendorId(vendorId);
+    }
 }
