@@ -3,6 +3,7 @@ package ir.parto.crm.modules.dataCenter.controller.validate;
 import ir.parto.crm.modules.dataCenter.model.entity.DataCenterRack;
 import ir.parto.crm.modules.dataCenter.model.service.DataCenterRackService;
 import ir.parto.crm.modules.dataCenter.model.service.DataCenterService;
+import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
+@ValidationAnnotation
 public class DataCenterRackValidate implements ValidateInterface<DataCenterRack> {
     private DataCenterRackService dataCenterRackService;
     private DataCenterService dataCenterService;
@@ -26,10 +28,10 @@ public class DataCenterRackValidate implements ValidateInterface<DataCenterRack>
         ValidateObject validateObject = new ValidateObject();
 
         if (dataCenterRack == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (dataCenterRack.getDataCenter() == null) {
-                errorList.add("DataCenter object is nul");
+                errorList.add("DataCenter object is null");
             } else {
                 if (!this.dataCenterService.existsById(dataCenterRack.getDataCenter().getDataCenterId())) {
                     errorList.add("DataCenter Id not defined");

@@ -195,3 +195,21 @@ where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 
 INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
 select 911 , 'TicketStateActionType' , 'Ticket_State_Action_Type' , 1 , sysdate from dual
 where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 911);
+
+
+----------------------------DATACENTER---------------------------------
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 1000 , 'DataCenterRack' , 'DataCenter_Rack' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 1000);
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 1001 , 'DataCenter' , 'DataCenter' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 1001);
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 1002 , 'DataCenterVendor' , 'DataCenter_Vendor' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 1002);
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 1003 , 'DataCenterServer' , 'DataCenter_Server' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 1003);
