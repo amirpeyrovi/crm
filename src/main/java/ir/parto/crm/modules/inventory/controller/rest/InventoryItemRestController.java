@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 @RestController
 @InventoryAnnotation
-@RequestMapping("/v1/invenory/inventoryGroup")
+@RequestMapping("/v1/invenory/inventoryItem")
 public class InventoryItemRestController  implements RestControllerInterface {
     private InventoryItemService inventoryItemService;
     private InventoryItemValidate inventoryItemValidate;

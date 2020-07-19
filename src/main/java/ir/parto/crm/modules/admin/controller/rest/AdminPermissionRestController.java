@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 @RestController
 @AdminAnnotation
-@RequestMapping("/v1/admin/admin")
+@RequestMapping("/v1/admin/adminPermission")
 public class AdminPermissionRestController implements RestControllerInterface {
     private AdminPermissionService adminPermissionService;
     private AdminPermissionValidate adminPermissionValidate;

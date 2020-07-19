@@ -27,7 +27,7 @@ public class TickeStateActionTypeService implements ServiceInterface<TicketState
 
     @Override
     public TicketStateActionType updateItem(TicketStateActionType ticketStateActionType) throws InvocationTargetException, IllegalAccessException {
-        TicketStateActionType exist = this.ticketStateActionTypeRepository.findByIsDeletedIsNullAndTicketId(ticketStateActionType
+        TicketStateActionType exist = this.ticketStateActionTypeRepository.findByIsDeletedIsNullAndTicketStateActionTypeId(ticketStateActionType
                 .getTicketStateActionTypeId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ticketStateActionType);
@@ -37,7 +37,7 @@ public class TickeStateActionTypeService implements ServiceInterface<TicketState
 
     @Override
     public TicketStateActionType deleteItem(TicketStateActionType ticketStateActionType) {
-        TicketStateActionType exist = this.ticketStateActionTypeRepository.findByIsDeletedIsNullAndTicketId(ticketStateActionType
+        TicketStateActionType exist = this.ticketStateActionTypeRepository.findByIsDeletedIsNullAndTicketStateActionTypeId(ticketStateActionType
                 .getTicketStateActionTypeId());
         exist.setIsDeleted(1);
         exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -62,16 +62,16 @@ public class TickeStateActionTypeService implements ServiceInterface<TicketState
 
     @Override
     public TicketStateActionType findOne(TicketStateActionType ticketStateActionType) {
-        return this.ticketStateActionTypeRepository.findByIsDeletedIsNullAndTicketId(ticketStateActionType.getTicketStateActionTypeId());
+        return this.ticketStateActionTypeRepository.findByIsDeletedIsNullAndTicketStateActionTypeId(ticketStateActionType.getTicketStateActionTypeId());
     }
 
     @Override
     public TicketStateActionType findById(Long id) {
-        return this.ticketStateActionTypeRepository.findByIsDeletedIsNullAndTicketId(id);
+        return this.ticketStateActionTypeRepository.findByIsDeletedIsNullAndTicketStateActionTypeId(id);
     }
 
     @Override
     public Boolean existsById(Long id) {
-        return this.ticketStateActionTypeRepository.existsByIsDeletedIsNullAndTicketId(id);
+        return this.ticketStateActionTypeRepository.existsByIsDeletedIsNullAndTicketStateActionTypeId(id);
     }
 }
