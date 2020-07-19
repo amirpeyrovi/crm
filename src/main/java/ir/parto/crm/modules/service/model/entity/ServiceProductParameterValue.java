@@ -15,11 +15,15 @@ public class ServiceProductParameterValue implements Serializable {
     @Column(name = "id", columnDefinition = "number")
     @SequenceGenerator(name = "service_seq", sequenceName = "service_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "service_seq")
-    private Long serviceProductHistory;
+    private Long serviceProductParameterValueId;
 
     @ManyToOne
     @JoinColumn(name = "service_id", foreignKey = @ForeignKey(name = "service_product_parameter_value_service_fk"))
     private Service service;
+
+    @ManyToOne
+    @JoinColumn(name = "service_addon_id", foreignKey = @ForeignKey(name = "service_addon_product_parameter_value_service_fk"))
+    private ServiceAddon serviceAddon;
 
     @ManyToOne
     @JoinColumn(name = "product_parameter_id", foreignKey = @ForeignKey(name = "service_product_parameter_value_product_parameter_fk"))
@@ -55,20 +59,26 @@ public class ServiceProductParameterValue implements Serializable {
     public ServiceProductParameterValue() {
     }
 
-    public ServiceProductParameterValue(Service service, ProductParameter productParameter, String value, String createdBy, LocalDateTime createdDate) {
+    public ServiceProductParameterValue(Service service, ServiceAddon serviceAddon, ProductParameter productParameter, String value, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.service = service;
+        this.serviceAddon = serviceAddon;
         this.productParameter = productParameter;
         this.value = value;
         this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
         this.createdDate = createdDate;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+        this.isDeleted = isDeleted;
     }
 
-    public Long getServiceProductHistory() {
-        return serviceProductHistory;
+    public Long getServiceProductParameterValueId() {
+        return serviceProductParameterValueId;
     }
 
-    public void setServiceProductHistory(Long serviceProductHistory) {
-        this.serviceProductHistory = serviceProductHistory;
+    public void setServiceProductParameterValueId(Long serviceProductParameterValueId) {
+        this.serviceProductParameterValueId = serviceProductParameterValueId;
     }
 
     public Service getService() {
@@ -77,6 +87,14 @@ public class ServiceProductParameterValue implements Serializable {
 
     public void setService(Service service) {
         this.service = service;
+    }
+
+    public ServiceAddon getServiceAddon() {
+        return serviceAddon;
+    }
+
+    public void setServiceAddon(ServiceAddon serviceAddon) {
+        this.serviceAddon = serviceAddon;
     }
 
     public ProductParameter getProductParameter() {
@@ -103,6 +121,22 @@ public class ServiceProductParameterValue implements Serializable {
         this.createdBy = createdBy;
     }
 
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
@@ -111,48 +145,27 @@ public class ServiceProductParameterValue implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public ServiceProductParameterValue setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-        return this;
-    }
-
-    public String getDeletedBy() {
-        return deletedBy;
-    }
-
-    public ServiceProductParameterValue setDeletedBy(String deletedBy) {
-        this.deletedBy = deletedBy;
-        return this;
-    }
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public ServiceProductParameterValue setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-        return this;
     }
 
     public LocalDateTime getDeletedAt() {
         return deletedAt;
     }
 
-    public ServiceProductParameterValue setDeletedAt(LocalDateTime deletedAt) {
+    public void setDeletedAt(LocalDateTime deletedAt) {
         this.deletedAt = deletedAt;
-        return this;
     }
 
     public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public ServiceProductParameterValue setIsDeleted(Integer isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
-        return this;
     }
 }

@@ -19,13 +19,13 @@ import java.util.Arrays;
 @RestController
 @TicketAnnotation
 @RequestMapping("/v1/ticket/ticketStateActionType")
-public class TickeStateActionTypeRestController implements RestControllerInterface {
+public class TicketStateActionTypeRestController implements RestControllerInterface {
     private TickeStateActionTypeService ticketStateActionTypeService;
     private TickeStateActionTypeValidate ticketStateActionTypeValidate;
 
 
     @Autowired
-    public TickeStateActionTypeRestController(TickeStateActionTypeService ticketStateActionTypeService, TickeStateActionTypeValidate ticketStateActionTypeValidate) {
+    public TicketStateActionTypeRestController(TickeStateActionTypeService ticketStateActionTypeService, TickeStateActionTypeValidate ticketStateActionTypeValidate) {
         this.ticketStateActionTypeService = ticketStateActionTypeService;
         this.ticketStateActionTypeValidate = ticketStateActionTypeValidate;
     }
