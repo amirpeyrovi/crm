@@ -1,7 +1,7 @@
 package ir.parto.crm.modules.ticket.controller.validate;
 
-import ir.parto.crm.modules.ticket.model.entity.TicketStateOfStage;
-import ir.parto.crm.modules.ticket.model.service.TicketStateOfStageService;
+import ir.parto.crm.modules.ticket.model.entity.TicketStateActionType;
+import ir.parto.crm.modules.ticket.model.service.TicketStateActionTypeService;
 import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
@@ -11,27 +11,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ValidationAnnotation
-public class TicketStateOfStageValidate implements ValidateInterface<TicketStateOfStage> {
-    private TicketStateOfStageService ticketStateOfStageService;
+public class TickeStateActionTypeValidate implements ValidateInterface<TicketStateActionType> {
+    private TicketStateActionTypeService ticketStateActionTypeService;
 
     @Autowired
-    public TicketStateOfStageValidate(TicketStateOfStageService ticketStateOfStageService) {
-        this.ticketStateOfStageService = ticketStateOfStageService;
+    public TickeStateActionTypeValidate(TicketStateActionTypeService ticketStateActionTypeService) {
+        this.ticketStateActionTypeService = ticketStateActionTypeService;
     }
 
     @Override
-    public ValidateObject validateAddNewItem(TicketStateOfStage ticketStateOfStage) {
+    public ValidateObject validateAddNewItem(TicketStateActionType ticketStateActionType) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if (ticketStateOfStage == null) {
-            errorList.add("Object is null");
-        } else {
-            if (ticketStateOfStage.getTicketState() != null || ticketStateOfStage.getTicketState().getTicketStateId() == null || ticketStateOfStage.getTicketState().getTicketStateId() == 0) {
-                errorList.add("TicketState is required");
-            }
-
-            if (ticketStateOfStage.getTicketStage() != null || ticketStateOfStage.getTicketStage().getTicketStageId() == null || ticketStateOfStage.getTicketStage().getTicketStageId() == 0) {
-                errorList.add("TicketState is required");
+        if(ticketStateActionType == null){
+            errorList.add("Object not defined");
+        }else{
+            if (ticketStateActionType.getTitle() == null ||
+                    ticketStateActionType.getTitle().isEmpty()) {
+                errorList.add("Title is required");
             }
         }
 
@@ -47,11 +44,12 @@ public class TicketStateOfStageValidate implements ValidateInterface<TicketState
     }
 
     @Override
-    public ValidateObject validateUpdateItem(TicketStateOfStage ticketStateOfStage) {
+    public ValidateObject validateUpdateItem(TicketStateActionType ticketStateActionType) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if (ticketStateOfStage == null) {
-            errorList.add("Object is null");
+        if(ticketStateActionType != null && ticketStateActionType.getTitle() != null &&
+                    ticketStateActionType.getTitle().isEmpty()) {
+            errorList.add("Title is required");
         }
 
         validateObject.setCount(errorList.size());
@@ -65,59 +63,61 @@ public class TicketStateOfStageValidate implements ValidateInterface<TicketState
         return validateObject;
     }
 
+
+
     @Override
-    public ValidateObject deleteItem(TicketStateOfStage ticketStateOfStage) {
+    public ValidateObject deleteItem(TicketStateActionType ticketStateActionType) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if (ticketStateOfStage == null) {
-            errorList.add("Object is null");
+        if (ticketStateActionType == null || ticketStateActionType.getTicketStateActionTypeId() == null
+                || ticketStateActionType.getTicketStateActionTypeId() == 0) {
+            errorList.add("Object not defined!");
         }
-
-        validateObject.setCount(errorList.size());
-        validateObject.setMessages(errorList);
         if (errorList.size() > 0) {
             validateObject.setResult("error");
         } else {
             validateObject.setResult("success");
         }
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
 
         return validateObject;
     }
 
     @Override
-    public ValidateObject findOne(TicketStateOfStage ticketStateOfStage) {
+    public ValidateObject findOne(TicketStateActionType ticketStateActionType) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if (ticketStateOfStage == null || !this.ticketStateOfStageService.existsById(ticketStateOfStage.getTicketStateOfStageId())) {
-            errorList.add("Object is null");
+        if (ticketStateActionType == null || ticketStateActionType.getTicketStateActionTypeId() == null
+                || ticketStateActionType.getTicketStateActionTypeId() == 0) {
+            errorList.add("Object not defined!");
         }
-
-        validateObject.setCount(errorList.size());
-        validateObject.setMessages(errorList);
         if (errorList.size() > 0) {
             validateObject.setResult("error");
         } else {
             validateObject.setResult("success");
         }
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
 
         return validateObject;
     }
 
     @Override
-    public ValidateObject findById(TicketStateOfStage ticketStateOfStage) {
+    public ValidateObject findById(TicketStateActionType ticketStateActionType) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if (ticketStateOfStage == null) {
-            errorList.add("Object is null");
+        if (ticketStateActionType == null || ticketStateActionType.getTicketStateActionTypeId() == null
+                || ticketStateActionType.getTicketStateActionTypeId() == 0) {
+            errorList.add("Object not defined!");
         }
-
-        validateObject.setCount(errorList.size());
-        validateObject.setMessages(errorList);
         if (errorList.size() > 0) {
             validateObject.setResult("error");
         } else {
             validateObject.setResult("success");
         }
+        validateObject.setCount(errorList.size());
+        validateObject.setMessages(errorList);
 
         return validateObject;
     }

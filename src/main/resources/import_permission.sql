@@ -187,3 +187,11 @@ where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 
 INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
 select 909 , 'TicketStageAction' , 'Ticket_Stage_Action' , 1 , sysdate from dual
 where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 909);
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 910 , 'TicketStageParameterValue' , 'Ticket_Stage_Parameter_Value' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 910);
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 911 , 'TicketStateActionType' , 'Ticket_State_Action_Type' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 911);

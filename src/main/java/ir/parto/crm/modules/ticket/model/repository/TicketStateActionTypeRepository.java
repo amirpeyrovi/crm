@@ -20,4 +20,8 @@ public interface TicketStateActionTypeRepository extends JpaRepository<TicketSta
     Boolean existsByIsDeletedIsNullAndTicketStateActionTypeId(Long id);
 
     TicketStateActionType findByIsDeletedIsNullAndTitle(String title);
+
+    TicketStateActionType findByIsDeletedIsNullAndTicketId(Long ticketStateActionTypeId);
+
+    Boolean existsByIsDeletedIsNullAndTicketId(Long id);
 }

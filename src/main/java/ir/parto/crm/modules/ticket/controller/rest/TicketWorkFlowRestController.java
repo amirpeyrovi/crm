@@ -104,7 +104,7 @@ public class TicketWorkFlowRestController implements RestControllerInterface {
                 if(ticketWorkFlow.getPreviousTicketState() != null) {
                     ticketWorkFlow.setPreviousTicketState(this.ticketStateService.findOne(ticketWorkFlow.getPreviousTicketState()));
                 }
-                return new ApiResponse("Success", Arrays.asList(this.ticketStageService.updateItem(ticketWorkFlow)))
+                return new ApiResponse("Success", Arrays.asList(this.ticketWorkFlowService.updateItem(ticketWorkFlow)))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
                 return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))

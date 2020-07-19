@@ -69,7 +69,7 @@ public class TicketStageParameterValueValidate  implements ValidateInterface<Tic
     public ValidateObject deleteItem(TicketStageParameterValue ticketStageParameterValue) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if (ticketStageParameterValue == null) {
+        if (ticketStageParameterValue == null || !this.ticketStageParameterValueService.existsById(ticketStageParameterValue.getTicketStageParameterValueId())) {
             errorList.add("Object is null");
         }
 
@@ -88,7 +88,8 @@ public class TicketStageParameterValueValidate  implements ValidateInterface<Tic
     public ValidateObject findOne(TicketStageParameterValue ticketStageParameterValue) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if (ticketStageParameterValue == null) {
+        if (ticketStageParameterValue == null
+                || !this.ticketStageParameterValueService.existsById(ticketStageParameterValue.getTicketStageParameterValueId())) {
             errorList.add("Object is null");
         }
 
@@ -107,7 +108,7 @@ public class TicketStageParameterValueValidate  implements ValidateInterface<Tic
     public ValidateObject findById(TicketStageParameterValue ticketStageParameterValue) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if (ticketStageParameterValue == null) {
+        if (ticketStageParameterValue == null || !this.ticketStageParameterValueService.existsById(ticketStageParameterValue.getTicketStageParameterValueId())) {
             errorList.add("Object is null");
         }
 
