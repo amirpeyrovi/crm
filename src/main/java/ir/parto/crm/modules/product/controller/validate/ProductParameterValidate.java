@@ -29,10 +29,10 @@ public class ProductParameterValidate implements ValidateInterface<ProductParame
         ValidateObject validateObject = new ValidateObject();
 
         if (productParameter == null) {
-            errorList.add("ProductParameter object is nul");
+            errorList.add("ProductParameter object is null");
         } else {
             if (productParameter.getProductParameterGroup() == null) {
-                errorList.add("ProductParameterGroup object is nul");
+                errorList.add("ProductParameterGroup object is null");
             } else {
                 if (!this.productParameterGroupService.existsById(productParameter.getProductParameterGroup().getProductParameterGroupId())) {
                     errorList.add("ProductParameterGroup not defined");
@@ -65,10 +65,10 @@ public class ProductParameterValidate implements ValidateInterface<ProductParame
         ValidateObject validateObject = new ValidateObject();
 
         if (productParameter == null) {
-            errorList.add("ProductParameter object is nul");
+            errorList.add("ProductParameter object is null");
         } else {
             if (productParameter.getProductParameterGroup() == null) {
-                errorList.add("ProductParameterGroup object is nul");
+                errorList.add("ProductParameterGroup object is null");
             } else {
                 if (!this.productParameterService.existsById(productParameter.getProductParameterId())) {
                     errorList.add("ProductParameter not defined");
@@ -105,7 +105,7 @@ public class ProductParameterValidate implements ValidateInterface<ProductParame
         ValidateObject validateObject = new ValidateObject();
 
         if (productParameter == null) {
-            errorList.add("ProductParameter object is nul");
+            errorList.add("ProductParameter object is null");
         } else {
             if (!this.productParameterService.existsById(productParameter.getProductParameterId())) {
                 errorList.add("ProductParameter not defined");
@@ -129,7 +129,7 @@ public class ProductParameterValidate implements ValidateInterface<ProductParame
         ValidateObject validateObject = new ValidateObject();
 
         if (productParameter == null) {
-            errorList.add("ProductParameter object is nul");
+            errorList.add("ProductParameter object is null");
         } else {
             if (!this.productParameterService.existsById(productParameter.getProductParameterId())) {
                 errorList.add("ProductParameter not defined");
@@ -153,7 +153,7 @@ public class ProductParameterValidate implements ValidateInterface<ProductParame
         ValidateObject validateObject = new ValidateObject();
 
         if (productParameter == null) {
-            errorList.add("ProductParameter object is nul");
+            errorList.add("ProductParameter object is null");
         } else {
             if (!this.productParameterService.existsById(productParameter.getProductParameterId())) {
                 errorList.add("ProductParameter not defined");

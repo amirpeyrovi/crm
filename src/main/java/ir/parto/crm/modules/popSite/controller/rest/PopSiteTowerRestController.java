@@ -1,8 +1,7 @@
 package ir.parto.crm.modules.popSite.controller.rest;
-
-import ir.parto.crm.modules.popSite.controller.validate.PopSiteValidate;
-import ir.parto.crm.modules.popSite.model.entity.PopSite;
-import ir.parto.crm.modules.popSite.model.service.PopSiteService;
+import ir.parto.crm.modules.popSite.controller.validate.PopSiteTowerValidate;
+import ir.parto.crm.modules.popSite.model.entity.PopSiteTower;
+import ir.parto.crm.modules.popSite.model.service.PopSiteTowerService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.PopSiteAnnotation;
@@ -18,30 +17,30 @@ import java.util.Arrays;
 
 @RestController
 @PopSiteAnnotation
-@RequestMapping("/v1/popsite/popsite")
-public class PopSiteRestController implements RestControllerInterface {
-    private PopSiteService popSiteService;
-    private PopSiteValidate popSiteValidate;
+@RequestMapping("/v1/popsite/popsiteVendor")
+public class PopSiteTowerRestController  implements RestControllerInterface {
+    private PopSiteTowerValidate popSiteTowerValidate;
+    private PopSiteTowerService popSiteTowerService;
 
     @Autowired
-    public PopSiteRestController(PopSiteService popSiteService, PopSiteValidate popSiteValidate) {
-        this.popSiteService = popSiteService;
-        this.popSiteValidate = popSiteValidate;
+    public PopSiteTowerRestController(PopSiteTowerValidate popSiteTowerValidate, PopSiteTowerService popSiteTowerService) {
+        this.popSiteTowerValidate = popSiteTowerValidate;
+        this.popSiteTowerService = popSiteTowerService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public Object findAll(@RequestParam(required = false, defaultValue = "0") String page,
                           @RequestParam(required = false, defaultValue = "default") String sortProperty,
                           @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
-        if (CheckPermission.getInstance().check("admin_show", "PopSite")) {
-            return new ApiResponse("Error", 101, Arrays.asList("PopSite - admin_show - access denied!"))
+        if (CheckPermission.getInstance().check("admin_show", "PopSiteTower")) {
+            return new ApiResponse("Error", 101, Arrays.asList("PopSiteTower - admin_show - access denied!"))
                     .getFaultResponse();
         }
 
-        ValidateObject validateObject = this.popSiteValidate.findAll();
+        ValidateObject validateObject = this.popSiteTowerValidate.findAll();
         if (validateObject.getResult().equals("success")) {
-            Page<PopSite> popSitePage = this.popSiteService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "PopSite", sortProperty, sortOrder));
-            return new ApiResponse("Success", popSitePage)
+            Page<PopSiteTower> popSiteTowerPage = this.popSiteTowerService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "PopSiteTower", sortProperty, sortOrder));
+            return new ApiResponse("Success", popSiteTowerPage)
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -50,17 +49,17 @@ public class PopSiteRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody PopSite popSite) {
-        if (CheckPermission.getInstance().check("admin_add", "PopSite")) {
-            return new ApiResponse("Error", 101, Arrays.asList("PopSite - admin_add - access denied!"))
+    public Object addOne(@RequestBody PopSiteTower popSiteTower) {
+        if (CheckPermission.getInstance().check("admin_add", "PopSiteTower")) {
+            return new ApiResponse("Error", 101, Arrays.asList("PopSiteTower - admin_add - access denied!"))
                     .getFaultResponse();
         }
 
-        popSite.setPopSiteId(null);
+        popSiteTower.setTowerId(null);
 
-        ValidateObject validateObject = this.popSiteValidate.validateAddNewItem(popSite);
+        ValidateObject validateObject = this.popSiteTowerValidate.validateAddNewItem(popSiteTower);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.popSiteService.addNewItem(popSite)))
+            return new ApiResponse("Success", Arrays.asList(this.popSiteTowerService.addNewItem(popSiteTower)))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -69,18 +68,18 @@ public class PopSiteRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody PopSite popSite) {
-        if (CheckPermission.getInstance().check("admin_update", "PopSite")) {
-            return new ApiResponse("Error", 101, Arrays.asList("PopSite - admin_update - access denied!"))
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody PopSiteTower popSiteTower) {
+        if (CheckPermission.getInstance().check("admin_update", "PopSiteTower")) {
+            return new ApiResponse("Error", 101, Arrays.asList("PopSiteTower - admin_update - access denied!"))
                     .getFaultResponse();
         }
 
-        popSite.setPopSiteId(id);
+        popSiteTower.setTowerId(id);
 
-        ValidateObject validateObject = this.popSiteValidate.validateUpdateItem(popSite);
+        ValidateObject validateObject = this.popSiteTowerValidate.validateUpdateItem(popSiteTower);
         if (validateObject.getResult().equals("success")) {
             try {
-                return new ApiResponse("Success", Arrays.asList(this.popSiteService.updateItem(popSite)))
+                return new ApiResponse("Success", Arrays.asList(this.popSiteTowerService.updateItem(popSiteTower)))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
                 return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
@@ -97,16 +96,16 @@ public class PopSiteRestController implements RestControllerInterface {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Object deleteOne(@PathVariable("id") Long id) {
-        if (CheckPermission.getInstance().check("admin_delete", "PopSite")) {
-            return new ApiResponse("Error", 101, Arrays.asList("PopSite - admin_delete - access denied!"))
+        if (CheckPermission.getInstance().check("admin_delete", "PopSiteTower")) {
+            return new ApiResponse("Error", 101, Arrays.asList("PopSiteTower - admin_delete - access denied!"))
                     .getFaultResponse();
         }
 
-        PopSite popSite = new PopSite();
-        popSite.setPopSiteId(id);
-        ValidateObject validateObject = this.popSiteValidate.deleteItem(popSite);
+        PopSiteTower popSiteTower = new PopSiteTower();
+        popSiteTower.setTowerId(id);
+        ValidateObject validateObject = this.popSiteTowerValidate.deleteItem(popSiteTower);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.popSiteService.deleteItem(popSite)))
+            return new ApiResponse("Success", Arrays.asList(this.popSiteTowerService.deleteItem(popSiteTower)))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -116,20 +115,21 @@ public class PopSiteRestController implements RestControllerInterface {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Object findOne(@PathVariable("id") Long id) {
-        if (CheckPermission.getInstance().check("admin_show", "PopSite")) {
-            return new ApiResponse("Error", 101, Arrays.asList("PopSite - admin_show - access denied!"))
+        if (CheckPermission.getInstance().check("admin_show", "PopSiteTower")) {
+            return new ApiResponse("Error", 101, Arrays.asList("PopSiteTower - admin_show - access denied!"))
                     .getFaultResponse();
         }
 
-        PopSite popSite = new PopSite();
-        popSite.setPopSiteId(id);
-        ValidateObject validateObject = this.popSiteValidate.findOne(popSite);
+        PopSiteTower popSiteTower = new PopSiteTower();
+        popSiteTower.setTowerId(id);
+        ValidateObject validateObject = this.popSiteTowerValidate.findOne(popSiteTower);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.popSiteService.findOne(popSite)))
+            return new ApiResponse("Success", Arrays.asList(this.popSiteTowerService.findOne(popSiteTower)))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();
         }
     }
+
 }
