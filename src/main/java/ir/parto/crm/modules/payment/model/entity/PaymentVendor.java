@@ -8,38 +8,19 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "crm_payment_gateway")
-public class Gateway implements Serializable {
+@Table(name = "crm_payment_vendor")
+public class PaymentVendor implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "crm_payment_seq", sequenceName = "crm_payment_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_payment_seq")
-    private Long gatewayId;
+    @SequenceGenerator(name = "crm_payment_vendor_seq", sequenceName = "crm_payment_vendor_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "crm_payment_vendor_seq")
+    private Long vendorId;
 
     @Column(name = "title", columnDefinition = "nvarchar2(50)")
     private String title;
 
-    @Column(name = "address", columnDefinition = "nvarchar2(100)")
-    private String address;
-
-    @Column(name = "merchant_id", columnDefinition = "nvarchar2(100)")
-    private String merchantId;
-
-    @Column(name = "customer_id", columnDefinition = "nvarchar2(100)")
-    private String customerId;
-
-    @Column(name = "acceptor_id", columnDefinition = "nvarchar2(100)")
-    private String acceptorId;
-
-    @Column(name = "gateway_number", columnDefinition = "nvarchar2(100)")
-    private String gatewayNum;
-
-    @Column(name = "identification_code", columnDefinition = "nvarchar2(100)")
-    private String identificationCode;
-
-    @ManyToOne
-    @JoinColumn(name = "payment_vendor_id", foreignKey = @ForeignKey(name = "gateway_payment_vendor_fk"))
-    private PaymentVendor paymentVendor;
+    @Column(name = "name", columnDefinition = "nvarchar2(50)")
+    private String name;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
