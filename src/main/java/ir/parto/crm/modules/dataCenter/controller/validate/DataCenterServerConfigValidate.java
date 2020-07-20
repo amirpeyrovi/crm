@@ -104,7 +104,7 @@ public class DataCenterServerConfigValidate implements ValidateInterface<DataCen
         ValidateObject validateObject = new ValidateObject();
 
         if (dataCenterServerConfig == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (!this.dataCenterServerConfigService.existsById(dataCenterServerConfig.getConfigId())) {
                 errorList.add("ServerConfig Id not defined");

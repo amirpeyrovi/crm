@@ -238,3 +238,19 @@ INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create
 select 1006 , 'DataCenterSwitchServiceLink' , 'DataCenter_Switch_Service_Link' , 1 , sysdate from dual
 where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 1006);
 
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 1007 , 'DataCenterServerConfig' , 'DataCenter_Server_Config' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 1007);
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 1008 , 'DataCenterServerConfigGroup' , 'DataCenter_Server_Config_Group' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 1008);
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 1009 , 'DataCenterServerConfigValue' , 'DataCenter_Server_Config_Value' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 1009);
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 1010 , 'DataCenterServerServiceLink' , 'DataCenter_Server_Service_Link' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 1010);
+

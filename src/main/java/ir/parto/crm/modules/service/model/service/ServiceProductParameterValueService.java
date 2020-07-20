@@ -34,7 +34,8 @@ public class ServiceProductParameterValueService implements ServiceInterface<Ser
     @Override
     @Transactional
     public ServiceProductParameterValue updateItem(ServiceProductParameterValue serviceProductParameterValue) throws InvocationTargetException, IllegalAccessException {
-        ServiceProductParameterValue exist = this.serviceProductParameterValueRepository.findByIsDeletedIsNullAndServiceProductHistory(serviceProductParameterValue.getServiceProductHistory());
+//        ServiceProductParameterValue exist = this.serviceProductParameterValueRepository.findByIsDeletedIsNullAndServiceProductHistory(serviceProductParameterValue.getServiceProductHistory());
+        ServiceProductParameterValue exist = this.serviceProductParameterValueRepository.findByIsDeletedIsNullAndServiceProductHistory(serviceProductParameterValue.getServiceProductParameterValueId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, serviceProductParameterValue);
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -44,7 +45,9 @@ public class ServiceProductParameterValueService implements ServiceInterface<Ser
     @Override
     @Transactional
     public ServiceProductParameterValue deleteItem(ServiceProductParameterValue serviceProductParameterValue) {
-        ServiceProductParameterValue exist = this.serviceProductParameterValueRepository.findByIsDeletedIsNullAndServiceProductHistory(serviceProductParameterValue.getServiceProductHistory());
+//        ServiceProductParameterValue exist = this.serviceProductParameterValueRepository.findByIsDeletedIsNullAndServiceProductHistory(serviceProductParameterValue.getServiceProductHistory());
+        ServiceProductParameterValue exist = this.serviceProductParameterValueRepository.findByIsDeletedIsNullAndServiceProductHistory(
+                serviceProductParameterValue.getServiceProductParameterValueId());
         this.serviceProductParameterValueRepository.delete(serviceProductParameterValue);
         exist.setIsDeleted(1);
         exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -69,7 +72,9 @@ public class ServiceProductParameterValueService implements ServiceInterface<Ser
 
     @Override
     public ServiceProductParameterValue findOne(ServiceProductParameterValue serviceProductParameterValue) {
-        return this.serviceProductParameterValueRepository.findByIsDeletedIsNullAndServiceProductHistory(serviceProductParameterValue.getServiceProductHistory());
+        return this.serviceProductParameterValueRepository.findByIsDeletedIsNullAndServiceProductHistory(
+//                serviceProductParameterValue.getServiceProductHistory());
+                serviceProductParameterValue.getServiceProductParameterValueId());
     }
 
     @Override
