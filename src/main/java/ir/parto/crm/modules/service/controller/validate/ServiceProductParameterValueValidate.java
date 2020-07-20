@@ -58,7 +58,7 @@ public class ServiceProductParameterValueValidate implements ValidateInterface<S
         if (serviceProductParameterValue == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductHistory())) {
+            if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductParameterValueId())) {
                 errorList.add("Service Product Parameter Value not defined");
             }
             if (serviceProductParameterValue.getService() == null || serviceProductParameterValue.getService().getServiceId() == null || serviceProductParameterValue.getService().getServiceId() == 0) {
@@ -93,7 +93,7 @@ public class ServiceProductParameterValueValidate implements ValidateInterface<S
         if (serviceProductParameterValue == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductHistory())) {
+            if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductParameterValueId())) {
                 errorList.add("Service Product Parameter Value not defined");
             }
         }
@@ -117,7 +117,7 @@ public class ServiceProductParameterValueValidate implements ValidateInterface<S
         if (serviceProductParameterValue == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductHistory())) {
+            if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductParameterValueId())) {
                 errorList.add("Service Product Parameter Value not defined");
             }
         }
@@ -141,7 +141,7 @@ public class ServiceProductParameterValueValidate implements ValidateInterface<S
         if (serviceProductParameterValue == null) {
             errorList.add("object is nul");
         } else {
-            if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductHistory())) {
+            if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductParameterValueId())) {
                 errorList.add("Service Product Parameter Value not defined");
             }
         }
