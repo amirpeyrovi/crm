@@ -28,10 +28,10 @@ public class DataCenterSwitchValidate implements ValidateInterface<DataCenterSwi
         ValidateObject validateObject = new ValidateObject();
 
         if (dataCenterSwitch == null) {
-            errorList.add("Switch object is nul");
+            errorList.add("Switch object is null");
         } else {
             if (dataCenterSwitch.getDataCenterRack() == null) {
-                errorList.add("Rack object is nul");
+                errorList.add("Rack object is null");
             } else {
                 if (!this.dataCenterRackService.existsById(dataCenterSwitch.getDataCenterRack().getRackId())) {
                     errorList.add("Rack Id not defined");
@@ -76,10 +76,10 @@ public class DataCenterSwitchValidate implements ValidateInterface<DataCenterSwi
         ValidateObject validateObject = new ValidateObject();
 
         if (dataCenterSwitch == null) {
-            errorList.add("Switch object is nul");
+            errorList.add("Switch object is null");
         } else {
             if (dataCenterSwitch.getDataCenterRack() == null) {
-                errorList.add("Rack object is nul");
+                errorList.add("Rack object is null");
             } else {
                 if (!this.dataCenterSwitchService.existsById(dataCenterSwitch.getSwitchId())) {
                     errorList.add("Switch Id not defined");
@@ -128,7 +128,7 @@ public class DataCenterSwitchValidate implements ValidateInterface<DataCenterSwi
         ValidateObject validateObject = new ValidateObject();
 
         if (dataCenterSwitch == null) {
-            errorList.add("Switch object is nul");
+            errorList.add("Switch object is null");
         } else {
             if (!this.dataCenterSwitchService.existsById(dataCenterSwitch.getSwitchId())) {
                 errorList.add("Switch Id not defined");
@@ -152,7 +152,7 @@ public class DataCenterSwitchValidate implements ValidateInterface<DataCenterSwi
         ValidateObject validateObject = new ValidateObject();
 
         if (dataCenterSwitch == null) {
-            errorList.add("Switch object is nul");
+            errorList.add("Switch object is null");
         } else {
             if (!this.dataCenterSwitchService.existsById(dataCenterSwitch.getSwitchId())) {
                 errorList.add("Switch Id not defined");

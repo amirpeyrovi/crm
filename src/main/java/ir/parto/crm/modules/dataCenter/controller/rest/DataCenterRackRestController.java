@@ -6,7 +6,7 @@ import ir.parto.crm.modules.dataCenter.model.service.DataCenterRackService;
 import ir.parto.crm.modules.dataCenter.model.service.DataCenterService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
-import ir.parto.crm.utils.annotations.TicketAnnotation;
+import ir.parto.crm.utils.annotations.DataCenterAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
@@ -18,7 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 @RestController
-@TicketAnnotation
+@DataCenterAnnotation
 @RequestMapping("/v1/dataCenter/dataCenterRack")
 public class DataCenterRackRestController implements RestControllerInterface {
     private DataCenterRackValidate dataCenterRackValidate;
