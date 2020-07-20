@@ -58,7 +58,7 @@ public class ServiceProductParameterValueValidate implements ValidateInterface<S
         if (serviceProductParameterValue == null) {
             errorList.add("object is nul");
         } else {
-//            if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductHistory())) {
+
             if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductParameterValueId())) {
                 errorList.add("Service Product Parameter Value not defined");
             }
@@ -94,7 +94,6 @@ public class ServiceProductParameterValueValidate implements ValidateInterface<S
         if (serviceProductParameterValue == null) {
             errorList.add("object is nul");
         } else {
-//            if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductHistory())) {
             if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductParameterValueId())) {
                 errorList.add("Service Product Parameter Value not defined");
             }
@@ -119,7 +118,6 @@ public class ServiceProductParameterValueValidate implements ValidateInterface<S
         if (serviceProductParameterValue == null) {
             errorList.add("object is nul");
         } else {
-//            if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductHistory())) {
             if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductParameterValueId())) {
                 errorList.add("Service Product Parameter Value not defined");
             }
@@ -144,7 +142,6 @@ public class ServiceProductParameterValueValidate implements ValidateInterface<S
         if (serviceProductParameterValue == null) {
             errorList.add("object is nul");
         } else {
-//            if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductHistory())) {
             if (!this.serviceProductParameterValueService.existsById(serviceProductParameterValue.getServiceProductParameterValueId())) {
                 errorList.add("Service Product Parameter Value not defined");
             }
