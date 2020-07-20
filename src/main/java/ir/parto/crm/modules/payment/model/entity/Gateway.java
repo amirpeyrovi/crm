@@ -64,4 +64,153 @@ public class Gateway implements Serializable {
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private Integer isDeleted;
+
+    public Gateway() {
+    }
+
+    public Gateway(String title, String address, String merchantId, String customerId, String acceptorId, String gatewayNum, String identificationCode, PaymentVendor paymentVendor, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
+        this.title = title;
+        this.address = address;
+        this.merchantId = merchantId;
+        this.customerId = customerId;
+        this.acceptorId = acceptorId;
+        this.gatewayNum = gatewayNum;
+        this.identificationCode = identificationCode;
+        this.paymentVendor = paymentVendor;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+        this.deletedDate = deletedDate;
+        this.isDeleted = isDeleted;
+    }
+
+    public Long getGatewayId() {
+        return gatewayId;
+    }
+
+    public void setGatewayId(Long gatewayId) {
+        this.gatewayId = gatewayId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(String merchantId) {
+        this.merchantId = merchantId;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getAcceptorId() {
+        return acceptorId;
+    }
+
+    public void setAcceptorId(String acceptorId) {
+        this.acceptorId = acceptorId;
+    }
+
+    public String getGatewayNum() {
+        return gatewayNum;
+    }
+
+    public void setGatewayNum(String gatewayNum) {
+        this.gatewayNum = gatewayNum;
+    }
+
+    public String getIdentificationCode() {
+        return identificationCode;
+    }
+
+    public void setIdentificationCode(String identificationCode) {
+        this.identificationCode = identificationCode;
+    }
+
+    public PaymentVendor getPaymentVendor() {
+        return paymentVendor;
+    }
+
+    public void setPaymentVendor(PaymentVendor paymentVendor) {
+        this.paymentVendor = paymentVendor;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public LocalDateTime getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(LocalDateTime deletedDate) {
+        this.deletedDate = deletedDate;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 }
