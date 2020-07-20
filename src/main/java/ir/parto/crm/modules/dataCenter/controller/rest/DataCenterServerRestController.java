@@ -7,7 +7,7 @@ import ir.parto.crm.modules.dataCenter.model.service.DataCenterServerService;
 import ir.parto.crm.modules.dataCenter.model.service.DataCenterVendorService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
-import ir.parto.crm.utils.annotations.TicketAnnotation;
+import ir.parto.crm.utils.annotations.DataCenterAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
@@ -19,7 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 @RestController
-@TicketAnnotation
+@DataCenterAnnotation
 @RequestMapping("/v1/dataCenter/dataCenterServer")
 public class DataCenterServerRestController implements RestControllerInterface {
     private DataCenterRackService dataCenterRackService;
@@ -69,8 +69,8 @@ public class DataCenterServerRestController implements RestControllerInterface {
 
         ValidateObject validateObject = this.dataCenterServerValidate.validateAddNewItem(dataCenterServer);
         if (validateObject.getResult().equals("success")) {
-            dataCenterServer.setDataCenterRack(this.dataCenterRackService.findById(dataCenterServer.getDataCenterRack().getRackId()));
-            dataCenterServer.setDataCenterVendor(this.dataCenterVendorService.findById(dataCenterServer.getDataCenterVendor().getVendorId()));
+            dataCenterServer.setDataCenterRack(this.dataCenterRackService.findOne(dataCenterServer.getDataCenterRack()));
+            dataCenterServer.setDataCenterVendor(this.dataCenterVendorService.findOne(dataCenterServer.getDataCenterVendor()));
             return new ApiResponse("Success", Arrays.asList(
                     this.dataCenterServerService.addNewItem(dataCenterServer)))
                     .getSuccessResponse();

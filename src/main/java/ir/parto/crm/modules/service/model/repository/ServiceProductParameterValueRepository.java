@@ -11,11 +11,11 @@ import java.util.List;
 
 @Repository
 public interface ServiceProductParameterValueRepository extends JpaRepository<ServiceProductParameterValue, Long>, RepositoryInterface<ServiceProductParameterValue> {
-    ServiceProductParameterValue findByIsDeletedIsNullAndServiceProductHistory(Long serviceProductHistory);
-
     Page<ServiceProductParameterValue> findAllByIsDeletedIsNull(Pageable pageable);
 
     List<ServiceProductParameterValue> findAllByIsDeletedIsNull();
 
-    Boolean existsByIsDeletedIsNullAndServiceProductHistory(Long id);
+    ServiceProductParameterValue findByIsDeletedIsNullAndServiceProductParameterValueId(Long serviceProductHistory);
+
+    Boolean existsByIsDeletedIsNullAndServiceProductParameterValueId(Long id);
 }
