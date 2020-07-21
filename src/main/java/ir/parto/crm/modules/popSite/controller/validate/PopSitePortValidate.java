@@ -23,18 +23,23 @@ public class PopSitePortValidate implements ValidateInterface<PopSitePort> {
     public ValidateObject validateAddNewItem(PopSitePort popSitePort) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(popSitePort == null || popSitePort.getPopSiteSwitch() == null || popSitePort.getPopSiteSwitch().getSwitchId() == 0){
-            errorList.add("Switch is required");
+        if(popSitePort == null ){
+            errorList.add("PopSitePort is required");
+        }else{
+            if(popSitePort.getPopSiteSwitch() == null || popSitePort.getPopSiteSwitch().getSwitchId() == 0){
+                errorList.add("Switch is required");
+            }
+            if(popSitePort.getStatus() == null || popSitePort.getStatus() == 0){
+                errorList.add("Status is required");
+            }
+            if(popSitePort.getNumber() == null || popSitePort.getNumber() == 0){
+                errorList.add("PortNumber is required");
+            }
+            if(popSitePort.getUsername() == null || popSitePort.getUsername().isEmpty()){
+                errorList.add("UserName is required");
+            }
         }
-        if(popSitePort == null || popSitePort.getStatus() == null || popSitePort.getStatus() == 0){
-            errorList.add("Status is required");
-        }
-        if(popSitePort == null || popSitePort.getNumber() == null || popSitePort.getNumber() == 0){
-            errorList.add("PortNumber is required");
-        }
-        if(popSitePort == null || popSitePort.getUsername() == null || popSitePort.getUsername().isEmpty()){
-            errorList.add("UserName is required");
-        }
+
         if (errorList.size() > 0) {
             validateObject.setResult("error");
         } else {
