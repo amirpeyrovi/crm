@@ -2,6 +2,7 @@ package ir.parto.crm.modules.payment.controller.validate;
 
 import ir.parto.crm.modules.payment.model.entity.Gateway;
 import ir.parto.crm.modules.payment.model.repository.GatewayRepository;
+import ir.parto.crm.modules.payment.model.service.PaymentVendorService;
 import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
@@ -13,7 +14,7 @@ import java.util.List;
 @ValidationAnnotation
 public class GatewayValidate implements ValidateInterface<Gateway> {
     private GatewayRepository gatewayRepository;
-//    private PaymentVendorService paymentVendorService;
+    private PaymentVendorService paymentVendorService;
 
     @Autowired
     public GatewayValidate(GatewayRepository gatewayRepository) {
@@ -47,7 +48,12 @@ public class GatewayValidate implements ValidateInterface<Gateway> {
             }
             if(gateway.getPaymentVendor() == null || gateway.getPaymentVendor().getVendorId() == 0 ){
                 errorList.add("Payment Vendor is required");
+            }else {
+                if (!this.paymentVendorService.existsById(gateway.getPaymentVendor().getVendorId())) {
+                    errorList.add("Payment Vendor not defined");
+                }
             }
+
         }
 
         if (errorList.size() > 0) {
@@ -88,9 +94,9 @@ public class GatewayValidate implements ValidateInterface<Gateway> {
             if(gateway.getPaymentVendor() == null || gateway.getPaymentVendor().getVendorId() == 0 ){
                 errorList.add("Payment Vendor is required");
             }else{
-//                if(!this.paymentVendorService.ex){
-//
-//                }
+                if(!this.paymentVendorService.existsById(gateway.getPaymentVendor().getVendorId())){
+                    errorList.add("Payment Vendor not defined");
+                }
             }
         }
 
