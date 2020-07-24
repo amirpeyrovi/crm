@@ -3,6 +3,7 @@ package ir.parto.crm.modules.financial.controller.rest;
 import ir.parto.crm.modules.financial.controller.validate.TransactionValidate;
 import ir.parto.crm.modules.financial.model.entity.Transaction;
 import ir.parto.crm.modules.financial.model.service.TransactionService;
+import ir.parto.crm.modules.payment.model.service.GatewayService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
@@ -20,6 +21,7 @@ import java.util.Arrays;
 public class TransactionRestController implements RestControllerInterface {
     private TransactionValidate transactionValidate;
     private TransactionService transactionService;
+    private GatewayService gatewayService;
 
     @Autowired
     public TransactionRestController(TransactionValidate transactionValidate, TransactionService transactionService) {
@@ -59,6 +61,7 @@ public class TransactionRestController implements RestControllerInterface {
 
         ValidateObject validateObject = this.transactionValidate.validateAddNewItem(transaction);
         if (validateObject.getResult().equals("success")) {
+            transaction.setGateway(this.gatewayService.findOne(transaction.getGateway()));
             return new ApiResponse("Success", Arrays.asList(this.transactionService.addNewItem(transaction)))
                     .getSuccessResponse();
         } else {
@@ -79,6 +82,7 @@ public class TransactionRestController implements RestControllerInterface {
         ValidateObject validateObject = this.transactionValidate.validateUpdateItem(transaction);
         if (validateObject.getResult().equals("success")) {
             try {
+                transaction.setGateway(this.gatewayService.findOne(transaction.getGateway()));
                 return new ApiResponse("Success", Arrays.asList(this.transactionService.updateItem(transaction)))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {

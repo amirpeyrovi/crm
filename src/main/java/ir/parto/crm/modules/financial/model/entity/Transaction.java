@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.financial.model.entity;
 
+import ir.parto.crm.modules.payment.model.entity.Gateway;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,8 +17,9 @@ public class Transaction implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "financial_seq")
     private Long transactionId;
 
-    @Column(name = "gateway", columnDefinition = "nvarchar2(100)")
-    private String gateway;
+    @ManyToOne
+    @JoinColumn(name = "gateway", foreignKey = @ForeignKey(name = "financial_invoice_gateway_fk"))
+    private Gateway gateway;
 
     @Column(name = "trans_id", columnDefinition = "nvarchar2(100)")
     private String transId;
@@ -30,7 +32,6 @@ public class Transaction implements Serializable {
 
     @Column(name = "amount_out", columnDefinition = "number(16,0)")
     private Long amountOut;
-
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
@@ -58,7 +59,7 @@ public class Transaction implements Serializable {
     public Transaction() {
     }
 
-    public Transaction(String gateway, String transId, String description, Long amountIn, Long amountOut, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
+    public Transaction(Gateway gateway, String transId, String description, Long amountIn, Long amountOut, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.gateway = gateway;
         this.transId = transId;
         this.description = description;
@@ -81,12 +82,8 @@ public class Transaction implements Serializable {
         this.transactionId = transactionId;
     }
 
-    public String getGateway() {
+    public Gateway getGateway() {
         return gateway;
-    }
-
-    public void setGateway(String gateway) {
-        this.gateway = gateway;
     }
 
     public String getTransId() {
@@ -175,5 +172,9 @@ public class Transaction implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public void setGateway(Gateway gateway) {
+        this.gateway = gateway;
     }
 }

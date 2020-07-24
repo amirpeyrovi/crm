@@ -254,3 +254,20 @@ INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create
 select 1010 , 'DataCenterServerServiceLink' , 'DataCenter_Server_Service_Link' , 1 , sysdate from dual
 where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 1010);
 
+----------------------------CONTRACT----------------------------------
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 10100 , 'ContractGroup' , 'Contract_Group' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 10100);
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 10101 , 'ContractProductGroupLink' , 'Contract_ProductGroup_Link' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 10101);
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 10102 , 'ContractServiceLink' , 'Contract_Service_Link' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 10102);
+
+INSERT INTO crm_permission (PERMISSION_ID , TITLE , SHOW_NAME , create_by,create_at)
+select 10103 , 'ContractTemplate' , 'Contract_Template' , 1 , sysdate from dual
+where not exists(select PERMISSION_ID from crm_permission where PERMISSION_ID = 10103);
