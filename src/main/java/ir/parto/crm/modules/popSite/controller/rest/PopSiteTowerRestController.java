@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.popSite.controller.rest;
 import ir.parto.crm.modules.popSite.controller.validate.PopSiteTowerValidate;
 import ir.parto.crm.modules.popSite.model.entity.PopSiteTower;
+import ir.parto.crm.modules.popSite.model.service.PopSiteService;
 import ir.parto.crm.modules.popSite.model.service.PopSiteTowerService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.PageableRequest;
@@ -21,11 +22,13 @@ import java.util.Arrays;
 public class PopSiteTowerRestController  implements RestControllerInterface {
     private PopSiteTowerValidate popSiteTowerValidate;
     private PopSiteTowerService popSiteTowerService;
+    private PopSiteService popSiteService;
 
     @Autowired
-    public PopSiteTowerRestController(PopSiteTowerValidate popSiteTowerValidate, PopSiteTowerService popSiteTowerService) {
+    public PopSiteTowerRestController(PopSiteTowerValidate popSiteTowerValidate, PopSiteTowerService popSiteTowerService, PopSiteService popSiteService) {
         this.popSiteTowerValidate = popSiteTowerValidate;
         this.popSiteTowerService = popSiteTowerService;
+        this.popSiteService = popSiteService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -59,6 +62,7 @@ public class PopSiteTowerRestController  implements RestControllerInterface {
 
         ValidateObject validateObject = this.popSiteTowerValidate.validateAddNewItem(popSiteTower);
         if (validateObject.getResult().equals("success")) {
+            popSiteTower.setPopSite(this.popSiteService.findOne(popSiteTower.getPopSite()));
             return new ApiResponse("Success", Arrays.asList(this.popSiteTowerService.addNewItem(popSiteTower)))
                     .getSuccessResponse();
         } else {
@@ -79,6 +83,7 @@ public class PopSiteTowerRestController  implements RestControllerInterface {
         ValidateObject validateObject = this.popSiteTowerValidate.validateUpdateItem(popSiteTower);
         if (validateObject.getResult().equals("success")) {
             try {
+                popSiteTower.setPopSite(this.popSiteService.findOne(popSiteTower.getPopSite()));
                 return new ApiResponse("Success", Arrays.asList(this.popSiteTowerService.updateItem(popSiteTower)))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {

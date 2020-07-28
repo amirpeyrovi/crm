@@ -52,6 +52,10 @@ public class PopSiteSwitchValidate implements ValidateInterface<PopSiteSwitch> {
     public ValidateObject validateUpdateItem(PopSiteSwitch popSiteSwitch) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
+        if(popSiteSwitch == null) {
+            errorList.add("PopSiteSwitch not defined");
+        }
+
         if(popSiteSwitch != null && popSiteSwitch.getPopSiteRack() != null
                 && popSiteSwitch.getPopSiteRack().getRackId() == 0){
             errorList.add("Rack not defined");

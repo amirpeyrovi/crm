@@ -24,7 +24,7 @@ public class TransactionValidate implements ValidateInterface<Transaction> {
     public ValidateObject validateAddNewItem(Transaction transaction) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(transaction == null || transaction.getGateway() == null || transaction.getGateway().isEmpty()){
+        if(transaction == null || transaction.getGateway() == null || transaction.getGateway().getGatewayId() == 0){
             errorList.add("Gateway is required");
         }
         if(transaction == null || transaction.getAmountIn() == null ){
@@ -47,7 +47,7 @@ public class TransactionValidate implements ValidateInterface<Transaction> {
     public ValidateObject validateUpdateItem(Transaction transaction) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(transaction != null && transaction.getGateway() == null && transaction.getGateway().isEmpty()){
+        if(transaction != null && transaction.getGateway() == null && transaction.getGateway().getGatewayId() == 0){
             errorList.add("Gateway is required");
         }
         if (errorList.size() > 0) {

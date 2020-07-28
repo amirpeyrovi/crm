@@ -30,11 +30,11 @@ public class PopSiteTowerValidate implements ValidateInterface<PopSiteTower> {
             errorList.add("PopSiteTower is null");
         }else
         {
-        }
-        if( popSiteTower.getPopSite() == null || popSiteTower.getPopSite().getPopSiteId() == 0){
-            errorList.add("PopSite not defined");
-        }else if (!popSiteService.existsById(popSiteTower.getPopSite().getPopSiteId())) {
-            errorList.add("PopSite Not Found!");
+            if (popSiteTower.getPopSite() == null || popSiteTower.getPopSite().getPopSiteId() == 0) {
+                errorList.add("PopSite not defined");
+            } else if (!popSiteService.existsById(popSiteTower.getPopSite().getPopSiteId())) {
+                errorList.add("PopSite Not Found!");
+            }
         }
 
         if (errorList.size() > 0) {
@@ -51,8 +51,13 @@ public class PopSiteTowerValidate implements ValidateInterface<PopSiteTower> {
     public ValidateObject validateUpdateItem(PopSiteTower popSiteTower) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(popSiteTower != null && popSiteTower.getPopSite() != null && popSiteTower.getPopSite().getPopSiteId() == 0){
-            errorList.add("PopSite not defined");
+        if(popSiteTower == null)
+        {
+            errorList.add("PopSiteTower is required");
+        }else{
+            if(popSiteTower.getPopSite() != null && (popSiteTower.getPopSite().getPopSiteId() == 0 || !popSiteService.existsById(popSiteTower.getPopSite().getPopSiteId()))){
+                errorList.add("PopSiteTower not defined");
+            }
         }
         if (errorList.size() > 0) {
             validateObject.setResult("error");

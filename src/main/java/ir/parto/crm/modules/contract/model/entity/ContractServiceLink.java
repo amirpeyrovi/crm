@@ -53,4 +53,95 @@ public class ContractServiceLink implements Serializable {
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
     private Integer isDeleted;
+
+    public ContractServiceLink() {
+    }
+
+    public Long getContractServiceLinkId() {
+        return contractServiceLinkId;
+    }
+
+    public void setContractServiceLinkId(Long contractServiceLinkId) {
+        this.contractServiceLinkId = contractServiceLinkId;
+    }
+
+    public ContractTemplate getContractTemplate() {
+        return contractTemplate;
+    }
+
+    public void setContractTemplate(ContractTemplate contractTemplate) {
+        this.contractTemplate = contractTemplate;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
+
+    public ServiceAddon getServiceAddon() {
+        return serviceAddon;
+    }
+
+    public void setServiceAddon(ServiceAddon serviceAddon) {
+        this.serviceAddon = serviceAddon;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public LocalDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(LocalDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public LocalDateTime getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(LocalDateTime deletedDate) {
+        this.deletedDate = deletedDate;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 }
