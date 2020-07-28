@@ -2,52 +2,67 @@
 
 https://dbdiagram.io/d/5ea57ee339d18f5553fe3a4c
 
-admins:
+##1.admin
+####1-1.admins
+####1-2.adminRoles
+####1-3.adminCredit (develop)
+    
+##2.ticket
+####2-1.tickets
+####2-2.ticket States
+####2-3.ticket Stages
+    1.stage view
+    2.stage parameter
+    3.stage adminRole
+####2-4.ticket Workflow
 
-v1/admin/login (post) [username, password]
+##3.order
 
-v1/admin/admin/{adminId} (get, post, put, delete) [admin object]
+##4.customer
+####4-1.customers
+    1.dashboard
+    2.contacts
+    3.services
+        3-1.orders
+        3-2.payments
+        3-3.commission
+        3-4.addons
+        3-5.contract
+    4.addons
+        4-1.orders
+        4-2.payments
+        4-3.commission
+    5.orders
+    6.invoices
+    7.commissions
+    8.payment
+    9.credit
+    10.log activity
+####4-2.affiliate (develop)
 
-v1/admin/role/{roleId} (get, post, put, delete) [role object]
+##5.product
+####5-1.product Group
+####5-2.products
+####5-3.product Addons
+####5-4.product Cycle
 
-v1/admin/role/{roleId}/permission (get, post, put, delete) [permission object list]
+##6.server
+####6-1.server Group
+####6-2.servers 
+####6-3.vendors 
 
+##7.datacenter
 
-product:
+##8.ipam
 
-v1/product/product/{productId} (get, post, put, delete) [product object]
+##9.port
 
-v1/product/product/{productId}/addonLink (get, post, put, delete) [product addon object list]
+##10.inventory
 
-v1/product/product/{productId}/cyclePriceLink (get, post, put, delete) [product cycle price object list]
+##11.financial
 
-v1/product/product/{productId}/parameterGroupLink (get, post, put, delete) [product parameter Group object list]
+##12.contract
 
-v1/product/product/{productId}/ServerParameter (get, post, put, delete) [Product Server Parameter Value object list]
+##13.gateway
 
-
-v1/product/productAddon/{productAddonId} (get, post, put, delete) [product addon object]
-
-v1/product/productAddon/{productAddonId}/cyclePriceLink (get, post, put, delete) [product cycle price object list]
-
-v1/product/productAddon/{productAddonId}/parameterGroupLink (get, post, put, delete) [product parameter Group object list]
-
-
-v1/product/productGroup/{productGroupId} (get, post, put, delete) [product group object]
-
-v1/product/productCycle/{productCycleId} (get, post, put, delete) [product cycle object]
-
-
-v1/product/productparameterGroup/{productparameterGroupId} (get, post, put, delete) [product parameter Group object]
-
-v1/product/productparameter/{productparameterId} (get, post, put, delete) [product parameter object]
-
-
-order:
-
-v1/order/buy
-
-v1/order/renew
-
-v1/order/upgrade
-
+##13.promotion
