@@ -55,7 +55,16 @@
 #### 6-2.servers 
 #### 6-3.vendors 
 
-## 7.datacenter
+## 7.dataCenter
+#### 7-1.dataCenter
+#### 7-2.rack
+#### 7-3.server
+    1.server parameter
+    2.server parameter
+#### 7-4.switch
+    1.switch
+    1.switch port
+#### 7-5.vendor
 
 ## 8.ipam
 #### 8-1.ip Group
