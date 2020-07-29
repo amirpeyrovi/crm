@@ -82,5 +82,9 @@
 ## 12.contract
 
 ## 13.gateway
+#### 13-1.gateways
+#### 13-2.gateways vendor
+#### 13-3.gateways Log
 
-## 13.promotion
+## 14.promotion
+#### 14-1.promotion code
