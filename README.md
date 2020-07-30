@@ -78,6 +78,8 @@
 ## 10.inventory
 
 ## 11.financial
+#### 11-1.invoices
+#### 11-2.transactions
 
 ## 12.contract
 #### 12-1.contract Group
