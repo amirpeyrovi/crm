@@ -2,6 +2,7 @@ package ir.parto.crm.modules.popSite.controller.validate;
 
 import ir.parto.crm.modules.popSite.model.entity.PopSiteRadio;
 import ir.parto.crm.modules.popSite.model.service.PopSiteRadioService;
+import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
+@ValidationAnnotation
 public class PopSiteRadioValidate implements ValidateInterface<PopSiteRadio> {
     private PopSiteRadioService popSiteRadioService;
 

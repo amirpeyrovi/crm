@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.product.model.entity;
 
+import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupRelationalDTO;
+import ir.parto.crm.modules.product.controller.transientObject.product.ProductRelationalDTO;
 import ir.parto.crm.modules.server.model.entity.ServerGroup;
 import ir.parto.crm.modules.ticket.model.entity.TicketStage;
 import ir.parto.crm.modules.ticket.model.entity.TicketState;
@@ -278,5 +280,13 @@ public class Product implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ProductRelationalDTO convert2RelationalObject() {
+        ProductRelationalDTO dto = new ProductRelationalDTO();
+        if (this.productId != null) dto.setProductId(this.productId);
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.productGroup != null) dto.setProductGroup(this.productGroup.convert2RelationalObject());
+        return dto;
     }
 }

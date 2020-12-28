@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.product.model.entity;
 
+import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -32,6 +33,12 @@ public class ProductGroup implements Serializable {
     @Column(name = "cover", columnDefinition = "nvarchar2(256)")
     private String cover;
 
+    @Column(name = "path", columnDefinition = "nvarchar2(256)")
+    private String path;
+
+    @Column(name = "level", columnDefinition = "number")
+    private Integer level;
+
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;
@@ -59,12 +66,16 @@ public class ProductGroup implements Serializable {
     public ProductGroup() {
     }
 
-    public ProductGroup(ProductGroup productGroup, String title, String adminDescription, String clientDescription, String cover, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
+    public ProductGroup(ProductGroup productGroup, String title, String adminDescription, String clientDescription,
+                        String cover, String path, Integer level, String createdBy, String updatedBy, String deletedBy,
+                        LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.productGroup = productGroup;
         this.title = title;
         this.adminDescription = adminDescription;
         this.clientDescription = clientDescription;
         this.cover = cover;
+        this.path = path;
+        this.level = level;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -122,6 +133,24 @@ public class ProductGroup implements Serializable {
         this.cover = cover;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public ProductGroup setPath(String path) {
+        this.path = path;
+        return this;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public ProductGroup setLevel(Integer level) {
+        this.level = level;
+        return this;
+    }
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -176,5 +205,15 @@ public class ProductGroup implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ProductGroupRelationalDTO convert2RelationalObject() {
+        ProductGroupRelationalDTO dto = new ProductGroupRelationalDTO();
+        if(this.productGroupId != null) dto.setProductGroupId(this.productGroupId);
+        if(this.title != null) dto.setTitle(this.title);
+        if(this.path != null) dto.setPath(this.path);
+        if(this.level != null) dto.setLevel(this.level);
+        return dto;
+
     }
 }

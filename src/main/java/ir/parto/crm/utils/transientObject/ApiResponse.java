@@ -14,6 +14,7 @@ public class ApiResponse {
     private int faultCode;
     private Page dataPage;
     private List dataList;
+    private Map dataMap;
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();
 
@@ -28,6 +29,11 @@ public class ApiResponse {
     public ApiResponse(String result, List dataList) {
         this.result = result;
         this.dataList = dataList;
+    }
+
+    public ApiResponse(String result, Map dataMap) {
+        this.result = result;
+        this.dataMap = dataMap;
     }
 
     public ApiResponse(String result, int faultCode,List<String> faultMessageList) {
@@ -90,6 +96,8 @@ public class ApiResponse {
         map.put("result",this.result);
         if(this.dataPage != null){
             map.put("data",this.dataPage);
+        }else if(this.dataMap != null){
+            map.put("data",this.dataMap);
         }else{
             map.put("data",this.dataList);
         }

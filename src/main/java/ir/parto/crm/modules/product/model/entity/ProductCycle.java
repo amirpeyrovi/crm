@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.product.model.entity;
 
+import ir.parto.crm.modules.product.controller.transientObject.ProductCycle.ProductCycleRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -201,5 +202,12 @@ public class ProductCycle implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ProductCycleRelationalDTO convert2RelationalObject() {
+        ProductCycleRelationalDTO dto = new ProductCycleRelationalDTO();
+        if (this.productCycleId != null) dto.setProductCycleId(this.productCycleId);
+        if (this.title != null) dto.setTitle(this.title);
+        return dto;
     }
 }

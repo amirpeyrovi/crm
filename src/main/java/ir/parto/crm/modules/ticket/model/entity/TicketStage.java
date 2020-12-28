@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.ticket.model.entity;
 
 import ir.parto.crm.modules.admin.model.entity.Admin;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStage.TicketStageRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -52,6 +53,10 @@ public class TicketStage implements Serializable {
     private Integer isDeleted;
 
     public TicketStage() {
+    }
+
+    public TicketStage(Long ticketStageId) {
+        this.ticketStageId = ticketStageId;
     }
 
     public TicketStage(String title, String description, Admin admin, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
@@ -153,5 +158,12 @@ public class TicketStage implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public TicketStageRelationalDTO convert2RelationalObject() {
+        TicketStageRelationalDTO dto = new TicketStageRelationalDTO();
+        if(this.ticketStageId != null) dto.setTicketStageId(this.ticketStageId);
+        if(this.title != null) dto.setTitle(this.title);
+        return dto;
     }
 }

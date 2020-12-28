@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.admin.model.entity;
 
+import ir.parto.crm.modules.admin.controller.transientObject.admin.AdminRelationalDTO;
 import ir.parto.crm.modules.client.model.entity.Client;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -115,6 +116,10 @@ public class Admin implements UserDetails , Serializable{
     }
 
     public Admin(String firstName, String username, String password) {
+    }
+
+    public Admin(Long adminId) {
+        this.adminId = adminId;
     }
 
     public Long getAdminId() {
@@ -284,4 +289,12 @@ public class Admin implements UserDetails , Serializable{
         );
     }
 
+    public AdminRelationalDTO convert2RelationalObject() {
+        AdminRelationalDTO dto = new AdminRelationalDTO();
+        if(this.adminId != null) dto.setAdminId(this.adminId);
+        if(this.username != null) dto.setUsername(this.username);
+        if(this.firstName != null) dto.setFirstName(this.firstName);
+        if(this.lastName != null) dto.setLastName(this.lastName);
+        return dto;
+    }
 }

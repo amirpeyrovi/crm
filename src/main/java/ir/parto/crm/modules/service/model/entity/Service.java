@@ -1,10 +1,13 @@
 package ir.parto.crm.modules.service.model.entity;
 
+import ir.parto.crm.modules.client.controller.transientObject.client.ClientRelationalDTO;
 import ir.parto.crm.modules.client.model.entity.Client;
+import ir.parto.crm.modules.product.controller.transientObject.product.ProductRelationalDTO;
 import ir.parto.crm.modules.product.model.entity.Product;
 import ir.parto.crm.modules.product.model.entity.ProductCycle;
 import ir.parto.crm.modules.reseller.model.entity.Reseller;
 import ir.parto.crm.modules.server.model.entity.Server;
+import ir.parto.crm.modules.service.controller.transientObject.service.ServiceRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -102,6 +105,10 @@ public class Service implements Serializable {
     private Integer isDeleted;
 
     public Service() {
+    }
+
+    public Service(Long serviceId) {
+        this.serviceId = serviceId;
     }
 
     public Service(String identifyCode, String username, String password, Product product, Client client, ProductCycle productCycle, Server server, Long price, LocalDate orderDate, LocalDate startDate, LocalDate endDate, LocalDate contractDate, LocalDate activationDate, LocalDate terminationDate, LocalDate suspensionDate, String status, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
@@ -320,5 +327,15 @@ public class Service implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ServiceRelationalDTO convert2RelationalObject() {
+        ServiceRelationalDTO dto = new ServiceRelationalDTO();
+        if(this.serviceId != null) dto.setServiceId(this.serviceId);
+        if(this.username != null) dto.setUsername(this.username);
+        if(this.product != null) dto.setProduct(this.product.convert2RelationalObject());
+        if(this.client != null) dto.setClient(this.client.convert2RelationalObject());
+        if(this.productCycle != null) dto.setProductCycle(this.productCycle.convert2RelationalObject());
+        return dto;
     }
 }

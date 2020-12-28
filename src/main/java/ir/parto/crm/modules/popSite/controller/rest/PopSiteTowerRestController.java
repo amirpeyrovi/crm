@@ -1,4 +1,5 @@
 package ir.parto.crm.modules.popSite.controller.rest;
+
 import ir.parto.crm.modules.popSite.controller.validate.PopSiteTowerValidate;
 import ir.parto.crm.modules.popSite.model.entity.PopSiteTower;
 import ir.parto.crm.modules.popSite.model.service.PopSiteService;
@@ -18,7 +19,7 @@ import java.util.Arrays;
 
 @RestController
 @PopSiteAnnotation
-@RequestMapping("/v1/popsite/popsiteVendor")
+@RequestMapping("/v1/popsite/popsiteTower")
 public class PopSiteTowerRestController  implements RestControllerInterface {
     private PopSiteTowerValidate popSiteTowerValidate;
     private PopSiteTowerService popSiteTowerService;

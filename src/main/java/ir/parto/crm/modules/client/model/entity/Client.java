@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.client.model.entity;
 
+import ir.parto.crm.modules.client.controller.transientObject.client.ClientRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -88,6 +89,10 @@ public class Client implements Serializable {
     private Integer isDeleted;
 
     public Client() {
+    }
+
+    public Client(Long clientId) {
+        this.clientId = clientId;
     }
 
     public Client(String firstName, String lastName, String fatherName, LocalDate birthDate, String phoneNumber, String mobileNumber, String identityType, String identityCode1, String identityCode2, String identityCode3, String address, String address2, String emailAddress, Integer isReseller, List<ClientExternalCode> externalCodes, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
@@ -297,5 +302,15 @@ public class Client implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ClientRelationalDTO convert2RelationalObject() {
+        ClientRelationalDTO dto = new ClientRelationalDTO();
+        if(this.clientId != null) dto.setClientId(this.clientId);
+        if(this.firstName != null) dto.setFirstName(this.firstName);
+        if(this.lastName != null) dto.setLastName(this.lastName);
+        if(this.identityType != null) dto.setIdentityType(this.identityType);
+        if(this.identityCode1 != null) dto.setIdentityCode1(this.identityCode1);
+        return dto;
     }
 }

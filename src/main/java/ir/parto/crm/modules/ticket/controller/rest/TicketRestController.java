@@ -3,12 +3,16 @@ package ir.parto.crm.modules.ticket.controller.rest;
 import ir.parto.crm.modules.admin.model.service.AdminService;
 import ir.parto.crm.modules.client.model.service.ClientService;
 import ir.parto.crm.modules.service.model.service.ServiceService;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticket.TicketAddDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticket.TicketDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticket.TicketEditDTO;
 import ir.parto.crm.modules.ticket.controller.validate.TicketValidate;
 import ir.parto.crm.modules.ticket.model.entity.Ticket;
 import ir.parto.crm.modules.ticket.model.service.TicketService;
 import ir.parto.crm.modules.ticket.model.service.TicketStageService;
 import ir.parto.crm.modules.ticket.model.service.TicketStateService;
 import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageHelper;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.TicketAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
@@ -19,7 +23,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @TicketAnnotation
@@ -56,8 +62,12 @@ public class TicketRestController implements RestControllerInterface {
 
         ValidateObject validateObject = this.ticketValidate.findAll();
         if (validateObject.getResult().equals("success")) {
-            Page<Ticket> ticketPage = this.ticketService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "Ticket", sortProperty, sortOrder));
-            return new ApiResponse("Success", ticketPage)
+            Page<Ticket> findPage = this.ticketService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "Ticket", sortProperty, sortOrder));
+            List<TicketDTO> returnDTO = new ArrayList<>();
+            for (Ticket content : findPage.getContent()) {
+                returnDTO.add(content.convert2Object());
+            }
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(findPage, returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -66,7 +76,8 @@ public class TicketRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody Ticket ticket) {
+    public Object addOne(@RequestBody TicketAddDTO ticketAddDTO) {
+        Ticket ticket = ticketAddDTO.convert2Objact();
         if (CheckPermission.getInstance().check("admin_add", "Ticket")) {
             return new ApiResponse("Error", 101, Arrays.asList("Ticket - admin_add - access denied!"))
                     .getFaultResponse();
@@ -76,11 +87,21 @@ public class TicketRestController implements RestControllerInterface {
 
         ValidateObject validateObject = this.ticketValidate.validateAddNewItem(ticket);
         if (validateObject.getResult().equals("success")) {
-            ticket.setAdmin(this.adminService.findOne(ticket.getAdmin()));
-            ticket.setService(this.serviceService.findOne(ticket.getService()));
-            ticket.setClient(this.clientService.findOne(ticket.getClient()));
-            ticket.setTicketStage(this.ticketStageService.findOne(ticket.getTicketStage()));
-            ticket.setTicketState(this.ticketStateService.findOne(ticket.getTicketState()));
+            try {
+                if (ticket.getAdmin() != null) ticket.setAdmin(this.adminService.findOne(ticket.getAdmin()));
+                if (ticket.getService() != null) ticket.setService(this.serviceService.findOne(ticket.getService()));
+                if (ticket.getClient() != null) ticket.setClient(this.clientService.findOne(ticket.getClient()));
+                if (ticket.getTicketStage() != null)
+                    ticket.setTicketStage(this.ticketStageService.findOne(ticket.getTicketStage()));
+                if (ticket.getTicketState() != null)
+                    ticket.setTicketState(this.ticketStateService.findOne(ticket.getTicketState()));
+                return new ApiResponse("Success", Arrays.asList(this.ticketService.updateItem(ticket)))
+                        .getSuccessResponse();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
             return new ApiResponse("Success", Arrays.asList(this.ticketService.addNewItem(ticket)))
                     .getSuccessResponse();
         } else {
@@ -90,7 +111,8 @@ public class TicketRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody Ticket ticket) {
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody TicketEditDTO ticketEditDTO) {
+        Ticket ticket = ticketEditDTO.convert2Objact();
         if (CheckPermission.getInstance().check("admin_update", "Ticket")) {
             return new ApiResponse("Error", 101, Arrays.asList("Ticket - admin_update - access denied!"))
                     .getFaultResponse();
@@ -101,11 +123,13 @@ public class TicketRestController implements RestControllerInterface {
         ValidateObject validateObject = this.ticketValidate.validateUpdateItem(ticket);
         if (validateObject.getResult().equals("success")) {
             try {
-                ticket.setAdmin(this.adminService.findOne(ticket.getAdmin()));
-                ticket.setService(this.serviceService.findOne(ticket.getService()));
-                ticket.setClient(this.clientService.findOne(ticket.getClient()));
-                ticket.setTicketStage(this.ticketStageService.findOne(ticket.getTicketStage()));
-                ticket.setTicketState(this.ticketStateService.findOne(ticket.getTicketState()));
+                if (ticket.getAdmin() != null) ticket.setAdmin(this.adminService.findOne(ticket.getAdmin()));
+                if (ticket.getService() != null) ticket.setService(this.serviceService.findOne(ticket.getService()));
+                if (ticket.getClient() != null) ticket.setClient(this.clientService.findOne(ticket.getClient()));
+                if (ticket.getTicketStage() != null)
+                    ticket.setTicketStage(this.ticketStageService.findOne(ticket.getTicketStage()));
+                if (ticket.getTicketState() != null)
+                    ticket.setTicketState(this.ticketStateService.findOne(ticket.getTicketState()));
                 return new ApiResponse("Success", Arrays.asList(this.ticketService.updateItem(ticket)))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
