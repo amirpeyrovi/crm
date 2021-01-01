@@ -27,7 +27,8 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
         if (productGroup == null) {
             errorList.add("object is nul");
         } else {
-            if(productGroup.getProductGroup() != null && !this.productGroupService.existsById(productGroup.getProductGroup().getProductGroupId())){
+            if (productGroup.getProductGroup() != null
+                    && !this.productGroupService.existsById(productGroup.getProductGroup().getProductGroupId())) {
                 errorList.add("Parent ProductGroup not defined");
             }
 
@@ -59,7 +60,7 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
                 errorList.add("ProductGroup not defined");
             }
 
-            if(productGroup.getProductGroup() != null && !this.productGroupService.existsById(productGroup.getProductGroup().getProductGroupId())){
+            if (productGroup.getProductGroup() != null && !this.productGroupService.existsById(productGroup.getProductGroup().getProductGroupId())) {
                 errorList.add("Parent ProductGroup not defined");
             }
 

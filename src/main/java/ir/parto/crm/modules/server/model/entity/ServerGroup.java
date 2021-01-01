@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.server.model.entity;
 
+import ir.parto.crm.modules.server.controller.transientObject.serverGroup.ServerGroupDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 public class ServerGroup implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "server_seq", sequenceName = "server_seq", allocationSize=1)
+    @SequenceGenerator(name = "server_seq", sequenceName = "server_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "server_seq")
     private Long serverGroupId;
 
@@ -141,5 +142,13 @@ public class ServerGroup implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ServerGroupDTO convert2Object() {
+        ServerGroupDTO serverGroupDTO = new ServerGroupDTO();
+        if (this.serverGroupId != null) serverGroupDTO.setServerGroupId(this.serverGroupId);
+        if (this.title != null) serverGroupDTO.setTitle(this.title);
+        if (this.serverVendor != null) serverGroupDTO.setServerVendor(this.serverVendor.convert2Object());
+        return serverGroupDTO;
     }
 }

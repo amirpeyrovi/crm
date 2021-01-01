@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.server.controller.rest;
 
+import ir.parto.crm.modules.server.controller.transientObject.serverVendor.ServerVendorAddDTO;
+import ir.parto.crm.modules.server.controller.transientObject.serverVendor.ServerVendorDTO;
 import ir.parto.crm.modules.server.controller.validate.ServerVendorValidate;
 import ir.parto.crm.modules.server.model.entity.ServerVendor;
 import ir.parto.crm.modules.server.model.service.ServerVendorService;
@@ -14,7 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @ServerAnnotation
@@ -40,9 +44,14 @@ public class ServerVendorRestController implements RestControllerInterface {
 
         ValidateObject validateObject = this.serverVendorValidate.findAll();
         if (validateObject.getResult().equals("success")) {
-            Page<ServerVendor> productPage = this.serverVendorService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "ServerVendor", sortProperty, sortOrder));
-            return new ApiResponse("Success", productPage)
-                    .getSuccessResponse();
+            Page<ServerVendor> productPage = this.serverVendorService.findAllItem(
+                    PageableRequest.getInstance().createPageRequest(page, "ServerVendor", sortProperty, sortOrder));
+
+            List<ServerVendorDTO> returnDTO = new ArrayList<>();
+            for (ServerVendor serverVendor : productPage) {
+                returnDTO.add(serverVendor.convert2Object());
+            }
+            return new ApiResponse("Success", returnDTO).getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();
@@ -50,17 +59,18 @@ public class ServerVendorRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody ServerVendor serverVendor) {
+    public Object addOne(@RequestBody ServerVendorAddDTO serverVendorAddDTO) {
         if (CheckPermission.getInstance().check("admin_add", "ServerVendor")) {
             return new ApiResponse("Error", 101, Arrays.asList("ServerVendor - admin_add - access denied!"))
                     .getFaultResponse();
         }
 
+        ServerVendor serverVendor = serverVendorAddDTO.convert2Object();
         serverVendor.setServerVendorId(null);
 
         ValidateObject validateObject = this.serverVendorValidate.validateAddNewItem(serverVendor);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.serverVendorService.addNewItem(serverVendor)))
+            return new ApiResponse("Success", Arrays.asList(this.serverVendorService.addNewItem(serverVendor).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -69,19 +79,21 @@ public class ServerVendorRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody ServerVendor serverVendor) {
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody ServerVendorAddDTO serverVendorAddDTO) {
         if (CheckPermission.getInstance().check("admin_update", "ServerVendor")) {
             return new ApiResponse("Error", 101, Arrays.asList("ServerVendor - admin_update - access denied!"))
                     .getFaultResponse();
         }
 
+
+        ServerVendor serverVendor = serverVendorAddDTO.convert2Object();
         serverVendor.setServerVendorId(id);
 
         ValidateObject validateObject = this.serverVendorValidate.validateUpdateItem(serverVendor);
         if (validateObject.getResult().equals("success")) {
             try {
-                return new ApiResponse("Success", Arrays.asList(this.serverVendorService.updateItem(serverVendor)))
-                        .getSuccessResponse();
+                serverVendor = this.serverVendorService.updateItem(serverVendor);
+                return new ApiResponse("Success", Arrays.asList(serverVendor.convert2Object())).getSuccessResponse();
             } catch (InvocationTargetException e) {
                 return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
                         .getFaultResponse();
@@ -106,7 +118,7 @@ public class ServerVendorRestController implements RestControllerInterface {
         serverVendor.setServerVendorId(id);
         ValidateObject validateObject = this.serverVendorValidate.deleteItem(serverVendor);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.serverVendorService.deleteItem(serverVendor)))
+            return new ApiResponse("Success", Arrays.asList(this.serverVendorService.deleteItem(serverVendor).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())

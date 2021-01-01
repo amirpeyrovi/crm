@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.server.model.entity;
 
+import ir.parto.crm.modules.server.controller.transientObject.serverVendor.ServerVendorDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 public class ServerVendor implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "server_vendor_seq", sequenceName = "server_vendor_seq", allocationSize=1)
+    @SequenceGenerator(name = "server_vendor_seq", sequenceName = "server_vendor_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "server_seq")
     private Long serverVendorId;
 
@@ -44,6 +45,10 @@ public class ServerVendor implements Serializable {
     private Integer isDeleted;
 
     public ServerVendor() {
+    }
+
+    public ServerVendor(Long id) {
+        this.serverVendorId = id;
     }
 
     public ServerVendor(String title, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
@@ -136,5 +141,12 @@ public class ServerVendor implements Serializable {
     public ServerVendor setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
         return this;
+    }
+
+    public ServerVendorDTO convert2Object() {
+        ServerVendorDTO serverVendorDTO = new ServerVendorDTO();
+        if (this.serverVendorId != null) serverVendorDTO.setServerVendorId(this.serverVendorId);
+        if (this.title != null) serverVendorDTO.setTitle(this.title);
+        return serverVendorDTO;
     }
 }

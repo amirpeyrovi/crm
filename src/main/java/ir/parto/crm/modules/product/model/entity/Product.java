@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Product implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize=1)
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "product_seq")
     private Long productId;
 
@@ -42,7 +42,7 @@ public class Product implements Serializable {
     private ServerGroup serverGroup;
 
     @Column(name = "have_work_flow", columnDefinition = "number(1)")
-    private Integer haveWorkFlow ;
+    private Integer haveWorkFlow;
 
     @ManyToOne
     @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "product_ticket_stage_fk"))
@@ -63,7 +63,6 @@ public class Product implements Serializable {
 
     @Column(name = "retired", columnDefinition = "number(1)")
     private Integer retired;
-
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
     private String createdBy;

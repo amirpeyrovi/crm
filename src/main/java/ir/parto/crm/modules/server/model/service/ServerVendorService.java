@@ -28,6 +28,7 @@ public class ServerVendorService implements ServiceInterface<ServerVendor> {
     @Override
     @Transactional
     public ServerVendor addNewItem(ServerVendor serverVendor) {
+        serverVendor.setTitle(serverVendor.getTitle().trim());
         serverVendor.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.serverVendorRepository.save(serverVendor);
     }
@@ -37,9 +38,11 @@ public class ServerVendorService implements ServiceInterface<ServerVendor> {
     public ServerVendor updateItem(ServerVendor serverVendor) throws InvocationTargetException, IllegalAccessException {
         ServerVendor exist = this.serverVendorRepository.findByIsDeletedIsNullAndServerVendorId(serverVendor.getServerVendorId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
+        exist.setTitle(serverVendor.getTitle().trim());
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         myBeanCopy.copyProperties(exist, serverVendor);
         return this.serverVendorRepository.save(exist);
+
     }
 
     @Override

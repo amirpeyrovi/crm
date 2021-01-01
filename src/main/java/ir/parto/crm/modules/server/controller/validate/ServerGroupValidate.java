@@ -28,16 +28,16 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
         ValidateObject validateObject = new ValidateObject();
 
         if (serverGroup == null) {
-            errorList.add("ServerGroup object is nul");
+            errorList.add("ServerGroup object is null");
         } else {
             if (serverGroup.getServerVendor() == null) {
-                errorList.add("ServerVendor object is nul");
+                errorList.add("ServerVendor object is null");
             } else {
                 if (!this.serverVendorService.existsById(serverGroup.getServerVendor().getServerVendorId())) {
                     errorList.add("ServerVendor Id not defined");
                 }
 
-                if (serverGroup.getTitle() == null || serverGroup.getTitle().isEmpty()) {
+                if (serverGroup.getTitle() == null || serverGroup.getTitle().isEmpty() || serverGroup.getTitle().trim().isEmpty()) {
                     errorList.add("Title is required");
                 }
             }
@@ -60,20 +60,22 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
         ValidateObject validateObject = new ValidateObject();
 
         if (serverGroup == null) {
-            errorList.add("ServerGroup object is nul");
+            errorList.add("ServerGroup object is null");
         } else {
-            if (serverGroup.getServerVendor() == null) {
-                errorList.add("ServerVendor object is nul");
+            ServerGroup serverGroupExist = this.serverGroupService.findById(serverGroup.getServerGroupId());
+            if (serverGroupExist.getServerVendor() != null && serverGroup.getServerVendor() != null && (serverGroup.getServerVendor().getServerVendorId() == null ||
+                    serverGroup.getServerVendor().getServerVendorId() == 0)) {
+                errorList.add("ServerVendor object is null");
             } else {
                 if (!this.serverGroupService.existsById(serverGroup.getServerGroupId())) {
                     errorList.add("ServerGroup Id not defined");
                 }
 
-                if (!this.serverVendorService.existsById(serverGroup.getServerVendor().getServerVendorId())) {
+                if (serverGroup.getServerVendor() != null && !this.serverVendorService.existsById(serverGroup.getServerVendor().getServerVendorId())) {
                     errorList.add("ServerVendor Id not defined");
                 }
 
-                if (serverGroup.getTitle() == null || serverGroup.getTitle().isEmpty()) {
+                if (serverGroup.getTitle() != null && (serverGroup.getTitle().isEmpty() || serverGroup.getTitle().trim().isEmpty())) {
                     errorList.add("Title is required");
                 }
             }
@@ -96,7 +98,7 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
         ValidateObject validateObject = new ValidateObject();
 
         if (serverGroup == null) {
-            errorList.add("ServerGroup object is nul");
+            errorList.add("ServerGroup object is null");
         } else {
             if (!this.serverGroupService.existsById(serverGroup.getServerGroupId())) {
                 errorList.add("ServerGroup Id not defined");
@@ -120,7 +122,7 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
         ValidateObject validateObject = new ValidateObject();
 
         if (serverGroup == null) {
-            errorList.add("ServerGroup object is nul");
+            errorList.add("ServerGroup object is null");
         } else {
             if (!this.serverGroupService.existsById(serverGroup.getServerGroupId())) {
                 errorList.add("ServerGroup Id not defined");
@@ -144,7 +146,7 @@ public class ServerGroupValidate implements ValidateInterface<ServerGroup> {
         ValidateObject validateObject = new ValidateObject();
 
         if (serverGroup == null) {
-            errorList.add("ServerGroup object is nul");
+            errorList.add("ServerGroup object is null");
         } else {
             if (!this.serverGroupService.existsById(serverGroup.getServerGroupId())) {
                 errorList.add("ServerGroup Id not defined");

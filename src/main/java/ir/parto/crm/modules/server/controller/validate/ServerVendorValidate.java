@@ -5,6 +5,7 @@ import ir.parto.crm.modules.server.model.service.ServerVendorService;
 import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
 import ir.parto.crm.utils.transientObject.ValidateObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,15 +14,20 @@ import java.util.List;
 public class ServerVendorValidate implements ValidateInterface<ServerVendor> {
     private ServerVendorService serverVendorService;
 
+    @Autowired
+    public ServerVendorValidate(ServerVendorService serverVendorService) {
+        this.serverVendorService = serverVendorService;
+    }
+
     @Override
     public ValidateObject validateAddNewItem(ServerVendor serverVendor) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
         if (serverVendor == null) {
-            errorList.add("object is nul");
+            errorList.add("Object is null");
         } else {
-            if (serverVendor.getTitle() == null || serverVendor.getTitle().isEmpty()) {
+            if (serverVendor.getTitle() == null || serverVendor.getTitle().isEmpty() || serverVendor.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required");
             }
         }
@@ -43,13 +49,12 @@ public class ServerVendorValidate implements ValidateInterface<ServerVendor> {
         ValidateObject validateObject = new ValidateObject();
 
         if (serverVendor == null) {
-            errorList.add("object is nul");
+            errorList.add("Object is null");
         } else {
             if (!this.serverVendorService.existsById(serverVendor.getServerVendorId())) {
                 errorList.add("ServerVendor Id not defined");
             }
-
-            if (serverVendor.getTitle() == null || serverVendor.getTitle().isEmpty()) {
+            if (serverVendor.getTitle() != null && (serverVendor.getTitle().isEmpty() || serverVendor.getTitle().trim().isEmpty())) {
                 errorList.add("Title is required");
             }
         }
@@ -71,10 +76,10 @@ public class ServerVendorValidate implements ValidateInterface<ServerVendor> {
         ValidateObject validateObject = new ValidateObject();
 
         if (serverVendor == null) {
-            errorList.add("object is nul");
+            errorList.add("Object is null");
         } else {
             if (!this.serverVendorService.existsById(serverVendor.getServerVendorId())) {
-                errorList.add("Product Id not defined");
+                errorList.add("ServerVendor Id not defined");
             }
         }
 
@@ -95,10 +100,10 @@ public class ServerVendorValidate implements ValidateInterface<ServerVendor> {
         ValidateObject validateObject = new ValidateObject();
 
         if (serverVendor == null) {
-            errorList.add("object is nul");
+            errorList.add("Object is null");
         } else {
             if (!this.serverVendorService.existsById(serverVendor.getServerVendorId())) {
-                errorList.add("Product Id not defined");
+                errorList.add("ServerVendor Id not defined");
             }
         }
 
@@ -119,10 +124,10 @@ public class ServerVendorValidate implements ValidateInterface<ServerVendor> {
         ValidateObject validateObject = new ValidateObject();
 
         if (serverVendor == null) {
-            errorList.add("object is nul");
+            errorList.add("Object is null");
         } else {
             if (!this.serverVendorService.existsById(serverVendor.getServerVendorId())) {
-                errorList.add("Product Id not defined");
+                errorList.add("ServerVendor Id not defined");
             }
         }
 

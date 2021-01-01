@@ -77,7 +77,7 @@ public class TicketRestController implements RestControllerInterface {
 
     @RequestMapping(method = RequestMethod.POST)
     public Object addOne(@RequestBody TicketAddDTO ticketAddDTO) {
-        Ticket ticket = ticketAddDTO.convert2Objact();
+        Ticket ticket = ticketAddDTO.convert2Object();
         if (CheckPermission.getInstance().check("admin_add", "Ticket")) {
             return new ApiResponse("Error", 101, Arrays.asList("Ticket - admin_add - access denied!"))
                     .getFaultResponse();

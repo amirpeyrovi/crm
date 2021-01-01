@@ -92,7 +92,7 @@ public class TicketAddDTO {
         return this;
     }
 
-    public Ticket convert2Objact(){
+    public Ticket convert2Object(){
         Ticket ticket = new Ticket();
         if(this.title != null) ticket.setTitle(this.title);
         if(this.message != null) ticket.setMessage(this.message);

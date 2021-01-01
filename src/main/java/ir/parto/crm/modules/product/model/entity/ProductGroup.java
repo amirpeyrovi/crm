@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class ProductGroup implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize=1)
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "product_seq")
     private Long productGroupId;
 
@@ -209,10 +209,10 @@ public class ProductGroup implements Serializable {
 
     public ProductGroupRelationalDTO convert2RelationalObject() {
         ProductGroupRelationalDTO dto = new ProductGroupRelationalDTO();
-        if(this.productGroupId != null) dto.setProductGroupId(this.productGroupId);
-        if(this.title != null) dto.setTitle(this.title);
-        if(this.path != null) dto.setPath(this.path);
-        if(this.level != null) dto.setLevel(this.level);
+        if (this.productGroupId != null) dto.setProductGroupId(this.productGroupId);
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.path != null) dto.setPath(this.path);
+        if (this.level != null) dto.setLevel(this.level);
         return dto;
 
     }

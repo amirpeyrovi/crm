@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.product.controller.rest;
 
+import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupAddDTO;
 import ir.parto.crm.modules.product.controller.validate.ProductGroupValidate;
 import ir.parto.crm.modules.product.model.entity.ProductGroup;
 import ir.parto.crm.modules.product.model.service.ProductGroupService;
@@ -50,6 +51,7 @@ public class ProductGroupRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+//    public Object addOne(@RequestBody ProductGroupAddDTO productGroupAddDTO) {
     public Object addOne(@RequestBody ProductGroup productGroup) {
         if (CheckPermission.getInstance().check("admin_add", "ProductGroup")) {
             return new ApiResponse("Error", 101, Arrays.asList("ProductGroup - admin_add - access denied!"))
