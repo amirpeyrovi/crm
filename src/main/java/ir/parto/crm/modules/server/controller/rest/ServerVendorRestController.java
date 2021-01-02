@@ -118,8 +118,19 @@ public class ServerVendorRestController implements RestControllerInterface {
         serverVendor.setServerVendorId(id);
         ValidateObject validateObject = this.serverVendorValidate.deleteItem(serverVendor);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.serverVendorService.deleteItem(serverVendor).convert2Object()))
-                    .getSuccessResponse();
+            try {
+                return new ApiResponse("Success", Arrays.asList(this.serverVendorService.deleteItem(serverVendor).convert2Object()))
+                        .getSuccessResponse();
+            } catch (Exception e) {
+                if (e.getMessage().contains("constraint")) {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("" +
+                            "Integrity constraint violated - child record"))).getFaultResponse();
+                } else {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("An error occurred during the Delete")))
+                            .getFaultResponse();
+                }
+            }
+
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();

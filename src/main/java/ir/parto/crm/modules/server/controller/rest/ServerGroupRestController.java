@@ -99,9 +99,9 @@ public class ServerGroupRestController implements RestControllerInterface {
         ValidateObject validateObject = this.serverGroupValidate.validateUpdateItem(serverGroup);
         if (validateObject.getResult().equals("success")) {
             ServerGroup serverGroupExist = this.serverGroupService.findById(id);
-            if(serverGroup.getServerVendor() == null){
+            if (serverGroup.getServerVendor() == null) {
                 serverGroup.setServerVendor(this.serverVendorService.findById(serverGroupExist.getServerVendor().getServerVendorId()));
-            }else{
+            } else {
                 serverGroup.setServerVendor(this.serverVendorService.findOne(serverGroup.getServerVendor()));
             }
             try {
@@ -131,8 +131,18 @@ public class ServerGroupRestController implements RestControllerInterface {
         serverGroup.setServerGroupId(id);
         ValidateObject validateObject = this.serverGroupValidate.deleteItem(serverGroup);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.serverGroupService.deleteItem(serverGroup).convert2Object()))
-                    .getSuccessResponse();
+            try {
+                return new ApiResponse("Success", Arrays.asList(this.serverGroupService.deleteItem(serverGroup).convert2Object()))
+                        .getSuccessResponse();
+            } catch (Exception e) {
+                if (e.getMessage().contains("constraint")) {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("" +
+                            "Integrity constraint violated - child record"))).getFaultResponse();
+                } else {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("An error occurred during the Delete")))
+                            .getFaultResponse();
+                }
+            }
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();
