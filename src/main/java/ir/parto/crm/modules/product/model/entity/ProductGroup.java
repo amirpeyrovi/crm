@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.product.model.entity;
 
+import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupDTO;
 import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -36,8 +37,8 @@ public class ProductGroup implements Serializable {
     @Column(name = "path", columnDefinition = "nvarchar2(256)")
     private String path;
 
-    @Column(name = "level", columnDefinition = "number")
-    private Integer level;
+    @Column(name = "lvl", columnDefinition = "number(6)")
+    private Integer lvl;
 
 
     @Column(name = "create_by", updatable = false, columnDefinition = "nvarchar2(60)")
@@ -67,7 +68,7 @@ public class ProductGroup implements Serializable {
     }
 
     public ProductGroup(ProductGroup productGroup, String title, String adminDescription, String clientDescription,
-                        String cover, String path, Integer level, String createdBy, String updatedBy, String deletedBy,
+                        String cover, String path, Integer lvl, String createdBy, String updatedBy, String deletedBy,
                         LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
         this.productGroup = productGroup;
         this.title = title;
@@ -75,7 +76,7 @@ public class ProductGroup implements Serializable {
         this.clientDescription = clientDescription;
         this.cover = cover;
         this.path = path;
-        this.level = level;
+        this.lvl = lvl;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.deletedBy = deletedBy;
@@ -83,6 +84,10 @@ public class ProductGroup implements Serializable {
         this.updatedDate = updatedDate;
         this.deletedDate = deletedDate;
         this.isDeleted = isDeleted;
+    }
+
+    public ProductGroup(Long productGroupId) {
+        this.productGroupId = productGroupId;
     }
 
     public Long getProductGroupId() {
@@ -142,12 +147,12 @@ public class ProductGroup implements Serializable {
         return this;
     }
 
-    public Integer getLevel() {
-        return level;
+    public Integer getlvl() {
+        return lvl;
     }
 
-    public ProductGroup setLevel(Integer level) {
-        this.level = level;
+    public ProductGroup setlvl(Integer lvl) {
+        this.lvl = lvl;
         return this;
     }
 
@@ -212,8 +217,21 @@ public class ProductGroup implements Serializable {
         if (this.productGroupId != null) dto.setProductGroupId(this.productGroupId);
         if (this.title != null) dto.setTitle(this.title);
         if (this.path != null) dto.setPath(this.path);
-        if (this.level != null) dto.setLevel(this.level);
+        if (this.lvl != null) dto.setLevel(this.lvl);
         return dto;
 
+    }
+
+    public ProductGroupDTO convert2Object() {
+        ProductGroupDTO productGroupDTO = new ProductGroupDTO();
+        if (this.productGroupId != null) productGroupDTO.setProductGroupId(this.productGroupId);
+        if (this.productGroup != null) productGroupDTO.setProductGroup(this.productGroup.convert2RelationalObject());
+        if (this.title != null) productGroupDTO.setTitle(this.title);
+        if (this.adminDescription != null) productGroupDTO.setAdminDescription(this.adminDescription);
+        if (this.clientDescription != null) productGroupDTO.setClientDescription(this.clientDescription);
+        if (this.cover != null) productGroupDTO.setCover(this.cover);
+        if (this.path != null) productGroupDTO.setPath(this.path);
+        if (this.lvl != null) productGroupDTO.setLvl(this.lvl);
+        return productGroupDTO;
     }
 }

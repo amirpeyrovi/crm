@@ -27,6 +27,18 @@ public class ProductGroupService implements ServiceInterface<ProductGroup> {
     @Override
     @Transactional
     public ProductGroup addNewItem(ProductGroup productGroup) {
+        if (productGroup.getProductGroup() != null) {
+            productGroup.setlvl(productGroup.getProductGroup().getlvl() + 1);
+            String path;
+            if (productGroup.getPath() == null) path = productGroup.getProductGroup().getProductGroupId().toString();
+            else path = productGroup.getProductGroup().getPath();
+
+            productGroup.setPath(path + "/");
+        } else {
+            productGroup.setlvl(0);
+            productGroup.setPath(null);
+        }
+        productGroup.setTitle(productGroup.getTitle().trim());
         productGroup.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.productGroupRepository.save(productGroup);
     }
@@ -37,6 +49,7 @@ public class ProductGroupService implements ServiceInterface<ProductGroup> {
         ProductGroup exist = this.productGroupRepository.findByIsDeletedIsNullAndProductGroupId(productGroup.getProductGroupId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, productGroup);
+        if (productGroup.getTitle() != null) exist.setTitle(productGroup.getTitle().trim());
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.productGroupRepository.save(exist);
     }
@@ -79,5 +92,9 @@ public class ProductGroupService implements ServiceInterface<ProductGroup> {
     @Override
     public Boolean existsById(Long id) {
         return this.productGroupRepository.existsByIsDeletedIsNullAndProductGroupId(id);
+    }
+
+    public List<ProductGroup> findByProductGroup(ProductGroup productGroup) {
+        return this.productGroupRepository.findByIsDeletedIsNullAndProductGroup(productGroup);
     }
 }

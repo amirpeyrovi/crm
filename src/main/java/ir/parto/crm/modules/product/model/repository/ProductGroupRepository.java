@@ -19,4 +19,6 @@ public interface ProductGroupRepository extends JpaRepository<ProductGroup, Long
     ProductGroup findByIsDeletedIsNullAndProductGroupId(Long id);
 
     boolean existsByIsDeletedIsNullAndProductGroupId(Long id);
+
+    List<ProductGroup> findByIsDeletedIsNullAndProductGroup(ProductGroup productGroup);
 }

@@ -25,14 +25,14 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productGroup == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (productGroup.getProductGroup() != null
                     && !this.productGroupService.existsById(productGroup.getProductGroup().getProductGroupId())) {
                 errorList.add("Parent ProductGroup not defined");
             }
 
-            if (productGroup.getTitle() == null || productGroup.getTitle().isEmpty()) {
+            if (productGroup.getTitle() == null || productGroup.getTitle().isEmpty() || productGroup.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required");
             }
         }
@@ -54,18 +54,19 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productGroup == null) {
-            errorList.add("object is nul");
+            errorList.add("Object is null");
         } else {
             if (!this.productGroupService.existsById(productGroup.getProductGroupId())) {
                 errorList.add("ProductGroup not defined");
-            }
+            } else {
 
-            if (productGroup.getProductGroup() != null && !this.productGroupService.existsById(productGroup.getProductGroup().getProductGroupId())) {
-                errorList.add("Parent ProductGroup not defined");
-            }
+                if (productGroup.getProductGroup() != null && !this.productGroupService.existsById(productGroup.getProductGroup().getProductGroupId())) {
+                    errorList.add("Parent ProductGroup not defined");
+                }
 
-            if (productGroup.getTitle() == null || productGroup.getTitle().isEmpty()) {
-                errorList.add("Title is required");
+                if (productGroup.getTitle() != null && (productGroup.getTitle().isEmpty() || productGroup.getTitle().trim().isEmpty())) {
+                    errorList.add("Title is required");
+                }
             }
         }
 
@@ -86,10 +87,15 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productGroup == null) {
-            errorList.add("object is nul");
+            errorList.add("Object is null");
         } else {
             if (!this.productGroupService.existsById(productGroup.getProductGroupId())) {
                 errorList.add("ProductGroup not defined");
+            } else {
+                List<ProductGroup> productGroupExists = this.productGroupService.findByProductGroup(productGroup);
+                if (productGroupExists.size() > 0 ) {
+                    errorList.add("ProductGroup is parent");
+                }
             }
         }
 
@@ -110,7 +116,7 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productGroup == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (!this.productGroupService.existsById(productGroup.getProductGroupId())) {
                 errorList.add("ProductGroup not defined");
@@ -134,7 +140,7 @@ public class ProductGroupValidate implements ValidateInterface<ProductGroup> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productGroup == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (!this.productGroupService.existsById(productGroup.getProductGroupId())) {
                 errorList.add("ProductGroup not defined");

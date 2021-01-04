@@ -1,6 +1,8 @@
 package ir.parto.crm.modules.product.controller.rest;
 
+import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductEditDTO;
 import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupAddDTO;
+import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupDTO;
 import ir.parto.crm.modules.product.controller.validate.ProductGroupValidate;
 import ir.parto.crm.modules.product.model.entity.ProductGroup;
 import ir.parto.crm.modules.product.model.service.ProductGroupService;
@@ -9,17 +11,20 @@ import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.ProductAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
+import ir.parto.crm.utils.transientObject.Convert2Object;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @ProductAnnotation
-@RequestMapping("/v1/product/ProductGroup")
+@RequestMapping("/v1/product/productGroup")
 public class ProductGroupRestController implements RestControllerInterface {
     private ProductGroupValidate productGroupValidate;
     private ProductGroupService productGroupService;
@@ -42,7 +47,8 @@ public class ProductGroupRestController implements RestControllerInterface {
         ValidateObject validateObject = this.productGroupValidate.findAll();
         if (validateObject.getResult().equals("success")) {
             Page<ProductGroup> productPage = this.productGroupService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "ProductGroup", sortProperty, sortOrder));
-            return new ApiResponse("Success", productPage)
+            List<ProductGroupDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(),ProductGroupDTO.class);
+            return new ApiResponse("Success", returnDTO)
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -51,13 +57,13 @@ public class ProductGroupRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-//    public Object addOne(@RequestBody ProductGroupAddDTO productGroupAddDTO) {
-    public Object addOne(@RequestBody ProductGroup productGroup) {
+    public Object addOne(@RequestBody ProductGroupAddDTO productGroupAddDTO) {
         if (CheckPermission.getInstance().check("admin_add", "ProductGroup")) {
             return new ApiResponse("Error", 101, Arrays.asList("ProductGroup - admin_add - access denied!"))
                     .getFaultResponse();
         }
 
+        ProductGroup productGroup = productGroupAddDTO.convert2Object();
         productGroup.setProductGroupId(null);
 
         ValidateObject validateObject = this.productGroupValidate.validateAddNewItem(productGroup);
@@ -65,7 +71,7 @@ public class ProductGroupRestController implements RestControllerInterface {
             if (productGroup.getProductGroup() != null) {
                 productGroup.setProductGroup(this.productGroupService.findOne(productGroup.getProductGroup()));
             }
-            return new ApiResponse("Success", Arrays.asList(this.productGroupService.addNewItem(productGroup)))
+            return new ApiResponse("Success", Arrays.asList(this.productGroupService.addNewItem(productGroup).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -74,11 +80,13 @@ public class ProductGroupRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody ProductGroup productGroup) {
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody ProductEditDTO productEditDTO) {
         if (CheckPermission.getInstance().check("admin_update", "ProductGroup")) {
             return new ApiResponse("Error", 101, Arrays.asList("ProductGroup - admin_update - access denied!"))
                     .getFaultResponse();
         }
+
+        ProductGroup productGroup = productEditDTO.convert2Object();
 
         productGroup.setProductGroupId(id);
 
@@ -88,7 +96,7 @@ public class ProductGroupRestController implements RestControllerInterface {
                 if (productGroup.getProductGroup() != null) {
                     productGroup.setProductGroup(this.productGroupService.findOne(productGroup.getProductGroup()));
                 }
-                return new ApiResponse("Success", Arrays.asList(this.productGroupService.updateItem(productGroup)))
+                return new ApiResponse("Success", Arrays.asList(this.productGroupService.updateItem(productGroup).convert2Object()))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
                 return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
@@ -114,8 +122,18 @@ public class ProductGroupRestController implements RestControllerInterface {
         productGroup.setProductGroupId(id);
         ValidateObject validateObject = this.productGroupValidate.deleteItem(productGroup);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.productGroupService.deleteItem(productGroup)))
-                    .getSuccessResponse();
+            try {
+                return new ApiResponse("Success", Arrays.asList(this.productGroupService.deleteItem(productGroup).convert2Object()))
+                        .getSuccessResponse();
+            } catch (Exception e) {
+                if (e.getMessage().contains("constraint")) {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("" +
+                            "Integrity constraint violated - child record"))).getFaultResponse();
+                } else {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("An error occurred during the Delete")))
+                            .getFaultResponse();
+                }
+            }
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();

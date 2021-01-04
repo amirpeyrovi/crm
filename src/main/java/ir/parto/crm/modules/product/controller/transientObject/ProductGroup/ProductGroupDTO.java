@@ -1,23 +1,27 @@
 package ir.parto.crm.modules.product.controller.transientObject.ProductGroup;
 
-import ir.parto.crm.modules.product.model.entity.ProductGroup;
-
-public class ProductGroupAddDTO {
+public class ProductGroupDTO {
     private Long productGroupId;
+    private ProductGroupRelationalDTO productGroup;
     private String title;
     private String adminDescription;
     private String clientDescription;
     private String cover;
+    private String path;
+    private Integer lvl;
 
-    public ProductGroupAddDTO() {
+    public ProductGroupDTO() {
     }
 
-    public ProductGroupAddDTO(Long productGroupId, String title, String adminDescription, String clientDescription, String cover) {
+    public ProductGroupDTO(Long productGroupId, ProductGroupRelationalDTO productGroup, String title, String adminDescription, String clientDescription, String cover, String path, Integer lvl) {
         this.productGroupId = productGroupId;
+        this.productGroup = productGroup;
         this.title = title;
         this.adminDescription = adminDescription;
         this.clientDescription = clientDescription;
         this.cover = cover;
+        this.path = path;
+        this.lvl = lvl;
     }
 
     public Long getProductGroupId() {
@@ -26,6 +30,14 @@ public class ProductGroupAddDTO {
 
     public void setProductGroupId(Long productGroupId) {
         this.productGroupId = productGroupId;
+    }
+
+    public ProductGroupRelationalDTO getProductGroup() {
+        return productGroup;
+    }
+
+    public void setProductGroup(ProductGroupRelationalDTO productGroup) {
+        this.productGroup = productGroup;
     }
 
     public String getTitle() {
@@ -60,13 +72,19 @@ public class ProductGroupAddDTO {
         this.cover = cover;
     }
 
-    public ProductGroup convert2Object() {
-        ProductGroup productGroup = new ProductGroup();
-        if (this.productGroupId != null) productGroup.setProductGroup(new ProductGroup(this.productGroupId));
-        if (this.title != null) productGroup.setTitle(this.title);
-        if (this.adminDescription != null) productGroup.setAdminDescription(this.adminDescription);
-        if (this.clientDescription != null) productGroup.setClientDescription(this.clientDescription);
-        if (this.cover != null) productGroup.setCover(this.cover);
-        return productGroup;
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public Integer getLvl() {
+        return lvl;
+    }
+
+    public void setLvl(Integer lvl) {
+        this.lvl = lvl;
     }
 }
