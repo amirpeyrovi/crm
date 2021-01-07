@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.product.controller.rest;
 
+import ir.parto.crm.modules.product.controller.transientObject.product.ProductAddDTO;
 import ir.parto.crm.modules.product.controller.validate.ProductValidate;
 import ir.parto.crm.modules.product.model.entity.Product;
 import ir.parto.crm.modules.product.model.service.ProductGroupService;
@@ -66,12 +67,13 @@ public class ProductRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody Product product) {
+    public Object addOne(@RequestBody ProductAddDTO productAddDTO) {
         if (CheckPermission.getInstance().check("admin_add", "Product")) {
             return new ApiResponse("Error", 101, Arrays.asList("Product - admin_add - access denied!"))
                     .getFaultResponse();
         }
 
+        Product product = productAddDTO.convert2Object();
         product.setProductId(null);
 
         ValidateObject validateObject = this.productValidate.validateAddNewItem(product);

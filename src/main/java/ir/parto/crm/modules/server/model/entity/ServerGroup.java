@@ -63,6 +63,10 @@ public class ServerGroup implements Serializable {
         this.isDeleted = isDeleted;
     }
 
+    public ServerGroup(Long serverGroupId) {
+        this.serverGroupId = serverGroupId;
+    }
+
     public Long getServerGroupId() {
         return serverGroupId;
     }
