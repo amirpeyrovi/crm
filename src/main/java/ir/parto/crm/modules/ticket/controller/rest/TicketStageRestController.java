@@ -1,6 +1,9 @@
 package ir.parto.crm.modules.ticket.controller.rest;
 
 import ir.parto.crm.modules.admin.model.service.AdminService;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStage.TicketStageAddDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStage.TicketStageDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStage.TicketStageEditDTO;
 import ir.parto.crm.modules.ticket.controller.validate.TicketStageValidate;
 import ir.parto.crm.modules.ticket.model.entity.TicketStage;
 import ir.parto.crm.modules.ticket.model.service.TicketStageService;
@@ -9,12 +12,14 @@ import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.TicketAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
+import ir.parto.crm.utils.transientObject.Convert2Object;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 @RestController
@@ -47,7 +52,8 @@ public class TicketStageRestController implements RestControllerInterface {
         if (validateObject.getResult().equals("success")) {
             Page<TicketStage> ticketStagePage = this.ticketStageService.findAllItem
                     (PageableRequest.getInstance().createPageRequest(page, "TicketStage", sortProperty, sortOrder));
-            return new ApiResponse("Success", ticketStagePage)
+            return new ApiResponse("Success", Convert2Object.mapAll(ticketStagePage.getContent(), TicketStageDTO.class
+            ))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -56,18 +62,18 @@ public class TicketStageRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody TicketStage ticketStage) {
+    public Object addOne(@RequestBody TicketStageAddDTO ticketStageDTO) {
         if (CheckPermission.getInstance().check("admin_add", "TicketStage")) {
             return new ApiResponse("Error", 101, Arrays.asList("TicketStage - admin_add - access denied!"))
                     .getFaultResponse();
         }
-
+        TicketStage ticketStage = ticketStageDTO.convert2Object();
         ticketStage.setTicketStageId(null);
 
         ValidateObject validateObject = this.ticketStageValidate.validateAddNewItem(ticketStage);
         if (validateObject.getResult().equals("success")) {
             ticketStage.setAdmin(this.adminService.findOne(ticketStage.getAdmin()));
-            return new ApiResponse("Success", Arrays.asList(this.ticketStageService.addNewItem(ticketStage)))
+            return new ApiResponse("Success", Arrays.asList(this.ticketStageService.addNewItem(ticketStage).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -76,19 +82,20 @@ public class TicketStageRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody TicketStage ticketStage) {
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody TicketStageEditDTO ticketStageDTO) {
         if (CheckPermission.getInstance().check("admin_update", "TicketStage")) {
             return new ApiResponse("Error", 101, Arrays.asList("TicketStage - admin_update - access denied!"))
                     .getFaultResponse();
         }
-
+        TicketStage ticketStage = ticketStageDTO.convert2Object();
         ticketStage.setTicketStageId(id);
-
         ValidateObject validateObject = this.ticketStageValidate.validateUpdateItem(ticketStage);
         if (validateObject.getResult().equals("success")) {
             try {
-                ticketStage.setAdmin(this.adminService.findOne(ticketStage.getAdmin()));
-                return new ApiResponse("Success", Arrays.asList(this.ticketStageService.updateItem(ticketStage)))
+                if(ticketStage.getAdmin() != null){
+                    ticketStage.setAdmin(this.adminService.findOne(ticketStage.getAdmin()));
+                }
+                return new ApiResponse("Success", Arrays.asList(this.ticketStageService.updateItem(ticketStage).convert2Object()))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
                 return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
@@ -114,8 +121,18 @@ public class TicketStageRestController implements RestControllerInterface {
         ticketStage.setTicketStageId(id);
         ValidateObject validateObject = this.ticketStageValidate.deleteItem(ticketStage);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.ticketStageService.deleteItem(ticketStage)))
-                    .getSuccessResponse();
+            try {
+                return new ApiResponse("Success", Arrays.asList(this.ticketStageService.deleteItem(ticketStage).convert2Object()))
+                        .getSuccessResponse();
+            } catch (Exception e) {
+                if (e.getMessage().contains("constraint")) {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("" +
+                            "Integrity constraint violated - child record"))).getFaultResponse();
+                } else {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("An error occurred during the Delete")))
+                            .getFaultResponse();
+                }
+            }
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();

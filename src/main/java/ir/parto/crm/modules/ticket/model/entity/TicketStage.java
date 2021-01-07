@@ -1,6 +1,8 @@
 package ir.parto.crm.modules.ticket.model.entity;
 
+import ir.parto.crm.modules.admin.controller.transientObject.admin.AdminRelationalDTO;
 import ir.parto.crm.modules.admin.model.entity.Admin;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStage.TicketStageDTO;
 import ir.parto.crm.modules.ticket.controller.transientObject.ticketStage.TicketStageRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -165,5 +167,14 @@ public class TicketStage implements Serializable {
         if(this.ticketStageId != null) dto.setTicketStageId(this.ticketStageId);
         if(this.title != null) dto.setTitle(this.title);
         return dto;
+    }
+
+    public TicketStageDTO convert2Object() {
+        TicketStageDTO ticketStageDTO = new TicketStageDTO();
+        if(this.ticketStageId != null) ticketStageDTO.setTicketStageId(this.ticketStageId);
+        if(this.title != null) ticketStageDTO.setTitle(this.title);
+        if(this.description != null) ticketStageDTO.setDescription(this.description);
+        if(this.admin != null) ticketStageDTO.setAdmin(admin.convert2RelationalObject());
+        return ticketStageDTO;
     }
 }

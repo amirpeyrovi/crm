@@ -28,6 +28,7 @@ public class TicketStageService implements ServiceInterface<TicketStage> {
     @Transactional
     public TicketStage addNewItem(TicketStage ticketStage) {
         ticketStage.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        ticketStage.setTitle(ticketStage.getTitle().trim());
         return this.ticketStageRepository.save(ticketStage);
     }
 
@@ -38,6 +39,7 @@ public class TicketStageService implements ServiceInterface<TicketStage> {
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ticketStage);
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setTitle(exist.getTitle().trim());
         return this.ticketStageRepository.save(exist);
     }
 
