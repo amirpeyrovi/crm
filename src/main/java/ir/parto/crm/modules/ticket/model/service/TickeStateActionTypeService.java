@@ -19,9 +19,15 @@ import java.util.List;
 public class TickeStateActionTypeService implements ServiceInterface<TicketStateActionType> {
     private TicketStateActionTypeRepository ticketStateActionTypeRepository;
 
+    @Autowired
+    public TickeStateActionTypeService(TicketStateActionTypeRepository ticketStateActionTypeRepository) {
+        this.ticketStateActionTypeRepository = ticketStateActionTypeRepository;
+    }
+
     @Override
     public TicketStateActionType addNewItem(TicketStateActionType ticketStateActionType) {
         ticketStateActionType.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        ticketStateActionType.setTitle(ticketStateActionType.getTitle().trim());
         return this.ticketStateActionTypeRepository.save(ticketStateActionType);
     }
 
@@ -32,6 +38,7 @@ public class TickeStateActionTypeService implements ServiceInterface<TicketState
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ticketStateActionType);
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setTitle(ticketStateActionType.getTitle().trim());
         return this.ticketStateActionTypeRepository.save(exist);
     }
 

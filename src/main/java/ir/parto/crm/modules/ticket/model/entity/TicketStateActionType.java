@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.ticket.model.entity;
 
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateActionType.TicketStateActionTypeDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -130,5 +131,12 @@ public class TicketStateActionType implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public TicketStateActionTypeDTO convert2Object() {
+        TicketStateActionTypeDTO ticketStateActionTypeDTO = new TicketStateActionTypeDTO();
+        if(this.ticketStateActionTypeId != null)ticketStateActionTypeDTO.setTicketStateActionTypeId(this.ticketStateActionTypeId);
+        if(this.title != null)ticketStateActionTypeDTO.setTitle(this.title);
+        return ticketStateActionTypeDTO;
     }
 }
