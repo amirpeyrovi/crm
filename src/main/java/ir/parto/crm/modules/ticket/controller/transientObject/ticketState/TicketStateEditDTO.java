@@ -3,7 +3,7 @@ package ir.parto.crm.modules.ticket.controller.transientObject.ticketState;
 import ir.parto.crm.modules.ticket.model.entity.TicketState;
 import ir.parto.crm.modules.ticket.model.entity.TicketStateAction;
 
-public class TicketStateAddDTO {
+public class TicketStateEditDTO {
     private String title;
     private String description;
     private String color;
@@ -12,10 +12,10 @@ public class TicketStateAddDTO {
     private Integer isPending;
     private Integer isClose;
 
-    public TicketStateAddDTO() {
+    public TicketStateEditDTO() {
     }
 
-    public TicketStateAddDTO(String title, String description, String color, Long ticketStateActionId, Integer isActive, Integer isPending, Integer isClose) {
+    public TicketStateEditDTO(String title, String description, String color, Long ticketStateActionId, Integer isActive, Integer isPending, Integer isClose) {
         this.title = title;
         this.description = description;
         this.color = color;
@@ -53,7 +53,7 @@ public class TicketStateAddDTO {
         return ticketStateActionId;
     }
 
-    public void setTicketStateAction(Long ticketStateActionId) {
+    public void setTicketStateActionId(Long ticketStateActionId) {
         this.ticketStateActionId = ticketStateActionId;
     }
 
@@ -93,4 +93,5 @@ public class TicketStateAddDTO {
         if (this.isClose != null) ticketState.setIsClose(this.isClose);
         return ticketState;
     }
+
 }

@@ -1,28 +1,38 @@
 package ir.parto.crm.modules.ticket.controller.transientObject.ticketState;
 
-import ir.parto.crm.modules.ticket.model.entity.TicketState;
-import ir.parto.crm.modules.ticket.model.entity.TicketStateAction;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateAction.TicketStateActionRelationalDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateActionType.TicketStateActionTypeRelationalDTO;
 
-public class TicketStateAddDTO {
+public class TicketStateDTO {
+    private Long ticketStateId;
     private String title;
     private String description;
     private String color;
-    private Long ticketStateActionId;
+    private TicketStateActionRelationalDTO ticketStateAction;
     private Integer isActive;
     private Integer isPending;
     private Integer isClose;
 
-    public TicketStateAddDTO() {
+    public TicketStateDTO() {
     }
 
-    public TicketStateAddDTO(String title, String description, String color, Long ticketStateActionId, Integer isActive, Integer isPending, Integer isClose) {
+    public TicketStateDTO(Long ticketStateId, String title, String description, String color, TicketStateActionRelationalDTO ticketStateAction, Integer isActive, Integer isPending, Integer isClose) {
+        this.ticketStateId = ticketStateId;
         this.title = title;
         this.description = description;
         this.color = color;
-        this.ticketStateActionId = ticketStateActionId;
+        this.ticketStateAction = ticketStateAction;
         this.isActive = isActive;
         this.isPending = isPending;
         this.isClose = isClose;
+    }
+
+    public Long getTicketStateId() {
+        return ticketStateId;
+    }
+
+    public void setTicketStateId(Long ticketStateId) {
+        this.ticketStateId = ticketStateId;
     }
 
     public String getTitle() {
@@ -49,12 +59,12 @@ public class TicketStateAddDTO {
         this.color = color;
     }
 
-    public Long getTicketStateActionId() {
-        return ticketStateActionId;
+    public TicketStateActionRelationalDTO getTicketStateAction() {
+        return ticketStateAction;
     }
 
-    public void setTicketStateAction(Long ticketStateActionId) {
-        this.ticketStateActionId = ticketStateActionId;
+    public void setTicketStateAction(TicketStateActionRelationalDTO ticketStateAction) {
+        this.ticketStateAction = ticketStateAction;
     }
 
     public Integer getIsActive() {
@@ -79,18 +89,5 @@ public class TicketStateAddDTO {
 
     public void setIsClose(Integer isClose) {
         this.isClose = isClose;
-    }
-
-    public TicketState convert2Object() {
-        TicketState ticketState = new TicketState();
-        if (this.title != null) ticketState.setTitle(this.title);
-        if (this.description != null) ticketState.setDescription(this.description);
-        if (this.color != null) ticketState.setColor(this.color);
-        if (this.ticketStateActionId != null)
-            ticketState.setTicketStateAction(new TicketStateAction(this.ticketStateActionId));
-        if (this.isActive != null) ticketState.setIsActive(this.isActive);
-        if (this.isPending != null) ticketState.setIsPending(this.isPending);
-        if (this.isClose != null) ticketState.setIsClose(this.isClose);
-        return ticketState;
     }
 }

@@ -3,14 +3,14 @@ package ir.parto.crm.modules.ticket.controller.transientObject.ticketStateAction
 import ir.parto.crm.modules.ticket.model.entity.TicketStateAction;
 import ir.parto.crm.modules.ticket.model.entity.TicketStateActionType;
 
-public class TicketStateActionAddDTO {
+public class TicketStateActionEditDTO {
     private String title;
     private Long ticketStateActionTypeId;
 
-    public TicketStateActionAddDTO() {
+    public TicketStateActionEditDTO() {
     }
 
-    public TicketStateActionAddDTO(String title, Long ticketStateActionTypeId) {
+    public TicketStateActionEditDTO(String title, Long ticketStateActionTypeId) {
         this.title = title;
         this.ticketStateActionTypeId = ticketStateActionTypeId;
     }

@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.ticket.controller.rest;
 
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketState.TicketStateAddDTO;
 import ir.parto.crm.modules.ticket.controller.validate.TicketStateValidate;
 import ir.parto.crm.modules.ticket.model.entity.TicketState;
 import ir.parto.crm.modules.ticket.model.service.TicketStateActionService;
@@ -15,11 +16,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 @RestController
 @TicketAnnotation
-@RequestMapping("/v1/ticket/tickeState")
+@RequestMapping("/v1/ticket/ticketState")
 public class TicketStateRestController implements RestControllerInterface {
     private TicketStateService ticketStateService;
     private TicketStateValidate ticketStateValidate;
@@ -55,18 +57,18 @@ public class TicketStateRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody TicketState ticketState) {
+    public Object addOne(@RequestBody TicketStateAddDTO ticketStateDTO) {
         if (CheckPermission.getInstance().check("admin_add", "TicketState")) {
             return new ApiResponse("Error", 101, Arrays.asList("TicketState - admin_add - access denied!"))
                     .getFaultResponse();
         }
-
+        TicketState ticketState = ticketStateDTO.convert2Object();
         ticketState.setTicketStateId(null);
 
         ValidateObject validateObject = this.ticketStateValidate.validateAddNewItem(ticketState);
         if (validateObject.getResult().equals("success")) {
             ticketState.setTicketStateAction(this.ticketStateActionService.findOne(ticketState.getTicketStateAction()));
-            return new ApiResponse("Success", Arrays.asList(this.ticketStateService.addNewItem(ticketState)))
+            return new ApiResponse("Success", Arrays.asList(this.ticketStateService.addNewItem(ticketState).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -86,7 +88,9 @@ public class TicketStateRestController implements RestControllerInterface {
         ValidateObject validateObject = this.ticketStateValidate.validateUpdateItem(ticketState);
         if (validateObject.getResult().equals("success")) {
             try {
-                ticketState.setTicketStateAction(this.ticketStateActionService.findOne(ticketState.getTicketStateAction()));
+                if(ticketState.getTicketStateAction() != null){
+                    ticketState.setTicketStateAction(this.ticketStateActionService.findOne(ticketState.getTicketStateAction()));
+                }
                 return new ApiResponse("Success", Arrays.asList(this.ticketStateService.updateItem(ticketState)))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
@@ -113,8 +117,20 @@ public class TicketStateRestController implements RestControllerInterface {
         ticketState.setTicketStateId(id);
         ValidateObject validateObject = this.ticketStateValidate.deleteItem(ticketState);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.ticketStateService.deleteItem(ticketState)))
-                    .getSuccessResponse();
+            try {
+                return new ApiResponse("Success", Arrays.asList(this.ticketStateService.deleteItem(ticketState)))
+                        .getSuccessResponse();
+            } catch (Exception e) {
+                if (e.getMessage().contains("constraint")) {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("" +
+                            "Integrity constraint violated - child record"))).getFaultResponse();
+                } else {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("An error occurred during the Delete")))
+                            .getFaultResponse();
+                }
+            }
+
+
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();
