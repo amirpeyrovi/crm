@@ -33,19 +33,14 @@ public class TicketStateValidate implements ValidateInterface<TicketState> {
             if (ticketState.getTitle() == null || ticketState.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required!");
             } else {
-                TicketState exist = this.ticketStateService.findByIsDeletedIsNullAndTitle(ticketState.getTitle());
-                if (exist != null && exist.getTitle().equals(ticketState.getTitle())) {
+                TicketState exist = this.ticketStateService.findByIsDeletedIsNullAndTitle(ticketState.getTitle().trim());
+                if (exist != null && exist.getTitle().equals(ticketState.getTitle().trim())) {
                     errorList.add("Title is duplicate");
                 }
             }
 
             if (ticketState.getTicketStateAction() == null || ticketState.getTicketStateAction().getTicketStateActionId() == null || ticketState.getTicketStateAction().getTicketStateActionId() == 0) {
                 errorList.add("Action of ticketState is required");
-            } else {
-                TicketStateAction ticketStateAction = this.ticketStateActionService.findById(ticketState.getTicketStateAction().getTicketStateActionId());
-                if (ticketStateAction == null || ticketStateAction.getTicketStateActionId() == 0) {
-                    errorList.add("Action of ticketState not defined");
-                }
             }
         }
 
@@ -81,12 +76,13 @@ public class TicketStateValidate implements ValidateInterface<TicketState> {
                     ticketState.getTicketStateAction().getTicketStateActionId() == null ||
                             ticketState.getTicketStateAction().getTicketStateActionId() == 0)) {
                 errorList.add("Action of ticketState is required");
-            } else if (ticketState.getTicketStateAction() != null) {
+            }
+            /*else if (ticketState.getTicketStateAction() != null) {
                 TicketStateAction ticketStateAction = this.ticketStateActionService.findById(ticketState.getTicketStateAction().getTicketStateActionId());
                 if (ticketStateAction == null || ticketStateAction.getTicketStateActionId() == 0) {
                     errorList.add("Action of ticketState not defined");
                 }
-            }
+            }*/
         }
 
         validateObject.setCount(errorList.size());

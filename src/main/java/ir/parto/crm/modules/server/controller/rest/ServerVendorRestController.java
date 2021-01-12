@@ -6,6 +6,7 @@ import ir.parto.crm.modules.server.controller.validate.ServerVendorValidate;
 import ir.parto.crm.modules.server.model.entity.ServerVendor;
 import ir.parto.crm.modules.server.model.service.ServerVendorService;
 import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageHelper;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.ServerAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
@@ -51,7 +52,8 @@ public class ServerVendorRestController implements RestControllerInterface {
             for (ServerVendor serverVendor : productPage) {
                 returnDTO.add(serverVendor.convert2Object());
             }
-            return new ApiResponse("Success", returnDTO).getSuccessResponse();
+            return new ApiResponse("Success",  PageHelper.getInstance().createResponse(productPage, returnDTO))
+                    .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();

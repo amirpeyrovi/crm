@@ -39,7 +39,8 @@ public class TicketStateService implements ServiceInterface<TicketState> {
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ticketState);
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        exist.setTitle(ticketState.getTitle().trim());
+        if (ticketState.getTitle() != null && ticketState.getTitle().trim() != null)
+            exist.setTitle(ticketState.getTitle().trim());
         return this.ticketStateRepository.save(exist);
     }
 

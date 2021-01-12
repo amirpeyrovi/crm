@@ -7,6 +7,7 @@ import ir.parto.crm.modules.product.controller.validate.ProductGroupValidate;
 import ir.parto.crm.modules.product.model.entity.ProductGroup;
 import ir.parto.crm.modules.product.model.service.ProductGroupService;
 import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageHelper;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.ProductAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
@@ -48,7 +49,7 @@ public class ProductGroupRestController implements RestControllerInterface {
         if (validateObject.getResult().equals("success")) {
             Page<ProductGroup> productPage = this.productGroupService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "ProductGroup", sortProperty, sortOrder));
             List<ProductGroupDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(),ProductGroupDTO.class);
-            return new ApiResponse("Success", returnDTO)
+            return new ApiResponse("Success",  PageHelper.getInstance().createResponse(productPage, returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())

@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.ticket.model.entity;
 
 import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateAction.TicketStateActionDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateAction.TicketStateActionRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -157,6 +158,13 @@ public class TicketStateAction implements Serializable {
         if (this.title != null) dto.setTitle(this.title);
         if (this.ticketStateActionType != null)
             dto.setTicketStateActionType(this.ticketStateActionType.convert2RelationalObject());
+        return dto;
+    }
+
+    public TicketStateActionRelationalDTO convert2RelationalObject() {
+        TicketStateActionRelationalDTO dto = new TicketStateActionRelationalDTO();
+        if (this.ticketStateActionId != null) dto.setTicketStateActionId(this.ticketStateActionId);
+        if (this.title != null) dto.setTitle(this.title);
         return dto;
     }
 }
