@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.server.model.entity;
 
 import ir.parto.crm.modules.server.controller.transientObject.serverGroup.ServerGroupDTO;
+import ir.parto.crm.modules.server.controller.transientObject.serverGroup.ServerGroupRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -153,6 +154,13 @@ public class ServerGroup implements Serializable {
         if (this.serverGroupId != null) serverGroupDTO.setServerGroupId(this.serverGroupId);
         if (this.title != null) serverGroupDTO.setTitle(this.title);
         if (this.serverVendor != null) serverGroupDTO.setServerVendor(this.serverVendor.convert2Object());
+        return serverGroupDTO;
+    }
+
+    public ServerGroupRelationalDTO convert2RelationalObject() {
+        ServerGroupRelationalDTO serverGroupDTO = new ServerGroupRelationalDTO();
+        if (this.serverGroupId != null) serverGroupDTO.setServerGroupId(this.serverGroupId);
+        if (this.title != null) serverGroupDTO.setTitle(this.title);
         return serverGroupDTO;
     }
 }

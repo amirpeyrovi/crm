@@ -29,7 +29,7 @@ public class ProductValidate implements ValidateInterface<Product> {
 
     @Autowired
     public ProductValidate(ProductService productService, ProductGroupService productGroupService,
-                           ServerGroupService serverGroupService , TicketStageService ticketStageService,
+                           ServerGroupService serverGroupService, TicketStageService ticketStageService,
                            TicketStateService ticketStateService) {
         this.productService = productService;
         this.productGroupService = productGroupService;
@@ -46,49 +46,58 @@ public class ProductValidate implements ValidateInterface<Product> {
         if (product == null) {
             errorList.add("Object is null");
         } else {
-            if (product.getTitle() == null || product.getTitle().isEmpty()) {
+            if (product.getTitle() == null || product.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required");
             }
 
             if (product.getProductGroup() == null || product.getProductGroup().getProductGroupId() == 0) {
                 errorList.add("Product Group is required");
-            } else {
+            }
+            /*else {
                 ProductGroup productGroup = this.productGroupService.findById(product.getProductGroup().getProductGroupId());
                 if (productGroup == null || productGroup.getProductGroupId() == 0) {
                     errorList.add("Product Group not defined");
                 }
             }
 
+             */
+
             if (product.getServerGroup() == null || product.getServerGroup().getServerGroupId() == 0) {
                 errorList.add("Server Group is required");
-            } else {
+            }
+
+            /*else {
                 ServerGroup serverGroup = this.serverGroupService.findById(product.getServerGroup().getServerGroupId());
                 if (serverGroup == null || serverGroup.getServerGroupId() == 0) {
                     errorList.add("Server Group not defined");
                 }
             }
 
+             */
+
             if (product.getTicketStage() == null || product.getTicketStage().getTicketStageId() == 0) {
                 errorList.add("Ticket Stage is required");
-            } else {
+            }
+            /*else {
                 TicketStage ticketStage = this.ticketStageService.findById(product.getTicketStage().getTicketStageId());
                 if (ticketStage == null || ticketStage.getTicketStageId() == 0) {
                     errorList.add("Ticket Stage not defined");
                 }
             }
 
+             */
+
             if (product.getTicketState() == null || product.getTicketState().getTicketStateId() == 0) {
                 errorList.add("Ticket State is required");
-            } else {
+            }
+            /*else {
                 TicketState ticketState = this.ticketStateService.findById(product.getTicketState().getTicketStateId());
                 if (ticketState == null || ticketState.getTicketStateId() == 0) {
                     errorList.add("Ticket Stage not defined");
                 }
             }
 
-
-            product.setTicketState(this.ticketStateService.findOne(product.getTicketState()));
-
+             */
         }
 
         validateObject.setCount(errorList.size());

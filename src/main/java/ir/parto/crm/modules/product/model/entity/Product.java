@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.product.model.entity;
 
 import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupRelationalDTO;
+import ir.parto.crm.modules.product.controller.transientObject.product.ProductDTO;
 import ir.parto.crm.modules.product.controller.transientObject.product.ProductRelationalDTO;
 import ir.parto.crm.modules.server.model.entity.ServerGroup;
 import ir.parto.crm.modules.ticket.model.entity.TicketStage;
@@ -286,6 +287,25 @@ public class Product implements Serializable {
         if (this.productId != null) dto.setProductId(this.productId);
         if (this.title != null) dto.setTitle(this.title);
         if (this.productGroup != null) dto.setProductGroup(this.productGroup.convert2RelationalObject());
+        return dto;
+    }
+
+    public ProductDTO convert2Object() {
+        ProductDTO dto = new ProductDTO();
+        if (this.productId != null) dto.setProductId(this.productId);
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.adminDescription != null) dto.setAdminDescription(this.adminDescription);
+        if (this.clientDescription != null) dto.setClientDescription(this.clientDescription);
+        if (this.cover != null) dto.setCover(this.cover);
+        if (this.productGroup != null) dto.setProductGroup(this.productGroup.convert2RelationalObject());
+        if (this.serverGroup != null) dto.setServerGroup(this.serverGroup.convert2RelationalObject());
+        if (this.haveWorkFlow != null) dto.setHaveWorkFlow(this.haveWorkFlow);
+        if (this.ticketStage != null) dto.setTicketStage(this.ticketStage.convert2RelationalObject());
+        if (this.ticketState != null) dto.setTicketState(this.ticketState.convert2RelationalObject());
+        if (this.haveTax != null) dto.setHaveTax(this.haveTax);
+        if (this.adminHide != null) dto.setAdminHide(this.adminHide);
+        if (this.clientHide != null) dto.setClientHide(this.clientHide);
+        if (this.retired != null) dto.setRetired(this.retired);
         return dto;
     }
 }
