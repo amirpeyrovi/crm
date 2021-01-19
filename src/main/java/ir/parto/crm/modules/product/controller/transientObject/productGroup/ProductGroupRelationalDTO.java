@@ -1,4 +1,4 @@
-package ir.parto.crm.modules.product.controller.transientObject.ProductGroup;
+package ir.parto.crm.modules.product.controller.transientObject.productGroup;
 
 public class ProductGroupRelationalDTO {
     private Long productGroupId;

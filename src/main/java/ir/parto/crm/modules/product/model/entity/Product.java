@@ -1,6 +1,5 @@
 package ir.parto.crm.modules.product.model.entity;
 
-import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupRelationalDTO;
 import ir.parto.crm.modules.product.controller.transientObject.product.ProductDTO;
 import ir.parto.crm.modules.product.controller.transientObject.product.ProductRelationalDTO;
 import ir.parto.crm.modules.server.model.entity.ServerGroup;
@@ -112,6 +111,10 @@ public class Product implements Serializable {
         this.updatedDate = updatedDate;
         this.deletedDate = deletedDate;
         this.isDeleted = isDeleted;
+    }
+
+    public Product(Long productId) {
+        this.productId = productId;
     }
 
     public Long getProductId() {

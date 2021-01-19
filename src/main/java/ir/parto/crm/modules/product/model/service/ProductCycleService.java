@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ProductCycleService  implements ServiceInterface<ProductCycle> {
+public class ProductCycleService implements ServiceInterface<ProductCycle> {
     private ProductCycleRepository productCycleRepository;
 
     @Autowired
@@ -28,6 +28,7 @@ public class ProductCycleService  implements ServiceInterface<ProductCycle> {
     @Transactional
     public ProductCycle addNewItem(ProductCycle productCycle) {
         productCycle.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        productCycle.setTitle(productCycle.getTitle().trim());
         return this.productCycleRepository.save(productCycle);
     }
 
@@ -38,6 +39,7 @@ public class ProductCycleService  implements ServiceInterface<ProductCycle> {
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, productCycle);
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setTitle(productCycle.getTitle().trim());
         return this.productCycleRepository.save(exist);
     }
 

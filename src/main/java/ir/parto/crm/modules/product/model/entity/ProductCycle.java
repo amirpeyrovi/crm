@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.product.model.entity;
 
-import ir.parto.crm.modules.product.controller.transientObject.ProductCycle.ProductCycleRelationalDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productCycle.ProductCycleDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productCycle.ProductCycleRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 public class ProductCycle implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize=1)
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "product_seq")
     private Long productCycleId;
 
@@ -82,6 +83,10 @@ public class ProductCycle implements Serializable {
         this.updatedDate = updatedDate;
         this.deletedDate = deletedDate;
         this.isDeleted = isDeleted;
+    }
+
+    public ProductCycle(Long productCycleId) {
+        this.productCycleId = productCycleId;
     }
 
     public Long getProductCycleId() {
@@ -210,4 +215,18 @@ public class ProductCycle implements Serializable {
         if (this.title != null) dto.setTitle(this.title);
         return dto;
     }
+
+    public ProductCycleDTO convert2Object() {
+        ProductCycleDTO dto = new ProductCycleDTO();
+        if (this.productCycleId != null) dto.setProductCycleId(this.productCycleId);
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.days != null) dto.setDays(this.days);
+        if (this.month != null) dto.setMonth(this.month);
+        if (this.isOneTime != null) dto.setIsOneTime(this.isOneTime);
+        if (this.paidType != null) dto.setPaidType(this.paidType);
+        if (this.isAutoRenew != null) dto.setIsAutoRenew(this.isAutoRenew);
+        if (this.officialType != null) dto.setOfficialType(this.officialType);
+        return dto;
+    }
+
 }

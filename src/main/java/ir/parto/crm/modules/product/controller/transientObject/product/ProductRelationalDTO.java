@@ -1,6 +1,6 @@
 package ir.parto.crm.modules.product.controller.transientObject.product;
 
-import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupRelationalDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productGroup.ProductGroupRelationalDTO;
 
 public class ProductRelationalDTO {
     private Long productId;

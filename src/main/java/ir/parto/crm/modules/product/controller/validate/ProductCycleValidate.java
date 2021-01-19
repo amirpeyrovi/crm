@@ -25,9 +25,9 @@ public class ProductCycleValidate implements ValidateInterface<ProductCycle> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productCycle == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
-            if (productCycle.getTitle() == null || productCycle.getTitle().isEmpty()) {
+            if (productCycle.getTitle() == null || productCycle.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required");
             }
 
@@ -35,11 +35,11 @@ public class ProductCycleValidate implements ValidateInterface<ProductCycle> {
                 errorList.add("Days or Month is required");
             }
 
-            if (productCycle.getPaidType() == null || (productCycle.getPaidType() != 1 &&productCycle.getPaidType() != 2)) {
+            if (productCycle.getPaidType() == null || (productCycle.getPaidType() != 1 && productCycle.getPaidType() != 2)) {
                 errorList.add("PaidType is required and must be 1 or 2");
             }
 
-            if (productCycle.getOfficialType() == null || (productCycle.getOfficialType() != 1 &&productCycle.getOfficialType() != 2)) {
+            if (productCycle.getOfficialType() == null || (productCycle.getOfficialType() != 1 && productCycle.getOfficialType() != 2)) {
                 errorList.add("OfficialType is required and must be 1 or 2");
             }
         }
@@ -61,9 +61,9 @@ public class ProductCycleValidate implements ValidateInterface<ProductCycle> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productCycle == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
-            if(!this.productCycleService.existsById(productCycle.getProductCycleId())) {
+            if (!this.productCycleService.existsById(productCycle.getProductCycleId())) {
                 errorList.add("ProductCycle not found");
             }
 
@@ -75,11 +75,11 @@ public class ProductCycleValidate implements ValidateInterface<ProductCycle> {
                 errorList.add("Days or Month is required");
             }
 
-            if (productCycle.getPaidType() == null || (productCycle.getPaidType() != 1 &&productCycle.getPaidType() != 2)) {
+            if (productCycle.getPaidType() == null || (productCycle.getPaidType() != 1 && productCycle.getPaidType() != 2)) {
                 errorList.add("PaidType is required and must be 1 or 2");
             }
 
-            if (productCycle.getOfficialType() == null || (productCycle.getOfficialType() != 1 &&productCycle.getOfficialType() != 2)) {
+            if (productCycle.getOfficialType() == null || (productCycle.getOfficialType() != 1 && productCycle.getOfficialType() != 2)) {
                 errorList.add("OfficialType is required and must be 1 or 2");
             }
         }
@@ -101,10 +101,10 @@ public class ProductCycleValidate implements ValidateInterface<ProductCycle> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productCycle == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (!this.productCycleService.existsById(productCycle.getProductCycleId())) {
-                errorList.add("Product Id not defined");
+                errorList.add("Product Cycle Id not defined");
             }
         }
 
@@ -125,10 +125,10 @@ public class ProductCycleValidate implements ValidateInterface<ProductCycle> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productCycle == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (!this.productCycleService.existsById(productCycle.getProductCycleId())) {
-                errorList.add("Product Id not defined");
+                errorList.add("Product Cycle Id not defined");
             }
         }
 
@@ -149,10 +149,10 @@ public class ProductCycleValidate implements ValidateInterface<ProductCycle> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productCycle == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (!this.productCycleService.existsById(productCycle.getProductCycleId())) {
-                errorList.add("Product Id not defined");
+                errorList.add("Product Cycle Id not defined");
             }
         }
 

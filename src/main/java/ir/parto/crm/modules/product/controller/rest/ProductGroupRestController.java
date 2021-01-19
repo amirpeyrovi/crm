@@ -1,8 +1,8 @@
 package ir.parto.crm.modules.product.controller.rest;
 
-import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupAddDTO;
-import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupDTO;
-import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupEditDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productGroup.ProductGroupAddDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productGroup.ProductGroupDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productGroup.ProductGroupEditDTO;
 import ir.parto.crm.modules.product.controller.validate.ProductGroupValidate;
 import ir.parto.crm.modules.product.model.entity.ProductGroup;
 import ir.parto.crm.modules.product.model.service.ProductGroupService;

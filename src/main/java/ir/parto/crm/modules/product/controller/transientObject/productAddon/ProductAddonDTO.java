@@ -1,12 +1,12 @@
-package ir.parto.crm.modules.product.controller.transientObject.product;
+package ir.parto.crm.modules.product.controller.transientObject.productAddon;
 
 import ir.parto.crm.modules.product.controller.transientObject.productGroup.ProductGroupRelationalDTO;
 import ir.parto.crm.modules.server.controller.transientObject.serverGroup.ServerGroupRelationalDTO;
 import ir.parto.crm.modules.ticket.controller.transientObject.ticketStage.TicketStageRelationalDTO;
 import ir.parto.crm.modules.ticket.controller.transientObject.ticketState.TicketStateRelationalDTO;
 
-public class ProductDTO {
-    private Long productId;
+public class ProductAddonDTO {
+    private Long productAddonId;
     private String title;
     private String adminDescription;
     private String clientDescription;
@@ -21,11 +21,11 @@ public class ProductDTO {
     private Integer clientHide;
     private Integer retired;
 
-    public ProductDTO() {
+    public ProductAddonDTO() {
     }
 
-    public ProductDTO(Long productId, String title, String adminDescription, String clientDescription, String cover, ProductGroupRelationalDTO productGroup, ServerGroupRelationalDTO serverGroup, Integer haveWorkFlow, TicketStageRelationalDTO ticketStage, TicketStateRelationalDTO ticketState, Integer haveTax, Integer adminHide, Integer clientHide, Integer retired) {
-        this.productId = productId;
+    public ProductAddonDTO(Long productAddonId, String title, String adminDescription, String clientDescription, String cover, ProductGroupRelationalDTO productGroup, ServerGroupRelationalDTO serverGroup, Integer haveWorkFlow, TicketStageRelationalDTO ticketStage, TicketStateRelationalDTO ticketState, Integer haveTax, Integer adminHide, Integer clientHide, Integer retired) {
+        this.productAddonId = productAddonId;
         this.title = title;
         this.adminDescription = adminDescription;
         this.clientDescription = clientDescription;
@@ -41,12 +41,12 @@ public class ProductDTO {
         this.retired = retired;
     }
 
-    public Long getProductId() {
-        return productId;
+    public Long getProductAddonId() {
+        return productAddonId;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setProductAddonId(Long productAddonId) {
+        this.productAddonId = productAddonId;
     }
 
     public String getTitle() {

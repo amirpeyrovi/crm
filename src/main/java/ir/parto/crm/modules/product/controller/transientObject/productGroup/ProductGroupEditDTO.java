@@ -1,4 +1,4 @@
-package ir.parto.crm.modules.product.controller.transientObject.ProductGroup;
+package ir.parto.crm.modules.product.controller.transientObject.productGroup;
 
 import ir.parto.crm.modules.product.model.entity.ProductGroup;
 

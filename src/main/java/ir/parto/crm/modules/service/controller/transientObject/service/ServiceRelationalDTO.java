@@ -1,7 +1,7 @@
 package ir.parto.crm.modules.service.controller.transientObject.service;
 
 import ir.parto.crm.modules.client.controller.transientObject.client.ClientRelationalDTO;
-import ir.parto.crm.modules.product.controller.transientObject.ProductCycle.ProductCycleRelationalDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productCycle.ProductCycleRelationalDTO;
 import ir.parto.crm.modules.product.controller.transientObject.product.ProductRelationalDTO;
 
 public class ServiceRelationalDTO {

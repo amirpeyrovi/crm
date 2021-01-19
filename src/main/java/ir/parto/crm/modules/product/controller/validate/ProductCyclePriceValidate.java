@@ -32,22 +32,22 @@ public class ProductCyclePriceValidate implements ValidateInterface<ProductCycle
         ValidateObject validateObject = new ValidateObject();
 
         if (productCyclePrice == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (productCyclePrice.getProductCycle() == null) {
-                errorList.add("ProductCycle object is nul");
+                errorList.add("ProductCycle object is null");
             } else {
                 if (productCyclePrice.getProduct() == null && productCyclePrice.getProductAddon() == null) {
-                    errorList.add("Product and ProductAddon object is nul");
+                    errorList.add("Product and ProductAddon object is null");
                 } else {
                     if (productCyclePrice.getProduct() != null &&
                             !this.productService.existsById(productCyclePrice.getProduct().getProductId())) {
-                        errorList.add("ProductCyclePrice not found");
+                        errorList.add("Product not found");
                     }
 
                     if (productCyclePrice.getProductAddon() != null &&
                             !this.productAddonService.existsById(productCyclePrice.getProductAddon().getProductAddonId())) {
-                        errorList.add("ProductCyclePrice not found");
+                        errorList.add("ProductAddon not found");
                     }
 
                     if (productCyclePrice.getPrice() == null || productCyclePrice.getPrice() <= 0) {
@@ -74,13 +74,15 @@ public class ProductCyclePriceValidate implements ValidateInterface<ProductCycle
         ValidateObject validateObject = new ValidateObject();
 
         if (productCyclePrice == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
-            if (productCyclePrice.getProductCycle() == null) {
-                errorList.add("ProductCycle object is nul");
+            if (productCyclePrice.getProductCycle() != null && (
+                    productCyclePrice.getProductCycle().getProductCycleId() == null || productCyclePrice.getProductCycle().getProductCycleId() == 0)) {
+                errorList.add("ProductCycle object is null");
             } else {
-                if (productCyclePrice.getProduct() == null && productCyclePrice.getProductAddon() == null) {
-                    errorList.add("Product and ProductAddon object is nul");
+                if (productCyclePrice.getProduct() != null && (productCyclePrice.getProduct() == null
+                        || productCyclePrice.getProduct().getProductId() == 0)) {
+                    errorList.add("Product and ProductAddon object is null");
                 } else {
                     if (!this.productCyclePriceService.existsById(productCyclePrice.getProductCyclePriceId())) {
                         errorList.add("ProductCyclePrice not found");
@@ -88,12 +90,12 @@ public class ProductCyclePriceValidate implements ValidateInterface<ProductCycle
 
                     if (productCyclePrice.getProduct() != null &&
                             !this.productService.existsById(productCyclePrice.getProduct().getProductId())) {
-                        errorList.add("ProductCyclePrice not found");
+                        errorList.add("Product not found");
                     }
 
                     if (productCyclePrice.getProductAddon() != null &&
                             !this.productAddonService.existsById(productCyclePrice.getProductAddon().getProductAddonId())) {
-                        errorList.add("ProductCyclePrice not found");
+                        errorList.add("ProductAddon not found");
                     }
 
                     if (productCyclePrice.getPrice() == null || productCyclePrice.getPrice() <= 0) {
@@ -120,7 +122,7 @@ public class ProductCyclePriceValidate implements ValidateInterface<ProductCycle
         ValidateObject validateObject = new ValidateObject();
 
         if (productCyclePrice == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (!this.productCyclePriceService.existsById(productCyclePrice.getProductCyclePriceId())) {
                 errorList.add("ProductCyclePrice not found");
@@ -144,7 +146,7 @@ public class ProductCyclePriceValidate implements ValidateInterface<ProductCycle
         ValidateObject validateObject = new ValidateObject();
 
         if (productCyclePrice == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (!this.productCyclePriceService.existsById(productCyclePrice.getProductCyclePriceId())) {
                 errorList.add("ProductCyclePrice not found");
@@ -168,7 +170,7 @@ public class ProductCyclePriceValidate implements ValidateInterface<ProductCycle
         ValidateObject validateObject = new ValidateObject();
 
         if (productCyclePrice == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (!this.productCyclePriceService.existsById(productCyclePrice.getProductCyclePriceId())) {
                 errorList.add("ProductCyclePrice not found");

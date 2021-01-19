@@ -29,6 +29,7 @@ public class ProductAddonService implements ServiceInterface<ProductAddon> {
     @Transactional
     public ProductAddon addNewItem(ProductAddon productAddon) {
         productAddon.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        productAddon.setTitle(productAddon.getTitle().trim());
         return this.productAddonRepository.save(productAddon);
     }
 
@@ -39,6 +40,7 @@ public class ProductAddonService implements ServiceInterface<ProductAddon> {
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, productAddon);
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setTitle(productAddon.getTitle().trim());
         return this.productAddonRepository.save(exist);
     }
 
