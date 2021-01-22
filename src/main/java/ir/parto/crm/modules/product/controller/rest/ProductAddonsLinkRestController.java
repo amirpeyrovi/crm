@@ -1,5 +1,8 @@
 package ir.parto.crm.modules.product.controller.rest;
 
+import ir.parto.crm.modules.product.controller.transientObject.productAddonsLink.ProductAddonsLinkAddDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productAddonsLink.ProductAddonsLinkDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productAddonsLink.ProductAddonsLinkEditDTO;
 import ir.parto.crm.modules.product.controller.validate.ProductAddonValidate;
 import ir.parto.crm.modules.product.controller.validate.ProductAddonsLinkValidate;
 import ir.parto.crm.modules.product.controller.validate.ProductValidate;
@@ -10,16 +13,19 @@ import ir.parto.crm.modules.product.model.service.ProductAddonService;
 import ir.parto.crm.modules.product.model.service.ProductAddonsLinkService;
 import ir.parto.crm.modules.product.model.service.ProductService;
 import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageHelper;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.ProductAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
+import ir.parto.crm.utils.transientObject.Convert2Object;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @ProductAnnotation
@@ -54,7 +60,8 @@ public class ProductAddonsLinkRestController implements RestControllerInterface 
         ValidateObject validateObject = this.productAddonsLinkValidate.findAll();
         if (validateObject.getResult().equals("success")) {
             Page<ProductAddonsLink> productPage = this.productAddonsLinkService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "ProductAddonsLink", sortProperty, sortOrder));
-            return new ApiResponse("Success", productPage)
+            List<ProductAddonsLinkDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(), ProductAddonsLinkDTO.class);
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage,returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -63,7 +70,7 @@ public class ProductAddonsLinkRestController implements RestControllerInterface 
     }
 
     @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
-    public Object findAllByProduct(@PathVariable("id") Long id,
+    public Object findAllByProduct(@PathVariable("id") String id,
                                    @RequestParam(required = false, defaultValue = "0") String page,
                                    @RequestParam(required = false, defaultValue = "default") String sortProperty,
                                    @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
@@ -75,12 +82,13 @@ public class ProductAddonsLinkRestController implements RestControllerInterface 
         ValidateObject validateObject = this.productAddonsLinkValidate.findAll();
         if (validateObject.getResult().equals("success")) {
             Product product = new Product();
-            product.setProductId(id);
+            product.setProductId(Long.valueOf(id));
             ValidateObject validateObjectProduct = this.productValidate.findOne(product);
             if (validateObjectProduct.getResult().equals("success")) {
                 Product productExist = this.productService.findOne(product);
                 Page<ProductAddonsLink> productPage = this.productAddonsLinkService.findAllItemByProduct(productExist, PageableRequest.getInstance().createPageRequest(page, "ProductAddonsLink", sortProperty, sortOrder));
-                return new ApiResponse("Success", productPage)
+                List<ProductAddonsLinkDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(), ProductAddonsLinkDTO.class);
+                return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage,returnDTO))
                         .getSuccessResponse();
             } else {
                 return new ApiResponse("Error", 102, validateObjectProduct.getMessages())
@@ -93,7 +101,7 @@ public class ProductAddonsLinkRestController implements RestControllerInterface 
     }
 
     @RequestMapping(value = "/productAddon/{id}", method = RequestMethod.GET)
-    public Object findAllByProductAddon(@PathVariable("id") Long id,
+    public Object findAllByProductAddon(@PathVariable("id") String id,
                                         @RequestParam(required = false, defaultValue = "0") String page,
                                         @RequestParam(required = false, defaultValue = "default") String sortProperty,
                                         @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
@@ -105,12 +113,13 @@ public class ProductAddonsLinkRestController implements RestControllerInterface 
         ValidateObject validateObject = this.productAddonsLinkValidate.findAll();
         if (validateObject.getResult().equals("success")) {
             ProductAddon productAddon = new ProductAddon();
-            productAddon.setProductAddonId(id);
+            productAddon.setProductAddonId(Long.valueOf(id));
             ValidateObject validateObjectProductAddon = this.productAddonValidate.findOne(productAddon);
             if (validateObjectProductAddon.getResult().equals("success")) {
                 ProductAddon productAddonExist = this.productAddonService.findOne(productAddon);
                 Page<ProductAddonsLink> productPage = this.productAddonsLinkService.findAllItemByProductAddon(productAddonExist, PageableRequest.getInstance().createPageRequest(page, "ProductAddonsLink", sortProperty, sortOrder));
-                return new ApiResponse("Success", productPage)
+                List<ProductAddonsLinkDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(), ProductAddonsLinkDTO.class);
+                return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage,returnDTO))
                         .getSuccessResponse();
             } else {
                 return new ApiResponse("Error", 102, validateObjectProductAddon.getMessages())
@@ -123,19 +132,19 @@ public class ProductAddonsLinkRestController implements RestControllerInterface 
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody ProductAddonsLink productAddonsLink) {
+    public Object addOne(@RequestBody ProductAddonsLinkAddDTO productAddonsLinkDTO) {
         if (CheckPermission.getInstance().check("admin_add", "ProductAddonsLink")) {
             return new ApiResponse("Error", 101, Arrays.asList("ProductAddonsLink - admin_add - access denied!"))
                     .getFaultResponse();
         }
-
+        ProductAddonsLink productAddonsLink = productAddonsLinkDTO.convert2Object();
         productAddonsLink.setProductAddonLinkId(null);
 
         ValidateObject validateObject = this.productAddonsLinkValidate.validateAddNewItem(productAddonsLink);
         if (validateObject.getResult().equals("success")) {
             productAddonsLink.setProduct(this.productService.findOne(productAddonsLink.getProduct()));
             productAddonsLink.setProductAddon(this.productAddonService.findOne(productAddonsLink.getProductAddon()));
-            return new ApiResponse("Success", Arrays.asList(this.productAddonsLinkService.addNewItem(productAddonsLink)))
+            return new ApiResponse("Success", Arrays.asList(this.productAddonsLinkService.addNewItem(productAddonsLink).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -144,11 +153,13 @@ public class ProductAddonsLinkRestController implements RestControllerInterface 
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody ProductAddonsLink productAddonsLink) {
+    public Object updateOne(@PathVariable("id") String id, @RequestBody ProductAddonsLinkEditDTO productAddonsLinkDTO) {
         if (CheckPermission.getInstance().check("admin_update", "ProductAddonsLink")) {
             return new ApiResponse("Error", 101, Arrays.asList("ProductAddonsLink - admin_update - access denied!"))
                     .getFaultResponse();
         }
+        ProductAddonsLink productAddonsLink = productAddonsLinkDTO.convert2Object();
+
 
         return new ApiResponse("Error", 100, Arrays.asList("request not valid!"))
                 .getFaultResponse();
@@ -173,18 +184,29 @@ public class ProductAddonsLinkRestController implements RestControllerInterface 
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public Object deleteOne(@PathVariable("id") Long id) {
+    public Object deleteOne(@PathVariable("id") String id) {
         if (CheckPermission.getInstance().check("admin_delete", "ProductAddonsLink")) {
             return new ApiResponse("Error", 101, Arrays.asList("ProductAddonsLink - admin_delete - access denied!"))
                     .getFaultResponse();
         }
 
         ProductAddonsLink productAddonsLink = new ProductAddonsLink();
-        productAddonsLink.setProductAddonLinkId(id);
+        productAddonsLink.setProductAddonLinkId(Long.valueOf(id));
         ValidateObject validateObject = this.productAddonsLinkValidate.deleteItem(productAddonsLink);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.productAddonsLinkService.deleteItem(productAddonsLink)))
-                    .getSuccessResponse();
+            try {
+                return new ApiResponse("Success", Arrays.asList(
+                        this.productAddonsLinkService.deleteItem(productAddonsLink).convert2Object()))
+                        .getSuccessResponse();
+            } catch (Exception e) {
+                if (e.getMessage().contains("constraint")) {
+                    return new ApiResponse("Error", 103, Arrays.asList("" +
+                            "Integrity constraint violated - child record")).getFaultResponse();
+                } else {
+                    return new ApiResponse("Error", 103, Arrays.asList("An error occurred during the Delete"))
+                            .getFaultResponse();
+                }
+            }
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();
@@ -192,14 +214,14 @@ public class ProductAddonsLinkRestController implements RestControllerInterface 
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Object findOne(@PathVariable("id") Long id) {
+    public Object findOne(@PathVariable("id") String id) {
         if (CheckPermission.getInstance().check("admin_show", "ProductAddonsLink")) {
             return new ApiResponse("Error", 101, Arrays.asList("ProductAddonsLink - admin_show - access denied!"))
                     .getFaultResponse();
         }
 
         ProductAddonsLink productAddonsLink = new ProductAddonsLink();
-        productAddonsLink.setProductAddonLinkId(id);
+        productAddonsLink.setProductAddonLinkId(Long.valueOf(id));
         ValidateObject validateObject = this.productAddonsLinkValidate.findOne(productAddonsLink);
         if (validateObject.getResult().equals("success")) {
             return new ApiResponse("Success", Arrays.asList(this.productAddonsLinkService.findOne(productAddonsLink)))

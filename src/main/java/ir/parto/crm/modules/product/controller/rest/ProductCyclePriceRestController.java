@@ -215,13 +215,13 @@ public class ProductCyclePriceRestController implements RestControllerInterface 
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody ProductCyclePriceEditDTO productCyclePriceDTO) {
+    public Object updateOne(@PathVariable("id") String id, @RequestBody ProductCyclePriceEditDTO productCyclePriceDTO) {
         if (CheckPermission.getInstance().check("admin_update", "ProductCyclePrice")) {
             return new ApiResponse("Error", 101, Arrays.asList("ProductCyclePrice - admin_update - access denied!"))
                     .getFaultResponse();
         }
         ProductCyclePrice productCyclePrice = productCyclePriceDTO.convert2Object();
-        productCyclePrice.setProductCyclePriceId(id);
+        productCyclePrice.setProductCyclePriceId(Long.valueOf(id));
         if (productCyclePrice.getProductCycle() != null)
             productCyclePrice.setProductCycle(this.productCycleService.findOne(productCyclePrice.getProductCycle()));
         if (productCyclePrice.getProduct() == null) {
