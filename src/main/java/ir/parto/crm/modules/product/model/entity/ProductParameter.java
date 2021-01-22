@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.product.model.entity;
 
+import ir.parto.crm.modules.product.controller.transientObject.productParameter.ProductParameterDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productParameter.ProductParameterInfoDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +14,7 @@ import java.time.LocalDateTime;
 public class ProductParameter implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize=1)
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "product_seq")
     private Long productParameterId;
 
@@ -176,5 +178,37 @@ public class ProductParameter implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ProductParameterDTO convert2Object() {
+        ProductParameterDTO dto = new ProductParameterDTO();
+        if (this.productParameterId != null) dto.setProductParameterId(this.productParameterId);
+        if (this.productParameterGroup != null)
+            dto.setProductParameterGroup(this.productParameterGroup.convert2RelationalDTO());
+        if (this.title != null) dto.setProductParameterId(this.productParameterId);
+        if (this.description != null) dto.setDescription(this.description);
+        if (this.type != null) dto.setType(this.type);
+        if (this.options != null) dto.setOptions(this.options);
+        return dto;
+    }
+
+    public ProductParameterInfoDTO convert2InfoObject() {
+        ProductParameterInfoDTO dto = new ProductParameterInfoDTO();
+        if (this.productParameterId != null) dto.setProductParameterId(this.productParameterId);
+        if (this.productParameterGroup != null)
+            dto.setProductParameterGroup(this.productParameterGroup.convert2RelationalDTO());
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.description != null) dto.setDescription(this.description);
+        if (this.type != null) dto.setType(this.type);
+        if (this.options != null) dto.setOptions(this.options);
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if (this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if (this.updatedDate != null) dto.setUpdatedDate(this.updatedDate);
+        if (this.deletedDate != null) dto.setDeletedDate(this.deletedDate);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
+
+        return dto;
     }
 }

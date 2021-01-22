@@ -1,5 +1,8 @@
 package ir.parto.crm.modules.product.model.entity;
 
+import ir.parto.crm.modules.product.controller.transientObject.productParameterGroup.ProductParameterGroupDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productParameterGroup.ProductParameterGroupInfoDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productParameterGroup.ProductParameterGroupRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +15,7 @@ import java.time.LocalDateTime;
 public class ProductParameterGroup implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize=1)
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "product_seq")
     private Long productParameterGroupId;
 
@@ -55,6 +58,10 @@ public class ProductParameterGroup implements Serializable {
         this.updatedDate = updatedDate;
         this.deletedDate = deletedDate;
         this.isDeleted = isDeleted;
+    }
+
+    public ProductParameterGroup(Long productParameterGroupId) {
+        this.productParameterGroupId = productParameterGroupId;
     }
 
     public Long getProductParameterGroupId() {
@@ -127,5 +134,26 @@ public class ProductParameterGroup implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ProductParameterGroupDTO convert2Object() {
+        ProductParameterGroupDTO dto = new ProductParameterGroupDTO();
+        if (this.productParameterGroupId != null) dto.setProductParameterGroupId(this.productParameterGroupId);
+        if (this.title != null) dto.setTitle(this.title);
+        return dto;
+    }
+
+    public ProductParameterGroupInfoDTO convert2InfoObject() {
+        ProductParameterGroupInfoDTO dto = new ProductParameterGroupInfoDTO();
+        if (this.productParameterGroupId != null) dto.setProductParameterGroupId(this.productParameterGroupId);
+        if (this.title != null) dto.setTitle(this.title);
+        return dto;
+    }
+
+    public ProductParameterGroupRelationalDTO convert2RelationalDTO() {
+        ProductParameterGroupRelationalDTO dto = new ProductParameterGroupRelationalDTO();
+        if (this.productParameterGroupId != null) dto.setProductParameterGroupId(this.productParameterGroupId);
+        if (this.title != null) dto.setTitle(this.title);
+        return dto;
     }
 }
