@@ -1,12 +1,13 @@
 package ir.parto.crm.modules.product.controller.rest;
 
-import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductEditDTO;
-import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupAddDTO;
-import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productGroup.ProductGroupAddDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productGroup.ProductGroupDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productGroup.ProductGroupEditDTO;
 import ir.parto.crm.modules.product.controller.validate.ProductGroupValidate;
 import ir.parto.crm.modules.product.model.entity.ProductGroup;
 import ir.parto.crm.modules.product.model.service.ProductGroupService;
 import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageHelper;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.ProductAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
@@ -47,8 +48,8 @@ public class ProductGroupRestController implements RestControllerInterface {
         ValidateObject validateObject = this.productGroupValidate.findAll();
         if (validateObject.getResult().equals("success")) {
             Page<ProductGroup> productPage = this.productGroupService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "ProductGroup", sortProperty, sortOrder));
-            List<ProductGroupDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(),ProductGroupDTO.class);
-            return new ApiResponse("Success", returnDTO)
+            List<ProductGroupDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(), ProductGroupDTO.class);
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage, returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -80,7 +81,7 @@ public class ProductGroupRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody ProductEditDTO productEditDTO) {
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody ProductGroupEditDTO productEditDTO) {
         if (CheckPermission.getInstance().check("admin_update", "ProductGroup")) {
             return new ApiResponse("Error", 101, Arrays.asList("ProductGroup - admin_update - access denied!"))
                     .getFaultResponse();

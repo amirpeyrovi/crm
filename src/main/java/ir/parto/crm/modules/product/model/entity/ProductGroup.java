@@ -1,7 +1,7 @@
 package ir.parto.crm.modules.product.model.entity;
 
-import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupDTO;
-import ir.parto.crm.modules.product.controller.transientObject.ProductGroup.ProductGroupRelationalDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productGroup.ProductGroupDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productGroup.ProductGroupRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

@@ -1,7 +1,9 @@
 package ir.parto.crm.modules.ticket.controller.validate;
 
 import ir.parto.crm.modules.ticket.model.entity.TicketStateAction;
+import ir.parto.crm.modules.ticket.model.entity.TicketStateActionType;
 import ir.parto.crm.modules.ticket.model.service.TicketStateActionService;
+import ir.parto.crm.modules.ticket.model.service.TicketStateActionTypeService;
 import ir.parto.crm.utils.CheckPermission;
 import ir.parto.crm.utils.annotations.ValidationAnnotation;
 import ir.parto.crm.utils.interfaces.ValidateInterface;
@@ -14,10 +16,13 @@ import java.util.List;
 @ValidationAnnotation
 public class TicketStateActionValidate implements ValidateInterface<TicketStateAction> {
     private TicketStateActionService ticketStateActionService;
+    private TicketStateActionTypeService ticketStateActionTypeService;
 
     @Autowired
-    public TicketStateActionValidate(TicketStateActionService ticketStateActionService) {
+    public TicketStateActionValidate(TicketStateActionService ticketStateActionService,
+                                     TicketStateActionTypeService ticketStateActionTypeService) {
         this.ticketStateActionService = ticketStateActionService;
+        this.ticketStateActionTypeService = ticketStateActionTypeService;
     }
 
     @Override
@@ -27,18 +32,28 @@ public class TicketStateActionValidate implements ValidateInterface<TicketStateA
         if (ticketStateAction == null) {
             errorList.add("Object is null");
         } else {
-            if (ticketStateAction.getTitle() == null) {
+            if (ticketStateAction.getTitle() == null || ticketStateAction.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required!");
             } else {
-                TicketStateAction exist = this.ticketStateActionService.findByIsDeletedIsNullAndTitle(ticketStateAction.getTitle());
-                if (exist != null && exist.getTitle().equals(ticketStateAction.getTitle())) {
+                TicketStateAction exist = this.ticketStateActionService.findByIsDeletedIsNullAndTitle(
+                        ticketStateAction.getTitle().trim());
+                if (exist != null && exist.getTitle().equals(ticketStateAction.getTitle().trim())) {
                     errorList.add("Title is duplicate");
                 }
             }
 
-            if (ticketStateAction.getTicketStateActionType() != null || ticketStateAction.getTicketStateActionType().getTicketStateActionTypeId() == null || ticketStateAction.getTicketStateActionType().getTicketStateActionTypeId() == 0) {
+            if (ticketStateAction.getTicketStateActionType() != null && (
+                    ticketStateAction.getTicketStateActionType().getTicketStateActionTypeId() == null
+                            || ticketStateAction.getTicketStateActionType().getTicketStateActionTypeId() == 0)) {
                 errorList.add("TicketStateActionType is required");
+            } else {
+                TicketStateActionType ticketStateActionTypeExist = this.ticketStateActionTypeService.findById(ticketStateAction.getTicketStateActionType()
+                        .getTicketStateActionTypeId());
+                if (ticketStateActionTypeExist == null || ticketStateActionTypeExist.getTicketStateActionTypeId() == 0) {
+                    errorList.add("TicketStateActionType not defined");
+                }
             }
+
         }
 
         validateObject.setCount(errorList.size());
@@ -59,10 +74,29 @@ public class TicketStateActionValidate implements ValidateInterface<TicketStateA
         if (ticketStateAction == null) {
             errorList.add("Object is null");
         } else {
-            if (ticketStateAction.getTitle() != null) {
-                TicketStateAction exist = this.ticketStateActionService.findByIsDeletedIsNullAndTitle(ticketStateAction.getTitle());
-                if (exist != null && !exist.getTicketStateActionId().equals(ticketStateAction.getTicketStateActionId())) {
-                    errorList.add("Title is duplicate");
+            if (!this.ticketStateActionService.existsById(ticketStateAction.getTicketStateActionId())) {
+                errorList.add("Object not defined");
+            } else {
+                if (ticketStateAction.getTitle() != null && (ticketStateAction.getTitle().trim().isEmpty())) {
+                    errorList.add("Title is required");
+                }
+                if (ticketStateAction.getTitle() != null) {
+                    TicketStateAction exist = this.ticketStateActionService.findByIsDeletedIsNullAndTitle(ticketStateAction.getTitle().trim());
+                    if (exist != null && !exist.getTicketStateActionId().equals(ticketStateAction.getTicketStateActionId())) {
+                        errorList.add("Title is duplicate");
+                    }
+                }
+
+                if (ticketStateAction.getTicketStateActionType() != null && (
+                        ticketStateAction.getTicketStateActionType().getTicketStateActionTypeId() == null
+                                || ticketStateAction.getTicketStateActionType().getTicketStateActionTypeId() == 0)) {
+                    errorList.add("TicketStateActionType is required");
+                } else if (ticketStateAction.getTicketStateActionType() != null) {
+                    TicketStateActionType ticketStateActionTypeExist = this.ticketStateActionTypeService.findById(ticketStateAction.getTicketStateActionType()
+                            .getTicketStateActionTypeId());
+                    if (ticketStateActionTypeExist == null || ticketStateActionTypeExist.getTicketStateActionTypeId() == 0) {
+                        errorList.add("TicketStateActionType not defined");
+                    }
                 }
             }
         }
@@ -83,6 +117,8 @@ public class TicketStateActionValidate implements ValidateInterface<TicketStateA
         ValidateObject validateObject = new ValidateObject();
         if (ticketStateAction == null) {
             errorList.add("Object is null");
+        } else if (!this.ticketStateActionService.existsById(ticketStateAction.getTicketStateActionId())) {
+            errorList.add("Object not defined");
         }
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
@@ -100,6 +136,8 @@ public class TicketStateActionValidate implements ValidateInterface<TicketStateA
         ValidateObject validateObject = new ValidateObject();
         if (ticketStateAction == null) {
             errorList.add("Object is null");
+        } else if (!this.ticketStateActionService.existsById(ticketStateAction.getTicketStateActionId())) {
+            errorList.add("Object not defined");
         }
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);

@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.ticket.model.entity;
 
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateAction.TicketStateActionDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateAction.TicketStateActionRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +14,7 @@ import java.time.LocalDateTime;
 public class TicketStateAction implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "ticket_action_seq", sequenceName = "ticket_action_seq", allocationSize=1)
+    @SequenceGenerator(name = "ticket_action_seq", sequenceName = "ticket_action_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "ticket_action_seq")
     private Long ticketStateActionId;
 
@@ -64,6 +66,10 @@ public class TicketStateAction implements Serializable {
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
         this.isDeleted = isDeleted;
+    }
+
+    public TicketStateAction(Long ticketStateAction) {
+        this.ticketStateActionId = ticketStateAction;
     }
 
     public Long getTicketStateActionId() {
@@ -144,5 +150,21 @@ public class TicketStateAction implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public TicketStateActionDTO convert2Object() {
+        TicketStateActionDTO dto = new TicketStateActionDTO();
+        if (this.ticketStateActionId != null) dto.setTicketStateActionId(this.ticketStateActionId);
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.ticketStateActionType != null)
+            dto.setTicketStateActionType(this.ticketStateActionType.convert2RelationalObject());
+        return dto;
+    }
+
+    public TicketStateActionRelationalDTO convert2RelationalObject() {
+        TicketStateActionRelationalDTO dto = new TicketStateActionRelationalDTO();
+        if (this.ticketStateActionId != null) dto.setTicketStateActionId(this.ticketStateActionId);
+        if (this.title != null) dto.setTitle(this.title);
+        return dto;
     }
 }

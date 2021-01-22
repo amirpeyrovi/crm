@@ -1,20 +1,27 @@
 package ir.parto.crm.modules.ticket.controller.rest;
 
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateActionType.TicketStateActionTypeAddDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateActionType.TicketStateActionTypeDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateActionType.TicketStateActionTypeEditDTO;
 import ir.parto.crm.modules.ticket.controller.validate.TickeStateActionTypeValidate;
 import ir.parto.crm.modules.ticket.model.entity.TicketStateActionType;
 import ir.parto.crm.modules.ticket.model.service.TickeStateActionTypeService;
 import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageHelper;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.TicketAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
+import ir.parto.crm.utils.transientObject.Convert2Object;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @TicketAnnotation
@@ -44,7 +51,8 @@ public class TicketStateActionTypeRestController implements RestControllerInterf
             Page<TicketStateActionType> ticketStateActionTypes = this.ticketStateActionTypeService.
                     findAllItem(PageableRequest.getInstance().createPageRequest(page, "TicketStateActionType",
                             sortProperty, sortOrder));
-            return new ApiResponse("Success", ticketStateActionTypes)
+            List<TicketStateActionTypeDTO> returnDTO =  Convert2Object.mapAll(ticketStateActionTypes.getContent(), TicketStateActionTypeDTO.class);
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(ticketStateActionTypes, returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -54,17 +62,19 @@ public class TicketStateActionTypeRestController implements RestControllerInterf
 
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody TicketStateActionType ticketStateActionType) {
+    public Object addOne(@RequestBody TicketStateActionTypeAddDTO ticketStateActionTypeDTO) {
         if (CheckPermission.getInstance().check("admin_add", "TicketStateActionType")) {
             return new ApiResponse("Error", 101, Arrays.asList("TicketStateActionType - admin_add - access denied!"))
                     .getFaultResponse();
         }
+        TicketStateActionType ticketStateActionType = ticketStateActionTypeDTO.convert2Object();
 
         ticketStateActionType.setTicketStateActionTypeId(null);
 
         ValidateObject validateObject = this.ticketStateActionTypeValidate.validateAddNewItem(ticketStateActionType);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.ticketStateActionTypeService.addNewItem(ticketStateActionType)))
+            return new ApiResponse("Success", Arrays.asList(this.ticketStateActionTypeService.
+                    addNewItem(ticketStateActionType).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -73,18 +83,20 @@ public class TicketStateActionTypeRestController implements RestControllerInterf
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody TicketStateActionType ticketStateActionType) {
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody TicketStateActionTypeEditDTO ticketStateActionTypeDTO) {
         if (CheckPermission.getInstance().check("admin_update", "TicketStateActionType")) {
             return new ApiResponse("Error", 101, Arrays.asList("TicketStateActionType - admin_update - access denied!"))
                     .getFaultResponse();
         }
 
+        TicketStateActionType ticketStateActionType = ticketStateActionTypeDTO.convert2Object();
         ticketStateActionType.setTicketStateActionTypeId(id);
 
         ValidateObject validateObject = this.ticketStateActionTypeValidate.validateUpdateItem(ticketStateActionType);
         if (validateObject.getResult().equals("success")) {
             try {
-                return new ApiResponse("Success", Arrays.asList(this.ticketStateActionTypeService.updateItem(ticketStateActionType)))
+                return new ApiResponse("Success", Arrays.asList(
+                        this.ticketStateActionTypeService.updateItem(ticketStateActionType).convert2Object()))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
                 return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
@@ -110,8 +122,22 @@ public class TicketStateActionTypeRestController implements RestControllerInterf
         ticketStateActionType.setTicketStateActionTypeId(id);
         ValidateObject validateObject = this.ticketStateActionTypeValidate.deleteItem(ticketStateActionType);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.ticketStateActionTypeService.deleteItem(ticketStateActionType)))
-                    .getSuccessResponse();
+
+            try {
+                return new ApiResponse("Success", Arrays.asList(
+                        this.ticketStateActionTypeService.deleteItem(ticketStateActionType).convert2Object()))
+                        .getSuccessResponse();
+            } catch (Exception e) {
+                if (e.getMessage().contains("constraint")) {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("" +
+                            "Integrity constraint violated - child record"))).getFaultResponse();
+                } else {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("An error occurred during the Delete")))
+                            .getFaultResponse();
+                }
+            }
+
+
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();

@@ -1,21 +1,28 @@
 package ir.parto.crm.modules.ticket.controller.rest;
 
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateAction.TicketStateActionAddDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateAction.TicketStateActionDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateAction.TicketStateActionEditDTO;
 import ir.parto.crm.modules.ticket.controller.validate.TicketStateActionValidate;
 import ir.parto.crm.modules.ticket.model.entity.TicketStateAction;
 import ir.parto.crm.modules.ticket.model.service.TicketStateActionService;
 import ir.parto.crm.modules.ticket.model.service.TicketStateActionTypeService;
 import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageHelper;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.TicketAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
+import ir.parto.crm.utils.transientObject.Convert2Object;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @TicketAnnotation
@@ -27,7 +34,7 @@ public class TicketStateActionRestController implements RestControllerInterface 
 
     @Autowired
     public TicketStateActionRestController(TicketStateActionService ticketStateActionService, TicketStateActionValidate ticketStateActionValidate
-    , TicketStateActionTypeService ticketStateActionTypeService) {
+            , TicketStateActionTypeService ticketStateActionTypeService) {
         this.ticketStateActionService = ticketStateActionService;
         this.ticketStateActionValidate = ticketStateActionValidate;
         this.ticketStateActionTypeService = ticketStateActionTypeService;
@@ -45,8 +52,9 @@ public class TicketStateActionRestController implements RestControllerInterface 
         ValidateObject validateObject = this.ticketStateActionValidate.findAll();
         if (validateObject.getResult().equals("success")) {
             Page<TicketStateAction> ticketStateActionPage = this.ticketStateActionService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "TicketStateAction", sortProperty, sortOrder));
-            return new ApiResponse("Success", ticketStateActionPage)
-                    .getSuccessResponse();
+            List<TicketStateActionDTO> returnDTO = Convert2Object.mapAll(ticketStateActionPage.getContent(), TicketStateActionDTO.class);
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(ticketStateActionPage,returnDTO)).getSuccessResponse();
+
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();
@@ -54,18 +62,19 @@ public class TicketStateActionRestController implements RestControllerInterface 
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody TicketStateAction ticketStateAction) {
+    public Object addOne(@RequestBody TicketStateActionAddDTO ticketStateActionDTO) {
         if (CheckPermission.getInstance().check("admin_add", "TicketStateAction")) {
             return new ApiResponse("Error", 101, Arrays.asList("TicketStateAction - admin_add - access denied!"))
                     .getFaultResponse();
         }
-
+        TicketStateAction ticketStateAction = ticketStateActionDTO.convert2Object();
         ticketStateAction.setTicketStateActionId(null);
 
         ValidateObject validateObject = this.ticketStateActionValidate.validateAddNewItem(ticketStateAction);
         if (validateObject.getResult().equals("success")) {
             ticketStateAction.setTicketStateActionType(this.ticketStateActionTypeService.findOne(ticketStateAction.getTicketStateActionType()));
-            return new ApiResponse("Success", Arrays.asList(this.ticketStateActionService.addNewItem(ticketStateAction)))
+            return new ApiResponse("Success", Arrays.asList(
+                    this.ticketStateActionService.addNewItem(ticketStateAction).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -74,19 +83,22 @@ public class TicketStateActionRestController implements RestControllerInterface 
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody TicketStateAction ticketStateAction) {
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody TicketStateActionEditDTO ticketStateActionDTO) {
         if (CheckPermission.getInstance().check("admin_update", "TicketStateAction")) {
             return new ApiResponse("Error", 101, Arrays.asList("TicketStateAction - admin_update - access denied!"))
                     .getFaultResponse();
         }
-
+        TicketStateAction ticketStateAction = ticketStateActionDTO.convert2Object();
         ticketStateAction.setTicketStateActionId(id);
 
         ValidateObject validateObject = this.ticketStateActionValidate.validateUpdateItem(ticketStateAction);
         if (validateObject.getResult().equals("success")) {
             try {
-                ticketStateAction.setTicketStateActionType(this.ticketStateActionTypeService.findOne(ticketStateAction.getTicketStateActionType()));
-                return new ApiResponse("Success", Arrays.asList(this.ticketStateActionService.updateItem(ticketStateAction)))
+                if (ticketStateAction.getTicketStateActionType() != null) {
+                    ticketStateAction.setTicketStateActionType(this.ticketStateActionTypeService.findOne(ticketStateAction.getTicketStateActionType()));
+                }
+                return new ApiResponse("Success", Arrays.asList(
+                        this.ticketStateActionService.updateItem(ticketStateAction).convert2Object()))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
                 return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
@@ -112,8 +124,19 @@ public class TicketStateActionRestController implements RestControllerInterface 
         ticketStateAction.setTicketStateActionId(id);
         ValidateObject validateObject = this.ticketStateActionValidate.deleteItem(ticketStateAction);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.ticketStateActionService.deleteItem(ticketStateAction)))
-                    .getSuccessResponse();
+            try {
+                return new ApiResponse("Success", Arrays.asList(
+                        this.ticketStateActionService.deleteItem(ticketStateAction).convert2Object()))
+                        .getSuccessResponse();
+            } catch (Exception e) {
+                if (e.getMessage().contains("constraint")) {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("" +
+                            "Integrity constraint violated - child record"))).getFaultResponse();
+                } else {
+                    return new ApiResponse("Error", 103, new ArrayList(Arrays.asList("An error occurred during the Delete")))
+                            .getFaultResponse();
+                }
+            }
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();

@@ -26,11 +26,11 @@ public class TicketStateActionTypeValidate implements ValidateInterface<TicketSt
         if (ticketStateActionType == null) {
             errorList.add("Object is null");
         } else {
-            if (ticketStateActionType.getTitle() == null) {
+            if (ticketStateActionType.getTitle() == null || ticketStateActionType.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required!");
             } else {
                 TicketStateActionType exist = this.ticketStateActionTypeService.findByIsDeletedIsNullAndTitle(ticketStateActionType.getTitle());
-                if (exist != null && exist.getTitle().equals(ticketStateActionType.getTitle())) {
+                if (exist != null && exist.getTitle().equals(ticketStateActionType.getTitle().trim())) {
                     errorList.add("Title is duplicate");
                 }
             }
@@ -57,7 +57,7 @@ public class TicketStateActionTypeValidate implements ValidateInterface<TicketSt
         }
         if (ticketStateActionType.getTitle() != null) {
             TicketStateActionType exist = this.ticketStateActionTypeService.findByIsDeletedIsNullAndTitle(ticketStateActionType.getTitle());
-            if (exist != null && exist.getTitle().equals(ticketStateActionType.getTitle())) {
+            if (exist != null && exist.getTitle().equals(ticketStateActionType.getTitle().trim())) {
                 errorList.add("Title is duplicate");
             }
         }

@@ -15,14 +15,16 @@ public class ProductAddDTO {
     private Long productGroupId;
     private Long serverGroupId;
     private Integer haveWorkFlow;
-    private Long ticketStage;
-    private Long ticketState;
+    private Long ticketStageId;
+    private Long ticketStateId;
     private Integer haveTax;
     private Integer adminHide;
     private Integer clientHide;
     private Integer retired;
 
-    public ProductAddDTO(String title, String adminDescription, String clientDescription, String cover, Long productGroupId, Long serverGroupId, Integer haveWorkFlow, Long ticketStage, Long ticketState, Integer haveTax, Integer adminHide, Integer clientHide, Integer retired) {
+    public ProductAddDTO(String title, String adminDescription, String clientDescription, String cover, Long productGroupId,
+                         Long serverGroupId, Integer haveWorkFlow, Long ticketStageId, Long ticketStateId,
+                         Integer haveTax, Integer adminHide, Integer clientHide, Integer retired) {
         this.title = title;
         this.adminDescription = adminDescription;
         this.clientDescription = clientDescription;
@@ -30,8 +32,8 @@ public class ProductAddDTO {
         this.productGroupId = productGroupId;
         this.serverGroupId = serverGroupId;
         this.haveWorkFlow = haveWorkFlow;
-        this.ticketStage = ticketStage;
-        this.ticketState = ticketState;
+        this.ticketStageId = ticketStageId;
+        this.ticketStateId = ticketStateId;
         this.haveTax = haveTax;
         this.adminHide = adminHide;
         this.clientHide = clientHide;
@@ -39,6 +41,110 @@ public class ProductAddDTO {
     }
 
     public ProductAddDTO() {
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAdminDescription() {
+        return adminDescription;
+    }
+
+    public void setAdminDescription(String adminDescription) {
+        this.adminDescription = adminDescription;
+    }
+
+    public String getClientDescription() {
+        return clientDescription;
+    }
+
+    public void setClientDescription(String clientDescription) {
+        this.clientDescription = clientDescription;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public Long getProductGroupId() {
+        return productGroupId;
+    }
+
+    public void setProductGroupId(Long productGroupId) {
+        this.productGroupId = productGroupId;
+    }
+
+    public Long getServerGroupId() {
+        return serverGroupId;
+    }
+
+    public void setServerGroupId(Long serverGroupId) {
+        this.serverGroupId = serverGroupId;
+    }
+
+    public Integer getHaveWorkFlow() {
+        return haveWorkFlow;
+    }
+
+    public void setHaveWorkFlow(Integer haveWorkFlow) {
+        this.haveWorkFlow = haveWorkFlow;
+    }
+
+    public Long getTicketStageId() {
+        return ticketStageId;
+    }
+
+    public void setTicketStageId(Long ticketStageId) {
+        this.ticketStageId = ticketStageId;
+    }
+
+    public Long getTicketStateId() {
+        return ticketStateId;
+    }
+
+    public void setTicketStateId(Long ticketStateId) {
+        this.ticketStateId = ticketStateId;
+    }
+
+    public Integer getHaveTax() {
+        return haveTax;
+    }
+
+    public void setHaveTax(Integer haveTax) {
+        this.haveTax = haveTax;
+    }
+
+    public Integer getAdminHide() {
+        return adminHide;
+    }
+
+    public void setAdminHide(Integer adminHide) {
+        this.adminHide = adminHide;
+    }
+
+    public Integer getClientHide() {
+        return clientHide;
+    }
+
+    public void setClientHide(Integer clientHide) {
+        this.clientHide = clientHide;
+    }
+
+    public Integer getRetired() {
+        return retired;
+    }
+
+    public void setRetired(Integer retired) {
+        this.retired = retired;
     }
 
     public Product convert2Object() {
@@ -50,8 +156,8 @@ public class ProductAddDTO {
         if (this.productGroupId != null) product.setProductGroup(new ProductGroup(this.productGroupId));
         if (this.serverGroupId != null) product.setServerGroup(new ServerGroup(this.serverGroupId));
         if (this.haveWorkFlow != null) product.setHaveWorkFlow(0);
-        if (this.ticketStage != null) product.setTicketStage(new TicketStage(this.ticketStage));
-        if (this.ticketState != null) product.setTicketState(new TicketState(this.ticketState));
+        if (this.ticketStageId != null) product.setTicketStage(new TicketStage(this.ticketStageId));
+        if (this.ticketStateId != null) product.setTicketState(new TicketState(this.ticketStateId));
         if (this.haveTax != null) product.setHaveTax(0);
         if (this.adminHide != null) product.setAdminHide(0);
         if (this.clientHide != null) product.setClientHide(0);

@@ -8,6 +8,7 @@ import ir.parto.crm.modules.ticket.controller.validate.TicketStageValidate;
 import ir.parto.crm.modules.ticket.model.entity.TicketStage;
 import ir.parto.crm.modules.ticket.model.service.TicketStageService;
 import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageHelper;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.TicketAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @TicketAnnotation
@@ -52,8 +54,9 @@ public class TicketStageRestController implements RestControllerInterface {
         if (validateObject.getResult().equals("success")) {
             Page<TicketStage> ticketStagePage = this.ticketStageService.findAllItem
                     (PageableRequest.getInstance().createPageRequest(page, "TicketStage", sortProperty, sortOrder));
-            return new ApiResponse("Success", Convert2Object.mapAll(ticketStagePage.getContent(), TicketStageDTO.class
-            ))
+
+            List<TicketStageDTO> returnDTO = Convert2Object.mapAll(ticketStagePage.getContent(), TicketStageDTO.class);
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(ticketStagePage, returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())

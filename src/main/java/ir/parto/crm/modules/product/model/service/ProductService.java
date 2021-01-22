@@ -29,6 +29,7 @@ public class ProductService implements ServiceInterface<Product> {
     @Transactional
     public Product addNewItem(Product product) {
         product.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        product.setTitle(product.getTitle().trim());
         return this.productRepository.save(product);
     }
 
@@ -39,6 +40,7 @@ public class ProductService implements ServiceInterface<Product> {
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, product);
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (product.getTitle() != null) exist.setTitle(product.getTitle().trim());
         return this.productRepository.save(exist);
     }
 

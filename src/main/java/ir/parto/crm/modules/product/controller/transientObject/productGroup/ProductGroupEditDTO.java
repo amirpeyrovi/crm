@@ -1,18 +1,18 @@
-package ir.parto.crm.modules.product.controller.transientObject.ProductGroup;
+package ir.parto.crm.modules.product.controller.transientObject.productGroup;
 
 import ir.parto.crm.modules.product.model.entity.ProductGroup;
 
-public class ProductEditDTO {
+public class ProductGroupEditDTO {
     private Long productGroupId;
     private String title;
     private String adminDescription;
     private String clientDescription;
     private String cover;
 
-    public ProductEditDTO() {
+    public ProductGroupEditDTO() {
     }
 
-    public ProductEditDTO(Long productGroupId, String title, String adminDescription, String clientDescription, String cover) {
+    public ProductGroupEditDTO(Long productGroupId, String title, String adminDescription, String clientDescription, String cover) {
         this.productGroupId = productGroupId;
         this.title = title;
         this.adminDescription = adminDescription;

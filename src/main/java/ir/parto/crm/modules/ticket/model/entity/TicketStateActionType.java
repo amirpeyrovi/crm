@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.ticket.model.entity;
 
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateActionType.TicketStateActionTypeDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketStateActionType.TicketStateActionTypeRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +14,7 @@ import java.time.LocalDateTime;
 public class TicketStateActionType implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "ticket_action_type_seq", sequenceName = "ticket_action_type_seq", allocationSize=1)
+    @SequenceGenerator(name = "ticket_action_type_seq", sequenceName = "ticket_action_type_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "ticket_action_type_seq")
     private Long ticketStateActionTypeId;
 
@@ -58,6 +60,10 @@ public class TicketStateActionType implements Serializable {
 
     public TicketStateActionType(String title) {
         this.title = title;
+    }
+
+    public TicketStateActionType(Long ticketStateActionTypeId) {
+        this.ticketStateActionTypeId = ticketStateActionTypeId;
     }
 
     public Long getTicketStateActionTypeId() {
@@ -130,5 +136,20 @@ public class TicketStateActionType implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public TicketStateActionTypeDTO convert2Object() {
+        TicketStateActionTypeDTO ticketStateActionTypeDTO = new TicketStateActionTypeDTO();
+        if (this.ticketStateActionTypeId != null)
+            ticketStateActionTypeDTO.setTicketStateActionTypeId(this.ticketStateActionTypeId);
+        if (this.title != null) ticketStateActionTypeDTO.setTitle(this.title);
+        return ticketStateActionTypeDTO;
+    }
+
+    public TicketStateActionTypeRelationalDTO convert2RelationalObject() {
+        TicketStateActionTypeRelationalDTO dto = new TicketStateActionTypeRelationalDTO();
+        if (this.ticketStateActionTypeId != null) dto.setTicketStateActionTypeId(this.ticketStateActionTypeId);
+        if (this.title != null) dto.setTitle(this.title);
+        return dto;
     }
 }

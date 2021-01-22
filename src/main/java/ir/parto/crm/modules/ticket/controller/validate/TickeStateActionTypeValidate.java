@@ -23,12 +23,17 @@ public class TickeStateActionTypeValidate implements ValidateInterface<TicketSta
     public ValidateObject validateAddNewItem(TicketStateActionType ticketStateActionType) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(ticketStateActionType == null){
+        if (ticketStateActionType == null) {
             errorList.add("Object not defined");
-        }else{
-            if (ticketStateActionType.getTitle() == null ||
-                    ticketStateActionType.getTitle().isEmpty()) {
+        } else {
+            if (ticketStateActionType.getTitle().trim() == null ||
+                    ticketStateActionType.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required");
+            }
+
+            TicketStateActionType exist = this.ticketStateActionTypeService.findByIsDeletedIsNullAndTitle(ticketStateActionType.getTitle().trim());
+            if (exist != null && exist.getTicketStateActionTypeId() != 0) {
+                errorList.add("Title is duplicate");
             }
         }
 
@@ -47,11 +52,24 @@ public class TickeStateActionTypeValidate implements ValidateInterface<TicketSta
     public ValidateObject validateUpdateItem(TicketStateActionType ticketStateActionType) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
-        if(ticketStateActionType != null && ticketStateActionType.getTitle() != null &&
-                    ticketStateActionType.getTitle().isEmpty()) {
-            errorList.add("Title is required");
+        if (ticketStateActionType == null) {
+            errorList.add("Object is null");
+        } else {
+            if(!this.ticketStateActionTypeService.existsById(ticketStateActionType.getTicketStateActionTypeId())){
+                errorList.add("Object not defined");
+            }else {
+                if (ticketStateActionType != null && ticketStateActionType.getTitle() != null &&
+                        ticketStateActionType.getTitle().trim().isEmpty()) {
+                    errorList.add("Title is required");
+                } else {
+                    TicketStateActionType exist = this.ticketStateActionTypeService.findByIsDeletedIsNullAndTitle(ticketStateActionType.getTitle().trim());
+                    if (exist != null && exist.getTicketStateActionTypeId() != 0
+                            && exist.getTicketStateActionTypeId() != ticketStateActionType.getTicketStateActionTypeId()) {
+                        errorList.add("Title is duplicate");
+                    }
+                }
+            }
         }
-
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
         if (errorList.size() > 0) {
@@ -64,13 +82,13 @@ public class TickeStateActionTypeValidate implements ValidateInterface<TicketSta
     }
 
 
-
     @Override
     public ValidateObject deleteItem(TicketStateActionType ticketStateActionType) {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
         if (ticketStateActionType == null || ticketStateActionType.getTicketStateActionTypeId() == null
-                || ticketStateActionType.getTicketStateActionTypeId() == 0) {
+                || ticketStateActionType.getTicketStateActionTypeId() == 0
+        || !this.ticketStateActionTypeService.existsById(ticketStateActionType.getTicketStateActionTypeId())) {
             errorList.add("Object not defined!");
         }
         if (errorList.size() > 0) {
@@ -89,7 +107,8 @@ public class TickeStateActionTypeValidate implements ValidateInterface<TicketSta
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
         if (ticketStateActionType == null || ticketStateActionType.getTicketStateActionTypeId() == null
-                || ticketStateActionType.getTicketStateActionTypeId() == 0) {
+                || ticketStateActionType.getTicketStateActionTypeId() == 0
+                || !this.ticketStateActionTypeService.existsById(ticketStateActionType.getTicketStateActionTypeId())) {
             errorList.add("Object not defined!");
         }
         if (errorList.size() > 0) {

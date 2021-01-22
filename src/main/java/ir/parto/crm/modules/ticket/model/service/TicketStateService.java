@@ -28,6 +28,7 @@ public class TicketStateService implements ServiceInterface<TicketState> {
     @Transactional
     public TicketState addNewItem(TicketState ticketState) {
         ticketState.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        ticketState.setTitle(ticketState.getTitle().trim());
         return this.ticketStateRepository.save(ticketState);
     }
 
@@ -38,6 +39,8 @@ public class TicketStateService implements ServiceInterface<TicketState> {
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ticketState);
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (ticketState.getTitle() != null && ticketState.getTitle().trim() != null)
+            exist.setTitle(ticketState.getTitle().trim());
         return this.ticketStateRepository.save(exist);
     }
 
@@ -82,6 +85,6 @@ public class TicketStateService implements ServiceInterface<TicketState> {
     }
 
     public TicketState findByIsDeletedIsNullAndTitle(String title) {
-        return  this.ticketStateRepository.findByIsDeletedIsNullAndTitle(title);
+        return this.ticketStateRepository.findByIsDeletedIsNullAndTitle(title);
     }
 }

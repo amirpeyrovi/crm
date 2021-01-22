@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.product.model.entity;
 
+import ir.parto.crm.modules.product.controller.transientObject.productAddonsLink.ProductAddonsLinkDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 public class ProductAddonsLink implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize=1)
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "product_seq")
     private Long productAddonLinkId;
 
@@ -141,5 +142,13 @@ public class ProductAddonsLink implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ProductAddonsLinkDTO convert2Object() {
+        ProductAddonsLinkDTO dto = new ProductAddonsLinkDTO();
+        if (this.productAddonLinkId != null) dto.setProductAddonLinkId(this.productAddonLinkId);
+        if (this.product != null) dto.setProduct(this.product.convert2Object());
+        if (this.productAddon != null) dto.setProductAddon(this.productAddon.convert2Object());
+        return dto;
     }
 }

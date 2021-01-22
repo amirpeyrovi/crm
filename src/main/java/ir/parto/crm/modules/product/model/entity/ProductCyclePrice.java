@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.product.model.entity;
 
+import ir.parto.crm.modules.product.controller.transientObject.productCyclePrice.ProductCyclePriceDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 public class ProductCyclePrice implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize=1)
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "product_seq")
     private Long productCyclePriceId;
 
@@ -178,5 +179,16 @@ public class ProductCyclePrice implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ProductCyclePriceDTO convert2Object() {
+        ProductCyclePriceDTO dto = new ProductCyclePriceDTO();
+        if (this.productCyclePriceId != null) dto.setProductCyclePriceId(this.productCyclePriceId);
+        if (this.productCycle != null) dto.setProductCycle(this.productCycle.convert2RelationalObject());
+        if (this.product != null) dto.setProduct(this.product.convert2RelationalObject());
+        if (this.productAddon != null) dto.setProductAddon(this.productAddon.convert2RelationalObject());
+        if (this.setupPrice != null) dto.setSetupPrice(this.setupPrice);
+        if (this.price != null) dto.setPrice(this.price);
+        return dto;
     }
 }

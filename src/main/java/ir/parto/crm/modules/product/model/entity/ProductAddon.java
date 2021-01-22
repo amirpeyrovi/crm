@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.product.model.entity;
 
+import ir.parto.crm.modules.product.controller.transientObject.productAddon.ProductAddonDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productAddon.ProductAddonRelationalDTO;
 import ir.parto.crm.modules.server.model.entity.ServerGroup;
 import ir.parto.crm.modules.ticket.model.entity.TicketStage;
 import ir.parto.crm.modules.ticket.model.entity.TicketState;
@@ -15,7 +17,7 @@ import java.time.LocalDateTime;
 public class ProductAddon implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize=1)
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "product_seq")
     private Long productAddonId;
 
@@ -40,7 +42,7 @@ public class ProductAddon implements Serializable {
     private ServerGroup serverGroup;
 
     @Column(name = "have_work_flow", columnDefinition = "number(1)")
-    private Integer haveWorkFlow ;
+    private Integer haveWorkFlow;
 
     @ManyToOne
     @JoinColumn(name = "ticket_stage_id", foreignKey = @ForeignKey(name = "product_addon_ticket_stage_fk"))
@@ -110,6 +112,10 @@ public class ProductAddon implements Serializable {
         this.updatedDate = updatedDate;
         this.deletedDate = deletedDate;
         this.isDeleted = isDeleted;
+    }
+
+    public ProductAddon(Long productAddonId) {
+        this.productAddonId = productAddonId;
     }
 
     public Long getProductAddonId() {
@@ -278,5 +284,33 @@ public class ProductAddon implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ProductAddonDTO convert2Object() {
+        ProductAddonDTO dto = new ProductAddonDTO();
+        if (this.productAddonId != null) dto.setProductAddonId(this.productAddonId);
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.adminDescription != null) dto.setAdminDescription(this.adminDescription);
+        if (this.clientDescription != null) dto.setClientDescription(this.clientDescription);
+        if (this.cover != null) dto.setCover(this.cover);
+        if (this.productGroup != null) dto.setProductGroup(this.productGroup.convert2RelationalObject());
+        if (this.serverGroup != null) dto.setServerGroup(this.serverGroup.convert2RelationalObject());
+        if (this.haveWorkFlow != null) dto.setHaveWorkFlow(this.haveWorkFlow);
+        if (this.ticketStage != null) dto.setTicketStage(this.ticketStage.convert2RelationalObject());
+        if (this.ticketState != null) dto.setTicketState(this.ticketState.convert2RelationalObject());
+        if (this.haveTax != null) dto.setHaveTax(this.haveTax);
+        if (this.adminHide != null) dto.setAdminHide(this.adminHide);
+        if (this.clientHide != null) dto.setClientHide(this.clientHide);
+        if (this.retired != null) dto.setRetired(this.retired);
+
+        return dto;
+    }
+
+    public ProductAddonRelationalDTO convert2RelationalObject() {
+        ProductAddonRelationalDTO dto = new ProductAddonRelationalDTO();
+        if (this.productAddonId != null) dto.setProductAddonId(this.productAddonId);
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.productGroup != null) dto.setProductGroup(this.productGroup.convert2RelationalObject());
+        return dto;
     }
 }

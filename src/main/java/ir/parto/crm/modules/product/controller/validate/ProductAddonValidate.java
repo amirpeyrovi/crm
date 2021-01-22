@@ -25,9 +25,9 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productAddon == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
-            if (productAddon.getTitle() == null || productAddon.getTitle().isEmpty()) {
+            if (productAddon.getTitle() == null || productAddon.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required");
             }
 
@@ -53,17 +53,18 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productAddon == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (!this.productAddonService.existsById(productAddon.getProductAddonId())) {
                 errorList.add("ProductAddon not defined");
             }
 
-            if (productAddon.getTitle() == null || productAddon.getTitle().isEmpty()) {
+            if (productAddon.getTitle() == null || productAddon.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required");
             }
 
-            if (productAddon.getProductGroup() == null || productAddon.getProductGroup().getProductGroupId() == 0) {
+            if (productAddon.getProductGroup() != null && (
+                    productAddon.getProductGroup().getProductGroupId() == 0 || productAddon.getProductGroup().getProductGroupId() == null) ) {
                 errorList.add("Product Group is required");
             }
         }
@@ -85,7 +86,7 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productAddon == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (!this.productAddonService.existsById(productAddon.getProductAddonId())) {
                 errorList.add("Product Addon Id not defined");
@@ -109,7 +110,7 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productAddon == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (!this.productAddonService.existsById(productAddon.getProductAddonId())) {
                 errorList.add("Product Addon Id not defined");
@@ -133,7 +134,7 @@ public class ProductAddonValidate implements ValidateInterface<ProductAddon> {
         ValidateObject validateObject = new ValidateObject();
 
         if (productAddon == null) {
-            errorList.add("object is nul");
+            errorList.add("object is null");
         } else {
             if (!this.productAddonService.existsById(productAddon.getProductAddonId())) {
                 errorList.add("Product Addon Id not defined");

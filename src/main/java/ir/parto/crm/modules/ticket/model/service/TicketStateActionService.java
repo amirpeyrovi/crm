@@ -28,6 +28,7 @@ public class TicketStateActionService implements ServiceInterface<TicketStateAct
     @Transactional
     public TicketStateAction addNewItem(TicketStateAction ticketStateAction) {
         ticketStateAction.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        ticketStateAction.setTitle(ticketStateAction.getTitle().trim());
         return this.ticketStateActionRepository.save(ticketStateAction);
     }
 
@@ -38,6 +39,7 @@ public class TicketStateActionService implements ServiceInterface<TicketStateAct
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, ticketStateAction);
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        exist.setTitle(ticketStateAction.getTitle().trim());
         return this.ticketStateActionRepository.save(exist);
     }
 
