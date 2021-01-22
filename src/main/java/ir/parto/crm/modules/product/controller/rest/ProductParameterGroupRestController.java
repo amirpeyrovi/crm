@@ -68,8 +68,7 @@ public class ProductParameterGroupRestController implements RestControllerInterf
         ValidateObject validateObject = this.productParameterGroupValidate.validateAddNewItem(productParameterGroup);
         if (validateObject.getResult().equals("success")) {
             return new ApiResponse("Success", Arrays.asList(this.productParameterGroupService.addNewItem(productParameterGroup)
-                    .convert2Object()))
-                    .getSuccessResponse();
+                    .convert2Object())).getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();

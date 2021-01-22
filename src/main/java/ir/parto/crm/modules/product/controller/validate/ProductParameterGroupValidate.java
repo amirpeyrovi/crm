@@ -25,9 +25,9 @@ public class ProductParameterGroupValidate implements ValidateInterface<ProductP
         ValidateObject validateObject = new ValidateObject();
 
         if (productParameterGroup == null) {
-            errorList.add("object is nul");
+            errorList.add("Object is null");
         } else {
-            if (productParameterGroup.getTitle() == null || productParameterGroup.getTitle().isEmpty()) {
+            if (productParameterGroup.getTitle() == null || productParameterGroup.getTitle().isEmpty() || productParameterGroup.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required");
             }
         }
@@ -49,13 +49,14 @@ public class ProductParameterGroupValidate implements ValidateInterface<ProductP
         ValidateObject validateObject = new ValidateObject();
 
         if (productParameterGroup == null) {
-            errorList.add("object is nul");
+            errorList.add("Object is null");
         } else {
             if (!this.productParameterGroupService.existsById(productParameterGroup.getProductParameterGroupId())) {
                 errorList.add("ProductParameterGroup not defined");
             }
 
-            if (productParameterGroup.getTitle() == null || productParameterGroup.getTitle().isEmpty()) {
+            if (productParameterGroup.getTitle() != null && (productParameterGroup.getTitle().isEmpty()
+                    || productParameterGroup.getTitle().trim().isEmpty())) {
                 errorList.add("Title is required");
             }
         }
@@ -77,7 +78,7 @@ public class ProductParameterGroupValidate implements ValidateInterface<ProductP
         ValidateObject validateObject = new ValidateObject();
 
         if (productParameterGroup == null) {
-            errorList.add("object is nul");
+            errorList.add("Object is null");
         } else {
             if (!this.productParameterGroupService.existsById(productParameterGroup.getProductParameterGroupId())) {
                 errorList.add("ProductParameterGroup not defined");
@@ -101,11 +102,12 @@ public class ProductParameterGroupValidate implements ValidateInterface<ProductP
         ValidateObject validateObject = new ValidateObject();
 
         if (productParameterGroup == null) {
-            errorList.add("object is nul");
+            errorList.add("Object is null");
         } else {
             if (!this.productParameterGroupService.existsById(productParameterGroup.getProductParameterGroupId())) {
                 errorList.add("ProductParameterGroup not defined");
             }
+
         }
 
         validateObject.setCount(errorList.size());
@@ -125,7 +127,7 @@ public class ProductParameterGroupValidate implements ValidateInterface<ProductP
         ValidateObject validateObject = new ValidateObject();
 
         if (productParameterGroup == null) {
-            errorList.add("object is nul");
+            errorList.add("Object is null");
         } else {
             if (!this.productParameterGroupService.existsById(productParameterGroup.getProductParameterGroupId())) {
                 errorList.add("ProductParameterGroup not defined");

@@ -147,6 +147,13 @@ public class ProductParameterGroup implements Serializable {
         ProductParameterGroupInfoDTO dto = new ProductParameterGroupInfoDTO();
         if (this.productParameterGroupId != null) dto.setProductParameterGroupId(this.productParameterGroupId);
         if (this.title != null) dto.setTitle(this.title);
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if (this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if (this.updatedDate != null) dto.setUpdatedDate(this.updatedDate);
+        if (this.deletedDate != null) dto.setDeletedDate(this.deletedDate);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
         return dto;
     }
 
