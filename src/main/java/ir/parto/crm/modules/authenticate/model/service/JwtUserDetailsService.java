@@ -22,7 +22,6 @@ public class JwtUserDetailsService  implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("-------------------------25---/*");
         Admin admin = adminRepository.findByUsername(username);
         if (admin == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
@@ -33,19 +32,12 @@ public class JwtUserDetailsService  implements UserDetailsService {
         return Admin.create(admin);
     }
 
-//    public AdminRepository save(AdminDTO user) {
-//        Admin newUser = new Admin();
-//        newUser.setUsername(user.getUsername());
-//        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-//        return (AdminRepository) adminRepository.save(newUser);
-//    }
     // This method is used by JWTAuthenticationFilter
 
     public UserDetails loadUserById(Long id) {
         Admin admin = adminRepository.findById(id).orElseThrow(
                 () -> new UsernameNotFoundException("User not found with id : " + id)
         );
-        System.out.println("------------47-----"+admin.getUsername());
         return Admin.create(admin);
     }
 

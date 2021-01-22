@@ -22,4 +22,6 @@ public interface AdminRolePermissionRepository extends JpaRepository<AdminRolePe
     Boolean existsByIsDeletedIsNullAndAdminRolePermissionId(Long id);
 
     AdminRolePermission findByAdminRoleAndAdminPermission(AdminRole adminRole, AdminPermission permission);
+
+    AdminRolePermission findByTitle(String title);
 }

@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.admin.model.entity;
 
+import ir.parto.crm.modules.admin.controller.transientObject.adminLog.AdminLogDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -169,5 +170,15 @@ public class AdminLog implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public AdminLogDTO convert2Object() {
+        AdminLogDTO dto = new AdminLogDTO();
+        if(this.adminLogId != null) dto.setAdminLogId(this.adminLogId);
+        if(this.log != null) dto.setLog(this.log);
+        if(this.username != null) dto.setUsername(this.username);
+        if(this.ipAddress != null) dto.setIpAddress(this.ipAddress);
+        if(this.admin != null) dto.setAdmin(this.admin);
+        return dto;
     }
 }

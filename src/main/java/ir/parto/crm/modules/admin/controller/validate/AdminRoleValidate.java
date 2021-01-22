@@ -24,19 +24,24 @@ public class AdminRoleValidate implements ValidateInterface<AdminRole> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(adminRole == null){
+        if (adminRole == null) {
             errorList.add("Admin Role information is required");
-        }else{
-            if(adminRole.getTitle() == null || adminRole.getTitle().isEmpty() ){
+        } else {
+            if (adminRole.getTitle() == null || adminRole.getTitle().isEmpty()) {
                 errorList.add("Title is required");
+            } else {
+                AdminRole exist = this.adminRoleService.findByTitle(adminRole.getTitle());
+                if (exist != null) {
+                    errorList.add("Title must be unique");
+                }
             }
         }
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
 
@@ -48,23 +53,28 @@ public class AdminRoleValidate implements ValidateInterface<AdminRole> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(adminRole == null){
+        if (adminRole == null) {
             errorList.add("Admin Role information is required");
-        }else{
-            if(this.adminRoleService.existsById(adminRole.getAdminRoleId())){
+        } else {
+            if (!this.adminRoleService.existsById(adminRole.getAdminRoleId())) {
                 errorList.add("Admin Role is not defined!");
             }
 
-            if(adminRole.getTitle() == null || adminRole.getTitle().isEmpty() ){
+            if (adminRole.getTitle() == null || adminRole.getTitle().isEmpty()) {
                 errorList.add("Title is required");
+            } else {
+                AdminRole exist = this.adminRoleService.findByTitle(adminRole.getTitle());
+                if (exist != null && !exist.getAdminRoleId().equals(adminRole.getAdminRoleId())) {
+                    errorList.add("Title must be unique");
+                }
             }
         }
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
 
@@ -76,19 +86,19 @@ public class AdminRoleValidate implements ValidateInterface<AdminRole> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(adminRole == null){
+        if (adminRole == null) {
             errorList.add("Role information is required");
-        }else{
-            if(!this.adminRoleService.existsById(adminRole.getAdminRoleId())){
+        } else {
+            if (!this.adminRoleService.existsById(adminRole.getAdminRoleId())) {
                 errorList.add("Role is not defined!");
             }
         }
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
         return validateObject;
@@ -100,19 +110,19 @@ public class AdminRoleValidate implements ValidateInterface<AdminRole> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(adminRole == null){
+        if (adminRole == null) {
             errorList.add("Role information is required");
-        }else{
-            if(!this.adminRoleService.existsById(adminRole.getAdminRoleId())){
+        } else {
+            if (!this.adminRoleService.existsById(adminRole.getAdminRoleId())) {
                 errorList.add("Role is not defined!");
             }
         }
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
         return validateObject;
@@ -123,19 +133,19 @@ public class AdminRoleValidate implements ValidateInterface<AdminRole> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(adminRole == null){
+        if (adminRole == null) {
             errorList.add("Role information is required");
-        }else{
-            if(!this.adminRoleService.existsById(adminRole.getAdminRoleId())){
+        } else {
+            if (!this.adminRoleService.existsById(adminRole.getAdminRoleId())) {
                 errorList.add("Role is not defined!");
             }
         }
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
         return validateObject;
@@ -148,9 +158,9 @@ public class AdminRoleValidate implements ValidateInterface<AdminRole> {
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
         return validateObject;

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 //        CheckPermission.getInstance().check("client_update", "Client_Credit")
-@Component
+@Component("CheckPermission")
 public class CheckPermission {
     private AdminPermissionService adminPermissionService;
     private AdminRoleService adminRoleService;
@@ -39,7 +39,7 @@ public class CheckPermission {
         }
 
         Admin admin = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (admin.getAdminRole().getAdminRoleId() == null || admin.getAdminRole().getAdminRoleId() == 0) {
+        if (admin == null || admin.getAdminRole() == null || admin.getAdminRole().getAdminRoleId() == null || admin.getAdminRole().getAdminRoleId() == 0) {
             return false;
         } else {
             AdminRole adminRole = this.adminRoleService.findById(admin.getAdminRole().getAdminRoleId());
@@ -47,14 +47,14 @@ public class CheckPermission {
             AdminRolePermission adminRolePermission = this.adminRolePermissionService.findByAdminRoleAndPermission(adminRole, adminPermission);
 
             switch (action) {
-                case "client_add":
-                    return adminRolePermission.getClient_addPerm() == 1;
-                case "client_update":
-                    return adminRolePermission.getClient_updatePerm() == 1;
-                case "client_delete":
-                    return adminRolePermission.getClient_deletePerm() == 1;
-                case "client_show":
-                    return adminRolePermission.getClient_viewPerm() == 1;
+//                case "client_add":
+//                    return adminRolePermission.getClient_addPerm() == 1;
+//                case "client_update":
+//                    return adminRolePermission.getClient_updatePerm() == 1;
+//                case "client_delete":
+//                    return adminRolePermission.getClient_deletePerm() == 1;
+//                case "client_show":
+//                    return adminRolePermission.getClient_viewPerm() == 1;
                 case "admin_add":
                     return adminRolePermission.getAdmin_addPerm() == 1;
                 case "admin_update":

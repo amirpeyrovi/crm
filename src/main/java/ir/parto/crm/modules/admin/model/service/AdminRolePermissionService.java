@@ -87,4 +87,8 @@ public class AdminRolePermissionService implements ServiceInterface<AdminRolePer
     public AdminRolePermission findByAdminRoleAndPermission(AdminRole adminRole, AdminPermission permission) {
         return this.adminRolePermissionRepository.findByAdminRoleAndAdminPermission(adminRole , permission);
     }
+
+    public AdminRolePermission findByTitle(String title) {
+        return this.adminRolePermissionRepository.findByTitle(title);
+    }
 }

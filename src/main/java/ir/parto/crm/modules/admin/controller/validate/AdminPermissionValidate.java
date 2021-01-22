@@ -24,23 +24,28 @@ public class AdminPermissionValidate implements ValidateInterface<AdminPermissio
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(adminPermission == null){
+        if (adminPermission == null) {
             errorList.add("Admin information is required");
-        }else{
-            if(adminPermission.getTitle() == null || adminPermission.getTitle().isEmpty() ){
+        } else {
+            if (adminPermission.getTitle() == null || adminPermission.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required");
+            } else {
+                AdminPermission exist = this.adminPermissionService.findByTitle(adminPermission.getTitle());
+                if (exist != null) {
+                    errorList.add("Title must be unique");
+                }
             }
 
-            if(adminPermission.getShowName() == null || adminPermission.getShowName().isEmpty() ){
+            if (adminPermission.getShowName() == null || adminPermission.getShowName().isEmpty()) {
                 errorList.add("ShowName is required");
             }
         }
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
 
@@ -53,26 +58,32 @@ public class AdminPermissionValidate implements ValidateInterface<AdminPermissio
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(adminPermission == null){
+        if (adminPermission == null) {
             errorList.add("AdminPermission information is required");
-        }else{
-            if(this.adminPermissionService.existsById(adminPermission.getPermissionId())){
+        } else {
+            if (!this.adminPermissionService.existsById(adminPermission.getPermissionId())) {
                 errorList.add("AdminPermission is not defined!");
             }
 
-            if(adminPermission.getTitle() == null || adminPermission.getTitle().isEmpty()){
+            if (adminPermission.getTitle() != null && adminPermission.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required");
+            } else {
+                AdminPermission exist = this.adminPermissionService.findByTitle(adminPermission.getTitle());
+                if (exist != null && !exist.getPermissionId().equals(adminPermission.getPermissionId())) {
+                    errorList.add("Title must be unique");
+                }
             }
-            if(adminPermission.getShowName() == null || adminPermission.getShowName().isEmpty()){
+
+            if (adminPermission.getShowName() == null || adminPermission.getShowName().isEmpty()) {
                 errorList.add("ShowName is required");
             }
         }
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
         return validateObject;
@@ -83,19 +94,19 @@ public class AdminPermissionValidate implements ValidateInterface<AdminPermissio
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(adminPermission == null){
+        if (adminPermission == null) {
             errorList.add("Admin information is required");
-        }else{
-            if(!this.adminPermissionService.existsById(adminPermission.getPermissionId())){
+        } else {
+            if (!this.adminPermissionService.existsById(adminPermission.getPermissionId())) {
                 errorList.add("Admin is not defined!");
             }
         }
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
         return validateObject;
@@ -106,19 +117,19 @@ public class AdminPermissionValidate implements ValidateInterface<AdminPermissio
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(adminPermission == null){
+        if (adminPermission == null) {
             errorList.add("Admin information is required");
-        }else{
-            if(!this.adminPermissionService.existsById(adminPermission.getPermissionId())){
+        } else {
+            if (!this.adminPermissionService.existsById(adminPermission.getPermissionId())) {
                 errorList.add("Admin is not defined!");
             }
         }
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
         return validateObject;
@@ -129,19 +140,19 @@ public class AdminPermissionValidate implements ValidateInterface<AdminPermissio
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(adminPermission == null){
+        if (adminPermission == null) {
             errorList.add("Admin information is required");
-        }else{
-            if(!this.adminPermissionService.existsById(adminPermission.getPermissionId())){
+        } else {
+            if (!this.adminPermissionService.existsById(adminPermission.getPermissionId())) {
                 errorList.add("Admin is not defined!");
             }
         }
 
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
         return validateObject;
@@ -153,9 +164,9 @@ public class AdminPermissionValidate implements ValidateInterface<AdminPermissio
         ValidateObject validateObject = new ValidateObject();
         validateObject.setCount(errorList.size());
         validateObject.setMessages(errorList);
-        if(errorList.size()>0){
+        if (errorList.size() > 0) {
             validateObject.setResult("error");
-        }else{
+        } else {
             validateObject.setResult("success");
         }
         return validateObject;

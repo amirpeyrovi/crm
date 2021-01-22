@@ -1,22 +1,23 @@
 package ir.parto.crm.modules.admin.controller.transientObject.admin;
 
-import ir.parto.crm.modules.admin.controller.transientObject.adminRole.AdminRoleDTO;
 import ir.parto.crm.modules.admin.model.entity.Admin;
+import ir.parto.crm.modules.admin.model.entity.AdminRole;
 
-public class AdminRelationalDTO {
-    private Long adminId;
+public class AdminAddDTO {
     private String username;
+    private String password;
     private String firstName;
     private String lastName;
     private String identifyCode;
     private String phoneNumber;
-    private AdminRoleDTO adminRole;
+    private Long adminRoleId;
 
-    public AdminRelationalDTO() {
+    public AdminAddDTO() {
     }
 
-    public AdminRelationalDTO(String username, String firstName, String lastName, String identifyCode, String phoneNumber) {
+    public AdminAddDTO(String username, String password, String firstName, String lastName, String identifyCode, String phoneNumber) {
         this.username = username;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.identifyCode = identifyCode;
@@ -29,6 +30,14 @@ public class AdminRelationalDTO {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -63,30 +72,23 @@ public class AdminRelationalDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public Long getAdminId() {
-        return adminId;
+    public Long getAdminRoleId() {
+        return adminRoleId;
     }
 
-    public void setAdminId(Long adminId) {
-        this.adminId = adminId;
-    }
-
-    public AdminRoleDTO getAdminRole() {
-        return adminRole;
-    }
-
-    public void setAdminRole(AdminRoleDTO adminRole) {
-        this.adminRole = adminRole;
+    public void setAdminRoleId(Long adminRoleId) {
+        this.adminRoleId = adminRoleId;
     }
 
     public Admin convert2Object(){
         Admin admin = new Admin();
         if(this.username != null) admin.setUsername(this.username);
+        if(this.password != null) admin.setPassword(this.password);
         if(this.firstName != null) admin.setFirstName(this.firstName);
         if(this.lastName != null) admin.setLastName(this.lastName);
         if(this.identifyCode != null) admin.setIdentifyCode(this.identifyCode);
         if(this.phoneNumber != null) admin.setPhoneNumber(this.phoneNumber);
-        if(this.adminRole != null) admin.setAdminRole(this.adminRole.convert2Object());
+        if(this.adminRoleId != null) admin.setAdminRole(new AdminRole(this.adminRoleId));
 
         return admin;
     }

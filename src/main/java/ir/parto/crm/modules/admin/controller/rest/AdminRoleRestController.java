@@ -1,12 +1,16 @@
 package ir.parto.crm.modules.admin.controller.rest;
 
+import ir.parto.crm.modules.admin.controller.transientObject.adminRole.AdminRoleAddDTO;
+import ir.parto.crm.modules.admin.controller.transientObject.adminRole.AdminRoleDTO;
 import ir.parto.crm.modules.admin.model.entity.AdminRole;
 import ir.parto.crm.modules.admin.controller.validate.AdminRolePermissionValidate;
 import ir.parto.crm.modules.admin.controller.validate.AdminRoleValidate;
 import ir.parto.crm.modules.admin.model.service.AdminRolePermissionService;
 import ir.parto.crm.modules.admin.model.service.AdminRoleService;
 import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageHelper;
 import ir.parto.crm.utils.PageableRequest;
+import ir.parto.crm.utils.annotations.AdminAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
@@ -15,22 +19,25 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
-@RequestMapping("/v1/admin/adminRole")
+@AdminAnnotation
+@CrossOrigin
+@RequestMapping(value = "/v1/admin/adminRole", produces = "application/json")
 public class AdminRoleRestController implements RestControllerInterface {
     private AdminRoleService adminRoleService;
     private AdminRoleValidate adminRoleValidate;
-    private CheckPermission checkPermission;
     private AdminRolePermissionService adminRolePermissionService;
     private AdminRolePermissionValidate adminRolePermissionValidate;
 
     @Autowired
-    public AdminRoleRestController(AdminRoleService adminRoleService, AdminRoleValidate adminRoleValidate, CheckPermission checkPermission, AdminRolePermissionService adminRolePermissionService, AdminRolePermissionValidate adminRolePermissionValidate) {
+    public AdminRoleRestController(AdminRoleService adminRoleService, AdminRoleValidate adminRoleValidate,
+                                   AdminRolePermissionService adminRolePermissionService, AdminRolePermissionValidate adminRolePermissionValidate) {
         this.adminRoleService = adminRoleService;
         this.adminRoleValidate = adminRoleValidate;
-        this.checkPermission = checkPermission;
         this.adminRolePermissionService = adminRolePermissionService;
         this.adminRolePermissionValidate = adminRolePermissionValidate;
     }
@@ -46,8 +53,13 @@ public class AdminRoleRestController implements RestControllerInterface {
 
         ValidateObject validateObject = this.adminRoleValidate.findAll();
         if (validateObject.getResult().equals("success")) {
-            Page<AdminRole> adminRolePage = this.adminRoleService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "AdminRole", sortProperty, sortOrder));
-            return new ApiResponse("Success", adminRolePage)
+            Page<AdminRole> findPage = this.adminRoleService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "AdminRole", sortProperty, sortOrder));
+
+            List<AdminRoleDTO> returnDTO = new ArrayList<>();
+            for (AdminRole content : findPage.getContent()) {
+                returnDTO.add(content.convert2Object());
+            }
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(findPage, returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -56,12 +68,12 @@ public class AdminRoleRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody AdminRole adminRole) {
+    public Object addOne(@RequestBody AdminRoleAddDTO adminRoleAddDTO) {
         if (CheckPermission.getInstance().check("admin_add", "AdminRole")) {
             return new ApiResponse("Error", 101, Arrays.asList("AdminRole - admin_add - access denied!"))
                     .getFaultResponse();
         }
-        adminRole.setAdminRoleId(null);
+        AdminRole adminRole = adminRoleAddDTO.convert2Object();
         ValidateObject validateObject = this.adminRoleValidate.validateAddNewItem(adminRole);
         if (validateObject.getResult().equals("success")) {
             return new ApiResponse("Success", Arrays.asList(this.adminRoleService.addNewItem(adminRole)))
@@ -73,11 +85,12 @@ public class AdminRoleRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody AdminRole adminRole) {
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody AdminRoleAddDTO adminRoleAddDTO) {
         if (CheckPermission.getInstance().check("admin_update", "AdminRole")) {
             return new ApiResponse("Error", 101, Arrays.asList("AdminRole - admin_update - access denied!"))
                     .getFaultResponse();
         }
+        AdminRole adminRole = adminRoleAddDTO.convert2Object();
         adminRole.setAdminRoleId(id);
 
         ValidateObject validateObject = this.adminRoleValidate.validateUpdateItem(adminRole);

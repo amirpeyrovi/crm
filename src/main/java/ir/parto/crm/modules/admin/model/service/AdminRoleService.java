@@ -82,4 +82,8 @@ public class AdminRoleService implements ServiceInterface<AdminRole> {
     public Boolean existsById(Long id) {
         return this.adminRoleRepository.existsByIsDeletedIsNullAndAdminRoleId(id);
     }
+
+    public AdminRole findByTitle(String title) {
+        return this.adminRoleRepository.findByTitle(title);
+    }
 }

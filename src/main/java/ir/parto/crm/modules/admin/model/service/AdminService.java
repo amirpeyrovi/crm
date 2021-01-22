@@ -22,8 +22,9 @@ public class AdminService implements ServiceInterface<Admin> {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminService(AdminRepository adminRepository) {
+    public AdminService(AdminRepository adminRepository, PasswordEncoder passwordEncoder) {
         this.adminRepository = adminRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -82,5 +83,9 @@ public class AdminService implements ServiceInterface<Admin> {
     @Override
     public Boolean existsById(Long id) {
         return this.adminRepository.existsByIsDeletedIsNullAndAdminId(id);
+    }
+
+    public Admin findByUsername(String username) {
+        return this.adminRepository.findByUsername(username);
     }
 }

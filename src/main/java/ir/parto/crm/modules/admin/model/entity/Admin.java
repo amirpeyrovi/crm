@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.admin.model.entity;
 
+import ir.parto.crm.modules.admin.controller.transientObject.admin.AdminInfoDTO;
 import ir.parto.crm.modules.admin.controller.transientObject.admin.AdminRelationalDTO;
 import ir.parto.crm.modules.client.model.entity.Client;
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,7 +27,7 @@ public class Admin implements UserDetails , Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "admin_seq")
     private Long adminId;
 
-    @Column(name = "username", columnDefinition = "nvarchar2(100)", unique = true)
+    @Column(name = "username", columnDefinition = "nvarchar2(100)")
     private String username;
 
     @Column(name = "password", columnDefinition = "nvarchar2(200)")
@@ -49,10 +50,6 @@ public class Admin implements UserDetails , Serializable{
     @ManyToOne
     @JoinColumn(name = "admin_role_id", foreignKey = @ForeignKey(name = "admin_role_fk"))
     private AdminRole adminRole;
-
-    @ManyToOne
-    @JoinColumn(name = "client_id", foreignKey = @ForeignKey(name = "admin_client_fk"))
-    private Client client;
 
     // authority => [ADMIN, RESELLER, USER]
     @Column(name = "authority", columnDefinition = "nvarchar2(16)")
@@ -87,7 +84,8 @@ public class Admin implements UserDetails , Serializable{
     public Admin() {
     }
 
-    public Admin(String username, String password, String firstName, String lastName, String identifyCode, String phoneNumber, AdminRole adminRole, Client client, Collection<? extends GrantedAuthority> authority, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
+    public Admin(String username, String password, String firstName, String lastName, String identifyCode, String phoneNumber,
+                 AdminRole adminRole, Collection<? extends GrantedAuthority> authority, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -95,7 +93,6 @@ public class Admin implements UserDetails , Serializable{
         this.identifyCode = identifyCode;
         this.phoneNumber = phoneNumber;
         this.adminRole = adminRole;
-        this.client = client;
         this.authority = authority;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
@@ -211,14 +208,6 @@ public class Admin implements UserDetails , Serializable{
         this.adminRole = adminRole;
     }
 
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
     public String getCreatedBy() {
         return createdBy;
     }
@@ -295,6 +284,25 @@ public class Admin implements UserDetails , Serializable{
         if(this.username != null) dto.setUsername(this.username);
         if(this.firstName != null) dto.setFirstName(this.firstName);
         if(this.lastName != null) dto.setLastName(this.lastName);
+        if(this.adminRole != null) dto.setAdminRole(this.adminRole.convert2Object());
+        return dto;
+    }
+
+    public AdminInfoDTO convert2Object(){
+        AdminInfoDTO dto = new AdminInfoDTO();
+        if(this.adminId != null) dto.setAdminId(this.adminId);
+        if(this.firstName != null) dto.setFirstName(this.firstName);
+        if(this.lastName != null) dto.setLastName(this.lastName);
+        if(this.username != null) dto.setUsername(this.username);
+        if(this.identifyCode != null) dto.setIdentifyCode(this.identifyCode);
+        if(this.phoneNumber != null) dto.setPhoneNumber(this.phoneNumber);
+        if(this.adminRole != null) dto.setAdminRole(this.adminRole.convert2Object());
+        if(this.updatedAt != null) dto.setUpdatedAt(this.updatedAt);
+        if(this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if(this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if(this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if(this.deletedAt != null) dto.setDeletedAt(this.deletedAt);
+        if(this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
         return dto;
     }
 }
