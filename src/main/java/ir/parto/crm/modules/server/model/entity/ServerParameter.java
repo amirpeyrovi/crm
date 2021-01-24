@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.server.model.entity;
 
+import ir.parto.crm.modules.server.controller.transientObject.serverParameter.ServerParameterRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "crm_server_parameter")
 public class ServerParameter implements Serializable {
     @Id
-    @SequenceGenerator(name = "server_seq", sequenceName = "server_seq", allocationSize=1)
+    @SequenceGenerator(name = "server_seq", sequenceName = "server_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "server_seq")
     private Long serverParameterId;
 
@@ -70,6 +71,10 @@ public class ServerParameter implements Serializable {
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
         this.isDeleted = isDeleted;
+    }
+
+    public ServerParameter(Long serverParameterId) {
+        this.serverParameterId = serverParameterId;
     }
 
     public Long getServerParameterId() {
@@ -174,5 +179,16 @@ public class ServerParameter implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ServerParameterRelationalDTO convert2RelationalObject() {
+        ServerParameterRelationalDTO dto = new ServerParameterRelationalDTO();
+        if (this.serverParameterId != null) dto.setServerParameterId(this.serverParameterId);
+        if (this.serverGroup != null) dto.setServerGroup(this.serverGroup.convert2RelationalObject());
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.description != null) dto.setDescription(this.description);
+        if (this.type != null) dto.setType(this.type);
+        if (this.options != null) dto.setOptions(this.options);
+        return dto;
     }
 }

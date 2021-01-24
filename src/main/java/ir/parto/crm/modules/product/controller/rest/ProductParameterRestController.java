@@ -54,7 +54,8 @@ public class ProductParameterRestController implements RestControllerInterface {
         ValidateObject validateObject = this.productParameterValidate.findAll();
         if (validateObject.getResult().equals("success")) {
             Page<ProductParameter> productPage = this.productParameterService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "ProductParameter", sortProperty, sortOrder));
-            return new ApiResponse("Success", productPage)
+            List<ProductParameterDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(), ProductParameterDTO.class);
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage, returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -80,8 +81,8 @@ public class ProductParameterRestController implements RestControllerInterface {
             if (validateObjectProduct.getResult().equals("success")) {
                 ProductParameterGroup productParameterGroupExist = this.productParameterGroupService.findOne(productParameterGroup);
                 Page<ProductParameter> productPage = this.productParameterService.findAllItemByParameterGroup(productParameterGroupExist, PageableRequest.getInstance().createPageRequest(page, "ProductParameter", sortProperty, sortOrder));
-                List<ProductParameterDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(),ProductParameterDTO.class);
-                return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage,returnDTO))
+                List<ProductParameterDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(), ProductParameterDTO.class);
+                return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage, returnDTO))
                         .getSuccessResponse();
             } else {
                 return new ApiResponse("Error", 102, validateObjectProduct.getMessages())
@@ -100,13 +101,13 @@ public class ProductParameterRestController implements RestControllerInterface {
                     .getFaultResponse();
         }
         ProductParameter productParameter = productParameterDTO.convert2Object();
-
         productParameter.setProductParameterId(null);
+        if (productParameter.getProductParameterGroup() != null)
+            productParameter.setProductParameterGroup(this.productParameterGroupService.findOne(productParameter.getProductParameterGroup()));
 
         ValidateObject validateObject = this.productParameterValidate.validateAddNewItem(productParameter);
         if (validateObject.getResult().equals("success")) {
-            productParameter.setProductParameterGroup(this.productParameterGroupService.findOne(productParameter.getProductParameterGroup()));
-            return new ApiResponse("Success", Arrays.asList(this.productParameterService.addNewItem(productParameter)))
+            return new ApiResponse("Success", Arrays.asList(this.productParameterService.addNewItem(productParameter).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -122,10 +123,10 @@ public class ProductParameterRestController implements RestControllerInterface {
         }
         ProductParameter productParameter = productParameterDTO.convert2Object();
         productParameter.setProductParameterId(Long.valueOf(id));
+        productParameter.setProductParameterGroup(this.productParameterGroupService.findOne(productParameter.getProductParameterGroup()));
         ValidateObject validateObject = this.productParameterValidate.validateUpdateItem(productParameter);
         if (validateObject.getResult().equals("success")) {
             try {
-                productParameter.setProductParameterGroup(this.productParameterGroupService.findOne(productParameter.getProductParameterGroup()));
                 return new ApiResponse("Success", Arrays.asList(this.productParameterService.updateItem(productParameter).convert2Object()))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
