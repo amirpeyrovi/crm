@@ -16,20 +16,20 @@ public class AdminRolePermission implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "admin_seq")
     private Long adminRolePermissionId;
 
-    @Column(name = "permission_title", columnDefinition = "nvarchar2(100)", unique = true)
+    @Column(name = "permission_title", columnDefinition = "nvarchar2(100)")
     private String title;
-
-    @Column(name = "client_permission_add", columnDefinition = "number(1)")
-    private int client_addPerm;
-
-    @Column(name = "client_permission_update", columnDefinition = "number(1)")
-    private int client_updatePerm;
-
-    @Column(name = "client_permission_delete", columnDefinition = "number(1)")
-    private int client_deletePerm;
-
-    @Column(name = "client_permission_view", columnDefinition = "number(1)")
-    private int client_viewPerm;
+//
+//    @Column(name = "client_permission_add", columnDefinition = "number(1)")
+//    private int client_addPerm;
+//
+//    @Column(name = "client_permission_update", columnDefinition = "number(1)")
+//    private int client_updatePerm;
+//
+//    @Column(name = "client_permission_delete", columnDefinition = "number(1)")
+//    private int client_deletePerm;
+//
+//    @Column(name = "client_permission_view", columnDefinition = "number(1)")
+//    private int client_viewPerm;
 
     @Column(name = "admin_permission_add", columnDefinition = "number(1)")
     private int admin_addPerm;
@@ -78,12 +78,8 @@ public class AdminRolePermission implements Serializable {
     public AdminRolePermission() {
     }
 
-    public AdminRolePermission(String title, int client_addPerm, int client_updatePerm, int client_deletePerm, int client_viewPerm, int admin_addPerm, int admin_updatePerm, int admin_deletePerm, int admin_viewPerm, AdminRole adminRole, AdminPermission adminPermission, String createdBy, String updatedBy, LocalDateTime createdDate, LocalDateTime updatedAt, String deletedBy, LocalDateTime deletedAt, Integer isDeleted) {
+    public AdminRolePermission(String title, int admin_addPerm, int admin_updatePerm, int admin_deletePerm, int admin_viewPerm, AdminRole adminRole, AdminPermission adminPermission, String createdBy, String updatedBy, LocalDateTime createdDate, LocalDateTime updatedAt, String deletedBy, LocalDateTime deletedAt, Integer isDeleted) {
         this.title = title;
-        this.client_addPerm = client_addPerm;
-        this.client_updatePerm = client_updatePerm;
-        this.client_deletePerm = client_deletePerm;
-        this.client_viewPerm = client_viewPerm;
         this.admin_addPerm = admin_addPerm;
         this.admin_updatePerm = admin_updatePerm;
         this.admin_deletePerm = admin_deletePerm;
@@ -113,38 +109,6 @@ public class AdminRolePermission implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public int getClient_addPerm() {
-        return client_addPerm;
-    }
-
-    public void setClient_addPerm(int client_addPerm) {
-        this.client_addPerm = client_addPerm;
-    }
-
-    public int getClient_updatePerm() {
-        return client_updatePerm;
-    }
-
-    public void setClient_updatePerm(int client_updatePerm) {
-        this.client_updatePerm = client_updatePerm;
-    }
-
-    public int getClient_deletePerm() {
-        return client_deletePerm;
-    }
-
-    public void setClient_deletePerm(int client_deletePerm) {
-        this.client_deletePerm = client_deletePerm;
-    }
-
-    public int getClient_viewPerm() {
-        return client_viewPerm;
-    }
-
-    public void setClient_viewPerm(int client_viewPerm) {
-        this.client_viewPerm = client_viewPerm;
     }
 
     public int getAdmin_addPerm() {

@@ -1,6 +1,5 @@
 package ir.parto.crm.modules.client.model.service;
 
-import ir.parto.crm.modules.admin.model.entity.Admin;
 import ir.parto.crm.modules.client.model.entity.ClientContact;
 import ir.parto.crm.modules.client.model.repository.ClientContactRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -11,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.lang.reflect.InvocationTargetException;
 import java.security.Principal;
 import java.time.LocalDateTime;

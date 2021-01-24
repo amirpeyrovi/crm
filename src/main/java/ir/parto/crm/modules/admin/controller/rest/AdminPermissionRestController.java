@@ -1,8 +1,11 @@
 package ir.parto.crm.modules.admin.controller.rest;
+import ir.parto.crm.modules.admin.controller.transientObject.adminPermission.AdminPermissionAddDTO;
+import ir.parto.crm.modules.admin.controller.transientObject.adminPermission.AdminPermissionDTO;
 import ir.parto.crm.modules.admin.controller.validate.AdminPermissionValidate;
 import ir.parto.crm.modules.admin.model.entity.AdminPermission;
 import ir.parto.crm.modules.admin.model.service.AdminPermissionService;
 import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageHelper;
 import ir.parto.crm.utils.PageableRequest;
 import ir.parto.crm.utils.annotations.AdminAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
@@ -13,21 +16,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @AdminAnnotation
-@RequestMapping("/v1/admin/adminPermission")
+@CrossOrigin
+@RequestMapping(value = "/v1/admin/adminPermission", produces = "application/json")
 public class AdminPermissionRestController implements RestControllerInterface {
     private AdminPermissionService adminPermissionService;
     private AdminPermissionValidate adminPermissionValidate;
-    private CheckPermission checkPermission;
 
     @Autowired
-    public AdminPermissionRestController(AdminPermissionService adminPermissionService, AdminPermissionValidate adminPermissionValidate, CheckPermission checkPermission) {
+    public AdminPermissionRestController(AdminPermissionService adminPermissionService,
+                                         AdminPermissionValidate adminPermissionValidate) {
         this.adminPermissionService = adminPermissionService;
         this.adminPermissionValidate = adminPermissionValidate;
-        this.checkPermission = checkPermission;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -41,8 +46,12 @@ public class AdminPermissionRestController implements RestControllerInterface {
 
         ValidateObject validateObject = this.adminPermissionValidate.findAll();
         if (validateObject.getResult().equals("success")) {
-            Page<AdminPermission> adminPermissionPage = this.adminPermissionService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "Admin", sortProperty, sortOrder));
-            return new ApiResponse("Success", adminPermissionPage)
+            Page<AdminPermission> findPage = this.adminPermissionService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "Admin", sortProperty, sortOrder));
+            List<AdminPermissionDTO> returnDTO = new ArrayList<>();
+            for (AdminPermission content : findPage.getContent()) {
+                returnDTO.add(content.convert2Object());
+            }
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(findPage, returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -51,12 +60,12 @@ public class AdminPermissionRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody AdminPermission adminPermission) {
+    public Object addOne(@RequestBody AdminPermissionAddDTO adminPermissionAddDTO) {
         if (CheckPermission.getInstance().check("admin_add", "AdminPermission")) {
             return new ApiResponse("Error", 101, Arrays.asList("AdminPermission - admin_add - access denied!"))
                     .getFaultResponse();
         }
-        adminPermission.setPermissionId(null);
+        AdminPermission adminPermission = adminPermissionAddDTO.convert2Object();
         ValidateObject validateObject = this.adminPermissionValidate.validateAddNewItem(adminPermission);
         if (validateObject.getResult().equals("success")) {
             return new ApiResponse("Success", Arrays.asList(this.adminPermissionService.addNewItem(adminPermission)))
@@ -68,14 +77,14 @@ public class AdminPermissionRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody AdminPermission adminPermission) {
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody AdminPermissionAddDTO adminPermissionAddDTO) {
         if (CheckPermission.getInstance().check("admin_update", "AdminPermission")) {
             return new ApiResponse("Error", 101, Arrays.asList("AdminPermission - admin_update - access denied!"))
                     .getFaultResponse();
         }
 
+        AdminPermission adminPermission = adminPermissionAddDTO.convert2Object();
         adminPermission.setPermissionId(id);
-
         ValidateObject validateObject = this.adminPermissionValidate.validateUpdateItem(adminPermission);
         if (validateObject.getResult().equals("success")) {
             try {

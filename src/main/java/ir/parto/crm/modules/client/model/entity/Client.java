@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.client.model.entity;
 
+import ir.parto.crm.modules.client.controller.transientObject.client.ClientInfoDTO;
 import ir.parto.crm.modules.client.controller.transientObject.client.ClientRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,7 +16,7 @@ import java.util.List;
 public class Client implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "client_seq", sequenceName = "client_seq", allocationSize=1)
+    @SequenceGenerator(name = "client_seq", sequenceName = "client_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "client_seq")
     private Long clientId;
 
@@ -55,7 +56,7 @@ public class Client implements Serializable {
     @Column(name = "address2", columnDefinition = "nvarchar2(500)")
     private String address2;
 
-    @Column(name = "email", columnDefinition = "nvarchar2(100)",unique = true)
+    @Column(name = "email", columnDefinition = "nvarchar2(100)")
     private String emailAddress;
 
     @Column(name = "is_reseller", columnDefinition = "number(1)")
@@ -306,11 +307,27 @@ public class Client implements Serializable {
 
     public ClientRelationalDTO convert2RelationalObject() {
         ClientRelationalDTO dto = new ClientRelationalDTO();
-        if(this.clientId != null) dto.setClientId(this.clientId);
-        if(this.firstName != null) dto.setFirstName(this.firstName);
-        if(this.lastName != null) dto.setLastName(this.lastName);
-        if(this.identityType != null) dto.setIdentityType(this.identityType);
-        if(this.identityCode1 != null) dto.setIdentityCode1(this.identityCode1);
+        if (this.clientId != null) dto.setClientId(this.clientId);
+        if (this.firstName != null) dto.setFirstName(this.firstName);
+        if (this.lastName != null) dto.setLastName(this.lastName);
+        if (this.identityType != null) dto.setIdentityType(this.identityType);
+        if (this.identityCode1 != null) dto.setIdentityCode1(this.identityCode1);
+        return dto;
+    }
+
+    public ClientInfoDTO convert2Object() {
+        ClientInfoDTO dto = new ClientInfoDTO();
+        if (this.clientId != null) dto.setClientId(this.clientId);
+        if (this.firstName != null) dto.setFirstName(this.firstName);
+        if (this.lastName != null) dto.setLastName(this.lastName);
+        if (this.identityType != null) dto.setIdentityType(this.identityType);
+        if (this.identityCode1 != null) dto.setIdentityCode1(this.identityCode1);
+        if(this.updatedAt != null) dto.setUpdatedAt(this.updatedAt);
+        if(this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if(this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if(this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if(this.deletedAt != null) dto.setDeletedAt(this.deletedAt);
+        if(this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
         return dto;
     }
 }

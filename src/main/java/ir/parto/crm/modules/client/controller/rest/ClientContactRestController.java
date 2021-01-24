@@ -1,27 +1,33 @@
 package ir.parto.crm.modules.client.controller.rest;
 
+import ir.parto.crm.modules.client.controller.transientObject.clientContact.ClientContactAddDTO;
+import ir.parto.crm.modules.client.controller.transientObject.clientContact.ClientContactRelationalDTO;
 import ir.parto.crm.modules.client.controller.validate.ClientContactValidate;
 import ir.parto.crm.modules.client.controller.validate.ClientValidate;
-import ir.parto.crm.modules.client.model.entity.Client;
 import ir.parto.crm.modules.client.model.entity.ClientContact;
 import ir.parto.crm.modules.client.model.service.ClientContactService;
 import ir.parto.crm.modules.client.model.service.ClientService;
 import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageHelper;
 import ir.parto.crm.utils.PageableRequest;
+import ir.parto.crm.utils.annotations.ClientAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @RestController
-@RequestMapping("/v1/client/clientContact")
+@CrossOrigin
+@ClientAnnotation
+@RequestMapping(value = "/v1/client/clientContact", produces = "application/json")
 public class ClientContactRestController implements RestControllerInterface {
     private ClientContactService clientContactService;
     private ClientContactValidate clientContactValidate;
@@ -48,8 +54,12 @@ public class ClientContactRestController implements RestControllerInterface {
 
         ValidateObject validateObject = this.clientContactValidate.findAll();
         if (validateObject.getResult().equals("success")) {
-            Page<ClientContact> productPage = this.clientContactService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "ClientContact", sortProperty, sortOrder));
-            return new ApiResponse("Success", productPage)
+            Page<ClientContact> findPage = this.clientContactService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "ClientContact", sortProperty, sortOrder));
+            List<ClientContactRelationalDTO> returnDTO = new ArrayList<>();
+            for (ClientContact content : findPage.getContent()) {
+                returnDTO.add(content.convert2RelationalObject());
+            }
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(findPage, returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -58,14 +68,15 @@ public class ClientContactRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody ClientContact clientContact) {
+    public Object addOne(@RequestBody ClientContactAddDTO clientContactAddDTO) {
         if (CheckPermission.getInstance().check("client_add", "Client_CONTACT")) {
-            clientContact.setClient(this.clientService.findOne(clientContact.getClient()));
             return new ApiResponse("Error", 101, Arrays.asList("ClientContact - client_add - access denied!"))
                     .getFaultResponse();
         }
 
-        clientContact.setClientContactId(null);
+        ClientContact clientContact = clientContactAddDTO.convert2Object();
+        if(clientContact.getClient().getClientId() != null)
+            clientContact.setClient(this.clientService.findById(clientContact.getClient().getClientId()));
 
         ValidateObject validateObject = this.clientContactValidate.validateAddNewItem(clientContact);
         if (validateObject.getResult().equals("success")) {
@@ -78,25 +89,27 @@ public class ClientContactRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody ClientContact clientContact) {
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody ClientContactAddDTO clientContactAddDTO) {
         if (CheckPermission.getInstance().check("client_update", "Client_CONTACT")) {
             return new ApiResponse("Error", 101, Arrays.asList("ClientContact - client_update - access denied!"))
                     .getFaultResponse();
         }
 
+        ClientContact clientContact = clientContactAddDTO.convert2Object();
         clientContact.setClientContactId(id);
+        if(clientContact.getClient().getClientId() != null)
+            clientContact.setClient(this.clientService.findById(clientContact.getClient().getClientId()));
 
         ValidateObject validateObject = this.clientContactValidate.validateUpdateItem(clientContact);
         if (validateObject.getResult().equals("success")) {
             try {
-                clientContact.setClient(this.clientService.findOne(clientContact.getClient()));
                 return new ApiResponse("Success", Arrays.asList(this.clientContactService.updateItem(clientContact)))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
-                return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
+                return new ApiResponse("Error", 103, Collections.singletonList("An error occurred Try again later"))
                         .getFaultResponse();
             } catch (IllegalAccessException e) {
-                return new ApiResponse("Error", 104, Arrays.asList("An error occurred Try again later"))
+                return new ApiResponse("Error", 104, Collections.singletonList("An error occurred Try again later"))
                         .getFaultResponse();
             }
         } else {

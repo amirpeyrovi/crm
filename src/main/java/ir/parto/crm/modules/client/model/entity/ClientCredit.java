@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.client.model.entity;
 
+import ir.parto.crm.modules.client.controller.transientObject.clientCredit.ClientCreditRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -212,5 +213,19 @@ public class ClientCredit implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ClientCreditRelationalDTO convert2RelationalObject() {
+        ClientCreditRelationalDTO dto = new ClientCreditRelationalDTO();
+        if (this.clientCreditId != null) dto.setClientCreditId(this.clientCreditId);
+        if (this.client != null) dto.setClient(this.client.convert2RelationalObject());
+        if (this.description != null) dto.setDescription(this.description);
+        if (this.caption != null) dto.setCaption(this.caption);
+        if (this.type != null) dto.setType(this.type);
+        if (this.amountIn != null) dto.setAmountIn(this.amountIn);
+        if (this.amountOut != null) dto.setAmountOut(this.amountOut);
+        if (this.total != null) dto.setTotal(this.total);
+        if (this.invoiceTransactionId != null) dto.setInvoiceTransactionId(this.invoiceTransactionId);
+        return dto;
     }
 }

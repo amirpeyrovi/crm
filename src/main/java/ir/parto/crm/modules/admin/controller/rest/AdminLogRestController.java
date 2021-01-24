@@ -1,13 +1,15 @@
 package ir.parto.crm.modules.admin.controller.rest;
-
-
+import ir.parto.crm.modules.admin.controller.transientObject.adminLog.AdminLogAddDTO;
+import ir.parto.crm.modules.admin.controller.transientObject.adminLog.AdminLogDTO;
 import ir.parto.crm.modules.admin.controller.validate.AdminLogValidate;
 import ir.parto.crm.modules.admin.controller.validate.AdminValidate;
 import ir.parto.crm.modules.admin.model.entity.AdminLog;
 import ir.parto.crm.modules.admin.model.service.AdminLogService;
 import ir.parto.crm.modules.admin.model.service.AdminService;
 import ir.parto.crm.utils.CheckPermission;
+import ir.parto.crm.utils.PageHelper;
 import ir.parto.crm.utils.PageableRequest;
+import ir.parto.crm.utils.annotations.AdminAnnotation;
 import ir.parto.crm.utils.interfaces.RestControllerInterface;
 import ir.parto.crm.utils.transientObject.ApiResponse;
 import ir.parto.crm.utils.transientObject.ValidateObject;
@@ -16,10 +18,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
-@RequestMapping("/v1/admin/adminLog")
+@CrossOrigin
+@AdminAnnotation
+@RequestMapping(value = "/v1/admin/adminLog", produces = "application/json")
 public class AdminLogRestController implements RestControllerInterface {
     private AdminLogService adminLogService;
     private AdminLogValidate adminLogValidate;
@@ -47,22 +53,27 @@ public class AdminLogRestController implements RestControllerInterface {
 
         ValidateObject validateObject = this.adminLogValidate.findAll();
         if (validateObject.getResult().equals("success")) {
-            Page<AdminLog> adminLogList = this.adminLogService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "AdminLog", sortProperty, sortOrder));
-            return new ApiResponse("Success", adminLogList)
+            Page<AdminLog> findPage = this.adminLogService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "AdminLog", sortProperty, sortOrder));
+            List<AdminLogDTO> returnDTO = new ArrayList<>();
+            for (AdminLog content : findPage.getContent()) {
+                returnDTO.add(content.convert2Object());
+            }
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(findPage, returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
                     .getFaultResponse();
         }
+
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody AdminLog adminLog) {
+    public Object addOne(@RequestBody AdminLogAddDTO adminLogAddDTO) {
         if (CheckPermission.getInstance().check("admin_add", "AdminLog")) {
             return new ApiResponse("Error", 101, Arrays.asList("AdminLog - admin_add - access denied!"))
                     .getFaultResponse();
         }
-        adminLog.setAdminLogId(null);
+        AdminLog adminLog = adminLogAddDTO.convert2Object();
         ValidateObject validateObject = this.adminLogValidate.validateAddNewItem(adminLog);
         if (validateObject.getResult().equals("success")) {
             adminLog.setAdmin(this.adminService.findOne(adminLog.getAdmin()));
@@ -75,11 +86,12 @@ public class AdminLogRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody AdminLog adminLog) {
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody AdminLogAddDTO adminLogAddDTO) {
         if (CheckPermission.getInstance().check("admin_update", "AdminLog")) {
             return new ApiResponse("Error", 101, Arrays.asList("AdminLog - admin_update - access denied!"))
                     .getFaultResponse();
         }
+        AdminLog adminLog = adminLogAddDTO.convert2Object();
         adminLog.setAdminLogId(id);
 
         ValidateObject validateObject = this.adminLogValidate.validateUpdateItem(adminLog);
@@ -137,5 +149,4 @@ public class AdminLogRestController implements RestControllerInterface {
                     .getFaultResponse();
         }
     }
-
 }

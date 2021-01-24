@@ -18,4 +18,6 @@ public interface AdminRoleRepository extends JpaRepository<AdminRole, Long>, Rep
     Page<AdminRole> findAllByIsDeletedIsNull(Pageable pageable);
 
     List<AdminRole> findAllByIsDeletedIsNull();
+
+    AdminRole findByTitle(String title);
 }

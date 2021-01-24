@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.admin.model.entity;
 
+import ir.parto.crm.modules.admin.controller.transientObject.adminRole.AdminRoleDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -58,6 +59,10 @@ public class AdminRole implements Serializable {
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
         this.isDeleted = isDeleted;
+    }
+
+    public AdminRole(Long adminRoleId) {
+        this.adminRoleId = adminRoleId;
     }
 
     public Long getAdminRoleId() {
@@ -138,5 +143,13 @@ public class AdminRole implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public AdminRoleDTO convert2Object() {
+        AdminRoleDTO dto = new AdminRoleDTO();
+            if(this.adminRoleId != null) dto.setAdminRoleId(this.adminRoleId);
+            if(this.title != null) dto.setTitle(this.title);
+            if(this.description != null) dto.setDescription(this.description);
+            return dto;
     }
 }

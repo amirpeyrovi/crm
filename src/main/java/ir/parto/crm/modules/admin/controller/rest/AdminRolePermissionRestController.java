@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.admin.controller.rest;
 
+import ir.parto.crm.modules.admin.controller.transientObject.adminRolePermission.AdminRolePermissionAddDTO;
 import ir.parto.crm.modules.admin.controller.validate.AdminRolePermissionValidate;
 import ir.parto.crm.modules.admin.model.entity.AdminRolePermission;
 import ir.parto.crm.modules.admin.model.service.AdminPermissionService;
@@ -20,7 +21,8 @@ import java.util.Arrays;
 
 @RestController
 @AdminAnnotation
-@RequestMapping("/v1/admin/adminRolePermission")
+@CrossOrigin
+@RequestMapping(value = "/v1/admin/adminRolePermission", produces = "application/json")
 public class AdminRolePermissionRestController implements RestControllerInterface {
     private AdminRoleService adminRoleService;
     private AdminPermissionService adminPermissionService;
@@ -57,14 +59,12 @@ public class AdminRolePermissionRestController implements RestControllerInterfac
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody AdminRolePermission adminRolePermission) {
+    public Object addOne(@RequestBody AdminRolePermissionAddDTO adminRolePermissionAddDTO) {
         if (CheckPermission.getInstance().check("admin_add", "AdminRolePermission")) {
             return new ApiResponse("Error", 101, Arrays.asList("AdminRolePermission - admin_add - access denied!"))
                     .getFaultResponse();
         }
-
-        adminRolePermission.setAdminRolePermissionId(null);
-
+        AdminRolePermission adminRolePermission = adminRolePermissionAddDTO.convert2Object();
         ValidateObject validateObject = this.adminRolePermissionValidate.validateAddNewItem(adminRolePermission);
         if (validateObject.getResult().equals("success")) {
             adminRolePermission.setAdminPermission(this.adminPermissionService.findOne(adminRolePermission.getAdminPermission()));
@@ -78,12 +78,12 @@ public class AdminRolePermissionRestController implements RestControllerInterfac
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody AdminRolePermission adminRolePermission) {
+    public Object updateOne(@PathVariable("id") Long id, @RequestBody AdminRolePermissionAddDTO adminRolePermissionAddDTO) {
         if (CheckPermission.getInstance().check("admin_update", "AdminRolePermission")) {
             return new ApiResponse("Error", 101, Arrays.asList("AdminRolePermission - admin_update - access denied!"))
                     .getFaultResponse();
         }
-
+        AdminRolePermission adminRolePermission = adminRolePermissionAddDTO.convert2Object();
         adminRolePermission.setAdminRolePermissionId(id);
 
         ValidateObject validateObject = this.adminRolePermissionValidate.validateUpdateItem(adminRolePermission);

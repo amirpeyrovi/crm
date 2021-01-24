@@ -30,13 +30,13 @@ public class AdminLogValidate implements ValidateInterface<AdminLog> {
         if(adminLog == null){
             errorList.add("Admin Log information is required");
         }else{
-            if(adminLog.getIpAddress() == null || adminLog.getIpAddress().isEmpty() ){
+            if(adminLog.getIpAddress() == null || adminLog.getIpAddress().trim().isEmpty() ){
                 errorList.add("Ip Address is required");
             }
-            if(adminLog.getLog() == null || adminLog.getLog().isEmpty() ){
+            if(adminLog.getLog() == null || adminLog.getLog().trim().isEmpty() ){
                 errorList.add("Log is required");
             }
-            if(adminLog.getUsername() == null || adminLog.getUsername().isEmpty() ){
+            if(adminLog.getUsername() == null || adminLog.getUsername().trim().isEmpty() ){
                 errorList.add("Username is required");
             }
             if(adminLog.getAdmin() == null || adminLog.getAdmin().getAdminId() == 0 || adminLog.getAdmin().getAdminId() == null){
@@ -67,21 +67,21 @@ public class AdminLogValidate implements ValidateInterface<AdminLog> {
         if(adminLog == null){
             errorList.add("Admin Log information is required");
         }else{
-            if(this.adminLogService.existsById(adminLog.getAdminLogId())){
+            if(!this.adminLogService.existsById(adminLog.getAdminLogId())){
                 errorList.add("Admin Log is not defined!");
             }
-            if(adminLog.getIpAddress() == null || adminLog.getIpAddress().isEmpty() ){
+            if(adminLog.getIpAddress() != null && adminLog.getIpAddress().trim().isEmpty() ){
                 errorList.add("Ip Address is required");
             }
-            if(adminLog.getLog() == null || adminLog.getLog().isEmpty() ){
+            if(adminLog.getLog() != null && adminLog.getLog().trim().isEmpty() ){
                 errorList.add("Log is required");
             }
-            if(adminLog.getUsername() == null || adminLog.getUsername().isEmpty() ){
+            if(adminLog.getUsername() != null && adminLog.getUsername().trim().isEmpty() ){
                 errorList.add("Username is required");
             }
-            if(adminLog.getAdmin() == null || adminLog.getAdmin().getAdminId() == 0 || adminLog.getAdmin().getAdminId() == null){
+            if(adminLog.getAdmin() != null && (adminLog.getAdmin().getAdminId() == 0 || adminLog.getAdmin().getAdminId() == null)){
                 errorList.add("Admin is required");
-            }else{
+            }else if(adminLog.getAdmin() != null){
                 if (!this.adminService.existsById(adminLog.getAdmin().getAdminId())) {
                     errorList.add("Admin not found");
                 }
