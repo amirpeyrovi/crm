@@ -39,15 +39,15 @@ public class ServerParameterValidate implements ValidateInterface<ServerParamete
                     errorList.add("ServerGroup Id not defined");
                 }
 
-                if(serverParameter.getTitle() == null || serverParameter.getTitle().isEmpty() ){
+                if (serverParameter.getTitle() == null || serverParameter.getTitle().isEmpty()) {
                     errorList.add("Title is required");
                 }
 
-                if(serverParameter.getType() == null || serverParameter.getType().isEmpty() ){
+                if (serverParameter.getType() == null || serverParameter.getType().isEmpty()) {
                     errorList.add("Type is required");
                 }
 
-                if(serverParameter.getOptions() == null || serverParameter.getOptions().isEmpty() ){
+                if (serverParameter.getOptions() == null || serverParameter.getOptions().isEmpty()) {
                     errorList.add("Option is required");
                 }
             }
@@ -72,26 +72,28 @@ public class ServerParameterValidate implements ValidateInterface<ServerParamete
         if (serverParameter == null) {
             errorList.add("ServerParameter object is nul");
         } else {
-            if (serverParameter.getServerGroup() == null) {
+            if (serverParameter.getServerGroup() != null && (
+                    serverParameter.getServerParameterId() == null || serverParameter.getServerParameterId() == 0)) {
                 errorList.add("ServerGroup object is nul");
             } else {
                 if (!this.serverParameterService.existsById(serverParameter.getServerParameterId())) {
                     errorList.add("ServerParameter Id not defined");
                 }
 
-                if (!this.serverGroupService.existsById(serverParameter.getServerGroup().getServerGroupId())) {
+                if (serverParameter.getServerGroup() != null &&
+                        !this.serverGroupService.existsById(serverParameter.getServerGroup().getServerGroupId())) {
                     errorList.add("ServerGroup Id not defined");
                 }
 
-                if(serverParameter.getTitle() == null || serverParameter.getTitle().isEmpty() ){
+                if (serverParameter.getTitle() != null && serverParameter.getTitle().trim().isEmpty()) {
                     errorList.add("Title is required");
                 }
 
-                if(serverParameter.getType() == null || serverParameter.getType().isEmpty() ){
+                if (serverParameter.getType() != null && serverParameter.getType().trim().isEmpty()) {
                     errorList.add("Type is required");
                 }
 
-                if(serverParameter.getOptions() == null || serverParameter.getOptions().isEmpty() ){
+                if (serverParameter.getOptions() != null && serverParameter.getOptions().trim().isEmpty()) {
                     errorList.add("Option is required");
                 }
             }

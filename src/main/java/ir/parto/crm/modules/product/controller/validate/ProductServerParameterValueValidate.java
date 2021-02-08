@@ -81,25 +81,47 @@ public class ProductServerParameterValueValidate implements ValidateInterface<Pr
         if (productServerParameterValue == null) {
             errorList.add("ProductServerParameterValue object is null");
         } else {
-            if (productServerParameterValue.getServerParameter() == null) {
+            if (productServerParameterValue.getServerParameter() != null &&
+                    (productServerParameterValue.getServerParameter().getServerParameterId() == null
+                            || productServerParameterValue.getServerParameter().getServerParameterId() == 0)) {
                 errorList.add("ServerParameter object is null");
             } else {
-                if (productServerParameterValue.getProduct() == null && productServerParameterValue.getProductAddon() == null) {
+                if ((productServerParameterValue.getProduct() != null &&
+                        (productServerParameterValue.getProduct().getProductId() == null
+                                || productServerParameterValue.getProduct().getProductId() == 0)) ||
+                        (productServerParameterValue.getProductAddon() != null && (productServerParameterValue.getProductAddon().getProductAddonId() == null
+                                || productServerParameterValue.getProductAddon().getProductAddonId() == 0))) {
                     errorList.add("Product and productAddon object is null");
                 } else {
                     if (!this.productServerParameterValueService.existsById(productServerParameterValue.getProductServerParameterId())) {
                         errorList.add("ProductServerParameterValue not found");
                     }
 
-                    if (productServerParameterValue.getProduct() != null && !this.productService.existsById(productServerParameterValue.getProduct().getProductId())) {
+                    if (productServerParameterValue.getProduct() != null && (productServerParameterValue.getProduct().getProductId() == null
+                            || productServerParameterValue.getProduct().getProductId() == 0)) {
                         errorList.add("Product not found");
+                    } else {
+                        if (productServerParameterValue.getProduct() != null &&
+                                productServerParameterValue.getProduct().getProductId() != null
+                                && !this.productService.existsById(productServerParameterValue.getProduct().getProductId())) {
+                            errorList.add("Product not found");
+                        }
                     }
 
-                    if (productServerParameterValue.getProductAddon() != null && !this.productAddonService.existsById(productServerParameterValue.getProductAddon().getProductAddonId())) {
+
+                    if (productServerParameterValue.getProductAddon() != null &&
+                            (productServerParameterValue.getProductAddon().getProductAddonId() == null
+                                    || productServerParameterValue.getProductAddon().getProductAddonId() == 0)) {
                         errorList.add("ProductAddon not found");
+                    } else {
+                        if (productServerParameterValue.getProductAddon() != null &&
+                                productServerParameterValue.getProductAddon().getProductAddonId() != null &&
+                                !this.productAddonService.existsById(productServerParameterValue.getProductAddon().getProductAddonId())) {
+                            errorList.add("ProductAddon not found");
+                        }
                     }
 
-                    if (!this.serverParameterService.existsById(productServerParameterValue.getServerParameter().getServerParameterId())) {
+                    if (productServerParameterValue.getServerParameter() != null && !this.serverParameterService.existsById(productServerParameterValue.getServerParameter().getServerParameterId())) {
                         errorList.add("ServerParameter not found");
                     }
 

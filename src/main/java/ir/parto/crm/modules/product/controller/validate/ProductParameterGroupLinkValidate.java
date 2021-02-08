@@ -39,7 +39,7 @@ public class ProductParameterGroupLinkValidate implements ValidateInterface<Prod
             if (productParameterGroupLink.getProductParameterGroup() == null) {
                 errorList.add("ProductParameterGroup object is null");
             } else {
-                if (productParameterGroupLink.getProduct() == null && productParameterGroupLink.getProductAddon() == null) {
+                if (productParameterGroupLink.getProduct() == null || productParameterGroupLink.getProductAddon() == null) {
                     errorList.add("Product and ProductAddon object is null");
                 } else {
                     if (productParameterGroupLink.getProduct() != null && productParameterGroupLink.getProductAddon() != null) {
@@ -49,11 +49,12 @@ public class ProductParameterGroupLinkValidate implements ValidateInterface<Prod
                             errorList.add("ProductAddon not found");
                         }
 
-                        if (productParameterGroupLink.getProductAddon() == null && !this.productAddonService.existsById(productParameterGroupLink.getProductAddon().getProductAddonId())) {
+                        if (productParameterGroupLink.getProductAddon() != null &&
+                                !this.productAddonService.existsById(productParameterGroupLink.getProductAddon().getProductAddonId())) {
                             errorList.add("ProductAddon not found");
                         }
 
-                        if (productParameterGroupLink.getProduct() == null && !this.productService.existsById(productParameterGroupLink.getProduct().getProductId())) {
+                        if (productParameterGroupLink.getProduct() != null && !this.productService.existsById(productParameterGroupLink.getProduct().getProductId())) {
                             errorList.add("Product not found");
                         }
                     }
@@ -97,11 +98,11 @@ public class ProductParameterGroupLinkValidate implements ValidateInterface<Prod
                             errorList.add("ProductParameterGroup not found");
                         }
 
-                        if (productParameterGroupLink.getProductAddon() == null && !this.productAddonService.existsById(productParameterGroupLink.getProductAddon().getProductAddonId())) {
+                        if (productParameterGroupLink.getProductAddon() != null && !this.productAddonService.existsById(productParameterGroupLink.getProductAddon().getProductAddonId())) {
                             errorList.add("ProductAddon not found");
                         }
 
-                        if (productParameterGroupLink.getProduct() == null && !this.productService.existsById(productParameterGroupLink.getProduct().getProductId())) {
+                        if (productParameterGroupLink.getProduct() != null && !this.productService.existsById(productParameterGroupLink.getProduct().getProductId())) {
                             errorList.add("Product not found");
                         }
                     }

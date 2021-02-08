@@ -154,7 +154,8 @@ public class ProductParameterRestController implements RestControllerInterface {
         ValidateObject validateObject = this.productParameterValidate.deleteItem(productParameter);
         if (validateObject.getResult().equals("success")) {
             try {
-                return new ApiResponse("Success", Arrays.asList(this.productParameterService.deleteItem(productParameter).convert2Object()))
+                return new ApiResponse("Success", Arrays.asList(
+                        this.productParameterService.deleteItem(productParameter).convert2Object()))
                         .getSuccessResponse();
             } catch (Exception e) {
                 if (e.getMessage().contains("constraint")) {

@@ -65,8 +65,8 @@ public class ProductServerParameterValueRestController implements RestController
         ValidateObject validateObject = this.productServerParameterValueValidate.findAll();
         if (validateObject.getResult().equals("success")) {
             Page<ProductServerParameterValue> productPage = this.productServerParameterValueService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "ProductServerParameterValue", sortProperty, sortOrder));
-            List<ProductServerParameterValueDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(),ProductServerParameterValueDTO.class);
-            return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage,returnDTO))
+            List<ProductServerParameterValueDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(), ProductServerParameterValueDTO.class);
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage, returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -92,8 +92,8 @@ public class ProductServerParameterValueRestController implements RestController
             if (validateObjectProduct.getResult().equals("success")) {
                 Product productExist = this.productService.findOne(product);
                 Page<ProductServerParameterValue> productPage = this.productServerParameterValueService.findAllItemByProduct(productExist, PageableRequest.getInstance().createPageRequest(page, "ProductServerParameterValue", sortProperty, sortOrder));
-                List<ProductServerParameterValueDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(),ProductServerParameterValueDTO.class);
-                return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage,returnDTO))
+                List<ProductServerParameterValueDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(), ProductServerParameterValueDTO.class);
+                return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage, returnDTO))
                         .getSuccessResponse();
             } else {
                 return new ApiResponse("Error", 102, validateObjectProduct.getMessages())
@@ -123,8 +123,8 @@ public class ProductServerParameterValueRestController implements RestController
             if (validateObjectProduct.getResult().equals("success")) {
                 ProductAddon productAddonExist = this.productAddonService.findOne(productAddon);
                 Page<ProductServerParameterValue> productPage = this.productServerParameterValueService.findAllItemByProductAddon(productAddonExist, PageableRequest.getInstance().createPageRequest(page, "ProductServerParameterValue", sortProperty, sortOrder));
-                List<ProductServerParameterValueDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(),ProductServerParameterValueDTO.class);
-                return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage,returnDTO))
+                List<ProductServerParameterValueDTO> returnDTO = Convert2Object.mapAll(productPage.getContent(), ProductServerParameterValueDTO.class);
+                return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage, returnDTO))
                         .getSuccessResponse();
             } else {
                 return new ApiResponse("Error", 102, validateObjectProduct.getMessages())
@@ -170,11 +170,13 @@ public class ProductServerParameterValueRestController implements RestController
             return new ApiResponse("Error", 101, Arrays.asList("ProductServerParameterValue - admin_add - access denied!"))
                     .getFaultResponse();
         }
-        ProductServerParameterValue productServerParameterValue =productServerParameterValueDTO.convert2Object();
+        ProductServerParameterValue productServerParameterValue = productServerParameterValueDTO.convert2Object();
         productServerParameterValue.setProductServerParameterId(null);
-        productServerParameterValue.setServerParameter(this.serverParameterService.findOne(productServerParameterValue.getServerParameter()));
+        if (productServerParameterValue.getServerParameter() != null) productServerParameterValue.setServerParameter(
+                this.serverParameterService.findOne(productServerParameterValue.getServerParameter()));
 
-        productServerParameterValue.setProduct(this.productService.findOne(productServerParameterValue.getProduct()));
+        if (productServerParameterValue.getProduct() != null)
+            productServerParameterValue.setProduct(this.productService.findOne(productServerParameterValue.getProduct()));
         productServerParameterValue.setProductAddon(null);
 
         ValidateObject validateObject = this.productServerParameterValueValidate.validateAddNewItem(productServerParameterValue);
@@ -220,7 +222,8 @@ public class ProductServerParameterValueRestController implements RestController
         }
         ProductServerParameterValue productServerParameterValue = productServerParameterValueDTO.convert2Object();
         productServerParameterValue.setProductServerParameterId(Long.valueOf(id));
-        productServerParameterValue.setServerParameter(this.serverParameterService.findOne(productServerParameterValue.getServerParameter()));
+        if (productServerParameterValue.getServerParameter() != null)
+            productServerParameterValue.setServerParameter(this.serverParameterService.findOne(productServerParameterValue.getServerParameter()));
         if (productServerParameterValue.getProduct() == null) {
             productServerParameterValue.setProduct(null);
             productServerParameterValue.setProductAddon(this.productAddonService.findOne(productServerParameterValue.getProductAddon()));
@@ -257,8 +260,10 @@ public class ProductServerParameterValueRestController implements RestController
         }
         ProductServerParameterValue productServerParameterValue = productServerParameterValueDTO.convert2Object();
         productServerParameterValue.setProductServerParameterId(Long.valueOf(id));
-        productServerParameterValue.setServerParameter(this.serverParameterService.findOne(productServerParameterValue.getServerParameter()));
-        productServerParameterValue.setProduct(this.productService.findOne(productServerParameterValue.getProduct()));
+        if (productServerParameterValue.getServerParameter() != null)
+            productServerParameterValue.setServerParameter(this.serverParameterService.findOne(productServerParameterValue.getServerParameter()));
+        if (productServerParameterValue.getProduct() != null)
+            productServerParameterValue.setProduct(this.productService.findOne(productServerParameterValue.getProduct()));
         productServerParameterValue.setProductAddon(null);
 
         ValidateObject validateObject = this.productServerParameterValueValidate.validateUpdateItem(productServerParameterValue);
@@ -289,13 +294,15 @@ public class ProductServerParameterValueRestController implements RestController
         }
         ProductServerParameterValue productServerParameterValue = productServerParameterValueDTO.convert2Object();
         productServerParameterValue.setProductServerParameterId(Long.valueOf(id));
+        if (productServerParameterValue.getServerParameter() != null)
+            productServerParameterValue.setServerParameter(this.serverParameterService.findOne(productServerParameterValue.getServerParameter()));
+        productServerParameterValue.setProduct(null);
+        if (productServerParameterValue.getProductAddon() != null)
+            productServerParameterValue.setProductAddon(this.productAddonService.findOne(productServerParameterValue.getProductAddon()));
+
         ValidateObject validateObject = this.productServerParameterValueValidate.validateUpdateItem(productServerParameterValue);
         if (validateObject.getResult().equals("success")) {
             try {
-                productServerParameterValue.setServerParameter(this.serverParameterService.findOne(productServerParameterValue.getServerParameter()));
-                productServerParameterValue.setProduct(null);
-                productServerParameterValue.setProductAddon(this.productAddonService.findOne(productServerParameterValue.getProductAddon()));
-
                 return new ApiResponse("Success", Arrays.asList(this.productServerParameterValueService
                         .updateItem(productServerParameterValue).convert2Object()))
                         .getSuccessResponse();
