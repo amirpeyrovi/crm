@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.client.controller.transientObject.clientCredit;
 
-import ir.parto.crm.modules.client.controller.transientObject.client.ClientRelationalDTO;
+import ir.parto.crm.modules.client.model.entity.Client;
+import ir.parto.crm.modules.client.model.entity.ClientCredit;
 
 import java.io.Serializable;
 
@@ -90,5 +91,19 @@ public class ClientCreditAddDTO implements Serializable {
 
     public void setInvoiceTransactionId(Long invoiceTransactionId) {
         this.invoiceTransactionId = invoiceTransactionId;
+    }
+
+    public ClientCredit convert2Object() {
+        ClientCredit dto = new ClientCredit();
+        if (this.client != null) dto.setClient(new Client(this.client));
+        if (this.description != null) dto.setDescription(this.description);
+        if (this.caption != null) dto.setCaption(this.caption);
+        if (this.type != null) dto.setType(this.type);
+        if (this.amountIn != null) dto.setAmountIn(this.amountIn);
+        if (this.amountOut != null) dto.setAmountOut(this.amountOut);
+        if (this.total != null) dto.setTotal(this.total);
+        if (this.invoiceTransactionId != null) dto.setInvoiceTransactionId(this.invoiceTransactionId);
+
+        return dto;
     }
 }

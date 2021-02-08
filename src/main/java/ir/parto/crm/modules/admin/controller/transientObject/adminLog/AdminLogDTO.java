@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.admin.controller.transientObject.adminLog;
 
+import ir.parto.crm.modules.admin.controller.transientObject.admin.AdminRelationalDTO;
 import ir.parto.crm.modules.admin.model.entity.Admin;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -13,12 +14,12 @@ public class AdminLogDTO implements Serializable {
     private String log;
     private String username;
     private String ipAddress;
-    private Admin admin;
+    private AdminRelationalDTO admin;
 
     public AdminLogDTO() {
     }
 
-    public AdminLogDTO(Long adminLogId, String log, String username, String ipAddress, Admin admin) {
+    public AdminLogDTO(Long adminLogId, String log, String username, String ipAddress, AdminRelationalDTO admin) {
         this.adminLogId = adminLogId;
         this.log = log;
         this.username = username;
@@ -58,11 +59,11 @@ public class AdminLogDTO implements Serializable {
         this.ipAddress = ipAddress;
     }
 
-    public Admin getAdmin() {
+    public AdminRelationalDTO getAdmin() {
         return admin;
     }
 
-    public void setAdmin(Admin admin) {
+    public void setAdmin(AdminRelationalDTO admin) {
         this.admin = admin;
     }
 }

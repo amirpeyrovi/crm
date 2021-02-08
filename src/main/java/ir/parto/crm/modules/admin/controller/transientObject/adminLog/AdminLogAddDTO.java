@@ -59,10 +59,11 @@ public class AdminLogAddDTO implements Serializable {
 
     public AdminLog convert2Object(){
         AdminLog adminLog = new AdminLog();
-        adminLog.setAdmin(new Admin(this.adminId));
-        adminLog.setLog(this.log);
-        adminLog.setUsername(this.username);
-        adminLog.setIpAddress(this.ipAddress);
+        if(this.adminId != null) adminLog.setAdmin(new Admin(this.adminId));
+        if(this.log != null) adminLog.setLog(this.log);
+        if(this.username != null) adminLog.setUsername(this.username);
+        if(this.ipAddress != null) adminLog.setIpAddress(this.ipAddress);
+        adminLog.setIsDeleted(0);
         return adminLog;
     }
 }

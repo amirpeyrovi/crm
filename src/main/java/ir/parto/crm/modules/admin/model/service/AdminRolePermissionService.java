@@ -1,6 +1,5 @@
 package ir.parto.crm.modules.admin.model.service;
 
-import ir.parto.crm.modules.admin.model.entity.Admin;
 import ir.parto.crm.modules.admin.model.entity.AdminPermission;
 import ir.parto.crm.modules.admin.model.entity.AdminRole;
 import ir.parto.crm.modules.admin.model.entity.AdminRolePermission;
@@ -37,7 +36,10 @@ public class AdminRolePermissionService implements ServiceInterface<AdminRolePer
     @Override
     @Transactional
     public AdminRolePermission updateItem(AdminRolePermission adminRolePermission) throws InvocationTargetException, IllegalAccessException {
-        AdminRolePermission exist = this.adminRolePermissionRepository.findByIsDeletedIsNullAndAdminRolePermissionId(adminRolePermission.getAdminRolePermissionId());
+        AdminRolePermission exist = this.adminRolePermissionRepository.findByIsDeletedIsNullAndAdminRoleAndAdminPermission(adminRolePermission.getAdminRole(), adminRolePermission.getAdminPermission());
+        if (exist == null || exist.getAdminRolePermissionId() == null || exist.getAdminRolePermissionId() == 0) {
+            return this.addNewItem(adminRolePermission);
+        }
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, adminRolePermission);
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -85,10 +87,18 @@ public class AdminRolePermissionService implements ServiceInterface<AdminRolePer
     }
 
     public AdminRolePermission findByAdminRoleAndPermission(AdminRole adminRole, AdminPermission permission) {
-        return this.adminRolePermissionRepository.findByAdminRoleAndAdminPermission(adminRole , permission);
+        return this.adminRolePermissionRepository.findByAdminRoleAndAdminPermission(adminRole, permission);
     }
 
     public AdminRolePermission findByTitle(String title) {
         return this.adminRolePermissionRepository.findByTitle(title);
+    }
+
+    public Page<AdminRolePermission> findAllItemByAdminRole(AdminRole adminRole, Pageable pageable) {
+        return this.adminRolePermissionRepository.findAllItemByAdminRole(adminRole, pageable);
+    }
+
+    public boolean existsByAdminRoleAndAdminPermission(AdminRole adminRole, AdminPermission adminPermission) {
+        return this.adminRolePermissionRepository.existsByAdminRoleAndAdminPermission(adminRole, adminPermission);
     }
 }

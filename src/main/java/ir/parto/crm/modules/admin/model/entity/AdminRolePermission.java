@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.admin.model.entity;
 
+import ir.parto.crm.modules.admin.controller.transientObject.adminRolePermission.AdminRolePermissionDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -213,5 +214,18 @@ public class AdminRolePermission implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public AdminRolePermissionDTO convert2Object() {
+        AdminRolePermissionDTO dto = new AdminRolePermissionDTO();
+        if(this.title != null) dto.setTitle(this.title);
+        dto.setAdmin_addPerm(this.admin_addPerm);
+        dto.setAdmin_updatePerm(this.admin_updatePerm);
+        dto.setAdmin_deletePerm(this.admin_deletePerm);
+        dto.setAdmin_viewPerm(this.admin_viewPerm);
+        if(this.adminRole != null) dto.setAdminRole(this.adminRole.convert2Object());
+        if(this.adminPermission != null) dto.setAdminPermission(this.adminPermission.convert2Object());
+        if(this.adminRolePermissionId != null) dto.setAdminRolePermissionId(this.adminRolePermissionId);
+        return dto;
     }
 }

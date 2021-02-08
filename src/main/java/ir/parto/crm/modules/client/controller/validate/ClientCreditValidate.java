@@ -26,6 +26,13 @@ public class ClientCreditValidate implements ValidateInterface<ClientCredit> {
 
         if(clientCredit == null || clientCredit.getClient() == null || clientCredit.getClient().getClientId() == 0){
             errorList.add("Client Id is required");
+        }else{
+            if(clientCredit.getType() == null || clientCredit.getType().trim().isEmpty()){
+                errorList.add("Type is required");
+            }
+            if(clientCredit.getInvoiceTransactionId() == null || clientCredit.getInvoiceTransactionId() == 0 ){
+                errorList.add("InvoiceTransactionId is required");
+            }
         }
         //amount check
         validateObject.setCount(errorList.size());
@@ -46,6 +53,13 @@ public class ClientCreditValidate implements ValidateInterface<ClientCredit> {
 
         if(clientCredit == null || clientCredit.getClient() == null || clientCredit.getClient().getClientId() == 0){
             errorList.add("Client Id is required");
+        }else{
+            if(clientCredit.getType() != null && clientCredit.getType().trim().isEmpty()){
+                errorList.add("Type is required");
+            }
+            if(clientCredit.getInvoiceTransactionId() != null && clientCredit.getInvoiceTransactionId() == 0 ){
+                errorList.add("InvoiceTransactionId is required");
+            }
         }
         //amount check
         validateObject.setCount(errorList.size());

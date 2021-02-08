@@ -44,11 +44,20 @@ public class AdminRolePermissionValidate implements ValidateInterface<AdminRoleP
 
             if (adminRolePermission.getAdminRole() == null || adminRolePermission.getAdminRole().getAdminRoleId() == null || adminRolePermission.getAdminRole().getAdminRoleId() == 0) {
                 errorList.add("Admin Role is required");
+            } else {
+                if (!this.adminRoleService.existsById(adminRolePermission.getAdminRole().getAdminRoleId())) {
+                    errorList.add("Role not found");
+                }
             }
 
             if (adminRolePermission.getAdminPermission() == null || adminRolePermission.getAdminPermission().getPermissionId() == null || adminRolePermission.getAdminPermission().getPermissionId() == 0) {
                 errorList.add("Admin Permission is required");
+            } else {
+                if (!this.adminPermissionService.existsById(adminRolePermission.getAdminPermission().getPermissionId())) {
+                    errorList.add("Admin Permission not found");
+                }
             }
+
         }
 
         validateObject.setCount(errorList.size());
@@ -70,36 +79,37 @@ public class AdminRolePermissionValidate implements ValidateInterface<AdminRoleP
         if (adminRolePermission == null) {
             errorList.add("AdminRole Permission information is required");
         } else {
-            if (!this.adminRolePermissionService.existsById(adminRolePermission.getAdminRolePermissionId())) {
-                errorList.add("Admin is not defined!");
-            }
-
             if (adminRolePermission.getAdminRole() != null && (
                     adminRolePermission.getAdminRole().getAdminRoleId() == null ||
                             adminRolePermission.getAdminRole().getAdminRoleId() == 0)) {
                 errorList.add("AdminRole is required");
-            } else {
-                if (!this.adminRoleService.existsById(adminRolePermission.getAdminRole().getAdminRoleId())) {
-                    errorList.add("Role not found");
-                }
+            } else if (!this.adminRoleService.existsById(adminRolePermission.getAdminRole().getAdminRoleId())) {
+                errorList.add("Role not found");
             }
 
             if (adminRolePermission.getAdminPermission() == null || adminRolePermission.getAdminPermission().getPermissionId() == null || adminRolePermission.getAdminPermission().getPermissionId() == 0) {
                 errorList.add("AdminPermission is required");
-            } else {
-                if (!this.adminPermissionService.existsById(adminRolePermission.getAdminPermission().getPermissionId())) {
-                    errorList.add("Admin Permission not found");
+            } else if (!this.adminPermissionService.existsById(adminRolePermission.getAdminPermission().getPermissionId())) {
+                errorList.add("Admin Permission not found");
+            }
+
+            if (errorList.size() == 0) {
+                AdminRolePermission adminRolePermissionExist = this.adminRolePermissionService.findByAdminRoleAndPermission(adminRolePermission.getAdminRole(), adminRolePermission.getAdminPermission());
+                if (adminRolePermissionExist == null) {
+                    errorList.add("Admin is not defined!");
+                }else{
+                    if (adminRolePermission.getTitle() != null && adminRolePermission.getTitle().trim().isEmpty()) {
+                        errorList.add("Title is required");
+                    } else if (adminRolePermission.getTitle() != null) {
+                        AdminRolePermission adminRPUnique = this.adminRolePermissionService.findByTitle(adminRolePermission.getTitle());
+                        if (adminRPUnique != null &&
+                                adminRPUnique.getAdminRolePermissionId() != null && adminRPUnique.getAdminRolePermissionId() != 0 && !adminRPUnique.getAdminRolePermissionId().equals(adminRolePermissionExist.getAdminRolePermissionId())) {
+                            errorList.add("Title must be unique");
+                        }
+                    }
                 }
             }
-            if (adminRolePermission.getTitle() != null && adminRolePermission.getTitle().trim().isEmpty()) {
-                errorList.add("Title is required");
-            } else if (adminRolePermission.getTitle() != null) {
-                AdminRolePermission adminRPUnique = this.adminRolePermissionService.findByTitle(adminRolePermission.getTitle());
-                if (adminRPUnique != null &&
-                        adminRPUnique.getAdminRolePermissionId() != null && adminRPUnique.getAdminRolePermissionId() != 0 && !adminRPUnique.getAdminRolePermissionId().equals(adminRolePermission.getAdminRolePermissionId())) {
-                    errorList.add("Title must be unique");
-                }
-            }
+
         }
 
         validateObject.setCount(errorList.size());

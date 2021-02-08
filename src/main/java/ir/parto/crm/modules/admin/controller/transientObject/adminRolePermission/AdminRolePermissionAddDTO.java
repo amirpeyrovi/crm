@@ -10,19 +10,17 @@ public class AdminRolePermissionAddDTO implements Serializable {
     private int updatePerm;
     private int deletePerm;
     private int viewPerm;
-    private Long roleId;
     private Long permissionId;
 
     public AdminRolePermissionAddDTO() {
     }
 
-    public AdminRolePermissionAddDTO(String title, int addPerm, int updatePerm, int deletePerm, int viewPerm, Long roleId, Long permissionId) {
+    public AdminRolePermissionAddDTO(String title, int addPerm, int updatePerm, int deletePerm, int viewPerm, Long permissionId) {
         this.title = title;
         this.addPerm = addPerm;
         this.updatePerm = updatePerm;
         this.deletePerm = deletePerm;
         this.viewPerm = viewPerm;
-        this.roleId = roleId;
         this.permissionId = permissionId;
     }
 
@@ -66,14 +64,6 @@ public class AdminRolePermissionAddDTO implements Serializable {
         this.viewPerm = viewPerm;
     }
 
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
     public Long getPermissionId() {
         return permissionId;
     }
@@ -89,7 +79,6 @@ public class AdminRolePermissionAddDTO implements Serializable {
         adminRolePermission.setAdmin_updatePerm(this.updatePerm);
         adminRolePermission.setAdmin_deletePerm(this.deletePerm);
         adminRolePermission.setAdmin_viewPerm(this.viewPerm);
-        if(this.roleId != null) adminRolePermission.setAdminRole(new AdminRole(this.roleId));
         if(this.permissionId != null) adminRolePermission.setAdminPermission(new AdminPermission(this.permissionId));
         return adminRolePermission;
     }

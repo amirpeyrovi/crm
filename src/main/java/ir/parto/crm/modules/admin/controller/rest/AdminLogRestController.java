@@ -67,69 +67,69 @@ public class AdminLogRestController implements RestControllerInterface {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody AdminLogAddDTO adminLogAddDTO) {
-        if (CheckPermission.getInstance().check("admin_add", "AdminLog")) {
-            return new ApiResponse("Error", 101, Arrays.asList("AdminLog - admin_add - access denied!"))
-                    .getFaultResponse();
-        }
-        AdminLog adminLog = adminLogAddDTO.convert2Object();
-        ValidateObject validateObject = this.adminLogValidate.validateAddNewItem(adminLog);
-        if (validateObject.getResult().equals("success")) {
-            adminLog.setAdmin(this.adminService.findOne(adminLog.getAdmin()));
-            return new ApiResponse("Success", Arrays.asList(this.adminLogService.addNewItem(adminLog)))
-                    .getSuccessResponse();
-        } else {
-            return new ApiResponse("Error", 102, validateObject.getMessages())
-                    .getFaultResponse();
-        }
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody AdminLogAddDTO adminLogAddDTO) {
-        if (CheckPermission.getInstance().check("admin_update", "AdminLog")) {
-            return new ApiResponse("Error", 101, Arrays.asList("AdminLog - admin_update - access denied!"))
-                    .getFaultResponse();
-        }
-        AdminLog adminLog = adminLogAddDTO.convert2Object();
-        adminLog.setAdminLogId(id);
-
-        ValidateObject validateObject = this.adminLogValidate.validateUpdateItem(adminLog);
-        if (validateObject.getResult().equals("success")) {
-            try {
-                return new ApiResponse("Success", Arrays.asList(this.adminLogService.updateItem(adminLog)))
-                        .getSuccessResponse();
-            } catch (InvocationTargetException e) {
-                return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
-                        .getFaultResponse();
-            } catch (IllegalAccessException e) {
-                return new ApiResponse("Error", 104, Arrays.asList("An error occurred Try again later"))
-                        .getFaultResponse();
-            }
-        } else {
-            return new ApiResponse("Error", 102, validateObject.getMessages())
-                    .getFaultResponse();
-        }
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public Object deleteOne(@PathVariable("id") Long id) {
-        if (CheckPermission.getInstance().check("admin_delete", "AdminLog")) {
-            return new ApiResponse("Error", 101, Arrays.asList("AdminLog - admin_delete - access denied!"))
-                    .getFaultResponse();
-        }
-
-        AdminLog adminLog = new AdminLog();
-        adminLog.setAdminLogId(id);
-        ValidateObject validateObject = this.adminLogValidate.deleteItem(adminLog);
-        if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.adminLogService.deleteItem(adminLog)))
-                    .getSuccessResponse();
-        } else {
-            return new ApiResponse("Error", 102, validateObject.getMessages())
-                    .getFaultResponse();
-        }
-    }
+//    @RequestMapping(method = RequestMethod.POST)
+//    public Object addOne(@RequestBody AdminLogAddDTO adminLogAddDTO) {
+//        if (CheckPermission.getInstance().check("admin_add", "AdminLog")) {
+//            return new ApiResponse("Error", 101, Arrays.asList("AdminLog - admin_add - access denied!"))
+//                    .getFaultResponse();
+//        }
+//        AdminLog adminLog = adminLogAddDTO.convert2Object();
+//        ValidateObject validateObject = this.adminLogValidate.validateAddNewItem(adminLog);
+//        if (validateObject.getResult().equals("success")) {
+//            adminLog.setAdmin(this.adminService.findOne(adminLog.getAdmin()));
+//            return new ApiResponse("Success", Arrays.asList(this.adminLogService.addNewItem(adminLog)))
+//                    .getSuccessResponse();
+//        } else {
+//            return new ApiResponse("Error", 102, validateObject.getMessages())
+//                    .getFaultResponse();
+//        }
+//    }
+//
+//    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+//    public Object updateOne(@PathVariable("id") Long id, @RequestBody AdminLogAddDTO adminLogAddDTO) {
+//        if (CheckPermission.getInstance().check("admin_update", "AdminLog")) {
+//            return new ApiResponse("Error", 101, Arrays.asList("AdminLog - admin_update - access denied!"))
+//                    .getFaultResponse();
+//        }
+//        AdminLog adminLog = adminLogAddDTO.convert2Object();
+//        adminLog.setAdminLogId(id);
+//
+//        ValidateObject validateObject = this.adminLogValidate.validateUpdateItem(adminLog);
+//        if (validateObject.getResult().equals("success")) {
+//            try {
+//                return new ApiResponse("Success", Arrays.asList(this.adminLogService.updateItem(adminLog)))
+//                        .getSuccessResponse();
+//            } catch (InvocationTargetException e) {
+//                return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
+//                        .getFaultResponse();
+//            } catch (IllegalAccessException e) {
+//                return new ApiResponse("Error", 104, Arrays.asList("An error occurred Try again later"))
+//                        .getFaultResponse();
+//            }
+//        } else {
+//            return new ApiResponse("Error", 102, validateObject.getMessages())
+//                    .getFaultResponse();
+//        }
+//    }
+//
+//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+//    public Object deleteOne(@PathVariable("id") Long id) {
+//        if (CheckPermission.getInstance().check("admin_delete", "AdminLog")) {
+//            return new ApiResponse("Error", 101, Arrays.asList("AdminLog - admin_delete - access denied!"))
+//                    .getFaultResponse();
+//        }
+//
+//        AdminLog adminLog = new AdminLog();
+//        adminLog.setAdminLogId(id);
+//        ValidateObject validateObject = this.adminLogValidate.deleteItem(adminLog);
+//        if (validateObject.getResult().equals("success")) {
+//            return new ApiResponse("Success", Arrays.asList(this.adminLogService.deleteItem(adminLog)))
+//                    .getSuccessResponse();
+//        } else {
+//            return new ApiResponse("Error", 102, validateObject.getMessages())
+//                    .getFaultResponse();
+//        }
+//    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Object findOne(@PathVariable("id") Long id) {

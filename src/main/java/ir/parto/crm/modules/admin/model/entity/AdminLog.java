@@ -178,7 +178,7 @@ public class AdminLog implements Serializable {
         if(this.log != null) dto.setLog(this.log);
         if(this.username != null) dto.setUsername(this.username);
         if(this.ipAddress != null) dto.setIpAddress(this.ipAddress);
-        if(this.admin != null) dto.setAdmin(this.admin);
+        if(this.admin != null) dto.setAdmin(this.admin.convert2RelationalObject());
         return dto;
     }
 }
