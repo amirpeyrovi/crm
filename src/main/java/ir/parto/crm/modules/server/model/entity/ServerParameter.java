@@ -1,5 +1,8 @@
 package ir.parto.crm.modules.server.model.entity;
 
+import ir.parto.crm.modules.server.controller.transientObject.serverParameter.ServerParameterDTO;
+import ir.parto.crm.modules.server.controller.transientObject.serverParameter.ServerParameterInfoDTO;
+import ir.parto.crm.modules.server.controller.transientObject.serverParameter.ServerParameterRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "crm_server_parameter")
 public class ServerParameter implements Serializable {
     @Id
-    @SequenceGenerator(name = "server_seq", sequenceName = "server_seq", allocationSize=1)
+    @SequenceGenerator(name = "server_seq", sequenceName = "server_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "server_seq")
     private Long serverParameterId;
 
@@ -70,6 +73,10 @@ public class ServerParameter implements Serializable {
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
         this.isDeleted = isDeleted;
+    }
+
+    public ServerParameter(Long serverParameterId) {
+        this.serverParameterId = serverParameterId;
     }
 
     public Long getServerParameterId() {
@@ -174,5 +181,45 @@ public class ServerParameter implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ServerParameterRelationalDTO convert2RelationalObject() {
+        ServerParameterRelationalDTO dto = new ServerParameterRelationalDTO();
+        if (this.serverParameterId != null) dto.setServerParameterId(this.serverParameterId);
+        if (this.serverGroup != null) dto.setServerGroup(this.serverGroup.convert2RelationalObject());
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.description != null) dto.setDescription(this.description);
+        if (this.type != null) dto.setType(this.type);
+        if (this.options != null) dto.setOptions(this.options);
+        return dto;
+    }
+
+    public ServerParameterDTO convert2Object() {
+        ServerParameterDTO dto = new ServerParameterDTO();
+        if (this.serverParameterId != null) dto.setServerParameterId(this.serverParameterId);
+        if (this.serverGroup != null) dto.setServerGroup(this.serverGroup.convert2RelationalObject());
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.description != null) dto.setDescription(this.description);
+        if (this.type != null) dto.setType(this.type);
+        if (this.options != null) dto.setOptions(this.options);
+        return dto;
+    }
+
+    public ServerParameterInfoDTO convert2InfoObject() {
+        ServerParameterInfoDTO dto = new ServerParameterInfoDTO();
+        if (this.serverParameterId != null) dto.setServerParameterId(this.serverParameterId);
+        if (this.serverGroup != null) dto.setServerGroup(this.serverGroup.convert2RelationalObject());
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.description != null) dto.setDescription(this.description);
+        if (this.type != null) dto.setType(this.type);
+        if (this.options != null) dto.setOptions(this.options);
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if (this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if (this.updatedAt != null) dto.setUpdatedAt(this.updatedAt);
+        if (this.deletedAt != null) dto.setDeletedAt(this.deletedAt);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
+        return dto;
     }
 }

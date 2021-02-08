@@ -38,11 +38,11 @@ public class ProductParameterValidate implements ValidateInterface<ProductParame
                     errorList.add("ProductParameterGroup not defined");
                 }
 
-                if (productParameter.getTitle() == null || productParameter.getTitle().isEmpty()) {
+                if (productParameter.getTitle() == null || productParameter.getTitle().trim().isEmpty()) {
                     errorList.add("Title is required");
                 }
 
-                if (productParameter.getType() == null || productParameter.getType().isEmpty()) {
+                if (productParameter.getType() == null || productParameter.getType().trim().isEmpty()) {
                     errorList.add("Type is required");
                 }
             }
@@ -67,7 +67,9 @@ public class ProductParameterValidate implements ValidateInterface<ProductParame
         if (productParameter == null) {
             errorList.add("ProductParameter object is null");
         } else {
-            if (productParameter.getProductParameterGroup() == null) {
+            if (productParameter.getProductParameterGroup() != null && (
+                    productParameter.getProductParameterGroup().getProductParameterGroupId() == null ||
+                            productParameter.getProductParameterGroup().getProductParameterGroupId() == 0)) {
                 errorList.add("ProductParameterGroup object is null");
             } else {
                 if (!this.productParameterService.existsById(productParameter.getProductParameterId())) {
@@ -78,11 +80,11 @@ public class ProductParameterValidate implements ValidateInterface<ProductParame
                     errorList.add("ProductParameterGroup not defined");
                 }
 
-                if (productParameter.getTitle() == null || productParameter.getTitle().isEmpty()) {
+                if (productParameter.getTitle() != null && productParameter.getTitle().trim().isEmpty()) {
                     errorList.add("Title is required");
                 }
 
-                if (productParameter.getType() == null || productParameter.getType().isEmpty()) {
+                if (productParameter.getType() != null && productParameter.getType().trim().isEmpty()) {
                     errorList.add("Type is required");
                 }
             }

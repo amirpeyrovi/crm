@@ -185,7 +185,7 @@ public class ProductParameter implements Serializable {
         if (this.productParameterId != null) dto.setProductParameterId(this.productParameterId);
         if (this.productParameterGroup != null)
             dto.setProductParameterGroup(this.productParameterGroup.convert2RelationalDTO());
-        if (this.title != null) dto.setProductParameterId(this.productParameterId);
+        if (this.title != null) dto.setTitle(this.title);
         if (this.description != null) dto.setDescription(this.description);
         if (this.type != null) dto.setType(this.type);
         if (this.options != null) dto.setOptions(this.options);

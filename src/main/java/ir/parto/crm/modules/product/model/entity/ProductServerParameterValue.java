@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.product.model.entity;
 
+import ir.parto.crm.modules.product.controller.transientObject.productServerParameterValue.ProductServerParameterValueDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productServerParameterValue.ProductServerParameterValueInfoDTO;
 import ir.parto.crm.modules.server.model.entity.ServerParameter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -13,7 +15,7 @@ import java.time.LocalDateTime;
 public class ProductServerParameterValue implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize=1)
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "product_seq")
     private Long productServerParameterId;
 
@@ -167,5 +169,32 @@ public class ProductServerParameterValue implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ProductServerParameterValueDTO convert2Object() {
+        ProductServerParameterValueDTO dto = new ProductServerParameterValueDTO();
+        if (this.productServerParameterId != null) dto.setProductServerParameterId(this.productServerParameterId);
+        if (this.product != null) dto.setProduct(this.product.convert2RelationalObject());
+        if (this.productAddon != null) dto.setProductAddon(this.productAddon.convert2RelationalObject());
+        if (this.serverParameter != null) dto.setServerParameter(this.serverParameter.convert2RelationalObject());
+        if (this.value != null) dto.setValue(this.value);
+        return dto;
+    }
+
+    public ProductServerParameterValueInfoDTO conver2InfoObject() {
+        ProductServerParameterValueInfoDTO dto = new ProductServerParameterValueInfoDTO();
+        if (this.productServerParameterId != null) dto.setProductServerParameterId(this.productServerParameterId);
+        if (this.product != null) dto.setProduct(this.product.convert2RelationalObject());
+        if (this.productAddon != null) dto.setProductAddon(this.productAddon.convert2RelationalObject());
+        if (this.serverParameter != null) dto.setServerParameter(this.serverParameter.convert2RelationalObject());
+        if (this.value != null) dto.setValue(this.value);
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if (this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if (this.updatedDate != null) dto.setUpdatedDate(this.updatedDate);
+        if (this.deletedDate != null) dto.setDeletedDate(this.deletedDate);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
+        return dto;
     }
 }

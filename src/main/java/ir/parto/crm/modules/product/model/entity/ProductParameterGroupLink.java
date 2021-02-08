@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.product.model.entity;
 
+import ir.parto.crm.modules.product.controller.transientObject.productParameterGroupLink.ProductParameterGroupLinkDTO;
+import ir.parto.crm.modules.product.controller.transientObject.productParameterGroupLink.ProductParameterGroupLinkInfoDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +14,7 @@ import java.time.LocalDateTime;
 public class ProductParameterGroupLink implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize=1)
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "product_seq")
     private Long productParameterGroupLinkId;
 
@@ -154,5 +156,35 @@ public class ProductParameterGroupLink implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ProductParameterGroupLinkInfoDTO convert2InfoObject() {
+        ProductParameterGroupLinkInfoDTO dto = new ProductParameterGroupLinkInfoDTO();
+        if (this.productParameterGroupLinkId != null)
+            dto.setProductParameterGroupLinkId(this.productParameterGroupLinkId);
+        if (this.productParameterGroup != null)
+            dto.setProductParameterGroup(this.productParameterGroup.convert2RelationalDTO());
+        if (this.product != null) dto.setProduct(this.product.convert2RelationalObject());
+        if (this.productAddon != null) dto.setProductAddon(this.productAddon.convert2RelationalObject());
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if (this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if (this.updatedDate != null) dto.setUpdatedDate(this.updatedDate);
+        if (this.deletedDate != null) dto.setDeletedDate(this.deletedDate);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
+
+        return dto;
+    }
+
+    public ProductParameterGroupLinkDTO convert2Object() {
+        ProductParameterGroupLinkDTO dto = new ProductParameterGroupLinkDTO();
+        if (this.productParameterGroupLinkId != null)
+            dto.setProductParameterGroupLinkId(this.productParameterGroupLinkId);
+        if (this.productParameterGroup != null)
+            dto.setProductParameterGroup(this.productParameterGroup.convert2RelationalDTO());
+        if (this.product != null) dto.setProduct(this.product.convert2RelationalObject());
+        if (this.productAddon != null) dto.setProductAddon(this.productAddon.convert2RelationalObject());
+        return dto;
     }
 }

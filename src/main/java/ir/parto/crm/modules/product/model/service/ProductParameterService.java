@@ -29,6 +29,7 @@ public class ProductParameterService implements ServiceInterface<ProductParamete
     @Transactional
     public ProductParameter addNewItem(ProductParameter productParameter) {
         productParameter.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        productParameter.setTitle(productParameter.getTitle().trim());
         return this.productParameterRepository.save(productParameter);
     }
 
@@ -39,6 +40,7 @@ public class ProductParameterService implements ServiceInterface<ProductParamete
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, productParameter);
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (productParameter.getTitle() != null) exist.setTitle(productParameter.getTitle().trim());
         return this.productParameterRepository.save(exist);
     }
 
