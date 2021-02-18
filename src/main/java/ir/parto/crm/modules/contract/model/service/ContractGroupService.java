@@ -27,7 +27,9 @@ public class ContractGroupService implements ServiceInterface<ContractGroup> {
     @Override
     @Transactional
     public ContractGroup addNewItem(ContractGroup contractGroup) {
+        contractGroup.setTitle(contractGroup.getTitle().trim());
         contractGroup.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        contractGroup.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.contractGroupRepository.save(contractGroup);
     }
 
@@ -36,8 +38,9 @@ public class ContractGroupService implements ServiceInterface<ContractGroup> {
     public ContractGroup updateItem(ContractGroup contractGroup) throws InvocationTargetException, IllegalAccessException {
         ContractGroup exist = this.contractGroupRepository.findByIsDeletedIsNullAndContractGroupId(contractGroup.getContractGroupId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
-        myBeanCopy.copyProperties(exist,contractGroup);
+        myBeanCopy.copyProperties(exist, contractGroup);
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (contractGroup.getTitle() != null && contractGroup.getTitle().trim() != null) exist.setTitle(contractGroup.getTitle().trim());
         return this.contractGroupRepository.save(exist);
     }
 

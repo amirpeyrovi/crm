@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.contract.model.entity;
 
+import ir.parto.crm.modules.contract.controller.transientObject.ContractGroupDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -132,5 +133,13 @@ public class ContractGroup implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ContractGroupDTO convert2Object() {
+        ContractGroupDTO dto = new ContractGroupDTO();
+        if (this.contractGroupId != null) dto.setContractGroupId(this.contractGroupId);
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.description != null) dto.setDescription(this.description);
+        return dto;
     }
 }
