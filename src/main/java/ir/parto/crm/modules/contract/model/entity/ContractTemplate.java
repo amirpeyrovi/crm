@@ -2,6 +2,7 @@ package ir.parto.crm.modules.contract.model.entity;
 
 import ir.parto.crm.modules.contract.controller.transientObject.contractTemplate.ContractTemplateDTO;
 import ir.parto.crm.modules.contract.controller.transientObject.contractTemplate.ContractTemplateInfoDTO;
+import ir.parto.crm.modules.contract.controller.transientObject.contractTemplate.ContractTemplateRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -53,6 +54,10 @@ public class ContractTemplate implements Serializable {
     private Integer isDeleted;
 
     public ContractTemplate() {
+    }
+
+    public ContractTemplate(Long contractTemplateId) {
+        this.contractTemplateId = contractTemplateId;
     }
 
     public Long getContractTemplateId() {
@@ -165,6 +170,14 @@ public class ContractTemplate implements Serializable {
         if (this.updatedDate != null) dto.setUpdatedDate(this.updatedDate);
         if (this.deletedDate != null) dto.setDeletedDate(this.deletedDate);
         if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
+        return dto;
+    }
+
+    public ContractTemplateRelationalDTO convert2RelationalObject() {
+        ContractTemplateRelationalDTO dto = new ContractTemplateRelationalDTO();
+        if (this.contractTemplateId != null) dto.setContractTemplateId(this.contractTemplateId);
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.contract != null) dto.setContract(this.contract);
         return dto;
     }
 }

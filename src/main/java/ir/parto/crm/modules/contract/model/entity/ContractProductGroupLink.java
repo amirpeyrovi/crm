@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.contract.model.entity;
 
+import ir.parto.crm.modules.contract.controller.transientObject.contractProductGroupLink.ContractProductGroupLinkDTO;
+import ir.parto.crm.modules.contract.controller.transientObject.contractProductGroupLink.ContractProductGroupLinkInfoDTO;
 import ir.parto.crm.modules.product.model.entity.ProductGroup;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -141,5 +143,30 @@ public class ContractProductGroupLink implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ContractProductGroupLinkDTO convert2Object() {
+        ContractProductGroupLinkDTO dto = new ContractProductGroupLinkDTO();
+        if (this.contractProductGroupLinkId != null) dto.setContractProductGroupLinkId(this.contractProductGroupLinkId);
+        if (this.contractTemplate != null) dto.setContractTemplate(this.contractTemplate.convert2RelationalObject());
+        if (this.productGroup != null) dto.setProductGroup(this.productGroup.convert2RelationalObject());
+        if (this.automatic != null) dto.setAutomatic(this.automatic);
+        return dto;
+    }
+
+    public ContractProductGroupLinkInfoDTO convert2InfoObject() {
+        ContractProductGroupLinkInfoDTO dto = new ContractProductGroupLinkInfoDTO();
+        if (this.contractProductGroupLinkId != null) dto.setContractProductGroupLinkId(this.contractProductGroupLinkId);
+        if (this.contractTemplate != null) dto.setContractTemplate(this.contractTemplate.convert2RelationalObject());
+        if (this.productGroup != null) dto.setProductGroup(this.productGroup.convert2RelationalObject());
+        if (this.automatic != null) dto.setAutomatic(this.automatic);
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if (this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if (this.updatedDate != null) dto.setUpdatedDate(this.updatedDate);
+        if (this.deletedDate != null) dto.setDeletedDate(this.deletedDate);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
+        return dto;
     }
 }
