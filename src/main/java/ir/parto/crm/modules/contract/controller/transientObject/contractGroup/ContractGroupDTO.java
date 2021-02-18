@@ -1,4 +1,4 @@
-package ir.parto.crm.modules.contract.controller.transientObject;
+package ir.parto.crm.modules.contract.controller.transientObject.contractGroup;
 
 public class ContractGroupDTO {
     private Long contractGroupId;

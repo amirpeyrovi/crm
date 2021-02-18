@@ -1,6 +1,6 @@
 package ir.parto.crm.modules.contract.model.entity;
 
-import ir.parto.crm.modules.contract.controller.transientObject.ContractGroupDTO;
+import ir.parto.crm.modules.contract.controller.transientObject.contractGroup.ContractGroupDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -53,6 +53,10 @@ public class ContractGroup implements Serializable {
     public ContractGroup(String title, String description) {
         this.title = title;
         this.description = description;
+    }
+
+    public ContractGroup(Long contractGroupId) {
+        this.contractGroupId = contractGroupId;
     }
 
     public Long getContractGroupId() {

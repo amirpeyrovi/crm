@@ -1,8 +1,8 @@
 package ir.parto.crm.modules.contract.controller.rest;
 
-import ir.parto.crm.modules.contract.controller.transientObject.ContractGroupAddDTO;
-import ir.parto.crm.modules.contract.controller.transientObject.ContractGroupDTO;
-import ir.parto.crm.modules.contract.controller.transientObject.ContractGroupEditDTO;
+import ir.parto.crm.modules.contract.controller.transientObject.contractGroup.ContractGroupAddDTO;
+import ir.parto.crm.modules.contract.controller.transientObject.contractGroup.ContractGroupDTO;
+import ir.parto.crm.modules.contract.controller.transientObject.contractGroup.ContractGroupEditDTO;
 import ir.parto.crm.modules.contract.controller.validate.ContractGroupValidate;
 import ir.parto.crm.modules.contract.model.entity.ContractGroup;
 import ir.parto.crm.modules.contract.model.service.ContractGroupService;

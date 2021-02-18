@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.contract.model.entity;
 
+import ir.parto.crm.modules.contract.controller.transientObject.contractTemplate.ContractTemplateDTO;
+import ir.parto.crm.modules.contract.controller.transientObject.contractTemplate.ContractTemplateInfoDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -139,5 +141,30 @@ public class ContractTemplate implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ContractTemplateDTO convert2Object() {
+        ContractTemplateDTO dto = new ContractTemplateDTO();
+        if (this.contractTemplateId != null) dto.setContractTemplateId(this.contractTemplateId);
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.contract != null) dto.setContract(this.contract);
+        if (this.contractGroup != null) dto.setContractGroup(this.contractGroup.convert2Object());
+        return dto;
+    }
+
+    public ContractTemplateInfoDTO convert2InfoObject() {
+        ContractTemplateInfoDTO dto = new ContractTemplateInfoDTO();
+        if (this.contractTemplateId != null) dto.setContractTemplateId(this.contractTemplateId);
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.contract != null) dto.setContract(this.contract);
+        if (this.contractGroup != null) dto.setContractGroup(this.contractGroup.convert2Object());
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if (this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if (this.updatedDate != null) dto.setUpdatedDate(this.updatedDate);
+        if (this.deletedDate != null) dto.setDeletedDate(this.deletedDate);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
+        return dto;
     }
 }

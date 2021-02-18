@@ -1,4 +1,4 @@
-package ir.parto.crm.modules.contract.controller.transientObject;
+package ir.parto.crm.modules.contract.controller.transientObject.contractGroup;
 
 import ir.parto.crm.modules.contract.model.entity.ContractGroup;
 
