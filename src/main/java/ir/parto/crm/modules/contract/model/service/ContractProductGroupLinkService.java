@@ -28,6 +28,7 @@ public class ContractProductGroupLinkService implements ServiceInterface<Contrac
     @Transactional
     public ContractProductGroupLink addNewItem(ContractProductGroupLink contractProductGroupLink) {
         contractProductGroupLink.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        contractProductGroupLink.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.contractProductGroupLinkRepository.save(contractProductGroupLink);
     }
 
