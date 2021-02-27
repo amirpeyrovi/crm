@@ -3,6 +3,7 @@ package ir.parto.crm.modules.service.model.entity;
 import ir.parto.crm.modules.product.model.entity.ProductAddon;
 import ir.parto.crm.modules.product.model.entity.ProductCycle;
 import ir.parto.crm.modules.server.model.entity.Server;
+import ir.parto.crm.modules.service.controller.transientObject.serviceAddon.ServiceAddonRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 public class ServiceAddon implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "service_seq", sequenceName = "service_seq", allocationSize=1)
+    @SequenceGenerator(name = "service_seq", sequenceName = "service_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "service_seq")
     private Long serviceId;
 
@@ -111,6 +112,10 @@ public class ServiceAddon implements Serializable {
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
         this.isDeleted = isDeleted;
+    }
+
+    public ServiceAddon(Long serviceAddonId) {
+        this.serviceId = serviceAddonId;
     }
 
     public Long getServiceId() {
@@ -279,5 +284,16 @@ public class ServiceAddon implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ServiceAddonRelationalDTO convert2RelationalObject() {
+        ServiceAddonRelationalDTO dto = new ServiceAddonRelationalDTO();
+        if (this.serviceId != null) dto.setServiceId(this.serviceId);
+        if (this.service != null) dto.setService(this.service.convert2RelationalObject());
+        if (this.productAddon != null) dto.setProductAddon(this.productAddon.convert2RelationalObject());
+        if (this.productCycle != null) dto.setProductCycle(this.productCycle.convert2RelationalObject());
+        if (this.price != null) dto.setPrice(this.price);
+
+        return dto;
     }
 }
