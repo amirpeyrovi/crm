@@ -1,6 +1,7 @@
 package ir.parto.crm.modules.promotion.model.entity;
 
 import ir.parto.crm.modules.client.model.entity.Client;
+import ir.parto.crm.modules.promotion.controller.transientObject.promotionCode.PromotionCodeRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -91,6 +92,10 @@ public class PromotionCode implements Serializable {
         this.updatedDate = updatedDate;
         this.deletedDate = deletedDate;
         this.isDeleted = isDeleted;
+    }
+
+    public PromotionCode(Long promotionCodeId) {
+        this.promotionCodeId = promotionCodeId;
     }
 
     public Long getPromotionCodeId() {
@@ -227,5 +232,20 @@ public class PromotionCode implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public PromotionCodeRelationalDTO convert2RelationalObject() {
+        PromotionCodeRelationalDTO dto = new PromotionCodeRelationalDTO();
+        if (this.promotionCodeId != null) dto.setPromotionCodeId(this.promotionCodeId);
+        if (this.client != null) dto.setClient(this.client.convert2RelationalObject());
+        if (this.promotionCode != null) dto.setPromotionCode(this.promotionCode);
+        if (this.promotionName != null) dto.setPromotionName(this.promotionName);
+        if (this.type != null) dto.setType(this.type);
+        if (this.orderType != null) dto.setOrderType(this.orderType);
+        if (this.value != null) dto.setValue(this.value);
+        if (this.maxUsage != null) dto.setMaxUsage(this.maxUsage);
+        if (this.usage != null) dto.setUsage(this.usage);
+        if (this.validUntilDate != null) dto.setValidUntilDate(this.validUntilDate);
+        return dto;
     }
 }

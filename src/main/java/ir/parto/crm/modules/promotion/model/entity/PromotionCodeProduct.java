@@ -2,6 +2,8 @@ package ir.parto.crm.modules.promotion.model.entity;
 
 import ir.parto.crm.modules.product.model.entity.Product;
 import ir.parto.crm.modules.product.model.entity.ProductAddon;
+import ir.parto.crm.modules.promotion.controller.transientObject.promotionCodeProduct.PromotionCodeProductDTO;
+import ir.parto.crm.modules.promotion.controller.transientObject.promotionCodeProduct.PromotionCodeProductInfoDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -154,5 +156,30 @@ public class PromotionCodeProduct implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public PromotionCodeProductInfoDTO convert2InfoObject() {
+        PromotionCodeProductInfoDTO dto = new PromotionCodeProductInfoDTO();
+        if (this.promotionCodeProductId != null) dto.setPromotionCodeProductId(this.promotionCodeProductId);
+        if (this.product != null) dto.setProduct(this.product.convert2RelationalObject());
+        if (this.productAddon != null) dto.setProductAddon(this.productAddon.convert2RelationalObject());
+        if (this.promotionCode != null) dto.setPromotionCode(this.promotionCode.convert2RelationalObject());
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if (this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if (this.updatedDate != null) dto.setUpdatedDate(this.updatedDate);
+        if (this.deletedDate != null) dto.setDeletedDate(this.deletedDate);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
+        return dto;
+    }
+
+    public PromotionCodeProductDTO convert2Object() {
+        PromotionCodeProductDTO dto = new PromotionCodeProductDTO();
+        if (this.promotionCodeProductId != null) dto.setPromotionCodeProductId(this.promotionCodeProductId);
+        if (this.product != null) dto.setProduct(this.product.convert2RelationalObject());
+        if (this.productAddon != null) dto.setProductAddon(this.productAddon.convert2RelationalObject());
+        if (this.promotionCode != null) dto.setPromotionCode(this.promotionCode.convert2RelationalObject());
+        return dto;
     }
 }
