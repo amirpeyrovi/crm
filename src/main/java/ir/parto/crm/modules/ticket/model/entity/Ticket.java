@@ -4,6 +4,7 @@ import ir.parto.crm.modules.admin.model.entity.Admin;
 import ir.parto.crm.modules.client.model.entity.Client;
 import ir.parto.crm.modules.service.model.entity.Service;
 import ir.parto.crm.modules.ticket.controller.transientObject.ticket.TicketDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticket.TicketRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -87,6 +88,10 @@ public class Ticket implements Serializable {
         this.updatedAt = updatedAt;
         this.deletedAt = deletedAt;
         this.isDeleted = isDeleted;
+    }
+
+    public Ticket(Long ticketId) {
+        this.ticketId = ticketId;
     }
 
     public Service getService() {
@@ -211,16 +216,25 @@ public class Ticket implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public TicketDTO convert2Object(){
+    public TicketDTO convert2Object() {
         TicketDTO dto = new TicketDTO();
-        if(this.ticketId != null) dto.setTicketId(this.ticketId);
-        if(this.title != null) dto.setTitle(this.title);
-        if(this.message != null) dto.setMessage(this.message);
-        if(this.client != null) dto.setClient(this.client.convert2RelationalObject());
-        if(this.service != null) dto.setService(this.service.convert2RelationalObject());
+        if (this.ticketId != null) dto.setTicketId(this.ticketId);
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.message != null) dto.setMessage(this.message);
+        if (this.client != null) dto.setClient(this.client.convert2RelationalObject());
+        if (this.service != null) dto.setService(this.service.convert2RelationalObject());
         if (this.ticketStage != null) dto.setTicketStage(this.ticketStage.convert2RelationalObject());
         if (this.ticketState != null) dto.setTicketState(this.ticketState.convert2RelationalObject());
         if (this.admin != null) dto.setAdmin(this.admin.convert2RelationalObject());
+        return dto;
+    }
+
+    public TicketRelationalDTO convert2RelationalObject() {
+        TicketRelationalDTO dto = new TicketRelationalDTO();
+        if (this.ticketId != null) dto.setTicketId(this.ticketId);
+        if (this.title != null) dto.setTitle(this.title);
+        if (this.ticketStage != null) dto.setTicketStage(this.ticketStage.convert2RelationalObject());
+        if (this.ticketState != null) dto.setTicketState(this.ticketState.convert2RelationalObject());
         return dto;
     }
 }

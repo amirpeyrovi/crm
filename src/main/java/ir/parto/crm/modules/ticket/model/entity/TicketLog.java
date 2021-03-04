@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.ticket.model.entity;
 
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketLog.TicketLogDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketLog.TicketLogInfoDTO;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -11,7 +13,7 @@ import java.time.LocalDateTime;
 public class TicketLog implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_seq", allocationSize=1)
+    @SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "ticket_seq")
     private Long ticketLogId;
 
@@ -92,5 +94,27 @@ public class TicketLog implements Serializable {
 
     public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public TicketLogDTO convert2Object() {
+        TicketLogDTO dto = new TicketLogDTO();
+        if (this.ticketLogId != null) dto.setTicketLogId(this.ticketLogId);
+        if (this.ticket != null) dto.setTicket(this.ticket.convert2RelationalObject());
+        if (this.ticketStage != null) dto.setTicketStage(this.ticketStage.convert2RelationalObject());
+        if (this.ticketState != null) dto.setTicketState(this.ticketState.convert2RelationalObject());
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        return dto;
+    }
+
+    public TicketLogInfoDTO convert2InfoObject() {
+        TicketLogInfoDTO dto = new TicketLogInfoDTO();
+        if (this.ticketLogId != null) dto.setTicketLogId(this.ticketLogId);
+        if (this.ticket != null) dto.setTicket(this.ticket.convert2RelationalObject());
+        if (this.ticketStage != null) dto.setTicketStage(this.ticketStage.convert2RelationalObject());
+        if (this.ticketState != null) dto.setTicketState(this.ticketState.convert2RelationalObject());
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        return dto;
     }
 }
