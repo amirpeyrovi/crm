@@ -1,6 +1,8 @@
 package ir.parto.crm.modules.promotion.model.entity;
 
 import ir.parto.crm.modules.client.model.entity.Client;
+import ir.parto.crm.modules.promotion.controller.transientObject.promotionCode.PromotionCodeDTO;
+import ir.parto.crm.modules.promotion.controller.transientObject.promotionCode.PromotionCodeInfoDTO;
 import ir.parto.crm.modules.promotion.controller.transientObject.promotionCode.PromotionCodeRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -246,6 +248,43 @@ public class PromotionCode implements Serializable {
         if (this.maxUsage != null) dto.setMaxUsage(this.maxUsage);
         if (this.usage != null) dto.setUsage(this.usage);
         if (this.validUntilDate != null) dto.setValidUntilDate(this.validUntilDate);
+        return dto;
+    }
+
+    public PromotionCodeDTO convert2Object() {
+        PromotionCodeDTO dto = new PromotionCodeDTO();
+        if (this.promotionCodeId != null) dto.setPromotionCodeId(this.promotionCodeId);
+        if (this.client != null) dto.setClient(this.client.convert2RelationalObject());
+        if (this.promotionCode != null) dto.setPromotionCode(this.promotionCode);
+        if (this.promotionName != null) dto.setPromotionName(this.promotionName);
+        if (this.type != null) dto.setType(this.type);
+        if (this.orderType != null) dto.setOrderType(this.orderType);
+        if (this.value != null) dto.setValue(this.value);
+        if (this.maxUsage != null) dto.setMaxUsage(this.maxUsage);
+        if (this.usage != null) dto.setUsage(this.usage);
+        if (this.validUntilDate != null) dto.setValidUntilDate(this.validUntilDate);
+        return dto;
+    }
+
+    public PromotionCodeInfoDTO convert2InfoObject() {
+        PromotionCodeInfoDTO dto = new PromotionCodeInfoDTO();
+        if (this.promotionCodeId != null) dto.setPromotionCodeId(this.promotionCodeId);
+        if (this.client != null) dto.setClient(this.client.convert2RelationalObject());
+        if (this.promotionCode != null) dto.setPromotionCode(this.promotionCode);
+        if (this.promotionName != null) dto.setPromotionName(this.promotionName);
+        if (this.type != null) dto.setType(this.type);
+        if (this.orderType != null) dto.setOrderType(this.orderType);
+        if (this.value != null) dto.setValue(this.value);
+        if (this.maxUsage != null) dto.setMaxUsage(this.maxUsage);
+        if (this.usage != null) dto.setUsage(this.usage);
+        if (this.validUntilDate != null) dto.setValidUntilDate(this.validUntilDate);
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if (this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if (this.updatedDate != null) dto.setUpdatedDate(this.updatedDate);
+        if (this.deletedDate != null) dto.setDeletedDate(this.deletedDate);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
         return dto;
     }
 }

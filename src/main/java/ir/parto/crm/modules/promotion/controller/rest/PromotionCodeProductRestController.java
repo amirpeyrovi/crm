@@ -66,7 +66,7 @@ public class PromotionCodeProductRestController implements RestControllerInterfa
             for (PromotionCodeProduct promotionCodeProduct : productPage.getContent()) {
                 returnDTO.add(promotionCodeProduct.convert2Object());
             }
-            return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage,returnDTO))
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage, returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -96,7 +96,7 @@ public class PromotionCodeProductRestController implements RestControllerInterfa
                 for (PromotionCodeProduct promotionCodeProduct : productPage.getContent()) {
                     returnDTO.add(promotionCodeProduct.convert2Object());
                 }
-                return new ApiResponse("Success",  PageHelper.getInstance().createResponse(productPage,returnDTO))
+                return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage, returnDTO))
                         .getSuccessResponse();
             } else {
                 return new ApiResponse("Error", 102, validateObjectPromotionCode.getMessages())
