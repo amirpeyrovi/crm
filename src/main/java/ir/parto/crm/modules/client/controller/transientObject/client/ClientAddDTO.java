@@ -149,6 +149,9 @@ public class ClientAddDTO implements Serializable {
         Client dto = new Client();
         if (this.firstName != null) dto.setFirstName(this.firstName);
         if (this.lastName != null) dto.setLastName(this.lastName);
+        if (this.emailAddress != null) dto.setEmailAddress(this.emailAddress);
+        if (this.mobileNumber != null) dto.setMobileNumber(this.mobileNumber);
+        if (this.birthDate != null) dto.setBirthDate(this.birthDate);
         if (this.identityType != null) dto.setIdentityType(this.identityType);
         if (this.identityCode1 != null) dto.setIdentityCode1(this.identityCode1);
         return dto;

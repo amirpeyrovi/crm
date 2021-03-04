@@ -34,13 +34,13 @@ public class PromotionCodeProductValidate implements ValidateInterface<Promotion
         ValidateObject validateObject = new ValidateObject();
 
         if (promotionCodeProduct == null) {
-            errorList.add("PromotionCodeProduct object is nul");
+            errorList.add("PromotionCodeProduct object is null");
         } else {
             if (promotionCodeProduct.getProduct() == null && promotionCodeProduct.getProductAddon() == null) {
-                errorList.add("Product and ProductAddon object is nul");
+                errorList.add("Product and ProductAddon object is null");
             } else {
                 if (promotionCodeProduct.getPromotionCode() == null) {
-                    errorList.add("PromotionCode object is nul");
+                    errorList.add("PromotionCode object is null");
                 } else {
                     if (!this.promotionCodeService.existsById(promotionCodeProduct.getPromotionCode().getPromotionCodeId())) {
                         errorList.add("PromotionCode Id not defined");
@@ -52,7 +52,7 @@ public class PromotionCodeProductValidate implements ValidateInterface<Promotion
                     }
 
                     if (promotionCodeProduct.getProduct() != null &&
-                            !this.promotionCodeProductService.existsById(promotionCodeProduct.getProduct().getProductId())) {
+                            !this.productService.existsById(promotionCodeProduct.getProduct().getProductId())) {
                         errorList.add("Product Id not defined");
                     }
                 }
@@ -76,13 +76,13 @@ public class PromotionCodeProductValidate implements ValidateInterface<Promotion
         ValidateObject validateObject = new ValidateObject();
 
         if (promotionCodeProduct == null) {
-            errorList.add("PromotionCodeProduct object is nul");
+            errorList.add("PromotionCodeProduct object is null");
         } else {
             if (promotionCodeProduct.getProduct() == null && promotionCodeProduct.getProductAddon() == null) {
-                errorList.add("Product and ProductAddon object is nul");
+                errorList.add("Product and ProductAddon object is null");
             } else {
                 if (promotionCodeProduct.getPromotionCode() == null) {
-                    errorList.add("PromotionCode object is nul");
+                    errorList.add("PromotionCode object is null");
                 } else {
                     if (!this.promotionCodeProductService.existsById(promotionCodeProduct.getPromotionCodeProductId())) {
                         errorList.add("PromotionCodeProduct Id not defined");
@@ -97,7 +97,7 @@ public class PromotionCodeProductValidate implements ValidateInterface<Promotion
                     }
 
                     if (promotionCodeProduct.getProduct() != null &&
-                            !this.promotionCodeProductService.existsById(promotionCodeProduct.getProduct().getProductId())) {
+                            !this.productService.existsById(promotionCodeProduct.getProduct().getProductId())) {
                         errorList.add("Product Id not defined");
                     }
                 }
@@ -121,7 +121,7 @@ public class PromotionCodeProductValidate implements ValidateInterface<Promotion
         ValidateObject validateObject = new ValidateObject();
 
         if (promotionCodeProduct == null) {
-            errorList.add("PromotionCodeProduct object is nul");
+            errorList.add("PromotionCodeProduct object is null");
         } else {
             if (!this.promotionCodeProductService.existsById(promotionCodeProduct.getPromotionCodeProductId())) {
                 errorList.add("PromotionCodeProduct Id not defined");
@@ -145,7 +145,7 @@ public class PromotionCodeProductValidate implements ValidateInterface<Promotion
         ValidateObject validateObject = new ValidateObject();
 
         if (promotionCodeProduct == null) {
-            errorList.add("PromotionCodeProduct object is nul");
+            errorList.add("PromotionCodeProduct object is null");
         } else {
             if (!this.promotionCodeProductService.existsById(promotionCodeProduct.getPromotionCodeProductId())) {
                 errorList.add("PromotionCodeProduct Id not defined");
@@ -169,7 +169,7 @@ public class PromotionCodeProductValidate implements ValidateInterface<Promotion
         ValidateObject validateObject = new ValidateObject();
 
         if (promotionCodeProduct == null) {
-            errorList.add("PromotionCodeProduct object is nul");
+            errorList.add("PromotionCodeProduct object is null");
         } else {
             if (!this.promotionCodeProductService.existsById(promotionCodeProduct.getPromotionCodeProductId())) {
                 errorList.add("PromotionCodeProduct Id not defined");

@@ -118,7 +118,7 @@ public class PromotionCodeProductRestController implements RestControllerInterfa
         promotionCodeProduct.setPromotionCodeProductId(null);
 
         promotionCodeProduct.setPromotionCode(this.promotionCodeService.findOne(promotionCodeProduct.getPromotionCode()));
-        if (promotionCodeProduct.getProduct() == null) {
+        if (promotionCodeProduct.getProduct() == null ) {
             promotionCodeProduct.setProduct(null);
             promotionCodeProduct.setProductAddon(this.productAddonService.findOne(promotionCodeProduct.getProductAddon()));
         } else {

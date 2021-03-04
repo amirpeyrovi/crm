@@ -127,7 +127,7 @@ public class PromotionCodeRestController implements RestControllerInterface {
         ValidateObject validateObject = this.promotionCodeValidate.deleteItem(promotionCode);
         if (validateObject.getResult().equals("success")) {
             try {
-                return new ApiResponse("Success", Arrays.asList(this.promotionCodeService.deleteItem(promotionCode)))
+                return new ApiResponse("Success", Arrays.asList(this.promotionCodeService.deleteItem(promotionCode).convert2Object()))
                         .getSuccessResponse();
             } catch (Exception e) {
                 if (e.getMessage().contains("constraint")) {
