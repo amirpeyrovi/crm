@@ -1,5 +1,8 @@
 package ir.parto.crm.modules.ticket.controller.rest;
 
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketNote.TicketNoteAddDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketNote.TicketNoteDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketNote.TicketNoteEditDTO;
 import ir.parto.crm.modules.ticket.controller.validate.TicketNoteValidate;
 import ir.parto.crm.modules.ticket.model.entity.TicketNote;
 import ir.parto.crm.modules.ticket.model.service.TicketNoteService;
@@ -15,7 +18,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @TicketAnnotation
@@ -47,6 +52,10 @@ public class TicketNoteRestController implements RestControllerInterface {
             Page<TicketNote> ticketNotePage = this.ticketNoteService.
                     findAllItem(PageableRequest.getInstance().createPageRequest(page, "TicketNote",
                             sortProperty, sortOrder));
+            List<TicketNoteDTO> returnDTO = new ArrayList<>();
+            for (TicketNote ticketNote : ticketNotePage.getContent()) {
+                returnDTO.add(ticketNote.convert2Object());
+            }
             return new ApiResponse("Success", ticketNotePage)
                     .getSuccessResponse();
         } else {
@@ -56,17 +65,17 @@ public class TicketNoteRestController implements RestControllerInterface {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody TicketNote ticketNote) {
+    public Object addOne(@RequestBody TicketNoteAddDTO ticketNoteDTO) {
         if (CheckPermission.getInstance().check("admin_add", "TicketNote")) {
             return new ApiResponse("Error", 101, Arrays.asList("TicketNote - admin_add - access denied!"))
                     .getFaultResponse();
         }
-
+        TicketNote ticketNote = ticketNoteDTO.convert2Object();
         ticketNote.setTicketNoteId(null);
         ValidateObject validateObject = this.ticketNoteValidate.validateAddNewItem(ticketNote);
         if (validateObject.getResult().equals("success")) {
             ticketNote.setTicket(this.ticketService.findOne(ticketNote.getTicket()));
-            return new ApiResponse("Success", Arrays.asList(this.ticketNoteService.addNewItem(ticketNote)))
+            return new ApiResponse("Success", Arrays.asList(this.ticketNoteService.addNewItem(ticketNote).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -75,19 +84,19 @@ public class TicketNoteRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody TicketNote ticketNote) {
+    public Object updateOne(@PathVariable("id") String id, @RequestBody TicketNoteEditDTO ticketNoteDTO) {
         if (CheckPermission.getInstance().check("admin_update", "TicketNote")) {
             return new ApiResponse("Error", 101, Arrays.asList("TicketNote - admin_update - access denied!"))
                     .getFaultResponse();
         }
-
-        ticketNote.setTicketNoteId(id);
+        TicketNote ticketNote = ticketNoteDTO.convert2Object();
+        ticketNote.setTicketNoteId(Long.valueOf(id));
 
         ValidateObject validateObject = this.ticketNoteValidate.validateUpdateItem(ticketNote);
         if (validateObject.getResult().equals("success")) {
             try {
                 ticketNote.setTicket(this.ticketService.findOne(ticketNote.getTicket()));
-                return new ApiResponse("Success", Arrays.asList(this.ticketNoteService.updateItem(ticketNote)))
+                return new ApiResponse("Success", Arrays.asList(this.ticketNoteService.updateItem(ticketNote).convert2Object()))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
                 return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
@@ -103,17 +112,17 @@ public class TicketNoteRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public Object deleteOne(@PathVariable("id") Long id) {
+    public Object deleteOne(@PathVariable("id") String id) {
         if (CheckPermission.getInstance().check("admin_delete", "TicketNote")) {
             return new ApiResponse("Error", 101, Arrays.asList("TicketNote - admin_delete - access denied!"))
                     .getFaultResponse();
         }
 
         TicketNote ticketNote = new TicketNote();
-        ticketNote.setTicketNoteId(id);
+        ticketNote.setTicketNoteId(Long.valueOf(id));
         ValidateObject validateObject = this.ticketNoteValidate.deleteItem(ticketNote);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.ticketNoteService.deleteItem(ticketNote)))
+            return new ApiResponse("Success", Arrays.asList(this.ticketNoteService.deleteItem(ticketNote).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -122,17 +131,18 @@ public class TicketNoteRestController implements RestControllerInterface {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Object findOne(@PathVariable("id") Long id) {
+    public Object findOne(@PathVariable("id") String id) {
         if (CheckPermission.getInstance().check("admin_show", "TicketNote")) {
             return new ApiResponse("Error", 101, Arrays.asList("TicketNote - admin_show - access denied!"))
                     .getFaultResponse();
         }
 
         TicketNote ticketNote = new TicketNote();
-        ticketNote.setTicketNoteId(id);
+        ticketNote.setTicketNoteId(Long.valueOf(id));
         ValidateObject validateObject = this.ticketNoteValidate.findOne(ticketNote);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.ticketNoteService.findOne(ticketNote)))
+            return new ApiResponse("Success", Arrays.asList(this.ticketNoteService.findOne(ticketNote)
+                    .convert2InfoObject()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())

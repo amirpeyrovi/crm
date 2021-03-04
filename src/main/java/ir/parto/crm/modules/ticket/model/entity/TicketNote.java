@@ -1,6 +1,8 @@
 package ir.parto.crm.modules.ticket.model.entity;
 
 import ir.parto.crm.modules.admin.model.entity.Admin;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketNote.TicketNoteDTO;
+import ir.parto.crm.modules.ticket.controller.transientObject.ticketNote.TicketNoteInfoDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,7 +15,7 @@ import java.time.LocalDateTime;
 public class TicketNote implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_seq", allocationSize=1)
+    @SequenceGenerator(name = "ticket_seq", sequenceName = "ticket_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "ticket_seq")
     private Long ticketNoteId;
 
@@ -141,5 +143,28 @@ public class TicketNote implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public TicketNoteDTO convert2Object() {
+        TicketNoteDTO dto = new TicketNoteDTO();
+        if (this.ticketNoteId != null) dto.setTicketNoteId(this.ticketNoteId);
+        if (this.message != null) dto.setMessage(this.message);
+        if (this.ticket != null) dto.setTicket(this.ticket.convert2RelationalObject());
+        return dto;
+    }
+
+    public TicketNoteInfoDTO convert2InfoObject() {
+        TicketNoteInfoDTO dto = new TicketNoteInfoDTO();
+        if (this.ticketNoteId != null) dto.setTicketNoteId(this.ticketNoteId);
+        if (this.message != null) dto.setMessage(this.message);
+        if (this.ticket != null) dto.setTicket(this.ticket.convert2RelationalObject());
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if (this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if (this.updatedAt != null) dto.setUpdatedAt(this.updatedAt);
+        if (this.deletedAt != null) dto.setDeletedAt(this.deletedAt);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
+        return dto;
     }
 }
