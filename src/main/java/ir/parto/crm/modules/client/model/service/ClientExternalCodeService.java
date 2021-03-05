@@ -28,12 +28,15 @@ public class ClientExternalCodeService implements ServiceInterface<ClientExterna
     @Override
     @Transactional
     public ClientExternalCode addNewItem(ClientExternalCode clientExternalCode) {
+        clientExternalCode.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        clientExternalCode.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.clientExternalCodeRepository.save(clientExternalCode);
     }
 
     @Override
     @Transactional
     public ClientExternalCode updateItem(ClientExternalCode clientExternalCode) throws InvocationTargetException, IllegalAccessException {
+        clientExternalCode.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         ClientExternalCode exist = this.clientExternalCodeRepository.getOne(clientExternalCode.getClientExternalCodeId());
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         myBeanCopy.copyProperties(exist, clientExternalCode);
@@ -46,11 +49,10 @@ public class ClientExternalCodeService implements ServiceInterface<ClientExterna
         Principal authentication =  SecurityContextHolder.getContext().getAuthentication();
         ClientExternalCode exist = this.clientExternalCodeRepository
                 .findByIsDeletedIsNullAndClientExternalCodeId(clientExternalCode.getClientExternalCodeId());
-        clientExternalCode.setIsDeleted(1);
-        clientExternalCode.setDeletedAt(LocalDateTime.now());
-        clientExternalCode.setDeletedBy(authentication.getName());
-        this.clientExternalCodeRepository.save(clientExternalCode);
-        return this.clientExternalCodeRepository.save(clientExternalCode);
+        exist.setIsDeleted(1);
+        exist.setDeletedAt(LocalDateTime.now());
+        exist.setDeletedBy(authentication.getName());
+        return this.clientExternalCodeRepository.save(exist);
     }
 
     @Override

@@ -29,6 +29,7 @@ public class ClientCreditService implements ServiceInterface<ClientCredit> {
     @Transactional
     public ClientCredit addNewItem(ClientCredit clientCredit) {
         clientCredit.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        clientCredit.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.clientCreditRepository.save(clientCredit);
     }
 
@@ -49,7 +50,7 @@ public class ClientCreditService implements ServiceInterface<ClientCredit> {
         exist.setIsDeleted(1);
         exist.setDeletedAt(LocalDateTime.now());
         exist.setDeletedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-        return this.clientCreditRepository.save(clientCredit);
+        return this.clientCreditRepository.save(exist);
     }
 
     @Override

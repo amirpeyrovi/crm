@@ -1,4 +1,5 @@
 package ir.parto.crm.modules.client.controller.transientObject.clientContact;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import ir.parto.crm.modules.client.model.entity.Client;
 import ir.parto.crm.modules.client.model.entity.ClientContact;
 
@@ -9,6 +10,7 @@ public class ClientContactAddDTO {
     private String firstName;
     private String lastName;
     private String fatherName;
+    @JsonFormat(pattern = "MM/dd/yyyy")
     private LocalDate birthDate;
     private String phoneNumber;
     private String mobileNumber;

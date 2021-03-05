@@ -65,10 +65,11 @@ public class ClientRestController implements RestControllerInterface {
                     .getFaultResponse();
         }
 
-        Client client = this.clientService.findById(id);
+        Client client = new Client();
         client.setClientId(id);
         ValidateObject validateObject = this.clientValidate.findOne(client);
         if (validateObject.getResult().equals("success")) {
+            client = this.clientService.findById(id);
             return new ApiResponse("Success", Arrays.asList(client.convert2Object()))
                     .getSuccessResponse();
         } else {

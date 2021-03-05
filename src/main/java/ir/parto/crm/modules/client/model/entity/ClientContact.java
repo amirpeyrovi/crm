@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.client.model.entity;
 
+import ir.parto.crm.modules.client.controller.transientObject.clientContact.ClientContactInfoDTO;
 import ir.parto.crm.modules.client.controller.transientObject.clientContact.ClientContactRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -291,6 +292,33 @@ public class ClientContact implements Serializable {
         if (this.identityCode3 != null) dto.setIdentityCode3(this.identityCode3);
         if (this.address != null) dto.setAddress(this.address);
         if (this.address2 != null) dto.setAddress2(this.address2);
+        return dto;
+    }
+
+
+    public ClientContactInfoDTO convert2InfoObject() {
+        ClientContactInfoDTO dto = new ClientContactInfoDTO();
+        if (this.clientContactId != null) dto.setClientContactId(this.clientContactId);
+        if (this.client != null) dto.setClient(this.client.convert2RelationalObject());
+        if (this.firstName != null) dto.setFirstName(this.firstName);
+        if (this.lastName != null) dto.setLastName(this.lastName);
+        if (this.fatherName != null) dto.setFatherName(this.fatherName);
+        if (this.birthDate != null) dto.setBirthDate(this.birthDate);
+        if (this.phoneNumber != null) dto.setPhoneNumber(this.phoneNumber);
+        if (this.mobileNumber != null) dto.setMobileNumber(this.mobileNumber);
+        if (this.identityType != null) dto.setIdentityType(this.identityType);
+        if (this.identityCode1 != null) dto.setIdentityCode1(this.identityCode1);
+        if (this.identityCode2 != null) dto.setIdentityCode2(this.identityCode2);
+        if (this.identityCode3 != null) dto.setIdentityCode3(this.identityCode3);
+        if (this.address != null) dto.setAddress(this.address);
+        if (this.address2 != null) dto.setAddress2(this.address2);
+        if (this.updatedAt != null) dto.setUpdatedAt(this.updatedAt);
+        if (this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if (this.deletedAt != null) dto.setDeletedAt(this.deletedAt);
+        if (this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
         return dto;
     }
 }

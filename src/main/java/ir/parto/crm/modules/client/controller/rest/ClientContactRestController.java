@@ -75,11 +75,10 @@ public class ClientContactRestController implements RestControllerInterface {
         }
 
         ClientContact clientContact = clientContactAddDTO.convert2Object();
-        if(clientContact.getClient().getClientId() != null)
-            clientContact.setClient(this.clientService.findById(clientContact.getClient().getClientId()));
-
         ValidateObject validateObject = this.clientContactValidate.validateAddNewItem(clientContact);
         if (validateObject.getResult().equals("success")) {
+            if(clientContact.getClient().getClientId() != null)
+                clientContact.setClient(this.clientService.findById(clientContact.getClient().getClientId()));
             return new ApiResponse("Success", Arrays.asList(this.clientContactService.addNewItem(clientContact)))
                     .getSuccessResponse();
         } else {
@@ -129,7 +128,7 @@ public class ClientContactRestController implements RestControllerInterface {
         clientContact.setClientContactId(id);
         ValidateObject validateObject = this.clientContactValidate.deleteItem(clientContact);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.clientContactService.deleteItem(clientContact)))
+            return new ApiResponse("Success", Arrays.asList(this.clientContactService.deleteItemDto(clientContact)))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())

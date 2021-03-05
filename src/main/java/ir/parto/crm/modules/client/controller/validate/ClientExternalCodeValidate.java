@@ -24,14 +24,19 @@ public class ClientExternalCodeValidate implements ValidateInterface<ClientExter
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(clientExternalCode == null || clientExternalCode.getClient() == null || clientExternalCode.getClient().getClientId() == 0){
-            errorList.add("Client Id is required");
-        }
-        if(clientExternalCode == null || clientExternalCode.getTitle() == null ){
-            errorList.add("Title is required");
-        }
-        if(clientExternalCode == null || clientExternalCode.getExternalCode() == null ){
-            errorList.add("ExternalCode is required");
+        if(clientExternalCode == null ){
+            errorList.add("Object is required");
+        }else{
+
+            if(clientExternalCode.getClient() == null || clientExternalCode.getClient().getClientId() == 0){
+                errorList.add("Client Id is required");
+            }
+            if(clientExternalCode.getTitle() == null || clientExternalCode.getTitle().trim().isEmpty()){
+                errorList.add("Title is required");
+            }
+            if(clientExternalCode.getExternalCode() == null || clientExternalCode.getExternalCode().trim().isEmpty()){
+                errorList.add("ExternalCode is required");
+            }
         }
 
         validateObject.setCount(errorList.size());
@@ -50,14 +55,19 @@ public class ClientExternalCodeValidate implements ValidateInterface<ClientExter
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if(clientExternalCode != null && clientExternalCode.getClient() != null && clientExternalCode.getClient().getClientId() == 0){
-            errorList.add("Client Id is required");
-        }
-        if(clientExternalCode != null && clientExternalCode.getTitle() == null ){
-            errorList.add("Title is required");
-        }
-        if(clientExternalCode != null && clientExternalCode.getExternalCode() == null ){
-            errorList.add("ExternalCode is required");
+
+        if(clientExternalCode == null ){
+            errorList.add("Object is required");
+        }else{
+            if(clientExternalCode.getClient() != null && clientExternalCode.getClient().getClientId() == 0){
+                errorList.add("Client Id is required");
+            }
+            if(clientExternalCode.getTitle() != null && clientExternalCode.getTitle().trim().isEmpty()){
+                errorList.add("Title is required");
+            }
+            if(clientExternalCode.getExternalCode() != null && clientExternalCode.getExternalCode().trim().isEmpty()){
+                errorList.add("ExternalCode is required");
+            }
         }
 
         validateObject.setCount(errorList.size());

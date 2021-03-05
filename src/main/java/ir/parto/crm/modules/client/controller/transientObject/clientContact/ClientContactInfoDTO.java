@@ -1,31 +1,25 @@
-package ir.parto.crm.modules.client.controller.transientObject.client;
+package ir.parto.crm.modules.client.controller.transientObject.clientContact;
 
-import ir.parto.crm.modules.client.model.entity.ClientExternalCode;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import ir.parto.crm.modules.client.controller.transientObject.client.ClientRelationalDTO;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
-public class ClientInfoDTO implements Serializable {
-    private Long clientId;
+public class ClientContactInfoDTO {
+    private Long clientContactId;
+    private ClientRelationalDTO client;
     private String firstName;
     private String lastName;
     private String fatherName;
     private LocalDate birthDate;
     private String phoneNumber;
     private String mobileNumber;
-    private Long identityType;
+    private String identityType;
     private String identityCode1;
     private String identityCode2;
     private String identityCode3;
     private String address;
     private String address2;
-    private String emailAddress;
-    private List<ClientExternalCode> externalCodes;
     private String createdBy;
     private String updatedBy;
     private String deletedBy;
@@ -34,15 +28,12 @@ public class ClientInfoDTO implements Serializable {
     private LocalDateTime deletedAt;
     private Integer isDeleted;
 
-    public ClientInfoDTO() {
+    public ClientContactInfoDTO() {
     }
 
-    public ClientInfoDTO(Long clientId) {
-        this.clientId = clientId;
-    }
-
-    public ClientInfoDTO(Long clientId, String firstName, String lastName, String fatherName, LocalDate birthDate, String phoneNumber, String mobileNumber, Long identityType, String identityCode1, String identityCode2, String identityCode3, String address, String address2, String emailAddress, List<ClientExternalCode> externalCodes, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
-        this.clientId = clientId;
+    public ClientContactInfoDTO(Long clientContactId, ClientRelationalDTO client, String firstName, String lastName, String fatherName, LocalDate birthDate, String phoneNumber, String mobileNumber, String identityType, String identityCode1, String identityCode2, String identityCode3, String address, String address2) {
+        this.clientContactId = clientContactId;
+        this.client = client;
         this.firstName = firstName;
         this.lastName = lastName;
         this.fatherName = fatherName;
@@ -55,23 +46,22 @@ public class ClientInfoDTO implements Serializable {
         this.identityCode3 = identityCode3;
         this.address = address;
         this.address2 = address2;
-        this.emailAddress = emailAddress;
-        this.externalCodes = externalCodes;
-        this.createdBy = createdBy;
-        this.updatedBy = updatedBy;
-        this.deletedBy = deletedBy;
-        this.createdDate = createdDate;
-        this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
-        this.isDeleted = isDeleted;
     }
 
-    public Long getClientId() {
-        return clientId;
+    public Long getClientContactId() {
+        return clientContactId;
     }
 
-    public void setClientId(Long clientId) {
-        this.clientId = clientId;
+    public void setClientContactId(Long clientContactId) {
+        this.clientContactId = clientContactId;
+    }
+
+    public ClientRelationalDTO getClient() {
+        return client;
+    }
+
+    public void setClient(ClientRelationalDTO client) {
+        this.client = client;
     }
 
     public String getFirstName() {
@@ -122,11 +112,11 @@ public class ClientInfoDTO implements Serializable {
         this.mobileNumber = mobileNumber;
     }
 
-    public Long getIdentityType() {
+    public String getIdentityType() {
         return identityType;
     }
 
-    public void setIdentityType(Long identityType) {
+    public void setIdentityType(String identityType) {
         this.identityType = identityType;
     }
 
@@ -168,22 +158,6 @@ public class ClientInfoDTO implements Serializable {
 
     public void setAddress2(String address2) {
         this.address2 = address2;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public List<ClientExternalCode> getExternalCodes() {
-        return externalCodes;
-    }
-
-    public void setExternalCodes(List<ClientExternalCode> externalCodes) {
-        this.externalCodes = externalCodes;
     }
 
     public String getCreatedBy() {
@@ -240,25 +214,5 @@ public class ClientInfoDTO implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
-    }
-
-    public ClientRelationalDTO convert2RelationalObject() {
-        ClientRelationalDTO dto = new ClientRelationalDTO();
-        if(this.clientId != null) dto.setClientId(this.clientId);
-        if(this.firstName != null) dto.setFirstName(this.firstName);
-        if(this.lastName != null) dto.setLastName(this.lastName);
-        if(this.identityType != null) dto.setIdentityType(this.identityType);
-        if(this.identityCode1 != null) dto.setIdentityCode1(this.identityCode1);
-        return dto;
-    }
-
-    public ClientRelationalDTO convert2Object() {
-        ClientRelationalDTO dto = new ClientRelationalDTO();
-        if(this.clientId != null) dto.setClientId(this.clientId);
-        if(this.firstName != null) dto.setFirstName(this.firstName);
-        if(this.lastName != null) dto.setLastName(this.lastName);
-        if(this.identityType != null) dto.setIdentityType(this.identityType);
-        if(this.identityCode1 != null) dto.setIdentityCode1(this.identityCode1);
-        return dto;
     }
 }

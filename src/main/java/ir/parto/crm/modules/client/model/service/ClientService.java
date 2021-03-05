@@ -29,6 +29,7 @@ public class ClientService implements ServiceInterface<Client> {
     @Transactional
     public Client addNewItem(Client client) {
         client.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        client.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.clientRepository.save(client);
     }
 

@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.client.controller.rest;
 
+import ir.parto.crm.modules.client.controller.transientObject.clientExternalCode.ClientExternalCodeAddDTO;
+import ir.parto.crm.modules.client.controller.transientObject.clientExternalCode.ClientExternalCodeInfoDTO;
 import ir.parto.crm.modules.client.controller.validate.ClientExternalCodeValidate;
 import ir.parto.crm.modules.client.controller.validate.ClientValidate;
 import ir.parto.crm.modules.client.model.entity.Client;
@@ -18,7 +20,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/client/clientExternalCode")
@@ -50,7 +55,11 @@ public class ClientExternalCodeRestController implements RestControllerInterface
         if (validateObject.getResult().equals("success")) {
             Page<ClientExternalCode> clientList = this.clientExternalCodeService.findAllItem(
                     PageableRequest.getInstance().createPageRequest(page, "Client", sortProperty, sortOrder));
-            return new ApiResponse("Success", clientList)
+            List<ClientExternalCodeInfoDTO> clientExternalCodeInfoDTOList = new ArrayList<>();
+            for (ClientExternalCode clientExternalCode : clientList) {
+                clientExternalCodeInfoDTOList.add(clientExternalCode.convert2Object());
+            }
+            return new ApiResponse("Success", clientExternalCodeInfoDTOList)
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -69,7 +78,7 @@ public class ClientExternalCodeRestController implements RestControllerInterface
         clientExternalCode.setClientExternalCodeId(id);
         ValidateObject validateObject = this.clientExternalCodeValidate.findOne(clientExternalCode);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.clientExternalCodeService.findOne(clientExternalCode)))
+            return new ApiResponse("Success", Arrays.asList(this.clientExternalCodeService.findOne(clientExternalCode).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -78,17 +87,19 @@ public class ClientExternalCodeRestController implements RestControllerInterface
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Object addOne(@RequestBody ClientExternalCode clientExternalCode) {
+    public Object addOne(@RequestBody ClientExternalCodeAddDTO clientExternalCodeAddDTO) {
+        ClientExternalCode clientExternalCode = clientExternalCodeAddDTO.convert2Object();
         if (CheckPermission.getInstance().check("client_add", "Client_ExternalCode")) {
             clientExternalCode.setClient(this.clientService.findOne(clientExternalCode.getClient()));
             return new ApiResponse("Error", 101, Arrays.asList("ClientExternalCode - client_add - access denied!"))
                     .getFaultResponse();
         }
 
-        clientExternalCode.setClientExternalCodeId(null);
         ValidateObject validateObject = this.clientExternalCodeValidate.validateAddNewItem(clientExternalCode);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.clientExternalCodeService.addNewItem(clientExternalCode)))
+            if(clientExternalCode.getClient().getClientId() != null)
+                clientExternalCode.setClient(this.clientService.findById(clientExternalCode.getClient().getClientId()));
+            return new ApiResponse("Success", Arrays.asList(this.clientExternalCodeService.addNewItem(clientExternalCode).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -107,7 +118,7 @@ public class ClientExternalCodeRestController implements RestControllerInterface
         clientExternalCode.setClientExternalCodeId(id);
         ValidateObject validateObject = this.clientExternalCodeValidate.deleteItem(clientExternalCode);
         if (validateObject.getResult().equals("success")) {
-            return new ApiResponse("Success", Arrays.asList(this.clientExternalCodeService.deleteItem(clientExternalCode)))
+            return new ApiResponse("Success", Arrays.asList(this.clientExternalCodeService.deleteItem(clientExternalCode).convert2Object()))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -116,24 +127,26 @@ public class ClientExternalCodeRestController implements RestControllerInterface
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Object updateOne(@PathVariable("id") Long id, @RequestBody ClientExternalCode clientExternalCode) {
+    public Object updateOne(@PathVariable("id") String id, @RequestBody ClientExternalCodeAddDTO clientExternalCodeAddDTO) {
         if (CheckPermission.getInstance().check("client_update", "Client_ExternalCode")) {
             return new ApiResponse("Error", 101, Arrays.asList("ClientExternalCode - client_update - access denied!"))
                     .getFaultResponse();
         }
 
-        clientExternalCode.setClientExternalCodeId(id);
+        ClientExternalCode clientExternalCode = clientExternalCodeAddDTO.convert2Object();
+        clientExternalCode.setClientExternalCodeId(Long.valueOf(id));
         ValidateObject validateObject = this.clientExternalCodeValidate.validateUpdateItem(clientExternalCode);
         if (validateObject.getResult().equals("success")) {
             try {
-                clientExternalCode.setClient(this.clientService.findOne(clientExternalCode.getClient()));
-                return new ApiResponse("Success", Arrays.asList(this.clientExternalCodeService.updateItem(clientExternalCode)))
+                if(clientExternalCode.getClient().getClientId() != null)
+                    clientExternalCode.setClient(this.clientService.findById(clientExternalCode.getClient().getClientId()));
+                return new ApiResponse("Success", Arrays.asList(this.clientExternalCodeService.updateItem(clientExternalCode).convert2Object()))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {
-                return new ApiResponse("Error", 103, Arrays.asList("An error occurred Try again later"))
+                return new ApiResponse("Error", 103, Collections.singletonList("An error occurred Try again later"))
                         .getFaultResponse();
             } catch (IllegalAccessException e) {
-                return new ApiResponse("Error", 104, Arrays.asList("An error occurred Try again later"))
+                return new ApiResponse("Error", 104, Collections.singletonList("An error occurred Try again later"))
                         .getFaultResponse();
             }
         } else {
