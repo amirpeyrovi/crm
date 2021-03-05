@@ -57,13 +57,19 @@ public class ContractProductGroupLinkValidate implements ValidateInterface<Contr
         if (contractProductGroupLink == null) {
             errorList.add("object is null");
         } else {
-            if (contractProductGroupLink.getContractTemplate() == null || contractProductGroupLink.getContractTemplate()
-                    .getContractTemplateId() == 0 ) {
-                errorList.add("Template is required");
-            }
-            if(contractProductGroupLink.getProductGroup() == null || contractProductGroupLink.getProductGroup()
-                    .getProductGroupId() == 0 ) {
-                errorList.add("Product Group is required");
+            if(!this.contractProductGroupLinkService.existsById(contractProductGroupLink.getContractProductGroupLinkId())){
+                errorList.add("ContractProductGroupLink not defined");
+            }else {
+                if (contractProductGroupLink.getContractTemplate() == null || (contractProductGroupLink.getContractTemplate().getContractTemplateId() == null
+                        || contractProductGroupLink.getContractTemplate()
+                        .getContractTemplateId() == 0)) {
+                    errorList.add("Template is required");
+                }
+                if (contractProductGroupLink.getProductGroup() == null || (contractProductGroupLink.getProductGroup()
+                        .getProductGroupId() == null || contractProductGroupLink.getProductGroup()
+                        .getProductGroupId() == 0)) {
+                    errorList.add("Product Group is required");
+                }
             }
         }
 

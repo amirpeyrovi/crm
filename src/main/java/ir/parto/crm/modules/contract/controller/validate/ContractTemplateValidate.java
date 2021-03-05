@@ -27,10 +27,10 @@ public class ContractTemplateValidate implements ValidateInterface<ContractTempl
         if (contractTemplate == null) {
             errorList.add("object is null");
         } else {
-            if (contractTemplate.getTitle() == null || contractTemplate.getTitle().isEmpty()) {
+            if (contractTemplate.getTitle() == null || contractTemplate.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required");
             }
-            if(contractTemplate.getContract() == null || contractTemplate.getContract().isEmpty()) {
+            if(contractTemplate.getContract() == null || contractTemplate.getContract().trim().isEmpty()) {
                 errorList.add("Contract Text is required");
             }
             if(contractTemplate.getContractGroup() == null || contractTemplate.getContractGroup().getContractGroupId() == 0) {
@@ -57,13 +57,14 @@ public class ContractTemplateValidate implements ValidateInterface<ContractTempl
         if (contractTemplate == null) {
             errorList.add("object is null");
         } else {
-            if (contractTemplate.getTitle() == null || contractTemplate.getTitle().isEmpty()) {
+            if (contractTemplate.getTitle() != null && contractTemplate.getTitle().trim().isEmpty()) {
                 errorList.add("Title is required");
             }
-            if(contractTemplate.getContract() == null || contractTemplate.getContract().isEmpty()) {
+            if(contractTemplate.getContract() != null && contractTemplate.getContract().trim().isEmpty()) {
                 errorList.add("Contract Text is required");
             }
-            if(contractTemplate.getContractGroup() == null || contractTemplate.getContractGroup().getContractGroupId() == 0) {
+            if(contractTemplate.getContractGroup() == null ||
+                    contractTemplate.getContractGroup().getContractGroupId() == 0) {
                 errorList.add("Group is required");
             }
         }

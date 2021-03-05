@@ -31,7 +31,7 @@ public class ResellerValidate implements ValidateInterface<Reseller> {
             errorList.add("Reseller object is nul");
         } else {
             if (reseller.getAdmin() == null) {
-                errorList.add("Client object is nul");
+                errorList.add("Admin object is nul");
             } else {
                 if (!this.adminService.existsById(reseller.getAdmin().getAdminId())) {
                     errorList.add("Admin Id not defined");

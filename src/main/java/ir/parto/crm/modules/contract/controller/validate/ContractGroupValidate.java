@@ -28,7 +28,7 @@ public class ContractGroupValidate implements ValidateInterface<ContractGroup> {
         if (contractGroup == null) {
             errorList.add("object is null");
         } else {
-            if (contractGroup.getTitle() == null || contractGroup.getTitle().isEmpty() ) {
+            if (contractGroup.getTitle() == null || contractGroup.getTitle().trim().isEmpty() ) {
                 errorList.add("Title is required");
             }
         }
@@ -52,8 +52,12 @@ public class ContractGroupValidate implements ValidateInterface<ContractGroup> {
         if (contractGroup == null) {
             errorList.add("object is null");
         } else {
-            if (contractGroup.getTitle() == null || contractGroup.getTitle().isEmpty() ) {
-                errorList.add("Title is required");
+            if(!this.contractGroupService.existsById(contractGroup.getContractGroupId())){
+                errorList.add("ContarctGroup not define");
+            }else {
+                if (contractGroup.getTitle() != null && contractGroup.getTitle().trim().isEmpty()) {
+                    errorList.add("Title is required");
+                }
             }
         }
 

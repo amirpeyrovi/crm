@@ -157,6 +157,7 @@ public class ClientAddDTO implements Serializable {
         if (this.fatherName != null) dto.setFatherName(this.fatherName);
         if (this.birthDate != null) dto.setBirthDate(this.birthDate);
         if (this.phoneNumber != null) dto.setPhoneNumber(this.phoneNumber);
+        if (this.emailAddress != null) dto.setEmailAddress(this.emailAddress);
         if (this.mobileNumber != null) dto.setMobileNumber(this.mobileNumber);
         if (this.identityType != null) dto.setIdentityType(this.identityType);
         if (this.identityCode1 != null) dto.setIdentityCode1(this.identityCode1);

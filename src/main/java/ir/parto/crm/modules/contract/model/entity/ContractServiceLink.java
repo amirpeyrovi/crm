@@ -1,5 +1,7 @@
 package ir.parto.crm.modules.contract.model.entity;
 
+import ir.parto.crm.modules.contract.controller.transientObject.contractServiceLink.ContractServiceLinkDTO;
+import ir.parto.crm.modules.contract.controller.transientObject.contractServiceLink.ContractServiceLinkInfoDTO;
 import ir.parto.crm.modules.service.model.entity.Service;
 import ir.parto.crm.modules.service.model.entity.ServiceAddon;
 import org.hibernate.annotations.CreationTimestamp;
@@ -55,6 +57,19 @@ public class ContractServiceLink implements Serializable {
     private Integer isDeleted;
 
     public ContractServiceLink() {
+    }
+
+    public ContractServiceLink(ContractTemplate contractTemplate, Service service, ServiceAddon serviceAddon, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime deletedDate, Integer isDeleted) {
+        this.contractTemplate = contractTemplate;
+        this.service = service;
+        this.serviceAddon = serviceAddon;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.deletedBy = deletedBy;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+        this.deletedDate = deletedDate;
+        this.isDeleted = isDeleted;
     }
 
     public Long getContractServiceLinkId() {
@@ -143,5 +158,30 @@ public class ContractServiceLink implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ContractServiceLinkInfoDTO convert2InfoObject() {
+        ContractServiceLinkInfoDTO dto = new ContractServiceLinkInfoDTO();
+        if (this.contractServiceLinkId != null) dto.setContractServiceLinkId(this.contractServiceLinkId);
+        if (this.contractTemplate != null) dto.setContractTemplate(this.contractTemplate.convert2RelationalObject());
+        if (this.service != null) dto.setService(this.service.convert2RelationalObject());
+        if (this.serviceAddon != null) dto.setServiceAddon(this.serviceAddon.convert2RelationalObject());
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if (this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if (this.updatedDate != null) dto.setUpdatedDate(this.updatedDate);
+        if (this.deletedDate != null) dto.setDeletedDate(this.deletedDate);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
+        return dto;
+    }
+
+    public ContractServiceLinkDTO convert2Object() {
+        ContractServiceLinkDTO dto = new ContractServiceLinkDTO();
+        if (this.contractServiceLinkId != null) dto.setContractServiceLinkId(this.contractServiceLinkId);
+        if (this.contractTemplate != null) dto.setContractTemplate(this.contractTemplate.convert2RelationalObject());
+        if (this.service != null) dto.setService(this.service.convert2RelationalObject());
+        if (this.serviceAddon != null) dto.setServiceAddon(this.serviceAddon.convert2RelationalObject());
+        return dto;
     }
 }

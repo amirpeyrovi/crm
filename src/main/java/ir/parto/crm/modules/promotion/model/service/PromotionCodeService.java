@@ -28,6 +28,7 @@ public class PromotionCodeService implements ServiceInterface<PromotionCode> {
     @Transactional
     public PromotionCode addNewItem(PromotionCode promotionCode) {
         promotionCode.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        promotionCode.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.promotionCodeRepository.save(promotionCode);
     }
 

@@ -28,6 +28,7 @@ public class ContractTemplateService implements ServiceInterface<ContractTemplat
     @Transactional
     public ContractTemplate addNewItem(ContractTemplate contractTemplate) {
         contractTemplate.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        contractTemplate.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.contractTemplateRepository.save(contractTemplate);
     }
 

@@ -28,6 +28,7 @@ public class ResellerService implements ServiceInterface<Reseller> {
     @Transactional
     public Reseller addNewItem(Reseller reseller) {
         reseller.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        reseller.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.resellerRepository.save(reseller);
     }
 

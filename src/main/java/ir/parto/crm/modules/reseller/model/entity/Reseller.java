@@ -1,7 +1,9 @@
 package ir.parto.crm.modules.reseller.model.entity;
 
 import ir.parto.crm.modules.admin.model.entity.Admin;
-import ir.parto.crm.modules.client.model.entity.Client;
+import ir.parto.crm.modules.reseller.controller.transientObject.reseller.ResellerDTO;
+import ir.parto.crm.modules.reseller.controller.transientObject.reseller.ResellerInfoDTO;
+import ir.parto.crm.modules.reseller.controller.transientObject.reseller.ResellerRelationalDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,7 +16,7 @@ import java.time.LocalDateTime;
 public class Reseller implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "reseller_seq", sequenceName = "reseller_seq", allocationSize=1)
+    @SequenceGenerator(name = "reseller_seq", sequenceName = "reseller_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "reseller_seq")
     private Long resellerId;
 
@@ -58,6 +60,10 @@ public class Reseller implements Serializable {
         this.updatedDate = updatedDate;
         this.deletedDate = deletedDate;
         this.isDeleted = isDeleted;
+    }
+
+    public Reseller(Long resellerId) {
+        this.resellerId = resellerId;
     }
 
     public Long getResellerId() {
@@ -130,5 +136,33 @@ public class Reseller implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ResellerDTO convert2Object() {
+        ResellerDTO dto = new ResellerDTO();
+        if (this.resellerId != null) dto.setResellerId(this.resellerId);
+        if (this.admin != null) dto.setAdmin(this.admin.convert2RelationalObject());
+        return dto;
+    }
+
+    public ResellerInfoDTO convert2InfoObject() {
+        ResellerInfoDTO dto = new ResellerInfoDTO();
+        if (this.resellerId != null) dto.setResellerId(this.resellerId);
+        if (this.admin != null) dto.setAdmin(this.admin.convert2RelationalObject());
+        if (this.createdBy != null) dto.setCreatedBy(this.createdBy);
+        if (this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
+        if (this.deletedBy != null) dto.setDeletedBy(this.deletedBy);
+        if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
+        if (this.updatedDate != null) dto.setUpdatedDate(this.createdDate);
+        if (this.deletedDate != null) dto.setDeletedDate(this.deletedDate);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
+        return dto;
+    }
+
+    public ResellerRelationalDTO convert2RelationalObject() {
+        ResellerRelationalDTO dto = new ResellerRelationalDTO();
+        if (this.resellerId != null) dto.setResellerId(this.resellerId);
+        if (this.admin != null) dto.setAdmin(this.admin.convert2RelationalObject());
+        return dto;
     }
 }

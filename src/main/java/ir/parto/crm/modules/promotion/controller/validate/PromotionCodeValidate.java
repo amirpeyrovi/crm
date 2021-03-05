@@ -28,9 +28,9 @@ public class PromotionCodeValidate implements ValidateInterface<PromotionCode> {
         ValidateObject validateObject = new ValidateObject();
 
         if (promotionCode == null) {
-            errorList.add("PromotionCode object is nul");
+            errorList.add("PromotionCode object is null");
         } else {
-            if (promotionCode.getClient() != null && !this.promotionCodeService.existsById(promotionCode.getClient().getClientId())) {
+            if (promotionCode.getClient() != null && !this.clientService.existsById(promotionCode.getClient().getClientId())) {
                 errorList.add("Client Id not defined");
             }
 
@@ -64,7 +64,7 @@ public class PromotionCodeValidate implements ValidateInterface<PromotionCode> {
         ValidateObject validateObject = new ValidateObject();
 
         if (promotionCode == null) {
-            errorList.add("PromotionCode object is nul");
+            errorList.add("PromotionCode object is null");
         } else {
             if (!this.promotionCodeService.existsById(promotionCode.getPromotionCodeId())) {
                 errorList.add("PromotionCode Id not defined");
@@ -104,7 +104,7 @@ public class PromotionCodeValidate implements ValidateInterface<PromotionCode> {
         ValidateObject validateObject = new ValidateObject();
 
         if (promotionCode == null) {
-            errorList.add("PromotionCode object is nul");
+            errorList.add("PromotionCode object is null");
         } else {
             if (!this.promotionCodeService.existsById(promotionCode.getPromotionCodeId())) {
                 errorList.add("PromotionCode Id not defined");
@@ -128,7 +128,7 @@ public class PromotionCodeValidate implements ValidateInterface<PromotionCode> {
         ValidateObject validateObject = new ValidateObject();
 
         if (promotionCode == null) {
-            errorList.add("PromotionCode object is nul");
+            errorList.add("PromotionCode object is null");
         } else {
             if (!this.promotionCodeService.existsById(promotionCode.getPromotionCodeId())) {
                 errorList.add("PromotionCode Id not defined");
@@ -152,7 +152,7 @@ public class PromotionCodeValidate implements ValidateInterface<PromotionCode> {
         ValidateObject validateObject = new ValidateObject();
 
         if (promotionCode == null) {
-            errorList.add("PromotionCode object is nul");
+            errorList.add("PromotionCode object is null");
         } else {
             if (!this.promotionCodeService.existsById(promotionCode.getPromotionCodeId())) {
                 errorList.add("PromotionCode Id not defined");
