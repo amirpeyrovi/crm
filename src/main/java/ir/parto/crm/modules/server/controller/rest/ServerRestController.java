@@ -55,11 +55,11 @@ public class ServerRestController implements RestControllerInterface {
         ValidateObject validateObject = this.serverValidate.findAll();
         if (validateObject.getResult().equals("success")) {
             Page<Server> productPage = this.serverService.findAllItem(PageableRequest.getInstance().createPageRequest(page, "Server", sortProperty, sortOrder));
-            List<ServerDTO> returnDTO= new ArrayList();
+            List<ServerDTO> returnDTO = new ArrayList();
             for (Server server : productPage.getContent()) {
                 returnDTO.add(server.convert2Object());
             }
-            return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage,returnDTO))
+            return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage, returnDTO))
                     .getSuccessResponse();
         } else {
             return new ApiResponse("Error", 102, validateObject.getMessages())
@@ -89,9 +89,9 @@ public class ServerRestController implements RestControllerInterface {
                 for (Server server : productPage.getContent()) {
                     returnDTO.add(server.convert2Object());
                 }
-                return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage,returnDTO))
+                return new ApiResponse("Success", PageHelper.getInstance().createResponse(productPage, returnDTO))
                         .getSuccessResponse();
-            }else {
+            } else {
                 return new ApiResponse("Error", 102, validateObjectServerGroup.getMessages())
                         .getFaultResponse();
             }
@@ -107,7 +107,7 @@ public class ServerRestController implements RestControllerInterface {
             return new ApiResponse("Error", 101, Arrays.asList("Server - admin_add - access denied!"))
                     .getFaultResponse();
         }
-        Server server= serverDTO.convert2Object();
+        Server server = serverDTO.convert2Object();
         server.setServerId(null);
 
         ValidateObject validateObject = this.serverValidate.validateAddNewItem(server);
@@ -129,11 +129,11 @@ public class ServerRestController implements RestControllerInterface {
         }
         Server server = serverDTO.convert2Object();
         server.setServerId(Long.valueOf(id));
-
+        if (server.getServerGroup() != null)
+            server.setServerGroup(this.serverGroupService.findOne(server.getServerGroup()));
         ValidateObject validateObject = this.serverValidate.validateUpdateItem(server);
         if (validateObject.getResult().equals("success")) {
             try {
-                server.setServerGroup(this.serverGroupService.findOne(server.getServerGroup()));
                 return new ApiResponse("Success", Arrays.asList(this.serverService.updateItem(server).convert2Object()))
                         .getSuccessResponse();
             } catch (InvocationTargetException e) {

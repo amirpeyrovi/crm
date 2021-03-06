@@ -30,6 +30,12 @@ public class ServerService implements ServiceInterface<Server> {
     @Transactional
     public Server addNewItem(Server server) {
         server.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        server.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        server.setTitle(server.getTitle().trim());
+        server.setTitle(server.getTitle().trim());
+        server.setUsername(server.getUsername().trim());
+        server.setPassword(server.getPassword().trim());
+        server.setAddress(server.getAddress().trim());
         return this.serverRepository.save(server);
     }
 
@@ -40,6 +46,10 @@ public class ServerService implements ServiceInterface<Server> {
         MyBeanCopy myBeanCopy = new MyBeanCopy();
         exist.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         myBeanCopy.copyProperties(exist, server);
+        exist.setTitle(exist.getTitle().trim());
+        exist.setUsername(exist.getUsername().trim());
+        exist.setPassword(exist.getPassword().trim());
+        exist.setAddress(exist.getAddress().trim());
         return this.serverRepository.save(exist);
     }
 

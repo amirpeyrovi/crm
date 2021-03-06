@@ -10,7 +10,7 @@ public class ServerInfoDTO {
     private String address;
     private String username;
     private String password;
-    private Integer accessHash;
+    private String accessHash;
     private Integer ssl;
     private ServerGroupRelationalDTO serverGroup;
     private String createdBy;
@@ -24,7 +24,7 @@ public class ServerInfoDTO {
     public ServerInfoDTO() {
     }
 
-    public ServerInfoDTO(Long serverId, String title, String address, String username, String password, Integer accessHash, Integer ssl, ServerGroupRelationalDTO serverGroup, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
+    public ServerInfoDTO(Long serverId, String title, String address, String username, String password, String accessHash, Integer ssl, ServerGroupRelationalDTO serverGroup, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
         this.serverId = serverId;
         this.title = title;
         this.address = address;
@@ -82,11 +82,11 @@ public class ServerInfoDTO {
         this.password = password;
     }
 
-    public Integer getAccessHash() {
+    public String getAccessHash() {
         return accessHash;
     }
 
-    public void setAccessHash(Integer accessHash) {
+    public void setAccessHash(String accessHash) {
         this.accessHash = accessHash;
     }
 

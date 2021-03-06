@@ -10,14 +10,14 @@ public class ServerDTO {
     private String address;
     private String username;
     private String password;
-    private Integer accessHash;
+    private String accessHash;
     private Integer ssl;
     private ServerGroupRelationalDTO serverGroup;
 
     public ServerDTO() {
     }
 
-    public ServerDTO(Long serverId, String title, String address, String username, String password, Integer accessHash, Integer ssl, ServerGroupRelationalDTO serverGroup) {
+    public ServerDTO(Long serverId, String title, String address, String username, String password, String accessHash, Integer ssl, ServerGroupRelationalDTO serverGroup) {
         this.serverId = serverId;
         this.title = title;
         this.address = address;
@@ -68,11 +68,11 @@ public class ServerDTO {
         this.password = password;
     }
 
-    public Integer getAccessHash() {
+    public String getAccessHash() {
         return accessHash;
     }
 
-    public void setAccessHash(Integer accessHash) {
+    public void setAccessHash(String accessHash) {
         this.accessHash = accessHash;
     }
 

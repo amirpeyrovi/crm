@@ -30,28 +30,28 @@ public class ServerValidate implements ValidateInterface<Server> {
         ValidateObject validateObject = new ValidateObject();
 
         if (server == null) {
-            errorList.add("Server object is nul");
+            errorList.add("Server object is null");
         } else {
             if (server.getServerGroup() == null) {
-                errorList.add("ServerGroup object is nul");
+                errorList.add("ServerGroup object is null");
             } else {
                 if (!this.serverGroupService.existsById(server.getServerGroup().getServerGroupId())) {
                     errorList.add("ServerGroup Id not defined");
                 }
 
-                if(server.getTitle() == null || server.getTitle().isEmpty()){
+                if(server.getTitle() == null || server.getTitle().trim().isEmpty()){
                     errorList.add("Title is required");
                 }
 
-                if(server.getAddress() == null || server.getAddress().isEmpty()){
+                if(server.getAddress() == null || server.getAddress().trim().isEmpty()){
                     errorList.add("Address is required");
                 }
 
-                if(server.getUsername() == null || server.getUsername().isEmpty()){
+                if(server.getUsername() == null || server.getUsername().trim().isEmpty()){
                     errorList.add("Username is required");
                 }
 
-                if(server.getPassword() == null || server.getPassword().isEmpty()){
+                if(server.getPassword() == null || server.getPassword().trim().isEmpty()){
                     errorList.add("Password is required");
                 }
             }
@@ -74,10 +74,10 @@ public class ServerValidate implements ValidateInterface<Server> {
         ValidateObject validateObject = new ValidateObject();
 
         if (server == null) {
-            errorList.add("Server object is nul");
+            errorList.add("Server object is null");
         } else {
             if (server.getServerGroup() == null) {
-                errorList.add("ServerGroup object is nul");
+                errorList.add("ServerGroup object is null");
             } else {
                 if (!this.serverService.existsById(server.getServerId())) {
                     errorList.add("Server Id not defined");
@@ -87,19 +87,19 @@ public class ServerValidate implements ValidateInterface<Server> {
                     errorList.add("ServerGroup Id not defined");
                 }
 
-                if(server.getTitle() == null || server.getTitle().isEmpty()){
+                if(server.getTitle() != null && server.getTitle().trim().isEmpty()){
                     errorList.add("Title is required");
                 }
 
-                if(server.getAddress() == null || server.getAddress().isEmpty()){
+                if(server.getAddress() != null && server.getAddress().trim().isEmpty()){
                     errorList.add("Address is required");
                 }
 
-                if(server.getUsername() == null || server.getUsername().isEmpty()){
+                if(server.getUsername() != null && server.getUsername().trim().isEmpty()){
                     errorList.add("Username is required");
                 }
 
-                if(server.getPassword() == null || server.getPassword().isEmpty()){
+                if(server.getPassword() != null && server.getPassword().trim().isEmpty()){
                     errorList.add("Password is required");
                 }
             }
@@ -122,7 +122,7 @@ public class ServerValidate implements ValidateInterface<Server> {
         ValidateObject validateObject = new ValidateObject();
 
         if (server == null) {
-            errorList.add("Server object is nul");
+            errorList.add("Server object is null");
         } else {
             if (!this.serverService.existsById(server.getServerId())) {
                 errorList.add("Server Id not defined");
@@ -146,7 +146,7 @@ public class ServerValidate implements ValidateInterface<Server> {
         ValidateObject validateObject = new ValidateObject();
 
         if (server == null) {
-            errorList.add("Server object is nul");
+            errorList.add("Server object is null");
         } else {
             if (!this.serverService.existsById(server.getServerId())) {
                 errorList.add("Server Id not defined");
@@ -170,7 +170,7 @@ public class ServerValidate implements ValidateInterface<Server> {
         ValidateObject validateObject = new ValidateObject();
 
         if (server == null) {
-            errorList.add("Server object is nul");
+            errorList.add("Server object is null");
         } else {
             if (!this.serverService.existsById(server.getServerId())) {
                 errorList.add("Server Id not defined");

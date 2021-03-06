@@ -8,14 +8,14 @@ public class ServerAddDTO {
     private String address;
     private String username;
     private String password;
-    private Integer accessHash;
+    private String accessHash;
     private Integer ssl;
     private Long serverGroupId;
 
     public ServerAddDTO() {
     }
 
-    public ServerAddDTO(String title, String address, String username, String password, Integer accessHash, Integer ssl, Long serverGroupId) {
+    public ServerAddDTO(String title, String address, String username, String password, String accessHash, Integer ssl, Long serverGroupId) {
         this.title = title;
         this.address = address;
         this.username = username;
@@ -57,11 +57,11 @@ public class ServerAddDTO {
         this.password = password;
     }
 
-    public Integer getAccessHash() {
+    public String getAccessHash() {
         return accessHash;
     }
 
-    public void setAccessHash(Integer accessHash) {
+    public void setAccessHash(String accessHash) {
         this.accessHash = accessHash;
     }
 

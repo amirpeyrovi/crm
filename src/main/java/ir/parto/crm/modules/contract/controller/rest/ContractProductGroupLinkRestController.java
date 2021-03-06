@@ -92,7 +92,6 @@ public class ContractProductGroupLinkRestController implements RestControllerInt
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Object updateOne(@PathVariable("id") String id, @RequestBody ContractProductGroupLinkEditDTO contractProductGroupLinkDTO) {
-        System.out.println("---------95--------------");
         if (CheckPermission.getInstance().check("admin_update", "ContractProductGroupLink")) {
             return new ApiResponse("Error", 101, Arrays.asList("ContractProductGroupLink - admin_update - access denied!"))
                     .getFaultResponse();

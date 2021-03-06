@@ -30,8 +30,8 @@ public class Server implements Serializable {
     @Column(name = "password", columnDefinition = "nvarchar2(50)")
     private String password;
 
-    @Column(name = "hash_access", columnDefinition = "number(1)")
-    private Integer accessHash;
+    @Column(name = "hash_access", columnDefinition = "nvarchar2(50)")
+    private String accessHash;
 
     @Column(name = "ssl", columnDefinition = "number(1)")
     private Integer ssl;
@@ -62,12 +62,12 @@ public class Server implements Serializable {
     private LocalDateTime deletedAt;
 
     @Column(name = "is_deleted", columnDefinition = "number(1)")
-    private int isDeleted;
+    private Integer isDeleted;
 
     public Server() {
     }
 
-    public Server(String title, String address, String username, String password, Integer accessHash, Integer ssl, ServerGroup serverGroup, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
+    public Server(String title, String address, String username, String password, String accessHash, Integer ssl, ServerGroup serverGroup, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, Integer isDeleted) {
         this.title = title;
         this.address = address;
         this.username = username;
@@ -124,11 +124,11 @@ public class Server implements Serializable {
         this.password = password;
     }
 
-    public Integer getAccessHash() {
+    public String getAccessHash() {
         return accessHash;
     }
 
-    public void setAccessHash(Integer accessHash) {
+    public void setAccessHash(String accessHash) {
         this.accessHash = accessHash;
     }
 
@@ -196,11 +196,11 @@ public class Server implements Serializable {
         this.deletedAt = deletedAt;
     }
 
-    public int getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(int isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 
@@ -233,7 +233,7 @@ public class Server implements Serializable {
         if (this.createdDate != null) dto.setCreatedDate(this.createdDate);
         if (this.updatedAt != null) dto.setUpdatedAt(this.updatedAt);
         if (this.deletedAt != null) dto.setDeletedAt(this.deletedAt);
-        dto.setIsDeleted(this.isDeleted);
+        if (this.isDeleted != null) dto.setIsDeleted(this.isDeleted);
         return dto;
     }
 }
