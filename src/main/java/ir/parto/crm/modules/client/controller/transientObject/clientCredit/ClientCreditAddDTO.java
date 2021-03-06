@@ -6,7 +6,7 @@ import ir.parto.crm.modules.client.model.entity.ClientCredit;
 import java.io.Serializable;
 
 public class ClientCreditAddDTO implements Serializable {
-    private Long client;
+    private Long clientId;
     private String description;
     private String caption;
     private String type;
@@ -18,8 +18,8 @@ public class ClientCreditAddDTO implements Serializable {
     public ClientCreditAddDTO() {
     }
 
-    public ClientCreditAddDTO(Long client, String description, String caption, String type, Double amountIn, Double amountOut, Double total, Long invoiceTransactionId) {
-        this.client = client;
+    public ClientCreditAddDTO(Long clientId, String description, String caption, String type, Double amountIn, Double amountOut, Double total, Long invoiceTransactionId) {
+        this.clientId = clientId;
         this.description = description;
         this.caption = caption;
         this.type = type;
@@ -29,12 +29,12 @@ public class ClientCreditAddDTO implements Serializable {
         this.invoiceTransactionId = invoiceTransactionId;
     }
 
-    public Long getClient() {
-        return client;
+    public Long getClientId() {
+        return clientId;
     }
 
-    public void setClient(Long client) {
-        this.client = client;
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 
     public String getDescription() {
@@ -95,7 +95,7 @@ public class ClientCreditAddDTO implements Serializable {
 
     public ClientCredit convert2Object() {
         ClientCredit dto = new ClientCredit();
-        if (this.client != null) dto.setClient(new Client(this.client));
+        if (this.clientId != null) dto.setClient(new Client(this.clientId));
         if (this.description != null) dto.setDescription(this.description);
         if (this.caption != null) dto.setCaption(this.caption);
         if (this.type != null) dto.setType(this.type);

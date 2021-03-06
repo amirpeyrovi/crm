@@ -38,8 +38,8 @@ public class Client implements Serializable {
     @Column(name = "mobile_number", columnDefinition = "nvarchar2(32)")
     private String mobileNumber;
 
-    @Column(name = "identity_type", columnDefinition = "nvarchar2(32)")
-    private String identityType;
+    @Column(name = "identity_type", columnDefinition = "number(2)")
+    private Long identityType;//1 haghighi 5 hoghughi
 
     @Column(name = "identity_code1", columnDefinition = "nvarchar2(32)")
     private String identityCode1;
@@ -96,7 +96,7 @@ public class Client implements Serializable {
         this.clientId = clientId;
     }
 
-    public Client(String firstName, String lastName, String fatherName, LocalDate birthDate, String phoneNumber, String mobileNumber, String identityType, String identityCode1, String identityCode2, String identityCode3, String address, String address2, String emailAddress, Integer isReseller, List<ClientExternalCode> externalCodes, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
+    public Client(String firstName, String lastName, String fatherName, LocalDate birthDate, String phoneNumber, String mobileNumber, Long identityType, String identityCode1, String identityCode2, String identityCode3, String address, String address2, String emailAddress, Integer isReseller, List<ClientExternalCode> externalCodes, String createdBy, String updatedBy, String deletedBy, LocalDateTime createdDate, LocalDateTime updatedAt, LocalDateTime deletedAt, int isDeleted) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.fatherName = fatherName;
@@ -177,11 +177,11 @@ public class Client implements Serializable {
         this.mobileNumber = mobileNumber;
     }
 
-    public String getIdentityType() {
+    public Long getIdentityType() {
         return identityType;
     }
 
-    public void setIdentityType(String identityType) {
+    public void setIdentityType(Long identityType) {
         this.identityType = identityType;
     }
 
@@ -320,8 +320,17 @@ public class Client implements Serializable {
         if (this.clientId != null) dto.setClientId(this.clientId);
         if (this.firstName != null) dto.setFirstName(this.firstName);
         if (this.lastName != null) dto.setLastName(this.lastName);
+        if (this.fatherName != null) dto.setFatherName(this.fatherName);
+        if (this.birthDate != null) dto.setBirthDate(this.birthDate);
+        if (this.phoneNumber != null) dto.setPhoneNumber(this.phoneNumber);
+        if (this.mobileNumber != null) dto.setMobileNumber(this.mobileNumber);
         if (this.identityType != null) dto.setIdentityType(this.identityType);
         if (this.identityCode1 != null) dto.setIdentityCode1(this.identityCode1);
+        if (this.identityCode2 != null) dto.setIdentityCode2(this.identityCode2);
+        if (this.identityCode3 != null) dto.setIdentityCode3(this.identityCode3);
+        if (this.address != null) dto.setAddress(this.address);
+        if (this.address2 != null) dto.setAddress2(this.address2);
+        if (this.emailAddress != null) dto.setEmailAddress(this.emailAddress);
         if(this.updatedAt != null) dto.setUpdatedAt(this.updatedAt);
         if(this.updatedBy != null) dto.setUpdatedBy(this.updatedBy);
         if(this.createdBy != null) dto.setCreatedBy(this.createdBy);

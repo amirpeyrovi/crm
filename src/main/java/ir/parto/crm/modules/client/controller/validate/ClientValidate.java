@@ -72,6 +72,8 @@ public class ClientValidate implements ValidateInterface<Client> {
 
         if (client == null || client.getClientId() == null || client.getClientId() == 0) {
             errorList.add("Client is required");
+        }else if(!this.clientService.existsById(client.getClientId())){
+            errorList.add("Client is not defined");
         } else {
             if (client.getFirstName() != null && client.getFirstName().isEmpty()) {
                 errorList.add("First Name is required");
@@ -131,7 +133,8 @@ public class ClientValidate implements ValidateInterface<Client> {
         List<String> errorList = new ArrayList<>();
         ValidateObject validateObject = new ValidateObject();
 
-        if (client == null || !this.clientService.existsByIdNotDeleted(client.getClientId())) {
+        if (client == null || client.getClientId() == null
+        || client.getClientId() != null || !this.clientService.existsByIdNotDeleted(client.getClientId())) {
             errorList.add("Client Id not defined");
         }
 

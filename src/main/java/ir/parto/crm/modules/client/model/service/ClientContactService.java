@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.client.model.service;
 
+import ir.parto.crm.modules.client.controller.transientObject.clientContact.ClientContactInfoDTO;
 import ir.parto.crm.modules.client.model.entity.ClientContact;
 import ir.parto.crm.modules.client.model.repository.ClientContactRepository;
 import ir.parto.crm.utils.MyBeanCopy;
@@ -28,6 +29,7 @@ public class ClientContactService implements ServiceInterface<ClientContact> {
     @Transactional
     public ClientContact addNewItem(ClientContact clientContact) {
         clientContact.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+        clientContact.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         return this.clientContactRepository.save(clientContact);
     }
 
@@ -46,11 +48,11 @@ public class ClientContactService implements ServiceInterface<ClientContact> {
     public ClientContact deleteItem(ClientContact clientContact) {
         ClientContact exist = this.clientContactRepository.findByClientContactIdAndIsDeletedIsNull(clientContact.getClientContactId());
         Principal authentication =  SecurityContextHolder.getContext().getAuthentication();
-        clientContact.setIsDeleted(1);
-        clientContact.setDeletedAt(LocalDateTime.now());
-        clientContact.setDeletedBy(authentication.getName());
-        this.clientContactRepository.save(exist);
-        return clientContact;
+        exist.setIsDeleted(1);
+        exist.setDeletedAt(LocalDateTime.now());
+        exist.setDeletedBy(authentication.getName());
+        exist = this.clientContactRepository.save(exist);
+        return exist;
     }
 
     @Override
@@ -88,4 +90,15 @@ public class ClientContactService implements ServiceInterface<ClientContact> {
     public Boolean existsById(Long id) {
         return this.clientContactRepository.existsByClientContactIdAndIsDeletedIsNull(id);
     }
+    @Transactional
+    public ClientContactInfoDTO deleteItemDto(ClientContact clientContact) {
+        ClientContact exist = this.clientContactRepository.findByClientContactIdAndIsDeletedIsNull(clientContact.getClientContactId());
+        Principal authentication =  SecurityContextHolder.getContext().getAuthentication();
+        exist.setIsDeleted(1);
+        exist.setDeletedAt(LocalDateTime.now());
+        exist.setDeletedBy(authentication.getName());
+        exist = this.clientContactRepository.save(exist);
+        return exist.convert2InfoObject();
+    }
+
 }

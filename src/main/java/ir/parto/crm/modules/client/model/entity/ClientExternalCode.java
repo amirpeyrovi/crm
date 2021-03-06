@@ -1,5 +1,6 @@
 package ir.parto.crm.modules.client.model.entity;
 
+import ir.parto.crm.modules.client.controller.transientObject.clientExternalCode.ClientExternalCodeInfoDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 public class ClientExternalCode implements Serializable {
     @Id
     @Column(name = "id", columnDefinition = "number")
-    @SequenceGenerator(name = "client_seq", sequenceName = "client_seq", allocationSize=1)
+    @SequenceGenerator(name = "client_seq", sequenceName = "client_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "client_seq")
     private Long clientExternalCodeId;
 
@@ -144,5 +145,32 @@ public class ClientExternalCode implements Serializable {
 
     public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public ClientExternalCodeInfoDTO convert2Object() {
+        ClientExternalCodeInfoDTO clientExternalCodeInfoDTO = new ClientExternalCodeInfoDTO();
+        if (this.clientExternalCodeId != null)
+            clientExternalCodeInfoDTO.setClientExternalCodeId(this.clientExternalCodeId);
+        if (this.title != null)
+            clientExternalCodeInfoDTO.setTitle(this.title);
+        if (this.client != null)
+            clientExternalCodeInfoDTO.setClient(this.client.convert2RelationalObject());
+        if (this.externalCode != null)
+            clientExternalCodeInfoDTO.setExternalCode(this.externalCode);
+        if (this.createdBy != null)
+            clientExternalCodeInfoDTO.setCreatedBy(this.createdBy);
+        if (this.createdDate != null)
+            clientExternalCodeInfoDTO.setCreatedDate(this.createdDate);
+        if (this.updatedAt != null)
+            clientExternalCodeInfoDTO.setUpdatedAt(this.updatedAt);
+        if (this.getUpdatedBy() != null)
+            clientExternalCodeInfoDTO.setUpdatedBy(this.updatedBy);
+        if (this.deletedAt != null)
+            clientExternalCodeInfoDTO.setDeletedAt(this.deletedAt);
+        if (this.deletedBy != null)
+            clientExternalCodeInfoDTO.setDeletedBy(this.deletedBy);
+        if (this.isDeleted != null)
+            clientExternalCodeInfoDTO.setIsDeleted(this.isDeleted);
+        return clientExternalCodeInfoDTO;
     }
 }

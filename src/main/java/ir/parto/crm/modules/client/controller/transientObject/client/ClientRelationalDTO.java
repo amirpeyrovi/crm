@@ -4,13 +4,13 @@ public class ClientRelationalDTO {
     private Long clientId;
     private String firstName;
     private String lastName;
-    private String identityType;
+    private Long identityType;
     private String identityCode1;
 
     public ClientRelationalDTO() {
     }
 
-    public ClientRelationalDTO(Long clientId, String firstName, String lastName, String identityType, String identityCode1) {
+    public ClientRelationalDTO(Long clientId, String firstName, String lastName, Long identityType, String identityCode1) {
         this.clientId = clientId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -45,11 +45,11 @@ public class ClientRelationalDTO {
         return this;
     }
 
-    public String getIdentityType() {
+    public Long getIdentityType() {
         return identityType;
     }
 
-    public ClientRelationalDTO setIdentityType(String identityType) {
+    public ClientRelationalDTO setIdentityType(Long identityType) {
         this.identityType = identityType;
         return this;
     }
